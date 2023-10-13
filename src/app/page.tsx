@@ -15,7 +15,7 @@ async function getTheatres() {
   };
 
   const res = await fetch(
-    `${process.env.DB_API_URL}now_playing${process.env.DB_API_BR}&page=1&region=BR`, options);
+    `https://api.themoviedb.org/3/movie/now_playing?language=pt-BR&page=1&region=BR`, options);
 
     if (!res.ok) {
       throw new Error("Falha ao dados get Theatres");
