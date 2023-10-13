@@ -9,16 +9,16 @@ async function getTheatres() {
   const options = {
     headers: {
       accept: "application/json",
-      Authorization: process.env.DB_TOKEN_AUTH,
+      Authorization: `${process.env.DB_TOKEN_AUTH}`,
     },
     next: { revalidate: 3600 },
   };
 
   const res = await fetch(
-    `https://api.themoviedb.org/3/movie/now_playing?language=pt-BR&page=1&region=BR`, options);
+    `${process.env.DB_API_URL}now_playing${process.env.DB_API_BR}&page=1&region=BR`, options);
 
     if (!res.ok) {
-      throw new Error("Falha ao dados get Theatres");
+      throw new Error("Falha ao dados get theatres");
     }
     return res.json();
 }
