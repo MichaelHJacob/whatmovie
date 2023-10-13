@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Container } from "@/components/container";
 import CardMovie from "@/components/cardMovie";
 import { MovieType } from "@/components/utils/types";
-import { redirect } from "next/navigation";
+
 
 
 async function getTheatres() {
@@ -18,7 +18,6 @@ async function getTheatres() {
 
     if (!res.ok) {
       throw new Error("Falha ao buscar dados");
-      redirect("/")
     }
     return res.json();
 }
