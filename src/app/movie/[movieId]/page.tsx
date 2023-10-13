@@ -4,6 +4,7 @@ import { Container } from "@/components/container";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
+
 async function getDetails(id: string) {
   const options = {
     headers: {
@@ -38,16 +39,16 @@ console.log("url ", process.env.DB_IMG_URL_M+data.poster_path)
       <Container>
 <div className="relative h-[90vh] aspect-[2/3] ">
 <Image 
-        src={process.env.DB_IMG_URL_L + data.poster_path}
-        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg=="
+        src={process.env.DB_IMG_URL_M + data.poster_path}
+        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mPsPQYAAeYBVdlOZ/kAAAAASUVORK5CYII="
         alt={data.original_title}
         // fill={true}
         width={780}
         height={1170}
         placeholder="blur"
         sizes="90vh"
-        className="rounded-xl object-cover shadow-2xl shadow-black/70"
-        priority
+        className="rounded-xl object-cover shadow-2xl shadow-black/70 "
+        priority={true}
         
         />
 </div>
