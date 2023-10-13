@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default  function CardMovie({ data }: { data: MovieType }) {
   return (
-    <Link href={`/movie/${data.id}`} className="hover:scale-105 transition-all duration-700" prefetch={false}>
+    <Link href={`/movie/${data.id}`} className="hover:scale-105 transition-all duration-700">
       <section className="p-4  bg-white m-3">
         <Image
           src={process.env.DB_IMG_URL_M + data.poster_path}
