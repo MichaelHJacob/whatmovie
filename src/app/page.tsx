@@ -9,7 +9,7 @@ async function getTheatres() {
   const options = {
     headers: {
       accept: "application/json",
-      Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwNzU3MDEwNjA4MDI4Y2NmMTM2M2M4MzZjMjFkZTRlOCIsInN1YiI6IjY1MTM0MzVmZTFmYWVkMDExZDYwMjNmYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.jfjx3aRKy-ClEGr-uNT2cwbs_caLeLdxM7uI4rYdjJc",
+      Authorization: process.env.DB_TOKEN_AUTH,
     },
     next: { revalidate: 3600 },
   };
