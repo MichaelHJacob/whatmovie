@@ -1,5 +1,3 @@
-"use client"
-
 import type { Metadata } from "next";
 import { DetailsMovieType } from "@/components/utils/types";
 import { Container } from "@/components/container";
