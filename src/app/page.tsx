@@ -68,7 +68,7 @@ export default async function Home() {
    
         <Container>
           <h2>Próximos lançamentos</h2>
-          <ul className="inline-flex w-full overflow-x-auto">
+          <ul className="inline-flex w-full overflow-x-auto whitespace-nowrap">
             {upcoming.results.map((value: MovieType) => (
               <CardMovie key={value.id} data={value}/>
             ))}

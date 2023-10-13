@@ -32,22 +32,25 @@ export default async function Movie({
     redirect("/")
   }
 
-console.log("url ", process.env.DB_IMG_URL_L+data.poster_path)
+console.log("url ", process.env.DB_IMG_URL_M+data.poster_path)
   return (
     <main>
       <Container>
-        <Image 
+<div className="relative h-[90vh] aspect-[2/3] ">
+<Image 
         src={process.env.DB_IMG_URL_L + data.poster_path}
         blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg=="
         alt={data.original_title}
+        // fill={true}
         width={780}
         height={1170}
         placeholder="blur"
-        // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        className="rounded-md"
+        sizes="90vh"
+        className="rounded-xl object-cover shadow-2xl shadow-black/70"
         priority
         
         />
+</div>
         <h3>title: {data.original_title}</h3>
       </Container>
     </main>
