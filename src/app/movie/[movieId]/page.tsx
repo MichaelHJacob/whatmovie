@@ -40,7 +40,7 @@ console.log("url ", process.env.DB_IMG_URL_M+data.poster_path)
 <div className="relative h-[90vh] aspect-[2/3] ">
 <Image 
         src={process.env.DB_IMG_URL_M + data.poster_path}
-        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mPsPQYAAeYBVdlOZ/kAAAAASUVORK5CYII="
+        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mMsKy7LAAAEjwHJNDYILQAAAABJRU5ErkJggg=="
         alt={data.original_title}
         // fill={true}
         width={780}
