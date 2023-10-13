@@ -28,9 +28,6 @@ export default async function Movie({
 }) {
   const data: DetailsMovieType = await getDetails(params.movieId);
 
-  if(!data) {
-    redirect("/")
-  }
 
 console.log("url ", process.env.DB_IMG_URL_L+data.poster_path)
   return (
