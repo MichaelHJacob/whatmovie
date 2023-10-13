@@ -1,5 +1,3 @@
-
-
 import Image from "next/image";
 import { Container } from "@/components/container";
 import CardMovie from "@/components/cardMovie";
@@ -7,40 +5,40 @@ import { MovieType } from "@/components/utils/types";
 import Chave from "@/components/chave";
 
 
-async function getTheatres() {
-  const options = {
-    headers: {
-      accept: "application/json",
-      Authorization: `${process.env.DB_TOKEN_AUTH}`,
-    },
-  };
+// async function getTheatres() {
+//   const options = {
+//     headers: {
+//       accept: "application/json",
+//       Authorization: `${process.env.DB_TOKEN_AUTH}`,
+//     },
+//   };
 
-  const res = await fetch(
-    `${process.env.DB_API_URL}now_playing${process.env.DB_API_BR}&page=1&region=BR`, options);
+//   const res = await fetch(
+//     `${process.env.DB_API_URL}now_playing${process.env.DB_API_BR}&page=1&region=BR`, options);
 
-    if (!res.ok) {
-      throw new Error("Falha ao buscar dados");
-    }
-    return res.json();
-}
+//     if (!res.ok) {
+//       throw new Error("Falha ao buscar dados");
+//     }
+//     return res.json();
+// }
 
-async function getUpcoming(){
-  const options = {
-    headers: {
-      accept: "application/json",
-      Authorization: `${process.env.DB_TOKEN_AUTH}`,
-    }
-  };
-  const res = await fetch(`${process.env.DB_API_URL}upcoming${process.env.DB_API_BR}&page=1`, options);
-  if (!res.ok) {
-    throw new Error("Falha ao buscar dados");
-  }
-  return res.json();
-}
+// async function getUpcoming(){
+//   const options = {
+//     headers: {
+//       accept: "application/json",
+//       Authorization: `${process.env.DB_TOKEN_AUTH}`,
+//     }
+//   };
+//   const res = await fetch(`${process.env.DB_API_URL}upcoming${process.env.DB_API_BR}&page=1`, options);
+//   if (!res.ok) {
+//     throw new Error("Falha ao buscar dados");
+//   }
+//   return res.json();
+// }
 
-export default async function Home() {
-  const inTheatres = await getTheatres();
-  const upcoming = await getUpcoming();
+export default function Home() {
+  // const inTheatres = await getTheatres();
+  // const upcoming = await getUpcoming();
 
   return (
     <main className="flex min-h-[95vh] flex-col items-center justify-between p-24">
@@ -66,7 +64,7 @@ export default async function Home() {
         />
       </div>
       <div>
-   
+{/*    
         <Container>
           <h2>Próximos lançamentos</h2>
           <ul className="inline-flex w-full overflow-x-auto">
@@ -85,7 +83,7 @@ export default async function Home() {
             ))}
           </ul>
    
-        </Container>
+        </Container> */}
         
         <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
 

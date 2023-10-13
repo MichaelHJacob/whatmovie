@@ -2,8 +2,10 @@
 
 export default function Chave(){
 
-    return(
-        <h1>componente cliente : {process.env.DB_API_URL}</h1>
+    return(<>
+        <h1>componente cliente :</h1>
+        {/* <h1> {process.env.DB_API_URL}</h1> */}
+        </>
     )
 
 }
