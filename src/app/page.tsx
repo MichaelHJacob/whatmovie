@@ -23,23 +23,23 @@ async function getTheatres() {
     return res.json();
 }
 
-// async function getUpcoming(){
-//   const options = {
-//     headers: {
-//       accept: "application/json",
-//       Authorization: `${process.env.DB_TOKEN_AUTH}`,
-//     }
-//   };
-//   const res = await fetch(`${process.env.DB_API_URL}upcoming${process.env.DB_API_BR}&page=1`, options);
-//   if (!res.ok) {
-//     throw new Error("Falha ao buscar dados");
-//   }
-//   return res.json();
-// }
+async function getUpcoming(){
+  const options = {
+    headers: {
+      accept: "application/json",
+      Authorization: `${process.env.DB_TOKEN_AUTH}`,
+    }
+  };
+  const res = await fetch(`${process.env.DB_API_URL}upcoming${process.env.DB_API_BR}&page=1`, options);
+  if (!res.ok) {
+    throw new Error("Falha ao buscar dados");
+  }
+  return res.json();
+}
 
 export default async function Home() {
   const inTheatres = await getTheatres();
-  // const upcoming = await getUpcoming();
+  const upcoming = await getUpcoming();
 
   return (
     <main className="flex min-h-[95vh] flex-col items-center justify-between p-24">
@@ -66,7 +66,7 @@ export default async function Home() {
       </div>
       <div>
    
-        {/* <Container>
+        <Container>
           <h2>Próximos lançamentos</h2>
           <ul className="inline-flex w-full overflow-x-auto">
             {upcoming.results.map((value: MovieType) => (
@@ -74,7 +74,7 @@ export default async function Home() {
             ))}
 
           </ul>
-        </Container> */}
+        </Container>
 
         <Container>
         <h2>Últimos lançamentos</h2>
