@@ -1,3 +1,5 @@
+"use client"
+
 import type { Metadata } from "next";
 import { DetailsMovieType } from "@/components/utils/types";
 import { Container } from "@/components/container";
@@ -55,7 +57,7 @@ console.log("url ", process.env.DB_IMG_URL_L+data.poster_path)
 }
 
 
-export const metadata: Metadata = {
-  title: "Página do filme",
-  description: "informações sobre o filme",
-};
+// export const metadata: Metadata = {
+//   title: "Página do filme",
+//   description: "informações sobre o filme",
+// };
