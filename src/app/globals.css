@@ -18,6 +18,11 @@
 
 body {
   color: rgb(var(--foreground-rgb));
+  /* background-color: #D6DBDC; */
+  background-color: rgb(var(--background-start-rgb));
+}
+.fundo {
+    background-color: rgba(70, 121, 91, 0.603);
   background: linear-gradient(
       to bottom,
       transparent,
