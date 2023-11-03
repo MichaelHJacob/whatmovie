@@ -2,27 +2,44 @@
 @tailwind components;
 @tailwind utilities;
 
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  
 }
+
+@layer utilities {
+  .p-safe-x {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+  .p-safe-y {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .p-safe-b {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .p-safe-t {
+    padding-top: env(safe-area-inset-top);
+  }
+}
+
+
 
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background-start-rgb: 10, 10, 10;
+    --background-end-rgb: 10, 10, 10;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  /* background-color: #D6DBDC; */
-  background-color: rgb(var(--background-start-rgb));
-}
+
 .fundo {
-    background-color: rgba(70, 121, 91, 0.603);
+    /* background-color: rgba(70, 121, 91, 0.603); */
   background: linear-gradient(
       to bottom,
       transparent,
@@ -30,3 +47,8 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+/* .azul{
+  overscroll-behavior-inline: contain;
+  background-color: aqua;
+} */

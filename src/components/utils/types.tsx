@@ -1,3 +1,18 @@
+export interface NowPlaying {
+  dates: {maximum: string; minimum: string};
+  page: number;
+  results: MovieType[];
+  total_pages: number;
+  total_results: number;
+}
+
+export interface DiscoverType {
+  page: number;
+  results: MovieType[];
+  total_pages: number;
+  total_results: number;
+}
+
 export interface MovieType {
   adult: boolean;
   backdrop_path: string;
