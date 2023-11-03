@@ -1,9 +1,4 @@
 import { Container } from "@/components/container";
-import BtnFilter from "@/components/filterServer/btnFilter";
-import { Suspense } from "react";
-import Loading from "./loading";
-import FilterBtn from "@/components/filterServer/btnFilter";
-import FilterContainer from "@/components/filters";
 
 export default function HomeLayout({
   children,

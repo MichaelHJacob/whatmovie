@@ -39,7 +39,6 @@
 
 
 .fundo {
-    /* background-color: rgba(70, 121, 91, 0.603); */
   background: linear-gradient(
       to bottom,
       transparent,
@@ -47,8 +46,3 @@
     )
     rgb(var(--background-start-rgb));
 }
-
-/* .azul{
-  overscroll-behavior-inline: contain;
-  background-color: aqua;
-} */
