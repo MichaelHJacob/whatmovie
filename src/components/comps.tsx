@@ -60,8 +60,8 @@ export function ListMovie({ data }: { data: MovieType[] }) {
 export function ListPeople({ data }: { data: CreditsType }) {
   return (
     <ul className="ListSpacing list-none">
-      {data.cast.length >= 1 && data.cast.map((value) => (
-        <li className="col-span-3 xs:col-span-3 md:col-span-2 lg:col-span-3  snap-start h-min ">
+      {data.cast.length >= 1 && data.cast.map((value, index) => (
+        <li key={index} className="col-span-3 xs:col-span-3 md:col-span-2 lg:col-span-3  snap-start h-min ">
 
           <Image
             src={`https://image.tmdb.org/t/p/w500${value.profile_path}`}
@@ -78,8 +78,8 @@ export function ListPeople({ data }: { data: CreditsType }) {
         </li>
       ))}
 
-      {data.crew.length >= 1 && data.crew.map((value) => (
-        <li className="col-span-3 xs:col-span-3 md:col-span-2 lg:col-span-3 snap-start h-min">
+      {data.crew.length >= 1 && data.crew.map((value, index) => (
+        <li key={index} className="col-span-3 xs:col-span-3 md:col-span-2 lg:col-span-3 snap-start h-min">
 
           <Image
             src={`https://image.tmdb.org/t/p/w500${value.profile_path}`}

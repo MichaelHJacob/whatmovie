@@ -57,7 +57,7 @@ export default function Videos({videosArray} : {videosArray: VideosResultsType[]
             <div
               className={`md:w-full snap-start snap-always bg-Surface/10 rounded-lg px-4 pt-4  max-xs:mr-[var(--gap)] max-md:mr-[var(--gapXS)] md:mb-[var(--gapMD)] cursor-pointer ${selected == value && 'hidden'}`}
             
-              onClick={() =>  setSelected(value)}
+              onClick={() =>  setSelected(value)} key={index}
             >
               <div
                 className=" max-md:w-[30vw] md:h-full  aspect-video   shadow-xl shadow-black rounded-lg overflow-hidden " >

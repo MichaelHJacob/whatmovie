@@ -24,8 +24,8 @@ export default async function AllMovieProviders() {
   const data: MovieProviders = await getAllMovieProviders();
   return (
     <div className="w-full overflow-scroll">
-      {data?.results.map((value) => (
-        <p>{value.provider_name} - </p>
+      {data?.results.map((value, index) => (
+        <p key={index}>{value.provider_name} - </p>
       ))}
     </div>
   );
