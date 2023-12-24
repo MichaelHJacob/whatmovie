@@ -1,7 +1,6 @@
 import "./globals.css";
-import { Container } from "@/components/container";
-import {  NowPlaying } from "@/components/utils/types";
-import { List } from "@/components/comp";
+import { NowPlaying } from "@/components/utils/types";
+import { ListMovie, Container, SubTitle, BlockContainer } from "@/components/comps";
 
 async function getTheatres() {
   const options = {
@@ -44,15 +43,23 @@ export default async function Home() {
   const inTheatres: NowPlaying = await getTheatres();
   const upcoming = await getUpcoming();
   return (
+    
     <Container>
-      <div className="w-full flex flex-col h-[calc(100svh-3rem)]  justify-between pb-12 ">
-        <div className="mx-auto my-auto ">
-          <h1 className="text-6xl    text-neutral-600 dark:text-neutral-300/50">WM</h1>
+      <div className="w-full flex flex-col h-screen translateHeader  justify-between  z-10">
+        <div className="mx-auto my-auto bg-white ">
+          <h1 className="text-6xl  my-auto  text-neutral-600 dark:text-neutral-300/50">
+            WM
+          </h1>
         </div>
-        <div className="my-2  h-auto z-20">
-          <List data={inTheatres?.results} title={"Lançamentos"} />
-        </div>
+       
+      
+        
+        <BlockContainer>
+          <SubTitle>Lançamentos</SubTitle>
+          <ListMovie data={inTheatres?.results} />
+        </BlockContainer>
+      
       </div>
-    </Container>
+      </Container>
   );
 }
