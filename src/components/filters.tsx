@@ -16,10 +16,10 @@ export default function FilterContainer({
   const pathname = usePathname();
   const { replace, push } = useRouter();
   const params = new URLSearchParams(searchParams);
-  const elementRef = useRef(null);
+  const elementRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0)
   useEffect(() => {
-    if (elementRef.current ) {
+    if (elementRef.current  ) {
       setHeight(elementRef.current.clientHeight);
       
     }
