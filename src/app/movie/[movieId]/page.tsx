@@ -247,7 +247,7 @@ export default async function Movie({
           <BlockContainer>
             <div className="md:gridTemplateSpace paddingHeader ">
               <div
-                className="relative max-xs:spacingShrinkerBlock md:col-span-4 lg:col-span-5
+                className="relative  md:col-span-4 lg:col-span-5
                  mt-[calc(var(--p)*-1)] 
                  max-xs:mt-[calc(var(--pXS)*-1)]
                  overflow-visible
