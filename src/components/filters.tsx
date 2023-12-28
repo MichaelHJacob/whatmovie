@@ -17,17 +17,12 @@ export default function FilterContainer({
   const { replace, push } = useRouter();
   const params = new URLSearchParams(searchParams);
   const elementRef = useRef<HTMLDivElement>(null);
-  const [height, setHeight] = useState(0)
+  const [height, setHeight] = useState(0);
   useEffect(() => {
-    if (elementRef.current  ) {
+    if (elementRef.current) {
       setHeight(elementRef.current.clientHeight);
-      
     }
-  },[])
-
-
-  console.log("altura estado: ",height)
-
+  }, []);
 
   function BtnSortBy() {
     function handleSelect(selected: string) {
@@ -72,9 +67,7 @@ export default function FilterContainer({
       }
     }
 
-    function 
-    
-    next() {
+    function next() {
       if (atual == totalPages) {
         params.set("page", "1");
         replace(`${pathname}?${params.toString()}`, { scroll: false });
@@ -135,7 +128,6 @@ export default function FilterContainer({
     }
 
     function handleMinRange(valor: number) {
-
       if (valor < maxRange) {
         setMinNumber(String(valor));
         setMinRange(valor);
@@ -151,25 +143,35 @@ export default function FilterContainer({
 
     function numberMin(e: ChangeEvent<HTMLInputElement>) {
       let valor = Number(e.target.value);
+      if (timeIdMin.current) {
+        clearTimeout(timeIdMin.current);
+      }
+
       setMinNumber(e.target.value);
-      if (valor <= Number(maxNumber) && valor > 0) {
-        if (timeIdMin.current) {
-          clearTimeout(timeIdMin.current);
-        }
-        timeIdMin.current = setTimeout(() => {
-          toParams(e.target.value, maxNumber);
+      if (valor >= 0 && valor <= 9) {
+        e.target.onclick = () => {
           setMinRange(valor);
-        }, 500);
-      } else if (valor >= maxRange && valor > 0 && valor <= 10) {
-        if (timeIdMin.current) {
-          clearTimeout(timeIdMin.current);
+        };
+
+        if (valor >= Number(maxNumber)) {
+          e.target.onclick = () => {
+            setMaxRange(valor + 1)
+          };
+          setMaxNumber(String(valor + 1));
+          if (timeIdMin.current) {
+            clearTimeout(timeIdMin.current);
+          }
+          timeIdMin.current = setTimeout(() => {
+            toParams(valor.toString(), String(valor + 1));
+          }, 500);
+        } else {
+          if (timeIdMin.current) {
+            clearTimeout(timeIdMin.current);
+          }
+          timeIdMin.current = setTimeout(() => {
+            toParams(valor.toString(), maxNumber);
+          }, 500);
         }
-        timeIdMin.current = setTimeout(() => {
-          toParams(e.target.value, maxNumber);
-          setMaxRange(valor);
-          setMinRange(valor);
-          setMaxNumber(e.target.value);
-        }, 500);
       } else {
         if (timeIdMin.current) {
           clearTimeout(timeIdMin.current);
@@ -181,21 +183,38 @@ export default function FilterContainer({
         e.target.classList.remove("animate-wrong");
       }
     }
+
     function numberMax(e: ChangeEvent<HTMLInputElement>) {
       let valor = Number(e.target.value);
+      if (timeIdMax.current) {
+        clearTimeout(timeIdMax.current);
+      }
       setMaxNumber(e.target.value);
-      if (valor >= Number(minNumber) && valor <= 10) {
-        if (timeIdMax.current) {
-          clearTimeout(timeIdMax.current);
+      if (valor >= 1 && valor <= 10) {
+        e.target.onclick = () => {
+          setMaxRange(valor);
+        };
+
+        if (valor <= Number(minNumber)) {
+          e.target.onclick = () => {
+            setMinRange(valor - 1);
+          }
+          setMinNumber(String(valor - 1));
+
+          if (timeIdMax.current) {
+            clearTimeout(timeIdMax.current);
+          }
+          timeIdMax.current = setTimeout(() => {
+            toParams(String(valor - 1), valor.toString());
+          }, 500);
+        } else {
+          if (timeIdMax.current) {
+            clearTimeout(timeIdMax.current);
+          }
+          timeIdMax.current = setTimeout(() => {
+            toParams(minNumber, valor.toString());
+          }, 500);
         }
-        setMaxRange(valor);
-      } else if (valor <= minRange && valor > 0 && valor <= 10) {
-        if (timeIdMax.current) {
-          clearTimeout(timeIdMax.current);
-        }
-        setMaxRange(valor);
-        setMinRange(valor);
-        setMinNumber(e.target.value);
       } else {
         if (timeIdMax.current) {
           clearTimeout(timeIdMax.current);
@@ -218,6 +237,9 @@ export default function FilterContainer({
               value={minNumber}
               className=" outline-none text-xl ml-3 rounded btnStyle-filter text-center "
               onChange={(e) => numberMin(e)}
+              onTouchStartCapture={() => {
+                setMinNumber("");
+              }}
               pattern="[0-9]*"
               inputMode="decimal"
               name="minNumber"
@@ -228,13 +250,16 @@ export default function FilterContainer({
           <div className=" flex text-sm items-center px-6 justify-center">
             |
           </div>
-          <div className="flex w-full h-[45px] items-center">
-            <span className="px-6">Max</span>
+          <div className="flex w-full h-[45px] items-center ">
+            <span className="px-6 ">Max</span>
             <input
               type="number"
               className=" outline-none text-xl btnStyle-filter rounded  text-center "
               value={maxNumber}
               onChange={(e) => numberMax(e)}
+              onTouchStartCapture={() => {
+                setMaxNumber("");
+              }}
               pattern="[0-9]*"
               inputMode="decimal"
               min={0}
@@ -244,14 +269,14 @@ export default function FilterContainer({
         </div>
         <div className="h-2  shadow-lg bg-slate-100/40 dark:bg-neutral-800  relative  rounded-lg 0 mx-2 ">
           <div
-            className="h-full absolute rounded-lg bg-gray-400 dark:bg-neutral-300/50  "
+            className="h-full absolute rounded-lg bg-gray-400 dark:bg-neutral-300/50 "
             style={{
               right: rightSide,
               left: leftSide,
             }}
           ></div>
         </div>
-        <div className="relative">
+        <div className="relative 192.168.1.104">
           <input
             type="range"
             className="absolute w-full h-2 top-[-8px]  bg-transparent pointer-events-none appearance-none  "
@@ -261,6 +286,7 @@ export default function FilterContainer({
             value={minRange}
             onChange={(e) => handleMinRange(Number(e.target.value))}
             onMouseUp={(e) => toParams(String(minRange), maxNumber)}
+            onTouchEnd={(e) => toParams(String(minRange), maxNumber)}
           />
           <input
             type="range"
@@ -271,6 +297,7 @@ export default function FilterContainer({
             value={maxRange}
             onChange={(e) => handleMaxRange(Number(e.target.value))}
             onMouseUp={(e) => toParams(minNumber, String(maxRange))}
+            onTouchEnd={(e) => toParams(minNumber, String(maxRange))}
           />
         </div>
       </div>
@@ -295,21 +322,22 @@ export default function FilterContainer({
     );
   }
 
-//  top-[calc(${"-"+height+'px'}_+_2.75rem_+_3rem_+_1rem)]
+  //  top-[calc(${"-"+height+'px'}_+_2.75rem_+_3rem_+_1rem)]
 
   return (
-    <div  style={{top: `calc(-${height}px + 10rem)`, position: 'sticky' }} ref={elementRef}>
-    
-    <BlockContainer>
-    <div className="  paddingHeader   h-auto grid gap-4  auto-rows-[3rem] grid-flow-row-dense grid-cols-2 sm:grid-cols-3  ">
-      <div className="rounded-md flex items-center justify-center text-xl text-white  bg-blur-cardBtn  col-span-2 row-span-2 ">
-        <RangeVote />
-      </div>
-      <div className="rounded-md flex items-center justify-center text-xl text-white  row-span-2 sm:col-span-1 col-span-2 ">
-
-        {/* <FilterByProviders /> */}
-      </div>
-      {/* <div className="rounded-md flex items-center justify-center text-xl text-white  bg-blur-cardBtn row-span-1 col-span-3 "> 
+    <div
+      style={{ top: `calc(-${height}px + 10rem)`, position: "sticky" }}
+      ref={elementRef}
+    >
+      <BlockContainer>
+        <div className="  paddingHeader   h-auto grid gap-4  auto-rows-[3rem] grid-flow-row-dense grid-cols-2 sm:grid-cols-3  ">
+          <div className="rounded-md flex items-center justify-center text-xl text-white  bg-blur-cardBtn  col-span-2 row-span-2 ">
+            <RangeVote />
+          </div>
+          <div className="rounded-md flex items-center justify-center text-xl text-white  row-span-2 sm:col-span-1 col-span-2 ">
+            {/* <FilterByProviders /> */}
+          </div>
+          {/* <div className="rounded-md flex items-center justify-center text-xl text-white  bg-blur-cardBtn row-span-1 col-span-3 "> 
       <div className="w-full overflow-x-scroll h-full flex ">
       {allMP?.results.map((value) => (
         <>
@@ -319,14 +347,14 @@ export default function FilterContainer({
     </div>
       </div> */}
 
-      <div className="rounded-md flex items-center justify-center text-xl text-white  bg-blur-cardBtn sm:col-span-2  ">
-        <BtnSortBy />
-      </div>
-      <div className="rounded-md flex items-center justify-center text-xl text-white  bg-blur-cardBtn  ">
-        <BtnPages />
-      </div>
-    </div>
-    </BlockContainer>
+          <div className="rounded-md flex items-center justify-center text-xl text-white  bg-blur-cardBtn sm:col-span-2  ">
+            <BtnSortBy />
+          </div>
+          <div className="rounded-md flex items-center justify-center text-xl text-white  bg-blur-cardBtn  ">
+            <BtnPages />
+          </div>
+        </div>
+      </BlockContainer>
     </div>
   );
 }
