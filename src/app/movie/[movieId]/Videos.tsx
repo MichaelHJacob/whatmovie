@@ -17,7 +17,7 @@ export default function Videos({videosArray} : {videosArray: VideosResultsType[]
 
   function VideoDisplay({video} : {video: VideosResultsType}) {
     return (
-      <div className={`lg:col-[1/_span_15] max-md:p-5 md:pl-5 pt-5   md:sticky top-0 md:h-full flex flex-col  w-full box-border ${ videosArray.length > 1 ? `md:col-[1/_span_8] lg:col-[1/_span_15]` : `md:col-[1/_span_12] lg:col-[1/_span_20]`}`}>
+      <div className={`lg:col-[1/_span_15] max-md:pb-5 md:pl-5 pt-5   md:sticky top-0 md:h-full flex flex-col  w-full box-border ${ videosArray.length > 1 ? `md:col-[1/_span_8] lg:col-[1/_span_15]` : `md:col-[1/_span_12] lg:col-[1/_span_20]`}`}>
         <div className="relative top-0 flex-1">
           <iframe
             className="w-full h-full aspect-video rounded-md"

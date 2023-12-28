@@ -45,7 +45,7 @@ export default async function Home() {
   return (
     
     <Container>
-      <div className="w-full flex flex-col h-screen translateHeader  justify-between  z-10">
+      <div className="w-full flex flex-col h-[100svh] translateHeader  justify-between  z-10">
         <div className="mx-auto my-auto bg-white ">
           <h1 className="text-6xl  my-auto  text-neutral-600 dark:text-neutral-300/50">
             WM
