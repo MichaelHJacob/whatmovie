@@ -66,7 +66,7 @@ async function getFilter(
   const g = "&vote_average.gte=";
   const l = "&vote_average.lte=";
 
-  let url = `${process.env.DB_API_URL_F}discover/movie?language=pt-BR&include_adult=false&include_video=false&page=${page}&primary_release_date.lte=2023-12-29${count_v}${providers}&sort_by=${sort}${
+  let url = `${process.env.DB_API_URL_F}discover/movie${process.env.DB_API_BR}&include_adult=false&include_video=false&page=${page}&primary_release_date.lte=2023-12-29${count_v}${providers}&sort_by=${sort}${
     searchParams?.vote_gte !== undefined ? g + searchParams?.vote_gte : ""
   }${searchParams?.vote_lte !== undefined ? l + searchParams?.vote_lte : ""}`;
 console.log(url)
