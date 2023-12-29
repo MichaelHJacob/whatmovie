@@ -80,9 +80,12 @@ export default function FilterContainer({
     return (
       <div className="    text-filter  flex w-full justify-between items-center   ">
         <label>
-          Página {atual} {totalPages < 500 && ` de ${totalPages}`}
+        <span className="md:hidden">Pag.</span>
+        <span className="max-md:hidden">Página </span>
+         {atual} 
+        <span className="max-md:hidden">{totalPages < 500 && ` de ${totalPages}`}</span>
         </label>
-        <div className="flex justify-between items-center   min-w-[6.5rem]">
+        <div className="flex justify-between items-center   w-1/2 max-w-[6.5rem] ">
           <button className=" btnStyle-filter  " onClick={back}>
             {"<"}
           </button>
@@ -267,9 +270,11 @@ export default function FilterContainer({
             />
           </div>
         </div>
-        <div className="h-2  shadow-lg bg-slate-100/40 dark:bg-neutral-800  relative  rounded-lg 0 mx-2 ">
+        {/* dark:bg-neutral-800  */}
+        <div className="h-2  shadow-lg bg-slate-100/40  relative  rounded-lg 0 mx-2 ">
+          {/* dark:bg-neutral-300/50 */}
           <div
-            className="h-full absolute rounded-lg bg-gray-400 dark:bg-neutral-300/50 "
+            className="h-full absolute rounded-lg bg-gray-400  "
             style={{
               right: rightSide,
               left: leftSide,
@@ -322,21 +327,18 @@ export default function FilterContainer({
     );
   }
 
-  //  top-[calc(${"-"+height+'px'}_+_2.75rem_+_3rem_+_1rem)]
+  //  top-[calc(${"-"+height+'px'}_+_2.75rem_+_3rem_+_1rem)] paddingHeader 
 
   return (
-    <div
-      style={{ top: `calc(-${height}px + 10rem)`, position: "sticky" }}
-      ref={elementRef}
-    >
-      <BlockContainer>
-        <div className="  paddingHeader   h-auto grid gap-4  auto-rows-[3rem] grid-flow-row-dense grid-cols-2 sm:grid-cols-3  ">
-          <div className="rounded-md flex items-center justify-center text-xl text-white  bg-blur-cardBtn  col-span-2 row-span-2 ">
+    <div className="  sticky top-[-3.75rem] xs:top-[-4.5rem] lg:top-[-4.75rem] ">
+      <BlockContainer> 
+        <div className="   h-auto  auto-rows-[3rem]  gridTemplateSpace ">
+          <div className="rounded-md flex items-center justify-center    bg-blur-cardBtn  col-span-full lg:col-[span_16_/_span_16] row-span-2   ">
             <RangeVote />
           </div>
-          <div className="rounded-md flex items-center justify-center text-xl text-white  row-span-2 sm:col-span-1 col-span-2 ">
-            {/* <FilterByProviders /> */}
-          </div>
+          {/* <div className="rounded-md flex items-center justify-center text-xl text-white  row-span-2 sm:col-span-1 col-span-2 ">
+            <FilterByProviders />
+          </div> */}
           {/* <div className="rounded-md flex items-center justify-center text-xl text-white  bg-blur-cardBtn row-span-1 col-span-3 "> 
       <div className="w-full overflow-x-scroll h-full flex ">
       {allMP?.results.map((value) => (
@@ -347,14 +349,15 @@ export default function FilterContainer({
     </div>
       </div> */}
 
-          <div className="rounded-md flex items-center justify-center text-xl text-white  bg-blur-cardBtn sm:col-span-2  ">
+          <div className="rounded-md flex items-center justify-center bg-blur-cardBtn col-span-6 xs:col-span-10 md:col-span-7 lg:col-span-8">
             <BtnSortBy />
           </div>
-          <div className="rounded-md flex items-center justify-center text-xl text-white  bg-blur-cardBtn  ">
+          <div className="rounded-md flex items-center justify-center bg-blur-cardBtn col-span-4 xs:col-span-5 md:col-span-5 lg:col-span-8 ">
             <BtnPages />
           </div>
         </div>
+
       </BlockContainer>
-    </div>
+   </div>
   );
 }

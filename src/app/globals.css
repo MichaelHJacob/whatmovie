@@ -115,13 +115,20 @@
 
 
 @layer components {
+  .paddingHeader {
+    @apply
+       pt-[calc(2.75rem+var(--p))] 
+    xs:pt-[calc(2.75rem+var(--pXS))]
+    lg:pt-[calc(2.75rem+var(--pLG))]
+  }
   .blockContainer {
     @apply 
     px-[var(--p)]      pb-[var(--p)] 
     xs:px-[var(--pXS)] xs:pb-[var(--pXS)] 
     lg:px-[var(--pLG)] lg:pb-[var(--pLG)]
-    scrollStyle
+      scrollStyle
   }
+
   .gridAutoSpace {
     @apply
     gap-[var(--gap)] 
@@ -165,12 +172,7 @@
     lg:mx-[calc(var(--pLG)*-1)] lg:mb-[calc(var(--pLG)*-1)] 
   }
 
-  .paddingHeader {
-    @apply
-       pt-[calc(2.75rem+var(--p))] 
-    xs:pt-[calc(2.75rem+var(--pXS))]
-    lg:pt-[calc(2.75rem+var(--pLG))]
-  }
+
 
   .ListSpacing {
     @apply blockContainer scrollStyle 
@@ -245,20 +247,23 @@
 }
 
 .text-filter {
-  @apply text-[#3E3F40] text-base dark:text-neutral-300/50;
+  /* dark:text-neutral-300/50 */
+  @apply  text-base text-onSurface1  font-medium capitalize px-1 leading-5 antialiased   ;
 }
 
 .btnStyle-filter {
-
-  @apply hover:shadow-lg outline outline-offset-2 outline-transparent hover:outline-blue-400/80 bg-[#3E3F40]/10 dark:bg-neutral-800 dark:hover:bg-neutral-900 m-[2%] hover:bg-slate-200 dark:hover:text-neutral-100 transition-all duration-500 px-[0.9rem] text-[#3E3F40] dark:text-neutral-300/50 text-center rounded-md;
+/*dark:bg-neutral-800 dark:hover:bg-neutral-900 dark:hover:text-neutral-100 dark:text-neutral-300/50 */
+  @apply hover:shadow-lg outline outline-offset-2 outline-transparent hover:outline-blue-400/80 bg-[#3E3F40]/10  m-[2%] hover:bg-slate-200  transition-all duration-500 px-[0.9rem] text-[#3E3F40]  text-center rounded-md;
 }
 
 .btnRange {
-  @apply shadow-lg shadow-black outline outline-offset-2 outline-transparent hover:outline-blue-400/80 bg-slate-100 dark:bg-neutral-400 hover:bg-slate-200 dark:hover:bg-neutral-400 dark:hover:text-neutral-100 transition-all duration-500;
+  /*dark:bg-neutral-400  dark:hover:bg-neutral-400 dark:hover:text-neutral-100 */
+  @apply shadow-lg shadow-black outline outline-offset-2 outline-transparent hover:outline-blue-400/80 bg-slate-100  hover:bg-slate-200  transition-all duration-500;
 }
 
 .bg-blur-cardBtn {
-  @apply backdrop-blur-xl bg-[#D7DCDD]/70 dark:bg-neutral-950/70 border border-stone-300/40 dark:border-gray-800/40 p-1 drop-shadow-2xl px-4;
+  /* dark:bg-neutral-950/70 dark:border-gray-800/40    */ 
+  @apply backdrop-blur-xl bg-[#D7DCDD]/70 border-stone-300/40 border p-1 drop-shadow-2xl shadow-onSurface2 px-4;
 }
 
 

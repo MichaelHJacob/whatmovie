@@ -13,8 +13,10 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#D7DCDD' },
-    { media: '(prefers-color-scheme: dark)', color: '#0A0A0A' },
+    { media: '(prefers-color-scheme: light)', color: '#e4e6e6fe' },
+    // { media: '(prefers-color-scheme: dark)', color: '#0A0A0A' },
+    { media: '(prefers-color-scheme: dark)', color: '#e4e6e6e' },
+   
   ],
 }
 
@@ -26,7 +28,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-br" className={barlow.className}>
-      <body className="bg-Background overflow-x-hidden">
+      <body className="bg-Background overflow-x-hidden min-h-dvh ">
         {/* <Background /> */}
         <Header />
         {children}

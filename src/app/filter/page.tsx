@@ -105,12 +105,13 @@ export default async function CardsFilter({
     <>
 
       {/* <div className="bg-gradient-to-b from-[#BEC3C4] xl:from-[#D7DCDD] via-[#BEC3C4]/80 xl:via-[#D7DCDD]/70 dark:from-[#0A0A0A] xl:dark:from-[#0A0A0A]  dark:to-transparent xl:dark:to-transparent xl:dark:via-[#0a0a0a83] fixed top-0  left-0 h-16 w-full z-[45]  backdrop-blur-sm " /> */}
+      <div className="bg-gradient-to-b from-Background  via-Background/80 to-transparent  fixed top-0  left-0 h-[3.25rem] xs:h-[4rem] lg:h-[4.25rem] w-full z-[45]  backdrop-blur-sm " />
 
       <FilterContainer totalPages={data.total_pages} allMP={dataMP} />
  
   <BlockContainer>
 
-  <div className="min-h-screen w-full  gridTemplateSpace">
+  <div className=" w-full  gridTemplateSpace">
         {data?.results.map((value) => (
           <div className="col-span-5 xs:col-span-5 md:col-span-3 lg:col-span-4" key={value.id}>
             

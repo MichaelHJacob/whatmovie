@@ -235,23 +235,20 @@ export default async function Movie({
   }
 
   return (
-    <main>
       <Container>
-        <div className="h-min w-ful   relative   ">
-          <div className="w-screen left-[50%] translate-x-[-50%]  h-full absolute top-0 inset-0 z-[-1] overflow-hidden">
+        <div className="h-min w-ful   relative paddingHeader  ">
+          <div className="w-screen left-[50%] translate-x-[-50%]  h-full absolute top-0  z-[-1] overflow-hidden">
             <div
               className="  w-full h-full bg-no-repeat  opacity-50  z-[-1] blur-3xl transform scale-125 filter "
               style={css}
             />
           </div>
           <BlockContainer>
-            <div className="md:gridTemplateSpace paddingHeader ">
+            <div className="md:gridTemplateSpace  ">
+              {/* mt-[calc(var(--p)*-1)] 
+                 max-xs:mt-[calc(var(--pXS)*-1)] */}
               <div
-                className="relative  md:col-span-4 lg:col-span-5
-                 mt-[calc(var(--p)*-1)] 
-                 max-xs:mt-[calc(var(--pXS)*-1)]
-                 overflow-visible
-              "
+                className="relative  md:col-span-4 lg:col-span-5 overflow-visible"
               >
                 <Image
                   src={process.env.DB_IMG_URL_L + data.poster_path}
@@ -450,6 +447,5 @@ export default async function Movie({
           </section>
         )}
       </Container>
-    </main>
   );
 }

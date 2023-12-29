@@ -6,15 +6,15 @@ import Image from "next/image";
 // bg-onSurface2/10 
 export function Header() {
   return (
-    <header className="max-w-7xl w-full   top-0 fixed left-1/2 translate-x-[-50%]  z-50 blockContainer ">
+    <header className="max-w-7xl w-full   top-0 fixed left-1/2 translate-x-[-50%]  z-50 blockContainer">
    
-      <div className="w-full h-11 px-4   flex justify-between items-center rounded-lg bg-onSurface2/10 backdrop-blur-xl 
+      <div className="w-full h-11 px-4  flex justify-between items-center rounded-lg bg-onSurface2/10 backdrop-blur-xl 
       ">
       
       <Link href="/" className="btnStyle   ">
         <h1>What Movie </h1>
       </Link>
-
+ 
       <Link href={`/filter`} className="btnStyle ">
         <FaFilter />
         <h2>Filtro</h2>
@@ -24,9 +24,10 @@ export function Header() {
   );
 }
 
+
 export function Container({ children }: { children: ReactNode }) {
   return (
-    <div className="max-w-7xl w-full mx-auto  ">
+    <div className="max-w-7xl w-full h-auto mx-auto  ">
 
 
       {children}
@@ -35,7 +36,7 @@ export function Container({ children }: { children: ReactNode }) {
 }
 
 export function BlockContainer({ children }: { children: ReactNode }) {
-  return <div className="blockContainer">{children}</div>;
+  return <div className="blockContainer  ">{children}</div>;
 }
 
 export function ListMovie({ data }: { data: MovieType[] }) {
