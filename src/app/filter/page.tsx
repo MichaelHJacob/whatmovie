@@ -1,7 +1,7 @@
 import AllMovieProviders from "@/components/Provider";
 import { BlockContainer, CardMovie } from "@/components/comps";
 import FilterContainer from "@/components/filters";
-import { DiscoverType, MovieProviders } from "@/components/utils/types";
+import { DiscoverType, ListGenres, MovieProviders } from "@/components/utils/types";
 
 async function getAllMovieProviders() {
   const res = await fetch(
@@ -66,10 +66,10 @@ async function getFilter(
   const g = "&vote_average.gte=";
   const l = "&vote_average.lte=";
 
-  let url = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=pt-BR&page=${page}&primary_release_date.lte=2023-11-18${count_v}${providers}&sort_by=${sort}${
+  let url = `${process.env.DB_API_URL_F}discover/movie?language=pt-BR&include_adult=false&include_video=false&page=${page}&primary_release_date.lte=2023-12-29${count_v}${providers}&sort_by=${sort}${
     searchParams?.vote_gte !== undefined ? g + searchParams?.vote_gte : ""
   }${searchParams?.vote_lte !== undefined ? l + searchParams?.vote_lte : ""}`;
-
+console.log(url)
   const res = await fetch(url, {
     cache: "no-store",
     method: "GET",
@@ -79,6 +79,23 @@ async function getFilter(
     },
   });
   // console.log(url);
+
+  if (!res.ok) {
+    throw new Error("Falha ao buscar dados");
+  }
+  return res.json();
+}
+async function getAllGenres(){
+  const res = await fetch(
+    `${process.env.DB_API_URL_F}watch/providers/movie?language=pt-BR&watch_region=BR`,
+    {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `${process.env.DB_TOKEN_AUTH}`,
+      },
+    }
+  );
 
   if (!res.ok) {
     throw new Error("Falha ao buscar dados");
@@ -95,6 +112,7 @@ export default async function CardsFilter({
 
   const data: DiscoverType = await getFilter( searchParams, provider);
   const dataMP: MovieProviders = await getAllMovieProviders();
+  const genres: ListGenres = await getAllGenres();
  
   async function call(e: { target: { value: string; }; }){
    
@@ -107,7 +125,7 @@ export default async function CardsFilter({
       {/* <div className="bg-gradient-to-b from-[#BEC3C4] xl:from-[#D7DCDD] via-[#BEC3C4]/80 xl:via-[#D7DCDD]/70 dark:from-[#0A0A0A] xl:dark:from-[#0A0A0A]  dark:to-transparent xl:dark:to-transparent xl:dark:via-[#0a0a0a83] fixed top-0  left-0 h-16 w-full z-[45]  backdrop-blur-sm " /> */}
       <div className="bg-gradient-to-b from-Background  via-Background/80 to-transparent  fixed top-0  left-0 h-[3.25rem] xs:h-[4rem] lg:h-[4.25rem] w-full z-[45]  backdrop-blur-sm " />
 
-      <FilterContainer totalPages={data.total_pages} allMP={dataMP} />
+      <FilterContainer totalPages={data.total_pages} allMP={dataMP}  />
  
   <BlockContainer>
 
@@ -124,3 +142,5 @@ export default async function CardsFilter({
     </>
   );
 }
+
+

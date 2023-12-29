@@ -235,217 +235,219 @@ export default async function Movie({
   }
 
   return (
-      <Container>
-        <div className="h-min w-ful   relative paddingHeader  ">
-          <div className="w-screen left-[50%] translate-x-[-50%]  h-full absolute top-0  z-[-1] overflow-hidden">
-            <div
-              className="  w-full h-full bg-no-repeat  opacity-50  z-[-1] blur-3xl transform scale-125 filter "
-              style={css}
-            />
-          </div>
-          <BlockContainer>
-            <div className="md:gridTemplateSpace  ">
-              {/* mt-[calc(var(--p)*-1)] 
+    <Container>
+      <div className="h-min w-ful   relative paddingHeader  ">
+        <div className="w-screen left-[50%] translate-x-[-50%]  h-full absolute top-0  z-[-1] overflow-hidden">
+          <div
+            className="  w-full h-full bg-no-repeat  opacity-50  z-[-1] blur-3xl transform scale-125 filter "
+            style={css}
+          />
+        </div>
+        <BlockContainer>
+          <div className="md:gridTemplateSpace  ">
+            {/* mt-[calc(var(--p)*-1)] 
                  max-xs:mt-[calc(var(--pXS)*-1)] */}
-              <div
-                className="relative  md:col-span-4 lg:col-span-5 overflow-visible"
-              >
-                <Image
-                  src={process.env.DB_IMG_URL_L + data.poster_path}
-                  blurDataURL={base64}
-                  alt={data.original_title}
-                  width={780}
-                  height={1170}
-                  placeholder="blur"
-                  sizes="80vh"
-                  className="rounded-lg  shadow-2xl shadow-gray-700/100 "
-                  priority={true}
-                />
-              </div>
-              <dl className="relative z-40 md:col-span-8 lg:col-[span_15_/_span_15] max-md:bg-gray-950/50 max-md:backdrop-blur-3xl rounded-lg px-4 pb-4 ">
-                <h2
-                  className="uppercase font-semibold tracking-widest text-4xl px-1 py-5 max-md:text-Background text-black  
+            <div className="relative  md:col-span-4 lg:col-span-5 overflow-visible">
+              <Image
+                src={process.env.DB_IMG_URL_L + data.poster_path}
+                blurDataURL={base64}
+                alt={data.original_title}
+                width={780}
+                height={1170}
+                placeholder="blur"
+                sizes="80vh"
+                className="rounded-lg  shadow-2xl shadow-gray-700/100 "
+                priority={true}
+              />
+            </div>
+            <dl className="relative z-40 md:col-span-8 lg:col-[span_15_/_span_15] max-md:bg-gray-950/50 max-md:backdrop-blur-3xl rounded-lg px-4 pb-4 ">
+              <h2
+                className="uppercase font-semibold tracking-widest text-4xl px-1 py-5 max-md:text-Background text-black  
               md:col-span-4 lg:col-span-5
                  mt-[calc(var(--p)*-1)]  "
-                >
-                  {data.title}
-                </h2>
-                <dd className="data mb-2 max-md:text-Background text-black mt-[-1.25rem] ">
-                  {data.release_date && (
-                    <>{formatDateNumber(data.release_date)}</>
-                  )}{" "}
-                  {data.genres && (
-                    <>
-                      {data.genres.map((value, i, a) => (
-                        <>
-                          {value.name}
-                          {i + 1 < a.length && ", "}
-                        </>
-                      ))}
-                    </>
-                  )}
-                </dd>
-
-                {data.overview && (
+              >
+                {data.title}
+              </h2>
+              <dd className="data mb-2 max-md:text-Background text-black mt-[-1.25rem] ">
+                {data.release_date && (
+                  <>{formatDateNumber(data.release_date)}</>
+                )}{" "}
+                {data.genres && (
                   <>
-                    <dt className="label max-md:text-Background text-black">Sinopse:</dt>
-                    <dd className="data mb-2 max-md:text-Background text-black    ">
-                      {" "}
-                      {data.overview}
-                    </dd>
-                  </>
-                )}
-
-                {getDirector() !== undefined && (
-                  <>
-                    <dt className="label max-md:text-Background text-black">Diretor:</dt>
-                    <dd className="data mb-2 max-md:text-Background text-black">
-                      {" "}
-                      {getDirector()}
-                    </dd>
-                  </>
-                )}
-              </dl>
-            </div>
-          </BlockContainer>
-        </div>
-
-        
-
-        <BlockContainer>
-          <SubTitle>Mais detalhes</SubTitle>
-
-          <div className="ListSpacing">
-            <CardInformation>
-              {data.original_title && (
-                <>
-                  <dt className="label">Titulo original:</dt>
-                  <dd className="data mb-2"> {data.original_title}</dd>
-                </>
-              )}
-              {data.original_language && (
-                <>
-                  <dt className="label">Idioma original:</dt>
-                  <dd className="data mb-2"> {data.original_language}</dd>
-                </>
-              )}
-              {data.release_date && (
-                <>
-                  <dt className="label">Data de lançamento:</dt>
-                  <dd className="data mb-2">{formatDate(data.release_date)}</dd>
-                </>
-              )}
-              {data.runtime && (
-                <>
-                  <dt className="label">Duração:</dt>
-                  <dd className="data mb-2">
-                    {data.runtime && formatTime(data.runtime)}
-                  </dd>
-                </>
-              )}
-            </CardInformation>
-            <CardInformation>
-              {data.belongs_to_collection?.name != undefined && (
-                <>
-                  <dt className="label">Coleção:</dt>
-                  <dd className="data mb-2">
-                    {data.belongs_to_collection?.name}
-                  </dd>
-                </>
-              )}
-              {data.budget !== 0 && (
-                <>
-                  <dt className="label">Orçamento:</dt>
-                  <dd className="data mb-2"> {formatNumber(data.budget)}</dd>
-                </>
-              )}
-              {data.revenue !== 0 && (
-                <>
-                  <dt className="label">Receita:</dt>
-                  <dd className="data mb-2"> {formatNumber(data.revenue)}</dd>
-                </>
-              )}
-              {data.genres && (
-                <>
-                  <dt className="label">Gêneros:</dt>
-                  <dd className="data mb-2">
                     {data.genres.map((value, i, a) => (
                       <>
                         {value.name}
                         {i + 1 < a.length && ", "}
                       </>
                     ))}
-                  </dd>
-                </>
-              )}
-              {data.homepage && (
+                  </>
+                )}
+              </dd>
+
+              {data.overview && (
                 <>
-                  <dt className="label">Data de lançamento:</dt>
-                  <dd className="data mb-2">
-                    <a
-                      href={data.homepage}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                    >
-                      Site Oficial
-                    </a>
+                  <dt className="label max-md:text-Background text-black">
+                    Sinopse:
+                  </dt>
+                  <dd className="data mb-2 max-md:text-Background text-black    ">
+                    {" "}
+                    {data.overview}
                   </dd>
                 </>
               )}
-            </CardInformation>
-            <CardInformation>
-              {data.production_companies.length != 0 && (
+
+              {getDirector() !== undefined && (
                 <>
-                  <dt className="label">Produzido por:</dt>
-                  <dd className="data mb-2">
-                    <ul className="list-none ">
-                      {data.production_companies.map((value, i, a) => (
-                        <li key={i} className="mr-1">
-                          {value.name}
-                          {i + 1 < a.length && ", "}
-                        </li>
-                      ))}
-                    </ul>
+                  <dt className="label max-md:text-Background text-black">
+                    Diretor:
+                  </dt>
+                  <dd className="data mb-2 max-md:text-Background text-black">
+                    {" "}
+                    {getDirector()}
                   </dd>
                 </>
               )}
-              {data.production_countries && (
-                <>
-                  <dt className="label">Pais de produção:</dt>
-                  <dd className="data mb-2">
-                    <ul className="list-none ">
-                      {data.production_countries.map((value, i, a) => (
-                        <li key={i} className="mr-1">
-                          {value.name}
-                          {i + 1 < a.length && ", "}
-                        </li>
-                      ))}
-                    </ul>
-                  </dd>
-                </>
-              )}
-            </CardInformation>
+            </dl>
           </div>
         </BlockContainer>
+      </div>
 
-        {videos.results.length > 0 && <Videos videosArray={videos.results} />}
+      <BlockContainer>
+        <SubTitle>Mais detalhes</SubTitle>
 
-        {Credits.cast.length >= 1 ||
-          (Credits.crew.length >= 1 && (
-            <BlockContainer>
-              <SubTitle>Elenco e equipe</SubTitle>
-              <ListPeople data={Credits} />
-            </BlockContainer>
-          ))}
+        <div className="ListSpacing">
+          <CardInformation>
+            {data.original_title && (
+              <>
+                <dt className="label">Titulo original:</dt>
+                <dd className="data mb-2"> {data.original_title}</dd>
+              </>
+            )}
+            {data.original_language && (
+              <>
+                <dt className="label">Idioma original:</dt>
+                <dd className="data mb-2"> {data.original_language}</dd>
+              </>
+            )}
+            {data.release_date && (
+              <>
+                <dt className="label">Data de lançamento:</dt>
+                <dd className="data mb-2">{formatDate(data.release_date)}</dd>
+              </>
+            )}
+            {data.runtime && (
+              <>
+                <dt className="label">Duração:</dt>
+                <dd className="data mb-2">
+                  {data.runtime && formatTime(data.runtime)}
+                </dd>
+              </>
+            )}
+          </CardInformation>
+          <CardInformation>
+            {data.belongs_to_collection?.name != undefined && (
+              <>
+                <dt className="label">Coleção:</dt>
+                <dd className="data mb-2">
+                  {data.belongs_to_collection?.name}
+                </dd>
+              </>
+            )}
+            {data.budget !== 0 && (
+              <>
+                <dt className="label">Orçamento:</dt>
+                <dd className="data mb-2"> {formatNumber(data.budget)}</dd>
+              </>
+            )}
+            {data.revenue !== 0 && (
+              <>
+                <dt className="label">Receita:</dt>
+                <dd className="data mb-2"> {formatNumber(data.revenue)}</dd>
+              </>
+            )}
+            {data.genres && (
+              <>
+                <dt className="label">Gêneros:</dt>
+                <dd className="data mb-2">
+                  {data.genres.map((value, i, a) => (
+                    <>
+                      {value.name}
+                      {i + 1 < a.length && ", "}
+                    </>
+                  ))}
+                </dd>
+              </>
+            )}
+            {data.homepage && (
+              <>
+                <dt className="label">Data de lançamento:</dt>
+                <dd className="data mb-2">
+                  <a
+                    href={data.homepage}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    Site Oficial
+                  </a>
+                </dd>
+              </>
+            )}
+          </CardInformation>
+          <CardInformation>
+            {data.production_companies.length != 0 && (
+              <>
+                <dt className="label">Produzido por:</dt>
+                <dd className="data mb-2">
+                  <ul className="list-none ">
+                    {data.production_companies.map((value, i, a) => (
+                      <li key={i} className="mr-1">
+                        {value.name}
+                        {i + 1 < a.length && ", "}
+                      </li>
+                    ))}
+                  </ul>
+                </dd>
+              </>
+            )}
+            {data.production_countries && (
+              <>
+                <dt className="label">Pais de produção:</dt>
+                <dd className="data mb-2">
+                  <ul className="list-none ">
+                    {data.production_countries.map((value, i, a) => (
+                      <li key={i} className="mr-1">
+                        {value.name}
+                        {i + 1 < a.length && ", "}
+                      </li>
+                    ))}
+                  </ul>
+                </dd>
+              </>
+            )}
+          </CardInformation>
+        </div>
+      </BlockContainer>
 
-        {DtRecommendations.results.length >= 1 && (
-          <section className="bg-Surface  ">
-            <BlockContainer>
-              <SubTitle>Recomendações</SubTitle>
-              <ListMovie data={DtRecommendations.results} />
-            </BlockContainer>
-          </section>
-        )}
-      </Container>
+      {videos.results.length > 0 && <Videos videosArray={videos.results} />}
+
+      
+        {((Credits.cast.length >= 1 || Credits.crew.length >= 1) || (Credits.cast.length >= 1 && Credits.crew.length >= 1)) && (
+          <BlockContainer>
+            <SubTitle>Elenco e equipe</SubTitle>
+            <ListPeople data={Credits} />
+          </BlockContainer>
+        
+        
+         )} 
+
+      {DtRecommendations.results.length >= 1 && (
+        <section className="bg-Surface  ">
+          <BlockContainer>
+            <SubTitle>Recomendações</SubTitle>
+            <ListMovie data={DtRecommendations.results} />
+          </BlockContainer>
+        </section>
+      )}
+    </Container>
   );
 }

@@ -136,3 +136,9 @@ export interface CrewType {
     department: string;
     job: string;
 }
+
+export interface ListGenres {
+  genres:{ 
+    id : number;
+    name: string; }[]
+}

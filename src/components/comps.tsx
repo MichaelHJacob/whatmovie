@@ -57,10 +57,15 @@ export function ListMovie({ data }: { data: MovieType[] }) {
     </ul>
   );
 }
+// export function ListPeople({ data }: { data: CreditsType }) {
+//   return(
+//     "lista de pessoas"
+//   )
+// }
 
 export function ListPeople({ data }: { data: CreditsType }) {
   return (
-    <ul className="ListSpacing list-none">
+    <ul className="ListSpacing list-none ">
       {data.cast.length >= 1 && data.cast.map((value, index) => (
         <li key={index} className="col-span-3 xs:col-span-3 md:col-span-2 lg:col-span-3  snap-start h-min ">
 
@@ -73,8 +78,8 @@ export function ListPeople({ data }: { data: CreditsType }) {
             className="rounded-full w-full  aspect-square  object-cover"
           />
           <div className="w-full mt-2 text-center h-fit ">
-            <p className="emphasis">{value.name}</p>
-            <p className="data">{value.character}</p>
+            <p className="emphasis line-clamp-2">{value.name}</p>
+            <p className="data line-clamp-2">{value.character}</p>
           </div>
         </li>
       ))}
@@ -91,8 +96,8 @@ export function ListPeople({ data }: { data: CreditsType }) {
             className="rounded-full w-full  aspect-square  object-cover"
           />
           <div className="w-full mt-2 text-center h-fit">
-            <p className="emphasis">{value.name}</p>
-            <p className="data">{value.job}</p>
+            <p className="emphasis line-clamp-2">{value.name}</p>
+            <p className="data line-clamp-2 ">{value.job}</p>
           </div>
         </li>
       ))}
