@@ -1,4 +1,23 @@
-import { BlockContainer, Container } from "@/components/comps";
+import { BlockContainer } from "@/components/comps";
+import { FilterSideMenu } from "@/components/filters";
+import { Suspense } from "react";
+
+function LoadingCards() {
+  const skeleton = [];
+
+  for (let i = 0; i <= 20; i++) {
+    skeleton.push(
+      <div
+        className="col-span-5 xs:col-span-5 md:col-span-3 lg:col-span-4"
+        key={i}
+      >
+        <div className="w-full aspect-[18/27] bg-onSurface2/30 animate-pulse rounded-lg shadow-xl shadow-black/30"></div>
+      </div>
+    );
+  }
+
+  return skeleton;
+}
 
 export default function HomeLayout({
   children,
@@ -6,23 +25,18 @@ export default function HomeLayout({
   children: React.ReactNode;
 }) {
   return (
-    <Container>
-      
-      <div className="fixed backdrop-blur-sm w-screen h-[6.25rem] xs:h-[7rem] lg:h-[7.25rem] bg-gradient-to-b from-Background/70  via-Background/70  to-transparent  top-0 left-0 z-0 " />
-      {/* <div className="fixed backdrop-blur-sm w-screen h-[7.1rem] bg-gradient-to-b from-[#BEC3C4]/70 xl:from-[#D7DCDD]70 via-[#BEC3C4]/70 xl:via-[#D7DCDD]   to-transparent  top-0 left-0 z-0 " /> */}
-      {/* dark:from-[#0A0A0A] xl:dark:from-[#0A0A0A] */}
-   
-  <div className="paddingHeader" />
-    
-          
-      
-     
-          
-
-     {children}
-       
-   
-     
-    </Container>
+    <FilterSideMenu>
+      <Suspense
+        fallback={
+          <BlockContainer>
+            <div className=" w-full  gridTemplateSpace  ">
+              <LoadingCards />
+            </div>
+          </BlockContainer>
+        }
+      >
+        {children}
+      </Suspense>
+    </FilterSideMenu>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 import { SetStateAction, useState } from "react";
-import { BlockContainer, SubTitle, SubTitle2 } from "@/components/comps";
+import { BlockContainer, Break, SubTitle, SubTitle2 } from "@/components/comps";
 import {
   VideosResultsType,
 } from "@/components/utils/types";
@@ -36,6 +36,7 @@ export default function Videos({videosArray} : {videosArray: VideosResultsType[]
 
 
   return (
+    <><Break />
     <BlockContainer>
       <SubTitle>Videos, Trailers e mais</SubTitle>
       <div className="transition-all max-md:w-screen  w-full md:aspect-[19/9] relative duration-700 bg-black md:rounded-lg
@@ -71,5 +72,6 @@ export default function Videos({videosArray} : {videosArray: VideosResultsType[]
         </div>
       </div>
     </BlockContainer>
+    </>
   );
 }

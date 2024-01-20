@@ -1,8 +1,8 @@
 import type { Config } from 'tailwindcss'
 const colors = require('tailwindcss/colors')
-import fs from "node:fs";
-import path from "node:path";
-import plaiceholder from "@plaiceholder/tailwindcss";
+// import fs from "node:fs";
+// import path from "node:path";
+// import plaiceholder from "@plaiceholder/tailwindcss";
 const defaultTheme = require('tailwindcss/defaultTheme')
 
 
@@ -50,9 +50,12 @@ const config: Config = {
       Background: '#e4e6e6',
       onBackground1: '#3b3f3f',
       onBackground2: '#606969',
-      Surface: '#F0F2F2',
+      // Surface: '#F0F2F2',
+      Surface: '#eef0f0',
       onSurface1: '#434949',
-      onSurface2: '#778080',
+      // onSurface2: '#778080',
+      onSurface2: '#606969',
+      btnFilter: '#E4E7E7',
 
       'mercury': {
         '50': '#f7f8f8',
@@ -86,7 +89,7 @@ const config: Config = {
       stone: colors.stone,
       gray: colors.gray,
       red: colors.red,
-      
+      sky: colors.sky,
      
 
     },
@@ -96,12 +99,13 @@ const config: Config = {
     },
 
   },
-  plugins: [
-    plaiceholder({
-      resolver: (src) =>
-        fs.readFileSync(path.join("./public", `${src}.jpg`)),
-    }),
-  ],
+  // plugins: [
+  //   plaiceholder({
+  //     resolver: (src) =>
+  //       fs.readFileSync(path.join("./public", `${src}.jpg`)),
+  //   }),
+  //   // require('tailwind-scrollbar'),
+  // ],
 
 }
 

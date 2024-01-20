@@ -1,13 +1,7 @@
 import AllMovieProviders from "@/components/Provider";
 import { BlockContainer, CardMovie } from "@/components/comps";
-import { BtnPages } from "@/components/filters";
 import FilterContainer from "@/components/filters-old";
-import {
-  DiscoverType,
-  ListGenres,
-  MovieProviders,
-} from "@/components/utils/types";
-import { Suspense } from "react";
+import { DiscoverType, ListGenres, MovieProviders } from "@/components/utils/types";
 
 async function getAllMovieProviders() {
   const res = await fetch(
@@ -26,10 +20,10 @@ async function getAllMovieProviders() {
   }
   return res.json();
 }
-
+   
 async function getFilter(
-  searchParams: { [key: string]: string },
-  selectedMp: string
+  searchParams:{ [key: string]: string }, selectedMp : string
+ 
 ) {
   const page: string =
     Number(searchParams?.page) > 1 && Number(searchParams?.page) <= 500
@@ -42,11 +36,15 @@ async function getFilter(
     mp = String(value.provider_id) + "|" + mp;
   });
 
+
   let sort: string;
   let providers = `&watch_region=BR&with_watch_providers=${mp}`;
   // let providers  = `&watch_region=BR&with_watch_providers=${String(337)++String(350)}`;
   // console.log(providers);
 
+  
+
+  
   let count_v = "";
   switch (searchParams?.sort) {
     case "popularity":
@@ -68,13 +66,18 @@ async function getFilter(
   const g = "&vote_average.gte=";
   const l = "&vote_average.lte=";
 
+  
+
   let url = `${process.env.DB_API_URL_F}discover/movie${
-    process.env.DB_API_BR
-  }&include_adult=false&include_video=false&page=${page}&primary_release_date.lte=2023-12-29${count_v}${providers}&sort_by=${sort}${
-    searchParams?.vote_gte !== undefined ? g + searchParams?.vote_gte : ""
-  }${searchParams?.vote_lte !== undefined ? l + searchParams?.vote_lte : ""}`;
+    process.env.DB_API_BR}&include_adult=false&include_video=false&page=${
+    page}&primary_release_date.lte=2023-12-29${
+    count_v}${
+    providers}&sort_by=${
+    sort}${
+    searchParams?.vote_gte !== undefined ? g + searchParams?.vote_gte : ""}${
+    searchParams?.vote_lte !== undefined ? l + searchParams?.vote_lte : ""}`;
   // let url ="https://api.themoviedb.org/3/discover/movie?language=pt-BR&include_adult=false&include_video=false&page=1&primary_release_date.lte=2023-12-29&watch_region=BR&with_watch_providers=1973|1715|1920|1790|1861|1875|1860|1853|1796|445|309|1771|701|692|588|582|683|677|300|315|575|574|573|569|567|566|444|562|559|554|551|546|544|194|484|477|478|512|499|475|473|521|465|447|190|19|68|3|10|11|283|307|350|2|384|531|47|167|619|8|119|337&sort_by=popularity.desc"
-  // console.log(url)
+// console.log(url)
   const res = await fetch(url, {
     cache: "no-store",
     method: "GET",
@@ -90,7 +93,7 @@ async function getFilter(
   }
   return res.json();
 }
-async function getAllGenres() {
+async function getAllGenres(){
   const res = await fetch(
     `${process.env.DB_API_URL_F}genre/movie/list${process.env.DB_API_BR}&watch_region=BR`,
     {
@@ -113,34 +116,39 @@ export default async function CardsFilter({
 }: {
   searchParams: { [key: string]: string };
 }) {
-  let provider = "350";
-  //  console.log(searchParams?.g)
-  const data: DiscoverType = await getFilter(searchParams, provider);
+  let provider = "350"
+ console.log(searchParams?.g)
+  const data: DiscoverType = await getFilter( searchParams, provider);
   const dataMP: MovieProviders = await getAllMovieProviders();
   const genres: ListGenres = await getAllGenres();
-
+ 
   // async function call(e: { target: { value: string; }; }){
-
+   
   //   const data: DiscoverType = await getFilter( searchParams,  e.target.value);
   // }
 
   return (
     <>
-      <BlockContainer>
-        <div className=" w-full  gridTemplateSpace ">
-          {data?.results.map((value) => (
-            <div
-              className="col-span-5 xs:col-span-5 md:col-span-3 lg:col-span-4"
-              key={value.id}
-            >
-              <CardMovie data={value} />
-            </div>
-          ))}
-        </div>
-      </BlockContainer>
-      <BlockContainer>
-        <BtnPages totalPages={data.total_pages} />
-      </BlockContainer>
+
+      {/* <div className="bg-gradient-to-b from-[#BEC3C4] xl:from-[#D7DCDD] via-[#BEC3C4]/80 xl:via-[#D7DCDD]/70 dark:from-[#0A0A0A] xl:dark:from-[#0A0A0A]  dark:to-transparent xl:dark:to-transparent xl:dark:via-[#0a0a0a83] fixed top-0  left-0 h-16 w-full z-[45]  backdrop-blur-sm " /> */}
+      <div className="bg-gradient-to-b from-Background  via-Background/80 to-transparent  fixed top-0  left-0 h-[3.25rem] xs:h-[4rem] lg:h-[4.25rem] w-full z-[45]  backdrop-blur-sm " />
+
+      <FilterContainer totalPages={data.total_pages} allMP={dataMP} allGenres={genres}  />
+ 
+  <BlockContainer>
+
+  <div className=" w-full  gridTemplateSpace">
+        {data?.results.map((value) => (
+          <div className="col-span-5 xs:col-span-5 md:col-span-3 lg:col-span-4" key={value.id}>
+            
+            <CardMovie data={value} />
+
+          </div>
+        ))}
+      </div>
+  </BlockContainer>
     </>
   );
 }
+
+

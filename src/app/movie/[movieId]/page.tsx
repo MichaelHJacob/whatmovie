@@ -6,6 +6,7 @@ import {
 } from "@/components/utils/types";
 import {
   BlockContainer,
+  Break,
   CardInformation,
   Container,
   ListMovie,
@@ -236,14 +237,16 @@ export default async function Movie({
 
   return (
     <Container>
-      <div className="h-min w-ful   relative paddingHeader  ">
+      
+      <div className="h-min w-full relative paddingHeader z-30">
         <div className="w-screen left-[50%] translate-x-[-50%]  h-full absolute top-0  z-[-1] overflow-hidden">
           <div
-            className="  w-full h-full bg-no-repeat  opacity-50  z-[-1] blur-3xl transform scale-125 filter "
+            className="  w-full h-full bg-no-repeat  opacity-50   blur-3xl transform scale-125 "
             style={css}
           />
         </div>
         <BlockContainer>
+          
           <div className="md:gridTemplateSpace  ">
             {/* mt-[calc(var(--p)*-1)] 
                  max-xs:mt-[calc(var(--pXS)*-1)] */}
@@ -311,8 +314,11 @@ export default async function Movie({
           </div>
         </BlockContainer>
       </div>
-
+      <div className="    bg-Background/70 fixed top-0  left-0 h-11  w-full    z-20 "   />
+      {/* <div className="bg-gradient-to-b from-Background  via-Background/20 bg-transparent  sticky top-0  left-0 h-[5.5rem] backdrop-blur-[1px] w-full    z-10 " /> */}
+     
       <BlockContainer>
+     
         <SubTitle>Mais detalhes</SubTitle>
 
         <div className="ListSpacing">
@@ -432,11 +438,13 @@ export default async function Movie({
 
       
         {((Credits.cast.length >= 1 || Credits.crew.length >= 1) || (Credits.cast.length >= 1 && Credits.crew.length >= 1)) && (
+          <>
+          <Break />
           <BlockContainer>
             <SubTitle>Elenco e equipe</SubTitle>
             <ListPeople data={Credits} />
           </BlockContainer>
-        
+          </>
         
          )} 
 
