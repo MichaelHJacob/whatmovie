@@ -1,7 +1,6 @@
 import AllMovieProviders from "@/components/Provider";
 import { BlockContainer, CardMovie } from "@/components/comps";
 import { BtnPages } from "@/components/filters";
-import FilterContainer from "@/components/filters-old";
 import {
   DiscoverType,
   ListGenres,
