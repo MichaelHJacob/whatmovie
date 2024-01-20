@@ -14,14 +14,6 @@ export function Header() {
           <h1>What Movie </h1>
         </Link>
         <div className="flex gap-[--gap] xs:gap-[--gapXS] md:gap-[--gapMD] lg:gap-[--gapLG] h-full w-min justify-between ">
-          <Link href={`/filter#Movies`} className="btn-link  font-semibold">
-            {/* <FaFilter /> */}
-            <h2>Filtro</h2>
-          </Link>
-          <Link href={`/filter#Movies`} className="btn-link font-semibold">
-            {/* <FaFilter /> */}
-            <h2>Filtro</h2>
-          </Link>
           <Link href={`/filter#Movies`} className="btn-link font-semibold  ">
             {/* <FaFilter /> */}
             <h2>Filtro</h2>
