@@ -479,7 +479,7 @@ export function FilterSideMenu({ children }: { children: React.ReactNode }) {
       <div
         ref={divFilters}
         id="filtersID"
-        className="  h-full min-w-80 w-[90vw] max-w-sm  inline-block overscroll-x-contain overflow-y-scroll      snap-end snap-always overscroll-y-contain    pt-[5.5rem] bg-Surface max-xs:bg-black"
+        className="  h-full min-w-80 w-[90vw] max-w-sm  inline-block overscroll-x-contain overflow-y-scroll      snap-end snap-always overscroll-y-contain    pt-[5.5rem] bg-Surface "
       >
         <BlockContainer>
           <div className="flex flex-col gap-[var(--gap)] xs:gap-[var--gapXS)] md:gap-[var(--gapMD)] lg:gap-[var(--gapLG) ">
