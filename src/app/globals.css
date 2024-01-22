@@ -170,11 +170,16 @@
     xs:gap-[var(--gapXS)] 
     md:gap-[var(--gapMD)] 
     lg:gap-[var(--gapLG)] 
+    xl:gap-[var(--gapMD)]
+    2xl:gap-[var(--gapLG)] 
 
     grid-cols-10
     xs:grid-cols-[repeat(15,_minmax(0,_1fr))]  
     md:grid-cols-12 
-    lg:grid-cols-[repeat(20,_minmax(0,_1fr))];
+    lg:grid-cols-[repeat(20,_minmax(0,_1fr))]
+    xl:grid-cols-12 
+    2xl:grid-cols-[repeat(20,_minmax(0,_1fr))]
+
   }
 
   .spacingShrinkerBlock-x {
@@ -227,14 +232,7 @@
   .subTitle {
     @apply h-min p-0.5 text-onBackground1 text-lg font-semibold leading-4;
   }
-  /*   
-  .emphasis {
-    @apply infoText font-medium capitalize;
-  } */
-
-  /* .infoText {
-    @apply text-sm leading-snug font-normal capitalize ;
-  } */
+  
 
   .label {
     @apply text-onSurface1 text-base  font-medium  px-1 leading-5 antialiased;
@@ -274,21 +272,27 @@
   /* dark:bg-neutral-800 dark:hover:bg-neutral-900 dark:hover:text-neutral-100 dark:text-neutral-300/50 outline outline-offset-2 outline-transparent hover:outline-blue-400/80 */
 
   .filter-BackBtn {
-    @apply bg-btnFilter h-11  px-4 inline-flex gap-2  items-center rounded-lg appearance-none cursor-pointer border-none;
+    @apply bg-onSurface1/5 h-11  px-4 inline-flex gap-2  items-center rounded-lg appearance-none cursor-pointer border-none;
   }
 
   .filter-TextBtn {
     @apply text-base font-bold text-onSurface1;
   }
 
-  .filter-BackBtnAction {
+  .main-backBTn {
+    @apply filter-BackBtn bg-[#D7DADA]/80 backdrop-saturate-150   backdrop-blur-xl
   }
 
 
 
-  .bg-blur-cardBtn {
-    /* dark:bg-neutral-950/70 dark:border-gray-800/40  bg-[#D7DCDD]/70  */
-    @apply backdrop-blur-xl bg-Surface/70 border-stone-300/40 border p-1 drop-shadow-2xl shadow-onSurface2 px-4;
+  /* .filter-BtnActive {
+   @apply bg-onSurface1/5 h-11  px-4 inline-flex gap-2  items-center rounded-lg appearance-none cursor-pointer border-none
   }
+
+  .filter-BtnDisabled {
+
+  } */
+
+
 
 }

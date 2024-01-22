@@ -71,7 +71,7 @@ export function ListPeople({ data }: { data: CreditsType }) {
               className="rounded-full w-full  aspect-square  object-cover"
             />
             <div className="w-full mt-2 text-center h-fit ">
-              <p className="emphasis line-clamp-2">{value.name}</p>
+              <p className="label line-clamp-2">{value.name}</p>
               <p className="data line-clamp-2">{value.character}</p>
             </div>
           </li>
@@ -92,7 +92,7 @@ export function ListPeople({ data }: { data: CreditsType }) {
               className="rounded-full w-full  aspect-square  object-cover"
             />
             <div className="w-full mt-2 text-center h-fit">
-              <p className="emphasis line-clamp-2">{value.name}</p>
+              <p className="label line-clamp-2">{value.name}</p>
               <p className="data line-clamp-2 ">{value.job}</p>
             </div>
           </li>

@@ -8,10 +8,10 @@ function LoadingCards() {
   for (let i = 0; i <= 20; i++) {
     skeleton.push(
       <div
-        className="col-span-5 xs:col-span-5 md:col-span-3 lg:col-span-4"
+        className="col-span-5 xs:col-span-5 md:col-span-3 lg:col-span-4 xl:col-span-3 2xl:col-span-4"
         key={i}
       >
-        <div className="w-full aspect-[18/27] bg-onSurface2/30 animate-pulse rounded-lg shadow-xl shadow-black/30"></div>
+        <div className="w-full aspect-[18/27] bg-onSurface2/10 animate-pulse rounded-lg shadow-xl shadow-black/30"></div>
       </div>
     );
   }
