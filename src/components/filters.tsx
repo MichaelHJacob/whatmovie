@@ -143,10 +143,10 @@ export function FilterSideMenu({ children }: { children: React.ReactNode }) {
     return (
       <label
         className="rounded-lg 
-      inline-flex  flex-wrap gap-2 max-xs:justify-evenly justify-between items-center transition-all duration-300    
+      flex    justify-between items-center transition-all duration-300    
       h-min  w-full "
       >
-        <h6 className="filter-label">Ordenar por:</h6>
+        <span className="filter-label">Ordenar por:</span>
         <select
           className="filter-BackBtn filter-TextBtn"
           name="sortBy"
@@ -474,14 +474,7 @@ export function FilterSideMenu({ children }: { children: React.ReactNode }) {
     );
   }
 
-  function Conter () {
-    const [estado, setEstado] = useState(0); 
 
-    return (
-      <button onClick={() => setEstado(estado + 1)} className="filter-backBtn">{estado}</button>
-    )
-
-  }
 
   return (
     <div
@@ -509,7 +502,6 @@ export function FilterSideMenu({ children }: { children: React.ReactNode }) {
             <Break />
             <SelectGenre />
             <Break />
-            <Conter />
           </div>
         </BlockContainer>
       </div>
