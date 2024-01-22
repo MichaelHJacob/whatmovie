@@ -10,8 +10,9 @@ import {
 import { BlockContainer, Container } from "./comps";
 import { ListGenres } from "./utils/types";
 
+
 export function BtnPages({ totalPages }: { totalPages: number }) {
-  const { replace } = useRouter();
+  const {replace} = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const params = new URLSearchParams(searchParams);
@@ -25,6 +26,7 @@ export function BtnPages({ totalPages }: { totalPages: number }) {
     if (atual == 1) {
       params.set("page", `${totalPages}`);
       replace(`${pathname}?${params.toString()}`);
+     
     } else {
       params.set("page", `${atual - 1}`);
       replace(`${pathname}?${params.toString()}`);
@@ -80,7 +82,7 @@ export function FilterSideMenu({ children }: { children: React.ReactNode }) {
   const divFilters = useRef<HTMLDivElement>(null);
 
   const [handle, setHandle] = useState(false);
-  const { replace } = useRouter();
+  const { replace }  = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const params = new URLSearchParams(searchParams);
@@ -110,7 +112,7 @@ export function FilterSideMenu({ children }: { children: React.ReactNode }) {
       <button
         onClick={open}
         className="
-      main-backBTn   "
+      main-backBTn   xl:hidden  "
       >
         <span className="filter-TextBtn">
           {handle ? " < Fechar " : "Expandir filtro  >"}
@@ -120,13 +122,11 @@ export function FilterSideMenu({ children }: { children: React.ReactNode }) {
   }
 
   function handleOpen() {
-    console.log("handle open");
     if (timeId.current) {
       clearTimeout(timeId.current);
     }
     timeId.current = setTimeout(() => {
       if (divFilters.current) {
-        console.log(divFilters.current.getBoundingClientRect());
         if (divFilters.current.getBoundingClientRect().left == 0) {
           setHandle(true);
         } else setHandle(false);
@@ -189,12 +189,12 @@ export function FilterSideMenu({ children }: { children: React.ReactNode }) {
       replace(`${pathname}?${params.toString()}`);
     }
 
-    function disable() {
-      params.delete("vote_gte");
-      params.delete("vote_lte");
+    // function disable() {
+    //   params.delete("vote_gte");
+    //   params.delete("vote_lte");
 
-      replace(`${pathname}?${params.toString()}`);
-    }
+    //   replace(`${pathname}?${params.toString()}`);
+    // }
 
     function handleMinRange(valor: number) {
       if (valor < maxRange - 0.9) {
@@ -379,12 +379,12 @@ export function FilterSideMenu({ children }: { children: React.ReactNode }) {
   }
 
   function SelectGenre() {
-    const list = useRef<{ id: number; name: string; }[] | null>()
+    // const list = useRef<{ id: number; name: string; }[] | null>()
     if (isLoading) return <p> Carregando ... </p>;
     if (!data) return <p>Sem dados de perfil</p>;
 
 
-    list.current = data.genres;
+    const list = data.genres;
 
     function ToggleBtn({
       data,
@@ -396,9 +396,8 @@ export function FilterSideMenu({ children }: { children: React.ReactNode }) {
       };
       i: number;
     }) {
-      const [isChecked, setIsChecked] = useState<boolean>(
-        params.has("g", `${data.id}`)
-      );
+      const [isChecked, setIsChecked] = useState<boolean>( params.has("g", `${data.id}`));
+      // const [isChecked, setIsChecked] = useState<boolean>();
 
       function handleChecks(e: ChangeEvent<HTMLInputElement>): void {
         let get: {
@@ -406,14 +405,14 @@ export function FilterSideMenu({ children }: { children: React.ReactNode }) {
           name: string;
         };
         if (isChecked) {
-          get = list.current[i];
-          list.current.splice(i, 1);
-          list.current.push(get);
+          get = list[i];
+          list.splice(i, 1);
+          list.push(get);
           params.delete("g", e.target.value);
         } else {
-          get = list.current[i];
-          list.current.splice(i, 1);
-          list.current.unshift(get);
+          get = list[i];
+          list.splice(i, 1);
+          list.unshift(get);
           params.append("g", e.target.value);
         }
         params.set("page", "1");
@@ -459,7 +458,7 @@ export function FilterSideMenu({ children }: { children: React.ReactNode }) {
 
         <ul className="h-auto  flex flex-wrap justify-start gap-2 select-none transition duration-150 ease-out hover:ease-in ">
           
-          {list.current.map((value, index) => (
+          {list.map((value, index) => (
             <li key={index}>
               <ToggleBtn data={value} i={index} />
             </li>
@@ -473,6 +472,15 @@ export function FilterSideMenu({ children }: { children: React.ReactNode }) {
     return (
       <hr className="border-2 border-solid border-btnFilter rounded-lg " />
     );
+  }
+
+  function Conter () {
+    const [estado, setEstado] = useState(0); 
+
+    return (
+      <button onClick={() => setEstado(estado + 1)} className="filter-backBtn">{estado}</button>
+    )
+
   }
 
   return (
@@ -501,6 +509,7 @@ export function FilterSideMenu({ children }: { children: React.ReactNode }) {
             <Break />
             <SelectGenre />
             <Break />
+            <Conter />
           </div>
         </BlockContainer>
       </div>
@@ -513,10 +522,12 @@ export function FilterSideMenu({ children }: { children: React.ReactNode }) {
           <div className="bg-gradient-to-b from-Background  via-Background/80 to-transparent  fixed top-0  left-0 h-11 backdrop-blur-[2px] w-full   z-10 " />
           <div className="bg-gradient-to-b from-Background  via-Background/50 bg-transparent  fixed top-0  left-0 h-[5.5rem] backdrop-blur-[1px] w-full   backdrop-saturate-[1.2]   z-10 " />
           <div className="paddingHeader" />
-          <div className="h-min sticky z-[100] top-14   w-full  snap-always snap-start  xl:hidden   ">
+          <div className="h-min sticky z-[100] top-14   w-full  snap-always snap-start   ">
             <BlockContainer>
-              <div className=" w-full   h-auto">
-                <BtnScroll />
+              <div className=" w-full  flex gap-2  h-auto">
+                <BtnScroll /> <button className="main-backBTn" onClick={() => 
+                  replace(`${pathname}`)
+                }><span className="filter-TextBtn">Reset</span></button>
               </div>
             </BlockContainer>
           </div>

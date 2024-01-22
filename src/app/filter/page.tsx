@@ -51,7 +51,7 @@ async function getFilter(
           listGenres = listGenres + "%2C";
         }
       });
-      console.log(listGenres);
+  
       return listGenres;
     } else if (typeof searchParams?.g == "string") {
       return `&with_genres=${searchParams?.g}`;
