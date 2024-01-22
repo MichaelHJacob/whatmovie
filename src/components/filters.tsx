@@ -379,10 +379,12 @@ export function FilterSideMenu({ children }: { children: React.ReactNode }) {
   }
 
   function SelectGenre() {
+    const list = useRef<{ id: number; name: string; }[] | null>()
     if (isLoading) return <p> Carregando ... </p>;
     if (!data) return <p>Sem dados de perfil</p>;
 
-    const [list, setList] = useState(data.genres);
+
+    list.current = data.genres;
 
     function ToggleBtn({
       data,
@@ -404,14 +406,14 @@ export function FilterSideMenu({ children }: { children: React.ReactNode }) {
           name: string;
         };
         if (isChecked) {
-          get = list[i];
-          list.splice(i, 1);
-          list.push(get);
+          get = list.current[i];
+          list.current.splice(i, 1);
+          list.current.push(get);
           params.delete("g", e.target.value);
         } else {
-          get = list[i];
-          list.splice(i, 1);
-          list.unshift(get);
+          get = list.current[i];
+          list.current.splice(i, 1);
+          list.current.unshift(get);
           params.append("g", e.target.value);
         }
         params.set("page", "1");
@@ -457,7 +459,7 @@ export function FilterSideMenu({ children }: { children: React.ReactNode }) {
 
         <ul className="h-auto  flex flex-wrap justify-start gap-2 select-none transition duration-150 ease-out hover:ease-in ">
           
-          {list.map((value, index) => (
+          {list.current.map((value, index) => (
             <li key={index}>
               <ToggleBtn data={value} i={index} />
             </li>
