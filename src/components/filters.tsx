@@ -532,13 +532,13 @@ export default function FilterSideMenu({
             <BlockContainer>
               <div className=" w-full  flex gap-2  h-auto">
                 <BtnScroll />{" "}
-                <button
+                {/* <button
                   className="main-backBTn"
                   onClick={() => replace(`${pathname}`)}
                   
                 >
-                  <span className="filter-TextBtn">Reflex</span>
-                </button>
+                  <span className="filter-TextBtn">Reset</span>
+                </button> */}
               </div>
             </BlockContainer>
           </div>
