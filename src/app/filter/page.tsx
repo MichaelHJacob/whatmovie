@@ -1,5 +1,4 @@
-import AllMovieProviders from "@/components/Provider";
-import { BlockContainer, CardMovie } from "@/components/comps";
+import { BlockContainer, CardMovie, SubTitle } from "@/components/comps";
 import { BtnPages } from "@/components/filters";
 import { DiscoverType, MovieProviders } from "@/components/utils/types";
 
@@ -124,16 +123,19 @@ export default async function CardsFilter({
     <>
       <BlockContainer>
         <div className=" w-full  gridTemplateSpace ">
-          {data?.results.map((value) => (
+          {data?.results.length > 0 ? data?.results.map((value) => (
             <div
               className="col-span-5 xs:col-span-5 md:col-span-3 lg:col-span-4 xl:col-span-3 2xl:col-span-4"
               key={value.id}
             >
               <CardMovie data={value} />
             </div>
-          ))}
+          )) : <div>
+          <SubTitle>Considere um filtro mais amplo para exibir resultados</SubTitle>
+          </div>}
         </div>
       </BlockContainer>
+      
       <BlockContainer>
         <BtnPages totalPages={data.total_pages} />
       </BlockContainer>

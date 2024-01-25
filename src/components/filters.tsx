@@ -2,7 +2,7 @@
 // import { extractImgSrc } from "@plaiceholder/tailwindcss/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
-import { BlockContainer, Container } from "./comps";
+import { BlockContainer, Container, SubTitle } from "./comps";
 import { ListGenres } from "./utils/types";
 
 export function BtnPages({ totalPages }: { totalPages: number }) {
@@ -35,6 +35,9 @@ export function BtnPages({ totalPages }: { totalPages: number }) {
       replace(`${pathname}?${params.toString()}`, { scroll: true });
     }
   }
+
+  if (totalPages == 1) return <SubTitle>Considere um filtro mais amplo para exibir mais resultados</SubTitle>
+  if (totalPages == 0) return ;
 
   return (
     <div className=" w-full flex justify-end">
@@ -70,258 +73,7 @@ export function BtnPages({ totalPages }: { totalPages: number }) {
   );
 }
 
-function RangeVote() {
-  const { replace } = useRouter();
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const params = new URLSearchParams(searchParams);
 
-  const [minRange, setMinRange] = useState(
-    Number(searchParams?.get("vote_gte")) || 0
-  );
-  const [maxRange, setMaxRange] = useState(
-    Number(searchParams?.get("vote_lte")) || 10
-  );
-  const [minNumber, setMinNumber] = useState(
-    searchParams?.get("vote_gte") || "0"
-  );
-  const [maxNumber, setMaxNumber] = useState(
-    searchParams?.get("vote_lte") || "10"
-  );
-
-  let leftSide = `${Math.floor((minRange / 10) * 100)}%`;
-  let rightSide = `${Math.floor((1 - maxRange / 10) * 100)}%`;
-  let timeIdMin = useRef<ReturnType<typeof setInterval> | null>(null);
-  let timeIdMax = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  function toParams(min: string, max: string) {
-    params.set("vote_gte", `${min}`);
-    params.set("vote_lte", `${max}`);
-    replace(`${pathname}?${params.toString()}`);
-  }
-
-  // function disable() {
-  //   params.delete("vote_gte");
-  //   params.delete("vote_lte");
-
-  //   replace(`${pathname}?${params.toString()}`);
-  // }
-
-  function handleMinRange(valor: number) {
-    if (valor < maxRange - 0.9) {
-      setMinNumber(String(valor));
-      setMinRange(valor);
-    }
-  }
-
-  function handleMaxRange(valor: number) {
-    if (valor > minRange + 0.9) {
-      setMaxNumber(String(valor));
-      setMaxRange(valor);
-    }
-  }
-
-  function numberMin(e: ChangeEvent<HTMLInputElement>) {
-    let valor = Number(e.target.value);
-    if (timeIdMin.current) {
-      clearTimeout(timeIdMin.current);
-    }
-
-    setMinNumber(e.target.value);
-    if (valor >= 0 && valor <= 9) {
-      e.target.onclick = () => {
-        setMinRange(valor);
-      };
-
-      if (valor >= Number(maxNumber)) {
-        e.target.onclick = () => {
-          setMaxRange(valor + 1);
-        };
-        setMaxNumber(String(valor + 1));
-        if (timeIdMin.current) {
-          clearTimeout(timeIdMin.current);
-        }
-        timeIdMin.current = setTimeout(() => {
-          toParams(valor.toString(), String(valor + 1));
-        }, 500);
-      } else {
-        if (timeIdMin.current) {
-          clearTimeout(timeIdMin.current);
-        }
-        timeIdMin.current = setTimeout(() => {
-          toParams(valor.toString(), maxNumber);
-        }, 500);
-      }
-    } else {
-      if (timeIdMin.current) {
-        clearTimeout(timeIdMin.current);
-      }
-      timeIdMin.current = setTimeout(() => {
-        setMinNumber(String(minRange));
-        e.target.classList.add("animate-wrong");
-      }, 2000);
-      e.target.classList.remove("animate-wrong");
-    }
-  }
-
-  function numberMax(e: ChangeEvent<HTMLInputElement>) {
-    let valor = Number(e.target.value);
-    if (timeIdMax.current) {
-      clearTimeout(timeIdMax.current);
-    }
-    setMaxNumber(e.target.value);
-    if (valor >= 1 && valor <= 10) {
-      e.target.onclick = () => {
-        setMaxRange(valor);
-      };
-
-      if (valor <= Number(minNumber)) {
-        e.target.onclick = () => {
-          setMinRange(valor - 1);
-        };
-
-        if (timeIdMax.current) {
-          clearTimeout(timeIdMax.current);
-        }
-        timeIdMax.current = setTimeout(() => {
-          toParams(String(valor - 1), valor.toString());
-        }, 500);
-      } else {
-        if (timeIdMax.current) {
-          clearTimeout(timeIdMax.current);
-        }
-        timeIdMax.current = setTimeout(() => {
-          toParams(minNumber, valor.toString());
-        }, 500);
-      }
-    } else {
-      if (timeIdMax.current) {
-        clearTimeout(timeIdMax.current);
-      }
-      timeIdMax.current = setTimeout(() => {
-        setMaxNumber(String(maxRange));
-        e.target.classList.add("animate-wrong");
-      }, 2000);
-      e.target.classList.remove("animate-wrong");
-    }
-  }
-
-  return (
-    <>
-      <span className="filter-label ">Pontuação:</span>
-      {/* <div className="w-full h-full text-filter   relative"> */}
-      <div className="w-full flex justify-between ">
-        <label className="filter-BackBtn">
-          <span className="filter-labelBtn">Min</span>
-          <input
-            type="number"
-            value={minNumber}
-            className="text-center filter-TextBtn    rounded-lg  bg-transparent w-[44px] h-11 mx-[-10px] "
-            onChange={(e) => numberMin(e)}
-            onTouchStartCapture={() => {
-              setMinNumber("");
-            }}
-            pattern="[0-9]*"
-            inputMode="decimal"
-            name="minNumber"
-            min={0}
-            max={10}
-          />
-        </label>
-
-        <label className="filter-BackBtn ">
-          <span className="filter-labelBtn">Max</span>
-          <input
-            type="number"
-            className=" text-center filter-TextBtn    rounded-lg  bg-transparent w-[44px] h-11 mx-[-10px]"
-            value={maxNumber}
-            onChange={(e) => numberMax(e)}
-            onTouchStartCapture={() => {
-              setMaxNumber("");
-            }}
-            pattern="[0-9]*"
-            inputMode="decimal"
-            min={0}
-            max={10}
-          />
-        </label>
-      </div>
-      {/* dark:bg-neutral-800  */}
-      <div className=" w-full h-11  pt-[20px] ">
-        <div className="h-1  bg-btnFilter relative  rounded-lg    ">
-          {/* dark:bg-neutral-300/50 */}
-          <div
-            className="h-full absolute rounded-lg bg-sky-800  "
-            style={{
-              right: rightSide,
-              left: leftSide,
-            }}
-          ></div>
-        </div>
-
-        <div className="relative">
-          <input
-            type="range"
-            className="absolute w-full h-0 top-[-2px] pointer-events-none appearance-none  "
-            min={0}
-            max={10}
-            step={0.1}
-            value={minRange}
-            onChange={(e) => handleMinRange(Number(e.target.value))}
-            onMouseUp={(e) => toParams(String(minRange), maxNumber)}
-            onTouchEnd={(e) => toParams(String(minRange), maxNumber)}
-          />
-          <input
-            type="range"
-            className="absolute w-full h-0 top-[-2px] pointer-events-none appearance-none"
-            min={0}
-            max={10}
-            step={0.1}
-            value={maxRange}
-            onChange={(e) => handleMaxRange(Number(e.target.value))}
-            onMouseUp={(e) => toParams(minNumber, String(maxRange))}
-            onTouchEnd={(e) => toParams(minNumber, String(maxRange))}
-          />
-        </div>
-      </div>
-    </>
-  );
-}
-
-function BtnSortBy() {
-  const { replace } = useRouter();
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const params = new URLSearchParams(searchParams);
-
-  function handleSelect(selected: string) {
-    params.set("sort", selected);
-    params.set("page", "1");
-    replace(`${pathname}?${params.toString()}`);
-  }
-  return (
-    <label
-      className="rounded-lg 
-    flex    justify-between items-center transition-all duration-300    
-    h-min  w-full "
-    >
-      <span className="filter-label">Ordenar por:</span>
-      <select
-        className="filter-BackBtn filter-TextBtn"
-        name="sortBy"
-        onChange={(e) => {
-          handleSelect(e.target.value);
-        }}
-        defaultValue={searchParams.get("sort")?.toString()}
-      >
-        <option value="popularity">Popularidade</option>
-        <option value="revenue">Custo</option>
-        <option value="release_date">Lançamento</option>
-        <option value="vote_average">Votos</option>
-      </select>
-    </label>
-  );
-}
 
 export default function FilterSideMenu({
   children,
@@ -488,9 +240,259 @@ export default function FilterSideMenu({
     );
   }
 
-  function refresh(): void {
-    throw new Error("Function not implemented.");
+  function RangeVote() {
+    const { replace } = useRouter();
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
+    const params = new URLSearchParams(searchParams);
+  
+    const [minRange, setMinRange] = useState(
+      Number(searchParams?.get("vote_gte")) || 0
+    );
+    const [maxRange, setMaxRange] = useState(
+      Number(searchParams?.get("vote_lte")) || 10
+    );
+    const [minNumber, setMinNumber] = useState(
+      searchParams?.get("vote_gte") || "0"
+    );
+    const [maxNumber, setMaxNumber] = useState(
+      searchParams?.get("vote_lte") || "10"
+    );
+  
+    let leftSide = `${Math.floor((minRange / 10) * 100)}%`;
+    let rightSide = `${Math.floor((1 - maxRange / 10) * 100)}%`;
+    let timeIdMin = useRef<ReturnType<typeof setInterval> | null>(null);
+    let timeIdMax = useRef<ReturnType<typeof setInterval> | null>(null);
+  
+    function toParams(min: string, max: string) {
+      params.set("vote_gte", `${min}`);
+      params.set("vote_lte", `${max}`);
+      replace(`${pathname}?${params.toString()}`);
+    }
+  
+    // function disable() {
+    //   params.delete("vote_gte");
+    //   params.delete("vote_lte");
+  
+    //   replace(`${pathname}?${params.toString()}`);
+    // }
+  
+    function handleMinRange(valor: number) {
+      if (valor < maxRange - 0.9) {
+        setMinNumber(String(valor));
+        setMinRange(valor);
+      }
+    }
+  
+    function handleMaxRange(valor: number) {
+      if (valor > minRange + 0.9) {
+        setMaxNumber(String(valor));
+        setMaxRange(valor);
+      }
+    }
+  
+    function numberMin(e: ChangeEvent<HTMLInputElement>) {
+      let valor = Number(e.target.value);
+      if (timeIdMin.current) {
+        clearTimeout(timeIdMin.current);
+      }
+  
+      setMinNumber(e.target.value);
+      if (valor >= 0 && valor <= 9) {
+        e.target.onclick = () => {
+          setMinRange(valor);
+        };
+  
+        if (valor >= Number(maxNumber)) {
+          e.target.onclick = () => {
+            setMaxRange(valor + 1);
+          };
+          setMaxNumber(String(valor + 1));
+          if (timeIdMin.current) {
+            clearTimeout(timeIdMin.current);
+          }
+          timeIdMin.current = setTimeout(() => {
+            toParams(valor.toString(), String(valor + 1));
+          }, 500);
+        } else {
+          if (timeIdMin.current) {
+            clearTimeout(timeIdMin.current);
+          }
+          timeIdMin.current = setTimeout(() => {
+            toParams(valor.toString(), maxNumber);
+          }, 500);
+        }
+      } else {
+        if (timeIdMin.current) {
+          clearTimeout(timeIdMin.current);
+        }
+        timeIdMin.current = setTimeout(() => {
+          setMinNumber(String(minRange));
+          e.target.classList.add("animate-wrong");
+        }, 2000);
+        e.target.classList.remove("animate-wrong");
+      }
+    }
+  
+    function numberMax(e: ChangeEvent<HTMLInputElement>) {
+      let valor = Number(e.target.value);
+      if (timeIdMax.current) {
+        clearTimeout(timeIdMax.current);
+      }
+      setMaxNumber(e.target.value);
+      if (valor >= 1 && valor <= 10) {
+        e.target.onclick = () => {
+          setMaxRange(valor);
+        };
+  
+        if (valor <= Number(minNumber)) {
+          e.target.onclick = () => {
+            setMinRange(valor - 1);
+          };
+  
+          if (timeIdMax.current) {
+            clearTimeout(timeIdMax.current);
+          }
+          timeIdMax.current = setTimeout(() => {
+            toParams(String(valor - 1), valor.toString());
+          }, 500);
+        } else {
+          if (timeIdMax.current) {
+            clearTimeout(timeIdMax.current);
+          }
+          timeIdMax.current = setTimeout(() => {
+            toParams(minNumber, valor.toString());
+          }, 500);
+        }
+      } else {
+        if (timeIdMax.current) {
+          clearTimeout(timeIdMax.current);
+        }
+        timeIdMax.current = setTimeout(() => {
+          setMaxNumber(String(maxRange));
+          e.target.classList.add("animate-wrong");
+        }, 2000);
+        e.target.classList.remove("animate-wrong");
+      }
+    }
+  
+    return (
+      <>
+        <span className="filter-label ">Pontuação:</span>
+        {/* <div className="w-full h-full text-filter   relative"> */}
+        <div className="w-full flex justify-between ">
+          <label className="filter-BackBtn">
+            <span className="filter-labelBtn">Min</span>
+            <input
+              type="number"
+              value={minNumber}
+              className="text-center filter-TextBtn    rounded-lg  bg-transparent w-[44px] h-11 mx-[-10px] "
+              onChange={(e) => numberMin(e)}
+              onTouchStartCapture={() => {
+                setMinNumber("");
+              }}
+              pattern="[0-9]*"
+              inputMode="decimal"
+              name="minNumber"
+              min={0}
+              max={10}
+            />
+          </label>
+  
+          <label className="filter-BackBtn ">
+            <span className="filter-labelBtn">Max</span>
+            <input
+              type="number"
+              className=" text-center filter-TextBtn    rounded-lg  bg-transparent w-[44px] h-11 mx-[-10px]"
+              value={maxNumber}
+              onChange={(e) => numberMax(e)}
+              onTouchStartCapture={() => {
+                setMaxNumber("");
+              }}
+              pattern="[0-9]*"
+              inputMode="decimal"
+              min={0}
+              max={10}
+            />
+          </label>
+        </div>
+        {/* dark:bg-neutral-800  */}
+        <div className=" w-full h-11  pt-[20px] ">
+          <div className="h-1  bg-btnFilter relative  rounded-lg    ">
+            {/* dark:bg-neutral-300/50 */}
+            <div
+              className="h-full absolute rounded-lg bg-sky-800  "
+              style={{
+                right: rightSide,
+                left: leftSide,
+              }}
+            ></div>
+          </div>
+  
+          <div className="relative">
+            <input
+              type="range"
+              className="absolute w-full h-0 top-[-2px] pointer-events-none appearance-none  "
+              min={0}
+              max={10}
+              step={0.1}
+              value={minRange}
+              onChange={(e) => handleMinRange(Number(e.target.value))}
+              onMouseUp={(e) => toParams(String(minRange), maxNumber)}
+              onTouchEnd={(e) => toParams(String(minRange), maxNumber)}
+            />
+            <input
+              type="range"
+              className="absolute w-full h-0 top-[-2px] pointer-events-none appearance-none"
+              min={0}
+              max={10}
+              step={0.1}
+              value={maxRange}
+              onChange={(e) => handleMaxRange(Number(e.target.value))}
+              onMouseUp={(e) => toParams(minNumber, String(maxRange))}
+              onTouchEnd={(e) => toParams(minNumber, String(maxRange))}
+            />
+          </div>
+        </div>
+      </>
+    );
   }
+  
+  function BtnSortBy() {
+    const { replace } = useRouter();
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
+    const params = new URLSearchParams(searchParams);
+  
+    function handleSelect(selected: string) {
+      params.set("sort", selected);
+      params.set("page", "1");
+      replace(`${pathname}?${params.toString()}`);
+    }
+    return (
+      <label
+        className="rounded-lg 
+      flex    justify-between items-center transition-all duration-300    
+      h-min  w-full "
+      >
+        <span className="filter-label">Ordenar por:</span>
+        <select
+          className="filter-BackBtn filter-TextBtn"
+          name="sortBy"
+          onChange={(e) => {
+            handleSelect(e.target.value);
+          }}
+          defaultValue={searchParams.get("sort")?.toString()}
+        >
+          <option value="popularity">Popularidade</option>
+          <option value="revenue">Custo</option>
+          <option value="release_date">Lançamento</option>
+          <option value="vote_average">Votos</option>
+        </select>
+      </label>
+    );
+  }
+
 
   return (
     <div
@@ -532,13 +534,13 @@ export default function FilterSideMenu({
             <BlockContainer>
               <div className=" w-full  flex gap-2  h-auto">
                 <BtnScroll />{" "}
-                {/* <button
+                <button
                   className="main-backBTn"
                   onClick={() => replace(`${pathname}`)}
                   
                 >
                   <span className="filter-TextBtn">Reset</span>
-                </button> */}
+                </button>
               </div>
             </BlockContainer>
           </div>

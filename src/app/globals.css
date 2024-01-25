@@ -209,7 +209,7 @@
     
     overflow-x-auto overflow-y-hidden  snap-mandatory snap-x scroll-smooth overscroll-x-contain;
   }
-  /* -------------------------- Btn e titles ----------------------------- */
+ 
   *,
   ::before,
   ::after {
@@ -225,9 +225,9 @@
     -moz-appearance: textfield;
   }
 
-  .title {
+  /* .title {
     @apply text-base uppercase font-semibold text-onSurface1;
-  }
+  } */
 
   .subTitle {
     @apply h-min p-0.5 text-onBackground1 text-lg font-semibold leading-4;
@@ -242,10 +242,10 @@
     @apply text-onSurface2 text-base font-normal leading-5  antialiased p-1;
   }
 
-  .btnStyle {
+  /* .btnStyle {
     @apply rounded-lg inline-flex  gap-2 items-center 
      transition-all duration-300     text-onSurface1 hover:text-mercury-950 title   mx-[-1rem] px-5  h-full;
-  }
+  } */
 
   .btn-link {
     @apply text-onBackground1  hover:text-black  
