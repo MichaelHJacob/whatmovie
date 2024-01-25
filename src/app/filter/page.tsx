@@ -50,7 +50,7 @@ async function getFilter(
           listGenres = listGenres + "%2C";
         }
       });
-  
+
       return listGenres;
     } else if (typeof searchParams?.g == "string") {
       return `&with_genres=${searchParams?.g}`;
@@ -122,20 +122,26 @@ export default async function CardsFilter({
   return (
     <>
       <BlockContainer>
-        <div className=" w-full  gridTemplateSpace ">
-          {data?.results.length > 0 ? data?.results.map((value) => (
-            <div
-              className="col-span-5 xs:col-span-5 md:col-span-3 lg:col-span-4 xl:col-span-3 2xl:col-span-4"
-              key={value.id}
-            >
-              <CardMovie data={value} />
+        <div className=" w-full  gridTemplateSpace  xl:grid-cols-12 2xl:grid-cols-[repeat(20,_minmax(0,_1fr))] xl:gap-[var(--gapMD)] 2xl:gap-[var(--gapLG)]">
+          {data?.results.length > 0 ? (
+            data?.results.map((value) => (
+              <div
+                className="col-span-5 xs:col-span-5 md:col-span-3  lg:col-span-4 xl:col-span-3 2xl:col-span-4"
+                key={value.id}
+              >
+                <CardMovie data={value} />
+              </div>
+            ))
+          ) : (
+            <div>
+              <SubTitle>
+                Considere um filtro mais amplo para exibir resultados
+              </SubTitle>
             </div>
-          )) : <div>
-          <SubTitle>Considere um filtro mais amplo para exibir resultados</SubTitle>
-          </div>}
+          )}
         </div>
       </BlockContainer>
-      
+
       <BlockContainer>
         <BtnPages totalPages={data.total_pages} />
       </BlockContainer>

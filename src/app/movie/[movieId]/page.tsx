@@ -16,8 +16,6 @@ import {
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { getPlaiceholder } from "plaiceholder";
-import { randomInt } from "crypto";
-import { type } from "os";
 import Videos from "./Videos";
 
 async function getBase64(src: string) {
