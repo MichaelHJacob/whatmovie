@@ -8,19 +8,31 @@ export interface MovieProviders {
   }[];
 }
 
-export interface VideosResultsType{
-    iso_639_1: string;
-    iso_3166_1: string;
-    name: string;
-    key: string;
-    site: string;
-    size: number;
-    type: string;
-    official: boolean;
-    published_at: string;
-    id: string;
-  };
+export interface TypeBtnProvider {
+  logo_path: string;
+  provider_name: string;
+  provider_id: number;
+  state: boolean;
+}
 
+export interface TypeBtnGenres {
+  id: number;
+  name: string;
+  state: boolean;
+}
+
+export interface VideosResultsType {
+  iso_639_1: string;
+  iso_3166_1: string;
+  name: string;
+  key: string;
+  site: string;
+  size: number;
+  type: string;
+  official: boolean;
+  published_at: string;
+  id: string;
+}
 
 export interface VideosType {
   id: number;
@@ -124,21 +136,22 @@ export interface CreditsType {
 }
 
 export interface CrewType {
-    adult: boolean;
-    gender: number;
-    id: number;
-    known_for_department: string;
-    name: string;
-    original_name: string;
-    popularity: number;
-    profile_path: string;
-    credit_id: string;
-    department: string;
-    job: string;
+  adult: boolean;
+  gender: number;
+  id: number;
+  known_for_department: string;
+  name: string;
+  original_name: string;
+  popularity: number;
+  profile_path: string;
+  credit_id: string;
+  department: string;
+  job: string;
 }
 
 export interface ListGenres {
-  genres:{ 
-    id : number;
-    name: string; }[]
+  genres: {
+    id: number;
+    name: string;
+  }[];
 }

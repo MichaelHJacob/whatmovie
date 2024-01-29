@@ -1,6 +1,6 @@
 export async function GET() {
   const res = await fetch(
-    `${process.env.DB_API_URL_F}genre/movie/list${process.env.DB_API_BR}&watch_region=BR`,
+    `${process.env.DB_API_URL_F}genre/movie/list${process.env.DB_API_BR}`,
     {
       headers: {
         accept: "application/json",

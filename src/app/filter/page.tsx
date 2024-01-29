@@ -1,10 +1,10 @@
 import { BlockContainer, CardMovie, SubTitle } from "@/components/comps";
-import { BtnPages } from "@/components/filters";
+import { BtnPages } from "@/components/filters estao preservado";
 import { DiscoverType, MovieProviders } from "@/components/utils/types";
 
 async function getAllMovieProviders() {
   const res = await fetch(
-    "https://api.themoviedb.org/3/watch/providers/movie?language=pt-BR&watch_region=BR",
+    `${process.env.DB_API_URL_F}watch/providers/movie${process.env.DB_API_BR}`,
     {
       method: "GET",
       headers: {
@@ -17,13 +17,13 @@ async function getAllMovieProviders() {
   if (!res.ok) {
     throw new Error("Falha ao buscar dados");
   }
+
   return res.json();
 }
 
-async function getFilter(
-  searchParams: { [key: string]: string },
-  selectedMp: string
-) {
+async function getFilter(searchParams: { [key: string]: string }) {
+  const dataMP: MovieProviders = await getAllMovieProviders();
+  
   const page: string =
     Number(searchParams?.page) > 1 && Number(searchParams?.page) <= 500
       ? searchParams?.page
@@ -67,13 +67,21 @@ async function getFilter(
         : date.getMonth() + 1
     }-${date.getDate()}`;
   };
+  
 
-  const dataMP: MovieProviders = await getAllMovieProviders();
-  let mp: string = "";
-  dataMP.results.forEach((value) => {
-    mp = String(value.provider_id) + "|" + mp;
-  });
-  let providers = `&watch_region=BR&with_watch_providers=${mp}`;
+  const providers = () => {
+    if (Array.isArray(searchParams.p)) {
+      return `&watch_region=BR&with_watch_providers=${searchParams.p.join(
+        "|"
+      )}`;
+    } else if (typeof searchParams.p == "string") {
+      return `&watch_region=BR&with_watch_providers=${searchParams.p}`;
+    } else {
+      return `&watch_region=BR&with_watch_providers=${dataMP.results
+        .map((value) => value.provider_id)
+        .join("|")}`;
+    }
+  };
 
   const sortBy = () => {
     switch (searchParams?.sort) {
@@ -94,7 +102,7 @@ async function getFilter(
 
   let url = `${process.env.DB_API_URL_F}discover/movie${
     process.env.DB_API_BR
-  }&include_adult=false&include_video=false&page=${page}${releaseData()}${providers}&sort_by=${sortBy()}${vote()}${genres()}`;
+  }&include_adult=false&include_video=false&page=${page}${releaseData()}${providers()}&sort_by=${sortBy()}${vote()}${genres()}`;
 
   const res = await fetch(url, {
     cache: "no-store",
@@ -116,8 +124,7 @@ export default async function CardsFilter({
 }: {
   searchParams: { [key: string]: string };
 }) {
-  let provider = "350";
-  const data: DiscoverType = await getFilter(searchParams, provider);
+  const data: DiscoverType = await getFilter(searchParams);
 
   return (
     <>

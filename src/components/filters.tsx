@@ -3,7 +3,13 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { BlockContainer, Container, SubTitle } from "./comps";
-import { ListGenres } from "./utils/types";
+import {
+  ListGenres,
+  MovieProviders,
+  TypeBtnGenres,
+  TypeBtnProvider,
+} from "./utils/types";
+import Image from "next/image";
 
 export function BtnPages({ totalPages }: { totalPages: number }) {
   const { replace } = useRouter();
@@ -36,8 +42,13 @@ export function BtnPages({ totalPages }: { totalPages: number }) {
     }
   }
 
-  if (totalPages == 1) return <SubTitle>Considere um filtro mais amplo para exibir mais resultados</SubTitle>
-  if (totalPages == 0) return ;
+  if (totalPages == 1)
+    return (
+      <SubTitle>
+        Considere um filtro mais amplo para exibir mais resultados
+      </SubTitle>
+    );
+  if (totalPages == 0) return;
 
   return (
     <div className=" w-full flex justify-end">
@@ -73,7 +84,73 @@ export function BtnPages({ totalPages }: { totalPages: number }) {
   );
 }
 
+function ClearSelected({ onClear }: { onClear: () => void }) {
+  return (
+    <button className="filter-BackBtn  " type="button" onClick={onClear}>
+      <span className="filter-TextBtn">Limpar</span>
+    </button>
+  );
+}
 
+function ProviderButton({
+  provider,
+  add,
+  remove,
+}: {
+  provider: TypeBtnProvider;
+  add: (picked: TypeBtnProvider) => void;
+  remove: (picked: TypeBtnProvider) => void;
+}) {
+  return (
+    <label className="box-content h-11 relative cursor-pointer ">
+      {/* <span>{provider.provider_name}</span> */}
+      <input
+        className="  bg-transparent  appearance-none absolute opacity-100 peer"
+        type="checkbox"
+        value={provider.provider_id}
+        checked={provider.state}
+        onChange={() => (provider.state ? remove(provider) : add(provider))}
+      />
+      <Image
+        className="rounded-lg opacity-40 grayscale-[95%] peer-checked:grayscale-0 peer-checked:opacity-100 transition-all duration-700 "
+        src={`https://image.tmdb.org/t/p/w342/${provider.logo_path}`}
+        width={44}
+        height={44}
+        alt={provider.provider_name}
+      />
+    </label>
+  );
+}
+
+function SelectProviders({
+  providers,
+  add,
+  remove,
+  clear,
+}: {
+  providers: TypeBtnProvider[];
+  add: (picked: TypeBtnProvider) => void;
+  remove: (picked: TypeBtnProvider) => void;
+  clear: (filter?: string) => void;
+}) {
+  return (
+    <>
+      <div className="flex justify-between items-center">
+        <span className="filter-label ">Onde assistir:</span>
+        <ClearSelected onClear={() => clear("p")} />
+      </div>
+    
+      <ul className="h-auto w-full bg-neutral-500/5 rounded-lg py-2 flex flex-wrap justify-center gap-2 select-none   ">
+        {providers.map((value) => (
+          <li key={value.provider_id}>
+            <ProviderButton provider={value} add={add} remove={remove} />
+          </li>
+        ))}
+      </ul>
+ 
+    </>
+  );
+}
 
 export default function FilterSideMenu({
   children,
@@ -88,25 +165,94 @@ export default function FilterSideMenu({
   const divFilters = useRef<HTMLDivElement>(null);
 
   const [handle, setHandle] = useState(false);
-  const [data, setData] = useState<ListGenres | null>(null);
-  const [isLoading, setLoading] = useState(true);
+  const [dataGenres, setGenres] = useState<ListGenres | null>(null);
+  const [isLoadingG, setLoadingG] = useState(true);
+  const [resetGenres, setRGenres] = useState<ListGenres | null>(null);
+
+  const [dataProviders, setProviders] = useState<TypeBtnProvider[] | null>(
+    null
+  );
+  const [usualP, setUsualP] = useState<TypeBtnProvider[]>([]);
+  const [resetProviders, setRProviders] = useState<
+    | {
+        logo_path: string;
+        provider_name: string;
+        provider_id: number;
+        state: false;
+      }[]
+    | null
+  >(null);
 
   useEffect(() => {
     fetch("/api/genres")
       .then((res) => res.json())
       .then((data) => {
-        setData(data);
-        setLoading(false);
+        setGenres(data);
+        setLoadingG(false);
+        setRGenres(data);
       });
+
+    fetch("api/providers")
+      .then((res) => res.json())
+      .then((data: MovieProviders) => {
+        const active = data.results.filter((value) =>
+          params.has("p", String(value.provider_id))
+        );
+
+        const disable = data.results.filter(
+          (value) => params.has("p", String(value.provider_id)) == false
+        );
+        setUsualP(
+          active.map((value) => {
+            return {
+              logo_path: value.logo_path,
+              provider_name: value.provider_name,
+              provider_id: value.provider_id,
+              state: true,
+            };
+          })
+        );
+
+        setProviders([
+          ...active.map((value) => {
+            return {
+              logo_path: value.logo_path,
+              provider_name: value.provider_name,
+              provider_id: value.provider_id,
+              state: true,
+            };
+          }),
+          ...disable.map((value) => {
+            return {
+              logo_path: value.logo_path,
+              provider_name: value.provider_name,
+              provider_id: value.provider_id,
+              state: false,
+            };
+          }),
+        ]);
+
+        setRProviders(
+          data.results.map((value) => {
+            return {
+              logo_path: value.logo_path,
+              provider_name: value.provider_name,
+              provider_id: value.provider_id,
+              state: false,
+            };
+          })
+        );
+      });
+
     const element = document.getElementById("Movies");
     if (element) element.scrollIntoView();
   }, []);
 
-  function SelectGenre() {
-    if (isLoading) return <p> Carregando ... </p>;
-    if (!data) return <p>Sem dados de perfil</p>;
+  function SelectGenre({clear}: { clear: (filter?: string) => void;}) {
+    if (isLoadingG) return <p> Carregando ... </p>;
+    if (!dataGenres) return <p>Sem dados de perfil</p>;
 
-    let list = data.genres;
+    let list = dataGenres.genres;
 
     function ToggleBtn({
       data,
@@ -176,16 +322,7 @@ export default function FilterSideMenu({
       <>
         <div className="flex justify-between items-center">
           <span className="filter-label ">Gênero:</span>
-          <button
-            className="filter-BackBtn  "
-            type="button"
-            onClick={() => {
-              params.delete("g");
-              replace(`${pathname}?${params.toString()}`);
-            }}
-          >
-            <span className="filter-TextBtn">Limpar</span>
-          </button>
+          <ClearSelected onClear={() => clear("g")} />
         </div>
 
         <ul className="h-auto  flex flex-wrap justify-start gap-2 select-none transition duration-150 ease-out hover:ease-in ">
@@ -245,7 +382,7 @@ export default function FilterSideMenu({
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const params = new URLSearchParams(searchParams);
-  
+
     const [minRange, setMinRange] = useState(
       Number(searchParams?.get("vote_gte")) || 0
     );
@@ -258,51 +395,51 @@ export default function FilterSideMenu({
     const [maxNumber, setMaxNumber] = useState(
       searchParams?.get("vote_lte") || "10"
     );
-  
+
     let leftSide = `${Math.floor((minRange / 10) * 100)}%`;
     let rightSide = `${Math.floor((1 - maxRange / 10) * 100)}%`;
     let timeIdMin = useRef<ReturnType<typeof setInterval> | null>(null);
     let timeIdMax = useRef<ReturnType<typeof setInterval> | null>(null);
-  
+
     function toParams(min: string, max: string) {
       params.set("vote_gte", `${min}`);
       params.set("vote_lte", `${max}`);
       replace(`${pathname}?${params.toString()}`);
     }
-  
+
     // function disable() {
     //   params.delete("vote_gte");
     //   params.delete("vote_lte");
-  
+
     //   replace(`${pathname}?${params.toString()}`);
     // }
-  
+
     function handleMinRange(valor: number) {
       if (valor < maxRange - 0.9) {
         setMinNumber(String(valor));
         setMinRange(valor);
       }
     }
-  
+
     function handleMaxRange(valor: number) {
       if (valor > minRange + 0.9) {
         setMaxNumber(String(valor));
         setMaxRange(valor);
       }
     }
-  
+
     function numberMin(e: ChangeEvent<HTMLInputElement>) {
       let valor = Number(e.target.value);
       if (timeIdMin.current) {
         clearTimeout(timeIdMin.current);
       }
-  
+
       setMinNumber(e.target.value);
       if (valor >= 0 && valor <= 9) {
         e.target.onclick = () => {
           setMinRange(valor);
         };
-  
+
         if (valor >= Number(maxNumber)) {
           e.target.onclick = () => {
             setMaxRange(valor + 1);
@@ -333,7 +470,7 @@ export default function FilterSideMenu({
         e.target.classList.remove("animate-wrong");
       }
     }
-  
+
     function numberMax(e: ChangeEvent<HTMLInputElement>) {
       let valor = Number(e.target.value);
       if (timeIdMax.current) {
@@ -344,12 +481,12 @@ export default function FilterSideMenu({
         e.target.onclick = () => {
           setMaxRange(valor);
         };
-  
+
         if (valor <= Number(minNumber)) {
           e.target.onclick = () => {
             setMinRange(valor - 1);
           };
-  
+
           if (timeIdMax.current) {
             clearTimeout(timeIdMax.current);
           }
@@ -375,7 +512,7 @@ export default function FilterSideMenu({
         e.target.classList.remove("animate-wrong");
       }
     }
-  
+
     return (
       <>
         <span className="filter-label ">Pontuação:</span>
@@ -398,7 +535,7 @@ export default function FilterSideMenu({
               max={10}
             />
           </label>
-  
+
           <label className="filter-BackBtn ">
             <span className="filter-labelBtn">Max</span>
             <input
@@ -428,7 +565,7 @@ export default function FilterSideMenu({
               }}
             ></div>
           </div>
-  
+
           <div className="relative">
             <input
               type="range"
@@ -457,13 +594,13 @@ export default function FilterSideMenu({
       </>
     );
   }
-  
+
   function BtnSortBy() {
     const { replace } = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const params = new URLSearchParams(searchParams);
-  
+
     function handleSelect(selected: string) {
       params.set("sort", selected);
       params.set("page", "1");
@@ -493,6 +630,98 @@ export default function FilterSideMenu({
     );
   }
 
+  function reset(filter?: string) {
+    switch (filter) {
+      case "p":
+        setProviders(JSON.parse(JSON.stringify(resetProviders)));
+        setUsualP([]);
+        break;
+      case "g":
+        setGenres(JSON.parse(JSON.stringify(resetGenres)));
+        break;
+      default:
+        setProviders(JSON.parse(JSON.stringify(resetProviders)));
+        setUsualP([]);
+        setGenres(JSON.parse(JSON.stringify(resetGenres)));
+        replace(`${pathname}`);
+        return;
+    }
+    params.delete(filter);
+    replace(`${pathname}?${params.toString()}`);
+  }
+
+  function BtnReset() {
+    if (dataProviders && dataGenres && resetProviders) {
+      return (
+        <button
+          className="main-backBTn"
+          onClick={() => {
+            reset();
+          }}
+        >
+          <span className="filter-TextBtn">Reset</span>
+        </button>
+      );
+    } else {
+      return (
+        <span className="main-backBTn filter-TextBtn transition animate-pulse">
+          aguarde
+        </span>
+      );
+    }
+  }
+
+  function addProvider(picked: TypeBtnProvider) {
+    if (dataProviders == null) return;
+    const copy = { ...picked };
+    copy.state = true;
+
+    setProviders([
+      { ...copy },
+      ...dataProviders?.filter(
+        (value) => value.provider_id !== picked.provider_id
+      ),
+    ]);
+
+    if (usualP.length > 0) {
+      setUsualP([
+        { ...copy },
+        ...usualP.filter((value) => value.provider_id !== copy.provider_id),
+      ]);
+    } else {
+      setUsualP([{ ...copy }]);
+    }
+
+    params.append("p", String(picked.provider_id));
+    params.set("page", "1");
+    replace(`${pathname}?${params.toString()}`, { scroll: false });
+  }
+
+  function removeProvider(picked: TypeBtnProvider) {
+    if (dataProviders == null) return;
+
+    const copy = { ...picked };
+    copy.state = false;
+
+    setProviders([
+      ...dataProviders?.filter(
+        (value) => value.provider_id !== picked.provider_id
+      ),
+      { ...copy },
+    ]);
+    if (usualP.length > 0) {
+      setUsualP([
+        ...usualP.filter((value) => value.provider_id !== copy.provider_id),
+        { ...copy },
+      ]);
+    } else {
+      setUsualP([{ ...copy }]);
+    }
+
+    params.delete("p", String(picked.provider_id));
+    params.set("page", "1");
+    replace(`${pathname}?${params.toString()}`, { scroll: false });
+  }
 
   return (
     <div
@@ -517,7 +746,16 @@ export default function FilterSideMenu({
             <Break />
             <RangeVote />
             <Break />
-            <SelectGenre />
+            <SelectGenre clear={reset} />
+            <Break />
+            {dataProviders && (
+              <SelectProviders
+                providers={dataProviders}
+                add={addProvider}
+                remove={removeProvider}
+                clear={reset}
+              />
+            )}
           </div>
         </BlockContainer>
       </div>
@@ -532,15 +770,22 @@ export default function FilterSideMenu({
           <div className="paddingHeader" />
           <div className="h-min sticky z-[100] top-14   w-full  snap-always snap-start   ">
             <BlockContainer>
-              <div className=" w-full  flex gap-2  h-auto">
-                <BtnScroll />{" "}
-                <button
-                  className="main-backBTn"
-                  onClick={() => replace(`${pathname}`)}
-                  
-                >
-                  <span className="filter-TextBtn">Reset</span>
-                </button>
+              <div className=" w-full  flex gap-2  h-auto overflow-x-scroll transition-all duration-1000">
+                <BtnScroll />
+                <BtnReset />
+                {usualP.length > 0 && (
+                  <ul className="h-11 w-auto  flex  justify-start gap-2 select-none   ">
+                    {usualP.map((value) => (
+                      <li key={value.provider_id} className="h-11  w-11">
+                        <ProviderButton
+                          provider={value}
+                          add={addProvider}
+                          remove={removeProvider}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             </BlockContainer>
           </div>
