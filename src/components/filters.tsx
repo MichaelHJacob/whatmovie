@@ -103,7 +103,7 @@ function ProviderButton({
 }) {
   return (
     <label className="box-content h-11 relative cursor-pointer ">
-      <span className="hidden">{provider.provider_name}</span>
+      <span>{provider.provider_name}</span>
       <input
         className="  bg-transparent  appearance-none absolute opacity-100 peer"
         type="checkbox"
@@ -111,13 +111,13 @@ function ProviderButton({
         checked={provider.state}
         onChange={() => (provider.state ? remove(provider) : add(provider))}
       />
-      <Image
+      {/* <Image
         className="rounded-lg opacity-40 grayscale-[95%] peer-checked:grayscale-0 peer-checked:opacity-100 transition-all duration-700 "
         src={`https://image.tmdb.org/t/p/w342/${provider.logo_path}`}
         width={44}
         height={44}
         alt={provider.provider_name}
-      />
+      /> */}
     </label>
   );
 }
