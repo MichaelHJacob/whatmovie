@@ -25,18 +25,23 @@ export default function HomeLayout({
   children: React.ReactNode;
 }) {
   return (
-    <FilterSideMenu>
-      {/* <Suspense
-        fallback={
-          <BlockContainer>
-            <div className=" w-full  gridTemplateSpace  ">
-              <LoadingCards />
-            </div>
-          </BlockContainer>
-        }
-      > */}
-        {children}
-      {/* </Suspense> */}
-    </FilterSideMenu>
+<>
+    {children}
+    </>
   );
 }
+
+
+    // <FilterSideMenu>
+    //   <Suspense
+    //     fallback={
+    //       <BlockContainer>
+    //         <div className=" w-full  gridTemplateSpace  ">
+    //           <LoadingCards />
+    //         </div>
+    //       </BlockContainer>
+    //     }
+    //   >
+    //     {children}
+    //   </Suspense>
+    // </FilterSideMenu>
