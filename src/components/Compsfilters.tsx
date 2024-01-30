@@ -1,7 +1,7 @@
 "use client";
 // import { extractImgSrc } from "@plaiceholder/tailwindcss/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ChangeEvent, Suspense, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { BlockContainer, Container, SubTitle } from "./comps";
 import {
   ListGenres,
@@ -725,7 +725,7 @@ export default function FilterSideMenu({
   }
 
   return (
-    <Suspense>
+  
     <div
       onScroll={handleOpen}
       className="overflow-x-auto  w-auto h-dvh  snap-x  z-10  snap-mandatory whitespace-nowrap  overscroll-x-contain xl:mx-auto xl:w-auto   no-scrollbar scrollStyle "
@@ -796,6 +796,6 @@ export default function FilterSideMenu({
         </Container>
       </div>
     </div>
-    </Suspense>
+   
   );
 }
