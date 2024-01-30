@@ -72,7 +72,7 @@ async function getRecommendations(movieID: string) {
     },
   };
   const res = await fetch(
-    process.env.DB_API_URL + movieID + "/recommendations?language=pt-BR&page=1",
+    process.env.DB_API_URL + movieID + "/recommendations?&page=1",
     options
   );
 
@@ -446,7 +446,7 @@ export default async function Movie({
         
          )} 
 
-      {DtRecommendations.results.length >= 1 && (
+      {DtRecommendations.results.length >= 1  && (
         <section className="bg-Surface  ">
           <BlockContainer>
             <SubTitle>Recomendações</SubTitle>
