@@ -103,7 +103,6 @@ function ProviderButton({
 }) {
   return (
     <label className="box-content h-11 relative cursor-pointer ">
-      {/* <span>{provider.provider_name}</span> */}
       <input
         className="  bg-transparent  appearance-none absolute opacity-100 peer"
         type="checkbox"
