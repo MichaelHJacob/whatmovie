@@ -125,7 +125,7 @@ export default async function CardsFilter({
   searchParams: { [key: string]: string };
 }) {
   const data: DiscoverType = await getFilter(searchParams);
-
+  
   return (
     <>
       <BlockContainer>
@@ -136,6 +136,7 @@ export default async function CardsFilter({
                 className="col-span-5 xs:col-span-5 md:col-span-3  lg:col-span-4 xl:col-span-3 2xl:col-span-4"
                 key={value.id}
               >
+                
                 <CardMovie data={value} />
               </div>
             ))
