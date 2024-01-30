@@ -18,19 +18,19 @@ import { redirect } from "next/navigation";
 import { getPlaiceholder } from "plaiceholder";
 import Videos from "./Videos";
 
-async function getBase64(src: string) {
-  const buffer = await fetch(src).then(async (res) =>
-    Buffer.from(await res.arrayBuffer())
-  );
+// async function getBase64(src: string) {
+//   const buffer = await fetch(src).then(async (res) =>
+//     Buffer.from(await res.arrayBuffer())
+//   );
 
-  const { base64 } = await getPlaiceholder(buffer);
+//   // const { base64 } = await getPlaiceholder(buffer);
 
-  if (!base64) {
-    throw new Error("Falha ao buscar imagem 64");
-  }
+//   // if (!base64) {
+//   //   throw new Error("Falha ao buscar imagem 64");
+//   // }
 
-  return base64;
-}
+//   // return base64;
+// }
 
 async function getDetails(id: string) {
   const options = {
@@ -144,7 +144,7 @@ export default async function Movie({
   const DtRecommendations = await getRecommendations(params.movieId);
   const Credits: CreditsType = await getCredits(params.movieId);
   const DtSimilar = await getSimilar(params.movieId);
-  const base64 = await getBase64(process.env.DB_IMG_URL_S + data.poster_path);
+  // const base64 = await getBase64(process.env.DB_IMG_URL_S + data.poster_path);
   const css = await getCssBlurIMG(process.env.DB_IMG_URL_S + data.poster_path);
   const videos: VideosType = await getVideos(params.movieId);
 
@@ -251,11 +251,11 @@ export default async function Movie({
             <div className="relative  md:col-span-4 lg:col-span-5 overflow-visible">
               <Image
                 src={process.env.DB_IMG_URL_L + data.poster_path}
-                blurDataURL={base64}
+                // blurDataURL={base64}
                 alt={data.original_title}
                 width={780}
                 height={1170}
-                placeholder="blur"
+                // placeholder="blur"
                 sizes="80vh"
                 className="rounded-lg  shadow-2xl shadow-gray-700/100 "
                 priority={true}
