@@ -2,8 +2,7 @@ import Link from "next/link";
 import { CreditsType, MovieType } from "./utils/types";
 import { FaFilter } from "react-icons/fa6";
 import { ButtonHTMLAttributes, Children, ClassAttributes, JSX, ReactNode } from "react";
-import Image from "next/image";
-//
+// import Image from "next/image";
 export function Header() {
   return (
     <header className=" w-full max-w-screen-2xl  top-0 fixed left-1/2 translate-x-[-50%] z-50 ">
@@ -62,7 +61,7 @@ export function ListPeople({ data }: { data: CreditsType }) {
             key={index}
             className="col-span-3 xs:col-span-3 md:col-span-2 lg:col-span-3  snap-start h-min "
           >
-            <Image
+            <img
               src={`https://image.tmdb.org/t/p/w500${value.profile_path}`}
               alt={value.name}
               height={200}
@@ -83,7 +82,7 @@ export function ListPeople({ data }: { data: CreditsType }) {
             key={index}
             className="col-span-3 xs:col-span-3 md:col-span-2 lg:col-span-3 snap-start h-min"
           >
-            <Image
+            <img
               src={`https://image.tmdb.org/t/p/w500${value.profile_path}`}
               alt={value.name}
               height={200}
