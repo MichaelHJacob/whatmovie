@@ -134,7 +134,7 @@ export function SubTitle2({ children }: { children: ReactNode }) {
 export async function CardMovie({ data }: { data: MovieType }) {
   return (
     <Link href={`/movie/${data.id}`} className=" w-full   ">
-      <Image
+      <img
         src={process.env.DB_IMG_URL_M + data.poster_path}
         alt={data.title}
         height={330}
