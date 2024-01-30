@@ -1,7 +1,7 @@
 "use client";
 // import { extractImgSrc } from "@plaiceholder/tailwindcss/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, Suspense, useEffect, useRef, useState } from "react";
 import { BlockContainer, Container, SubTitle } from "./comps";
 import {
   ListGenres,
@@ -151,15 +151,25 @@ function SelectProviders({
   );
 }
 
+function SearchUrl(){
+  const searchParams = useSearchParams()
+  const pathname = usePathname();
+  const params = new URLSearchParams(searchParams);
+  return {searchParams}
+}
+
 export default function FilterSideMenu({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const { replace } = useRouter();
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const params = new URLSearchParams(searchParams);
+  <Suspense>
+    SearchUrl()
+ </Suspense>
+   const searchParams = useSearchParams()
+   const pathname = usePathname();
+   const params = new URLSearchParams(searchParams);
   let timeId = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
   const divFilters = useRef<HTMLDivElement>(null);
 
