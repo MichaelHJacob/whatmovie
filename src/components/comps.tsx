@@ -132,10 +132,10 @@ export function SubTitle2({ children }: { children: ReactNode }) {
 }
 
 export async function CardMovie({ data }: { data: MovieType }) {
-  return (<>
+  return (
     <Link href={`/movie/${data.id}`} className=" w-full   ">
       <Image
-        src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
+        src={process.env.DB_IMG_URL_M + data.poster_path}
         alt={data.title}
         height={330}
         width={220}
@@ -143,7 +143,6 @@ export async function CardMovie({ data }: { data: MovieType }) {
         className="rounded-lg w-full   shadow-xl shadow-black/30"
       />
     </Link>
-    </>
   );
 }
 
