@@ -61,7 +61,7 @@ async function getCssBlurIMG(src: string) {
     throw new Error("Falha ao buscar imagem 64");
   }
 
-  return css;
+  return css
 }
 
 async function getRecommendations(movieID: string) {
@@ -145,7 +145,15 @@ export default async function Movie({
   const Credits: CreditsType = await getCredits(params.movieId);
   const DtSimilar = await getSimilar(params.movieId);
   // const base64 = await getBase64(process.env.DB_IMG_URL_S + data.poster_path);
-  const css = await getCssBlurIMG(process.env.DB_IMG_URL_S + data.poster_path);
+  if (typeof data.poster_path == 'string') {
+    var css = await getCssBlurIMG(process.env.DB_IMG_URL_S + data.poster_path);
+  } else {
+    var css = {backgroundImage: "linear-gradient(to top right, #075985, #3e131ca8)",
+    backgroundPosition: 'center',
+    backgroundSize: '100%, 100%',
+    backgroundRepeat: 'no-repeat',}
+  }
+  
   const videos: VideosType = await getVideos(params.movieId);
 
   if (!data || !params.movieId) {
@@ -235,31 +243,44 @@ export default async function Movie({
 
   return (
     <Container>
-      
       <div className="h-min w-full relative paddingHeader z-30">
         <div className="w-screen left-[50%] translate-x-[-50%]  h-full absolute top-0  z-[-1] overflow-hidden">
+        {/* {typeof data.poster_path ==  'string' ? */}
           <div
             className="  w-full h-full bg-no-repeat  opacity-50   blur-3xl transform scale-125 "
-            style={css}
-          />
+            style={css} 
+          /> 
+          {/* : <div
+          className="  w-full h-full bg-no-repeat  opacity-50   blur-3xl transform scale-125 "
+          
+        /> } */}
         </div>
         <BlockContainer>
-          
           <div className="md:gridTemplateSpace  ">
             {/* mt-[calc(var(--p)*-1)] 
                  max-xs:mt-[calc(var(--pXS)*-1)] */}
             <div className="relative  md:col-span-4 lg:col-span-5 overflow-visible">
-              <img
-                src={process.env.DB_IMG_URL_L + data.poster_path}
-                // blurDataURL={base64}
-                alt={data.original_title}
-                width={780}
-                height={1170}
-                // placeholder="blur"
-                sizes="80vh"
-                className="rounded-lg  shadow-2xl shadow-gray-700/100 "
-                
-              />
+              {typeof data.poster_path ==  'string' ? (
+                <img
+                  src={process.env.DB_IMG_URL_L + data.poster_path}
+                  // blurDataURL={base64}
+                  alt={data.original_title}
+                  width={780}
+                  height={1170}
+                  // placeholder="blur"
+                  sizes="80vh"
+                  className="rounded-lg  shadow-2xl shadow-gray-700/100 "
+                />
+              ) : (
+                <div className="rounded-lg flex flex-col justify-between items-center pb-10 pt-5  w-full h-full overflow-hidden bg-gradient-to-b from-solid-pink-950/5 to-neutral-500/15  break-words  shadow-xl shadow-black/30">
+                  <p className="filter-TextBtn text-solid-pink-950/30  text-wrap place-items-center w-min text-center ">
+                    imagem indisponível
+                  </p>
+                  <p className="filter-TextBtn  font-extrabold text-2xl  text-wrap place-items-center  ">
+                    {data.title}{" "}
+                  </p>
+                </div>
+              )}
             </div>
             <dl className="relative z-40 md:col-span-8 lg:col-[span_15_/_span_15] max-md:bg-gray-950/50 max-md:backdrop-blur-3xl rounded-lg px-4 pb-4 ">
               <h2
@@ -312,11 +333,10 @@ export default async function Movie({
           </div>
         </BlockContainer>
       </div>
-      <div className="    bg-Background/70 fixed top-0  left-0 h-11  w-full    z-20 "   />
+      <div className="    bg-Background/70 fixed top-0  left-0 h-11  w-full    z-20 " />
       {/* <div className="bg-gradient-to-b from-Background  via-Background/20 bg-transparent  sticky top-0  left-0 h-[5.5rem] backdrop-blur-[1px] w-full    z-10 " /> */}
-     
+
       <BlockContainer>
-     
         <SubTitle>Mais detalhes</SubTitle>
 
         <div className="ListSpacing">
@@ -434,19 +454,19 @@ export default async function Movie({
 
       {videos.results.length > 0 && <Videos videosArray={videos.results} />}
 
-      
-        {((Credits.cast.length >= 1 || Credits.crew.length >= 1) || (Credits.cast.length >= 1 && Credits.crew.length >= 1)) && (
-          <>
+      {(Credits.cast.length >= 1 ||
+        Credits.crew.length >= 1 ||
+        (Credits.cast.length >= 1 && Credits.crew.length >= 1)) && (
+        <>
           <Break />
           <BlockContainer>
             <SubTitle>Elenco e equipe</SubTitle>
             <ListPeople data={Credits} />
           </BlockContainer>
-          </>
-        
-         )} 
+        </>
+      )}
 
-      {DtRecommendations.results.length >=1 && (
+      {DtRecommendations.results.length >= 1 && (
         <section className="bg-Surface  ">
           <BlockContainer>
             <SubTitle>Recomendações</SubTitle>

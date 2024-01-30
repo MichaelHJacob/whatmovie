@@ -1,14 +1,18 @@
 import Link from "next/link";
 import { CreditsType, MovieType } from "./utils/types";
 import { FaFilter } from "react-icons/fa6";
-import { ButtonHTMLAttributes, Children, ClassAttributes, JSX, ReactNode } from "react";
+import {
+  ButtonHTMLAttributes,
+  Children,
+  ClassAttributes,
+  JSX,
+  ReactNode,
+} from "react";
 // import Image from "next/image";
 export function Header() {
   return (
     <header className=" w-full max-w-screen-2xl  top-0 fixed left-1/2 translate-x-[-50%] z-50 ">
-     
-      <div
-        className="w-full h-11  bg-Background/10 backdrop-saturate-150   backdrop-blur-xl px-[var(--p)] xs:px-[var(--pXS)] lg:px-[var(--pLG)] max-w-7xl mx-auto  flex justify-between items-center xl:rounded-lg  ">
+      <div className="w-full h-11  bg-Background/10 backdrop-saturate-150   backdrop-blur-xl px-[var(--p)] xs:px-[var(--pXS)] lg:px-[var(--pLG)] max-w-7xl mx-auto  flex justify-between items-center xl:rounded-lg  ">
         <Link href="/" className="btn-link text-xl  font-bold   ">
           <h1>What Movie </h1>
         </Link>
@@ -22,12 +26,6 @@ export function Header() {
     </header>
   );
 }
-
-
-
-
-
-
 
 export function Container({ children }: { children: ReactNode }) {
   return <div className="max-w-7xl w-full h-auto mx-auto   ">{children}</div>;
@@ -61,14 +59,26 @@ export function ListPeople({ data }: { data: CreditsType }) {
             key={index}
             className="col-span-3 xs:col-span-3 md:col-span-2 lg:col-span-3  snap-start h-min "
           >
-            <img
-              src={`https://image.tmdb.org/t/p/w500${value.profile_path}`}
-              alt={value.name}
-              height={200}
-              width={200}
-              sizes="150px"
-              className="rounded-full w-full  aspect-square  object-cover"
-            />
+            {typeof value.profile_path == "string" ? (
+              <img
+                src={`https://image.tmdb.org/t/p/w500${value.profile_path}`}
+                alt={value.name}
+                height={200}
+                width={200}
+                sizes="150px"
+                className="rounded-full w-full  aspect-square  object-cover"
+              />
+            ) : (
+              <div className="rounded-full flex flex-col justify-between items-center pb-10 pt-5  w-full h-full overflow-hidden bg-gradient-to-b from-solid-pink-950/5 to-neutral-500/15 aspect-square  object-cover  break-words ">
+                <p className="filter-TextBtn text-solid-pink-950/30  text-wrap  w-min text-center ">
+                  imagem indisponível
+                </p>
+                <p className="filter-TextBtn  font-extrabold text-2xl  text-wrap  line-clamp-1  ">
+                  {value.name}
+                </p>
+              </div>
+            )}
+
             <div className="w-full mt-2 text-center h-fit ">
               <p className="label line-clamp-2">{value.name}</p>
               <p className="data line-clamp-2">{value.character}</p>
@@ -82,14 +92,23 @@ export function ListPeople({ data }: { data: CreditsType }) {
             key={index}
             className="col-span-3 xs:col-span-3 md:col-span-2 lg:col-span-3 snap-start h-min"
           >
-            <img
+           { typeof value.profile_path == "string" ? <img
               src={`https://image.tmdb.org/t/p/w500${value.profile_path}`}
               alt={value.name}
               height={200}
               width={200}
               sizes="150px"
               className="rounded-full w-full  aspect-square  object-cover"
-            />
+            /> :  (
+              <div className="rounded-full flex flex-col justify-between items-center pb-10 pt-5  w-full h-full overflow-hidden bg-gradient-to-b from-solid-pink-950/5 to-neutral-500/15 aspect-square  object-cover  break-words ">
+              <p className="filter-TextBtn text-solid-pink-950/30  text-wrap  w-min text-center ">
+                imagem indisponível
+              </p>
+              <p className="filter-TextBtn  font-extrabold text-2xl  text-wrap  line-clamp-1  ">
+                {value.name}
+              </p>
+            </div>
+            )}
             <div className="w-full mt-2 text-center h-fit">
               <p className="label line-clamp-2">{value.name}</p>
               <p className="data line-clamp-2 ">{value.job}</p>
@@ -131,23 +150,39 @@ export function SubTitle2({ children }: { children: ReactNode }) {
 }
 
 export async function CardMovie({ data }: { data: MovieType }) {
-  return (
-    <Link href={`/movie/${data.id}`} className=" w-full   ">
-      <img
-        src={process.env.DB_IMG_URL_M + data.poster_path}
-        alt={data.title}
-        height={330}
-        width={220}
-        sizes="150px"
-        className="rounded-lg w-full   shadow-xl shadow-black/30"
-      />
-    </Link>
-  );
+  if (typeof data.poster_path == "string") {
+    return (
+      <Link href={`/movie/${data.id}`} className=" w-full   ">
+        <img
+          src={process.env.DB_IMG_URL_M + data.poster_path}
+          alt={data.title}
+          height={330}
+          width={220}
+          sizes="150px"
+          className="rounded-lg w-full   shadow-xl shadow-black/30"
+        />
+      </Link>
+    );
+  } else {
+    console.log(data.poster_path);
+    console.log(data.title);
+    return (
+      <Link href={`/movie/${data.id}`} className=" w-full   ">
+        <div className="rounded-lg flex flex-col justify-between items-center pb-10 pt-5  w-full h-full overflow-hidden bg-gradient-to-b from-solid-pink-950/5 to-neutral-500/15  break-words  shadow-xl shadow-black/30">
+          <p className="filter-TextBtn text-solid-pink-950/30  text-wrap place-items-center w-min text-center ">
+            imagem indisponível
+          </p>
+          <p className="filter-TextBtn  font-extrabold text-2xl  text-wrap place-items-center  ">
+            {data.title}{" "}
+          </p>
+        </div>
+      </Link>
+    );
+  }
 }
 
 export function Break() {
   return (
-    <hr className="border-2 border-solid border-Surface mx-[var(--p)] xs:mx-[var(--pXS)] lg:mx-[var(--pLG)] rounded-lg "/>
-  )
+    <hr className="border-2 border-solid border-Surface mx-[var(--p)] xs:mx-[var(--pXS)] lg:mx-[var(--pLG)] rounded-lg " />
+  );
 }
-
