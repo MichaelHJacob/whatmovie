@@ -9,7 +9,7 @@ import {
   TypeBtnGenres,
   TypeBtnProvider,
 } from "./utils/types";
-import Image from "next/image";
+
 
 export function BtnPages({ totalPages }: { totalPages: number }) {
   const { replace } = useRouter();
@@ -111,7 +111,7 @@ function ProviderButton({
         checked={provider.state}
         onChange={() => (provider.state ? remove(provider) : add(provider))}
       />
-      <Image
+      <img
         className="rounded-lg opacity-40 grayscale-[95%] peer-checked:grayscale-0 peer-checked:opacity-100 transition-all duration-700 "
         src={`https://image.tmdb.org/t/p/w342/${provider.logo_path}`}
         width={44}

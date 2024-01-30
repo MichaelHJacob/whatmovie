@@ -13,7 +13,7 @@ import {
   ListPeople,
   SubTitle,
 } from "@/components/comps";
-import Image from "next/image";
+// import Image from "next/image";
 import { redirect } from "next/navigation";
 import { getPlaiceholder } from "plaiceholder";
 import Videos from "./Videos";
@@ -249,7 +249,7 @@ export default async function Movie({
             {/* mt-[calc(var(--p)*-1)] 
                  max-xs:mt-[calc(var(--pXS)*-1)] */}
             <div className="relative  md:col-span-4 lg:col-span-5 overflow-visible">
-              <Image
+              <img
                 src={process.env.DB_IMG_URL_L + data.poster_path}
                 // blurDataURL={base64}
                 alt={data.original_title}
@@ -258,7 +258,7 @@ export default async function Movie({
                 // placeholder="blur"
                 sizes="80vh"
                 className="rounded-lg  shadow-2xl shadow-gray-700/100 "
-                priority={true}
+                
               />
             </div>
             <dl className="relative z-40 md:col-span-8 lg:col-[span_15_/_span_15] max-md:bg-gray-950/50 max-md:backdrop-blur-3xl rounded-lg px-4 pb-4 ">
