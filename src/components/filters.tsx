@@ -103,7 +103,7 @@ function ProviderButton({
 }) {
   return (
     <label className="box-content h-11 relative cursor-pointer ">
-      {/* <span>{provider.provider_name}</span> */}
+      <span className="hidden">{provider.provider_name}</span>
       <input
         className="  bg-transparent  appearance-none absolute opacity-100 peer"
         type="checkbox"
@@ -137,6 +137,7 @@ function SelectProviders({
     <>
       <div className="flex justify-between items-center">
         <span className="filter-label ">Onde assistir:</span>
+        <span className="filter-label ">{providers.length}</span>
         <ClearSelected onClear={() => clear("p")} />
       </div>
     
@@ -195,6 +196,7 @@ export default function FilterSideMenu({
     fetch("api/providers")
       .then((res) => res.json())
       .then((data: MovieProviders) => {
+    
         const active = data.results.filter((value) =>
           params.has("p", String(value.provider_id))
         );
@@ -202,6 +204,7 @@ export default function FilterSideMenu({
         const disable = data.results.filter(
           (value) => params.has("p", String(value.provider_id)) == false
         );
+        
         setUsualP(
           active.map((value) => {
             return {

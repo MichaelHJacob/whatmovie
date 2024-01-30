@@ -23,7 +23,7 @@ async function getAllMovieProviders() {
 
 async function getFilter(searchParams: { [key: string]: string }) {
   const dataMP: MovieProviders = await getAllMovieProviders();
-  
+
   const page: string =
     Number(searchParams?.page) > 1 && Number(searchParams?.page) <= 500
       ? searchParams?.page
