@@ -103,7 +103,7 @@ function ProviderButton({
 }) {
   return (
     <label className="box-content h-11 relative cursor-pointer ">
-      <span>{provider.provider_name}</span>
+      {/* <span>{provider.provider_name}</span> */}
       <input
         className="  bg-transparent  appearance-none absolute opacity-100 peer"
         type="checkbox"
@@ -111,13 +111,13 @@ function ProviderButton({
         checked={provider.state}
         onChange={() => (provider.state ? remove(provider) : add(provider))}
       />
-      {/* <Image
+      <Image
         className="rounded-lg opacity-40 grayscale-[95%] peer-checked:grayscale-0 peer-checked:opacity-100 transition-all duration-700 "
         src={`https://image.tmdb.org/t/p/w342/${provider.logo_path}`}
         width={44}
         height={44}
         alt={provider.provider_name}
-      /> */}
+      />
     </label>
   );
 }
@@ -137,7 +137,6 @@ function SelectProviders({
     <>
       <div className="flex justify-between items-center">
         <span className="filter-label ">Onde assistir:</span>
-        <span className="filter-label ">{providers.length}</span>
         <ClearSelected onClear={() => clear("p")} />
       </div>
     
@@ -148,7 +147,7 @@ function SelectProviders({
           </li>
         ))}
       </ul>
- 
+
     </>
   );
 }
@@ -196,7 +195,6 @@ export default function FilterSideMenu({
     fetch("api/providers")
       .then((res) => res.json())
       .then((data: MovieProviders) => {
-    
         const active = data.results.filter((value) =>
           params.has("p", String(value.provider_id))
         );
@@ -204,7 +202,6 @@ export default function FilterSideMenu({
         const disable = data.results.filter(
           (value) => params.has("p", String(value.provider_id)) == false
         );
-        
         setUsualP(
           active.map((value) => {
             return {
