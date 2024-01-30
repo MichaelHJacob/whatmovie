@@ -151,12 +151,7 @@ function SelectProviders({
   );
 }
 
-function SearchUrl(){
-  const searchParams = useSearchParams()
-  const pathname = usePathname();
-  const params = new URLSearchParams(searchParams);
-  return {searchParams}
-}
+
 
 export default function FilterSideMenu({
   children,
@@ -164,10 +159,7 @@ export default function FilterSideMenu({
   children: React.ReactNode;
 }) {
   const { replace } = useRouter();
-  <Suspense>
-    SearchUrl()
- </Suspense>
-   const searchParams = useSearchParams()
+  const searchParams = useSearchParams()
    const pathname = usePathname();
    const params = new URLSearchParams(searchParams);
   let timeId = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
@@ -733,6 +725,7 @@ export default function FilterSideMenu({
   }
 
   return (
+    <Suspense>
     <div
       onScroll={handleOpen}
       className="overflow-x-auto  w-auto h-dvh  snap-x  z-10  snap-mandatory whitespace-nowrap  overscroll-x-contain xl:mx-auto xl:w-auto   no-scrollbar scrollStyle "
@@ -803,5 +796,6 @@ export default function FilterSideMenu({
         </Container>
       </div>
     </div>
+    </Suspense>
   );
 }
