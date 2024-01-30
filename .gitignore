@@ -36,3 +36,4 @@ next-env.d.ts
 src/components/filtersEstado.tsx
 src/components/filters estao preservado.tsx
 src/components/filters manipulando array.tsx
+src/components/Provider.tsx

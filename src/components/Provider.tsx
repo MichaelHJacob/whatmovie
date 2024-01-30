@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { MovieProviders } from "./utils/types";
 
 async function getAllMovieProviders() {
