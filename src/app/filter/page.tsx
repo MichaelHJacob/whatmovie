@@ -1,5 +1,5 @@
 import { BlockContainer, CardMovie, SubTitle } from "@/components/comps";
-import { BtnPages } from "@/components/filters";
+import { BtnPages } from "@/components/Compsfilters";
 import { DiscoverType, MovieProviders } from "@/components/utils/types";
 
 async function getAllMovieProviders() {

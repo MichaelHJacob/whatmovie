@@ -1,5 +1,5 @@
 import { BlockContainer } from "@/components/comps";
-import FilterSideMenu from "@/components/filters";
+import FilterSideMenu from "@/components/Compsfilters";
 import { Suspense } from "react";
 
 function LoadingCards() {
@@ -25,19 +25,21 @@ export default function HomeLayout({
   children: React.ReactNode;
 }) {
   return (
+    <Suspense
+    fallback={
+      <BlockContainer>
+        <div className=" w-full  gridTemplateSpace  ">
+          <LoadingCards />
+        </div>
+      </BlockContainer>
+    }
+  >
         <FilterSideMenu>
-      <Suspense
-        fallback={
-          <BlockContainer>
-            <div className=" w-full  gridTemplateSpace  ">
-              <LoadingCards />
-            </div>
-          </BlockContainer>
-        }
-      >
+   
         {children}
-      </Suspense>
+     
     </FilterSideMenu>
+    </Suspense>
   );
 }
 
