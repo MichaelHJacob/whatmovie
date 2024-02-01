@@ -2,22 +2,18 @@ import Link from "next/link";
 import { CreditsType, MovieType } from "./utils/types";
 import { FaFilter } from "react-icons/fa6";
 import {
-  ButtonHTMLAttributes,
-  Children,
-  ClassAttributes,
-  JSX,
   ReactNode,
 } from "react";
-// import Image from "next/image";
+
 export function Header() {
   return (
     <header className=" w-full max-w-screen-2xl  top-0 fixed left-1/2 translate-x-[-50%] z-50 ">
       <div className="w-full h-11  bg-Background/10 backdrop-saturate-150   backdrop-blur-xl px-[var(--p)] xs:px-[var(--pXS)] lg:px-[var(--pLG)] max-w-7xl mx-auto  flex justify-between items-center xl:rounded-lg  ">
         <Link href="/" className="btn-link text-xl  font-bold   ">
-          <h1>What Movie </h1>
+          <h1>What Movie</h1>
         </Link>
         <div className="flex gap-[--gap] xs:gap-[--gapXS] md:gap-[--gapMD] lg:gap-[--gapLG] h-full w-min justify-between ">
-          <Link href={`/filter#Movies`} className="btn-link font-semibold  ">
+          <Link href={`/filter`} className="btn-link font-semibold  ">
             {/* <FaFilter /> */}
             <h2>Filtro</h2>
           </Link>

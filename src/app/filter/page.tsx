@@ -59,15 +59,15 @@ async function getFilter(searchParams: { [key: string]: string }) {
     }
   };
 
-  const releaseData = () => {
+  const releaseDate = () => {
     let date: Date = new Date();
-    return `&primary_release_date.lte=${date.getFullYear()}-${
+    return (`&primary_release_date.lte=${date.getFullYear()}-${
       date.getMonth() < 9
-        ? "0" + String(date.getMonth() + 1)
-        : date.getMonth() + 1
-    }-${date.getDate()}`;
-  };
-  
+        ? `0${date.getMonth() + 1}`
+        : date.getMonth() + 1}-${date.getDate() <= 9 ?  `0${date.getDate()}` : date.getDate()}`)
+      
+}
+
 
   const providers = () => {
     if (Array.isArray(searchParams.p)) {
@@ -102,7 +102,7 @@ async function getFilter(searchParams: { [key: string]: string }) {
 
   let url = `${process.env.DB_API_URL_F}discover/movie${
     process.env.DB_API_BR
-  }&include_adult=false&include_video=false&page=${page}${releaseData()}${providers()}&sort_by=${sortBy()}${vote()}${genres()}`;
+  }&include_adult=false&include_video=false&page=${page}${releaseDate()}${providers()}&sort_by=${sortBy()}${vote()}${genres()}`;
 
   const res = await fetch(url, {
     cache: "no-store",
@@ -119,13 +119,13 @@ async function getFilter(searchParams: { [key: string]: string }) {
   return res.json();
 }
 
-export default async function CardsFilter({
+export default async function Page({
   searchParams,
 }: {
   searchParams: { [key: string]: string };
 }) {
   const data: DiscoverType = await getFilter(searchParams);
-  
+
   return (
     <>
       <BlockContainer>

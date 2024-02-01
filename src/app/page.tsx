@@ -7,7 +7,6 @@ import {
   BlockContainer,
 } from "@/components/comps";
 
-
 async function getTheatres() {
   const options = {
     headers: {
@@ -53,9 +52,7 @@ export default async function Home() {
     <Container>
       <div className="min-h-dvh w-full flex flex-col justify-between ">
         <div className="w-min  flex-1 mx-auto flex align-middle paddingHeader ">
-          <h1 className="text-5xl text-center rounded-lg w-min my-auto mx-auto   text-onBackground1   ">
-            WM 
-          </h1>
+          <h1 className="text-5xl text-center rounded-lg w-min my-auto mx-auto   text-onBackground1">WM</h1>
         </div>
 
         <BlockContainer>
