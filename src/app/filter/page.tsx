@@ -4,8 +4,7 @@ import { DiscoverType, MovieProviders } from "@/components/utils/types";
 
 async function getAllMovieProviders() {
   const res = await fetch(
-    `${process.env.DB_API_URL_F}watch/providers/movie${process.env.DB_API_BR}`,
-    {
+    `${process.env.DB_API_URL_F}watch/providers/movie?language=pt-BR&watch_region=BR`,{
       method: "GET",
       headers: {
         accept: "application/json",
@@ -71,13 +70,13 @@ async function getFilter(searchParams: { [key: string]: string }) {
 
   const providers = () => {
     if (Array.isArray(searchParams.p)) {
-      return `&watch_region=BR&with_watch_providers=${searchParams.p.join(
+      return `&with_watch_providers=${searchParams.p.join(
         "|"
       )}`;
     } else if (typeof searchParams.p == "string") {
-      return `&watch_region=BR&with_watch_providers=${searchParams.p}`;
+      return `&with_watch_providers=${searchParams.p}`;
     } else {
-      return `&watch_region=BR&with_watch_providers=${dataMP.results
+      return `&with_watch_providers=${dataMP.results
         .map((value) => value.provider_id)
         .join("|")}`;
     }
@@ -100,9 +99,8 @@ async function getFilter(searchParams: { [key: string]: string }) {
     }
   };
 
-  let url = `${process.env.DB_API_URL_F}discover/movie${
-    process.env.DB_API_BR
-  }&include_adult=false&include_video=false&page=${page}${releaseDate()}${providers()}&sort_by=${sortBy()}${vote()}${genres()}`;
+  let url = `${process.env.DB_API_URL_F}discover/movie?language=pt-BR&watch_region=BR&include_adult=false&include_video=false&page=${page}${releaseDate()}${providers()}&sort_by=${sortBy()}${vote()}${genres()}`;
+
 
   const res = await fetch(url, {
     cache: "no-store",
