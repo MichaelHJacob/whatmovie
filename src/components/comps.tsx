@@ -2,7 +2,7 @@ import Link from "next/link";
 import { CreditsType, MovieType } from "./utils/types";
 import { FaFilter } from "react-icons/fa6";
 import { ReactNode } from "react";
-import Search from "./compsSearch/search";
+
 
 export function Header() {
   return (
