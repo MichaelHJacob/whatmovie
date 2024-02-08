@@ -14,16 +14,15 @@ export function Header() {
         >
           <h1>What Movie</h1>
         </Link>
-        <div className="flex gap-[--gap] xs:gap-[--gapXS] md:gap-[--gapMD] lg:gap-[--gapLG] h-full has-[:focus]:max-sm:w-full max-sm:w-full transition-all duration-700">
 
           <Link
             href={`/filter`}
             className="main-backBtn bg-transparent main-TextBtn  order-3 max-sm:peer-focus:hidden backdrop-filter-none "
           >
-            {/* <FaFilter /> */}
+            
             <h2>Filtro</h2>
           </Link>
-        </div>
+        
       </div>
     </header>
   );
