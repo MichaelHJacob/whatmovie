@@ -70,13 +70,13 @@ export function BtnPages({ totalPages }: { totalPages: number }) {
         </div>
         <button
           onClick={back}
-          className="mr-[calc(var(--gap)_*_-1)] xs:mr-[calc(var(--gapXS)_*_-1)] md:mr-[calc(var(--gapMD)_*_-1)] lg:mr-[calc(var(--gapLG)_*_-1)]  main-backBTn rounded-r-none"
+          className="mr-[calc(var(--gap)_*_-1)] xs:mr-[calc(var(--gapXS)_*_-1)] md:mr-[calc(var(--gapMD)_*_-1)] lg:mr-[calc(var(--gapLG)_*_-1)]  main-backBtn rounded-r-none"
         >
           {" "}
           {"<"}
         </button>
 
-        <button onClick={next} className="main-backBTn rounded-l-none">
+        <button onClick={next} className="main-backBtn rounded-l-none">
           {">"}
         </button>
       </div>
@@ -294,7 +294,7 @@ export default function FilterSideMenu({
         <label
           key={data.id}
           className={`filter-BackBtn transition-all duration-300 ${
-            isChecked ? "bg-sky-800/10" : "bg-neutral-500/5 "
+            isChecked ? "bg-theme/10" : "bg-neutral-500/5 "
           } `}
         >
           <span
@@ -350,9 +350,9 @@ export default function FilterSideMenu({
       <button
         onClick={open}
         className="
-      main-backBTn   xl:hidden  "
+      main-backBtn   xl:hidden  "
       >
-        <span className="filter-TextBtn">
+        <span className="main-TextBtn">
           {handle ? " < Fechar " : "Expandir filtro  >"}
         </span>
       </button>
@@ -559,7 +559,7 @@ export default function FilterSideMenu({
           <div className="h-1  bg-btnFilter relative  rounded-lg    ">
             {/* dark:bg-neutral-300/50 */}
             <div
-              className="h-full absolute rounded-lg bg-sky-800  "
+              className="h-full absolute rounded-lg bg-theme  "
               style={{
                 right: rightSide,
                 left: leftSide,
@@ -655,7 +655,7 @@ export default function FilterSideMenu({
     if (dataProviders && dataGenres && resetProviders) {
       return (
         <button
-          className="main-backBTn"
+          className="main-backBtn"
           onClick={() => {
             reset();
           }}
@@ -665,7 +665,7 @@ export default function FilterSideMenu({
       );
     } else {
       return (
-        <span className="main-backBTn filter-TextBtn transition animate-pulse">
+        <span className="main-backBtn filter-TextBtn transition animate-pulse">
           aguarde
         </span>
       );
@@ -770,7 +770,7 @@ export default function FilterSideMenu({
           <div className="bg-gradient-to-b from-Background  via-Background/80 to-transparent  fixed top-0  left-0 h-11 backdrop-blur-[2px] w-full   z-10 " />
           <div className="bg-gradient-to-b from-Background  via-Background/50 bg-transparent  fixed top-0  left-0 h-[5.5rem] backdrop-blur-[1px] w-full   backdrop-saturate-[1.2]   z-10 " />
           <div className="paddingHeader" />
-          <div className="h-min sticky z-[100] top-14   w-full  snap-always snap-start   ">
+          <div className="h-min sticky z-40 top-14   w-full  snap-always snap-start   ">
             <BlockContainer>
               <div className=" w-full  flex gap-2  h-auto overflow-x-scroll transition-all duration-1000">
                 <BtnScroll />

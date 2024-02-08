@@ -31,10 +31,20 @@ const config: Config = {
           '0%, 100%': { transform: 'rotate(-3deg)' },
           '50%': { transform: 'rotate(3deg)' },
         },
+        show: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '100' },
+        },
+        hidden: {
+          '0%': { opacity: '100' },
+          '100%': { opacity: '0' },
+        },
 
       },
       animation: {
         wrong: 'wrong 0.5s ease-in-out   ',
+        show: 'show 1s ease-in-out   ',
+        hidden: 'hidden 1s ease-in-out   ',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
@@ -47,15 +57,20 @@ const config: Config = {
       current: 'currentColor',
       white: colors.white,
       black: colors.black,
-      Background: '#e4e6e6',
+
+      // Background: '#e4e6e6',
+      Background: '#F9F9F9',
       onBackground1: '#494A4A',
       onBackground2: '#5A5B5B',
-      // onBackground2: '#606969',
-      // Surface: '#F0F2F2',
-      Surface: '#E9EBEB',
+      Surface: '#F2F4F4',
+      // Surface80: '#edf2f2',
+      Surface80: '#E4E6E6',
       onSurface1: '#494A4A',
       onSurface2: '#5A5B5B',
       btnFilter: '#E4E7E7',
+      theme: '#0A4D68',
+      theme2: '#088395',
+      theme3: '#05BFDB',
 
       'mercury': {
         '50': '#f7f8f8',

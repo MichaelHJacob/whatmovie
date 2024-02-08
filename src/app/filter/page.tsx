@@ -42,15 +42,15 @@ async function getFilter(searchParams: { [key: string]: string }) {
 
   const genres = () => {
     if (Array.isArray(searchParams?.g)) {
-      let listGenres: string = "&with_genres=";
-      searchParams?.g.forEach((value, index, array) => {
-        listGenres = listGenres + value;
-        if (index + 1 < array.length) {
-          listGenres = listGenres + "%2C";
-        }
-      });
+      // let listGenres: string = "&with_genres=";
+      // searchParams?.g.forEach((value, index, array) => {
+      //   listGenres = listGenres + value;
+      //   if (index + 1 < array.length) {
+      //     listGenres = listGenres + "%2C";
+      //   }
+      // });
 
-      return listGenres;
+      return searchParams?.g.join("%2C");
     } else if (typeof searchParams?.g == "string") {
       return `&with_genres=${searchParams?.g}`;
     } else {

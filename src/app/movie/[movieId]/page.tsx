@@ -40,7 +40,7 @@ async function getDetails(id: string) {
     },
   };
   const res = await fetch(
-    process.env.DB_API_URL + id + process.env.DB_API_BR,
+    process.env.DB_API_URL + id + '?language=pt-BR&watch_region=BR',
     options
   );
 

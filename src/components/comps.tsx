@@ -1,19 +1,25 @@
 import Link from "next/link";
 import { CreditsType, MovieType } from "./utils/types";
 import { FaFilter } from "react-icons/fa6";
-import {
-  ReactNode,
-} from "react";
+import { ReactNode } from "react";
+import Search from "./compsSearch/search";
 
 export function Header() {
   return (
-    <header className=" w-full max-w-screen-2xl  top-0 fixed left-1/2 translate-x-[-50%] z-50 ">
-      <div className="w-full h-11  bg-Background/10 backdrop-saturate-150   backdrop-blur-xl px-[var(--p)] xs:px-[var(--pXS)] lg:px-[var(--pLG)] max-w-7xl mx-auto  flex justify-between items-center xl:rounded-lg  ">
-        <Link href="/" className="btn-link text-xl  font-bold   ">
+    <header className=" w-full max-w-screen-2xl  top-0 fixed left-1/2 translate-x-[-50%] z-[1000] ">
+      <div className="w-full h-11 z-[2000] bg-Background/10  backdrop-saturate-150   backdrop-blur-xl px-[var(--p)] xs:px-[var(--pXS)] lg:px-[var(--pLG)] max-w-7xl mx-auto  flex justify-between items-center xl:rounded-lg  has-[:focus]:bg-Background/95 transition-all duration-700 has-[:focus]:rounded-none group ">
+        <Link
+          href="/"
+          className="btn-link text-xl  font-bold whitespace-nowrap w-min  max-sm:group-has-[:focus]:w-0 max-sm:group-has-[:focus]:opacity-0 transition-all duration-700 overflow-hidden"
+        >
           <h1>What Movie</h1>
         </Link>
-        <div className="flex gap-[--gap] xs:gap-[--gapXS] md:gap-[--gapMD] lg:gap-[--gapLG] h-full w-min justify-between ">
-          <Link href={`/filter`} className="btn-link font-semibold  ">
+        <div className="flex gap-[--gap] xs:gap-[--gapXS] md:gap-[--gapMD] lg:gap-[--gapLG] h-full has-[:focus]:max-sm:w-full max-sm:w-full transition-all duration-700">
+
+          <Link
+            href={`/filter`}
+            className="main-backBtn bg-transparent main-TextBtn  order-3 max-sm:peer-focus:hidden backdrop-filter-none "
+          >
             {/* <FaFilter /> */}
             <h2>Filtro</h2>
           </Link>
@@ -65,14 +71,10 @@ export function ListPeople({ data }: { data: CreditsType }) {
                 className="rounded-full w-full  aspect-square  object-cover"
               />
             ) : (
-              <div className="rounded-full flex flex-col justify-between items-center pb-10 pt-5  w-full h-full overflow-hidden bg-gradient-to-b from-solid-pink-950/5 to-neutral-500/15 aspect-square  object-cover  break-words ">
-                <p className="filter-TextBtn text-solid-pink-950/30  text-wrap  w-min text-center ">
-                  imagem indisponível
-                </p>
-                <p className="filter-TextBtn  font-extrabold text-2xl  text-wrap  line-clamp-1  ">
-                  {value.name}
-                </p>
+              <div className="rounded-full overflow-hidden aspect-square">
+                <Unavailable  name={value.name}/>
               </div>
+              
             )}
 
             <div className="w-full mt-2 text-center h-fit ">
@@ -88,22 +90,17 @@ export function ListPeople({ data }: { data: CreditsType }) {
             key={index}
             className="col-span-3 xs:col-span-3 md:col-span-2 lg:col-span-3 snap-start h-min"
           >
-           { typeof value.profile_path == "string" ? <img
-              src={`https://image.tmdb.org/t/p/w500${value.profile_path}`}
-              alt={value.name}
-              height={200}
-              width={200}
-              sizes="150px"
-              className="rounded-full w-full  aspect-square  object-cover"
-            /> :  (
-              <div className="rounded-full flex flex-col justify-between items-center pb-10 pt-5  w-full h-full overflow-hidden bg-gradient-to-b from-solid-pink-950/5 to-neutral-500/15 aspect-square  object-cover  break-words ">
-              <p className="filter-TextBtn text-solid-pink-950/30  text-wrap  w-min text-center ">
-                imagem indisponível
-              </p>
-              <p className="filter-TextBtn  font-extrabold text-2xl  text-wrap  line-clamp-1  ">
-                {value.name}
-              </p>
-            </div>
+            {typeof value.profile_path == "string" ? (
+              <img
+                src={`https://image.tmdb.org/t/p/w500${value.profile_path}`}
+                alt={value.name}
+                height={200}
+                width={200}
+                sizes="150px"
+                className="rounded-full w-full  aspect-square  object-cover"
+              />
+            ) : (
+              <Unavailable  name={value.name}/>
             )}
             <div className="w-full mt-2 text-center h-fit">
               <p className="label line-clamp-2">{value.name}</p>
@@ -164,7 +161,7 @@ export async function CardMovie({ data }: { data: MovieType }) {
     console.log(data.title);
     return (
       <Link href={`/movie/${data.id}`} className=" w-full   ">
-        <div className="rounded-lg flex flex-col justify-between items-center pb-10 pt-5  w-full h-full overflow-hidden bg-gradient-to-b from-solid-pink-950/5 to-neutral-500/15  break-words  shadow-xl shadow-black/30">
+        <div className="rounded-lg flex flex-col justify-between items-center pb-10 pt-5  w-full h-full overflow-hidden bg-gradient-to-b from-solid-pink-950/5 to-neutral-500/15  break-words  shadow-xl shadow-black/30 aspect-[18/27]">
           <p className="filter-TextBtn text-solid-pink-950/30  text-wrap place-items-center w-min text-center ">
             imagem indisponível
           </p>
@@ -180,5 +177,17 @@ export async function CardMovie({ data }: { data: MovieType }) {
 export function Break() {
   return (
     <hr className="border-2 border-solid border-Surface mx-[var(--p)] xs:mx-[var(--pXS)] lg:mx-[var(--pLG)] rounded-lg " />
+  );
+}
+export function Unavailable({name}: {name: string}) {
+  return (
+    <div className=" flex flex-col justify-between items-center pb-10 pt-5  w-full h-full  bg-gradient-to-b from-solid-pink-950/5 to-neutral-500/15  object-cover  break-words ">
+      <p className="filter-TextBtn text-solid-pink-950/30  text-wrap  w-min text-center ">
+        imagem indisponível
+      </p>
+      <p className="filter-TextBtn  font-extrabold text-2xl  text-wrap  line-clamp-1  ">
+        {name}
+      </p>
+    </div>
   );
 }

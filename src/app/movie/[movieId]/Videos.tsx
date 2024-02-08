@@ -51,7 +51,7 @@ export default function Videos({videosArray} : {videosArray: VideosResultsType[]
         <div className={`md:col-[9/_span_4] lg:col-[16/_span_5] w-full md:h-full bg-Surface/10 p-4  overflow-scroll  select-none 
         scroll-pl-[var(--p)] 
         md:scroll-pt-[var(--pXS)] 
-        lg:scroll-pt-[var(--pLG)] snap-mandatory snap-both scroll-smooth overscroll-contain scrollStyle 
+        lg:scroll-pt-[var(--pLG)] snap-mandatory snap-both scroll-smooth  no-scrollbar  
         ${ videosArray.length > 1 ? 'inline-flex md:block' : 'hidden'}`}>
           
           {videosArray.map((value, index) => (
