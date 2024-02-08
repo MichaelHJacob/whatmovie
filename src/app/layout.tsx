@@ -3,13 +3,13 @@ import type { Metadata , Viewport } from "next";
 import { Barlow } from "next/font/google";
 // import Background from "@/components/background";
 import { Header } from "@/components/comps";
-import Search from "@/components/compsSearch/searchBar";
+
 
 const barlow = Barlow({weight: ['400', '500', '600', '700'], subsets: ['latin']})
 
 export const metadata: Metadata = {
   title: "What Movie",
-  description: "Web site que ajuda a responder a questão que filme é esse? ou simplesmente que filme assistir?",
+  description: "O web site que ajuda responder a questão, que filme é esse? ou simplesmente, que filme assistir?",
 };
 
 export const viewport: Viewport = {
@@ -33,7 +33,7 @@ export default function RootLayout({children}: {
       
         {children}
         
-        {/* <div id="modal-root" /> */}
+       
 
       </body>
     </html>
