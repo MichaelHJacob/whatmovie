@@ -110,6 +110,7 @@ const config: Config = {
     },
     screens: {
       'xs': '475px',
+      'short': {'raw': '(max-height: 768px)' },
       ...defaultTheme.screens
     },
 
@@ -119,7 +120,7 @@ const config: Config = {
       resolver: (src) =>
         fs.readFileSync(path.join("./public", `${src}.jpg`)),
     }),
-    // require('tailwind-scrollbar'),
+
   ],
 
 }
