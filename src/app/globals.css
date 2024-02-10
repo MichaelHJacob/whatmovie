@@ -91,8 +91,7 @@
   }
 
   .btnRange {
-    /*dark:bg-neutral-400  dark:hover:bg-neutral-400 dark:hover:text-neutral-100   outline outline-offset-2 outline-transparent hover:outline-blue-400/80 */
-    @apply bg-theme h-8 w-8 rounded-full cursor-pointer; 
+    @apply bg-theme h-8 w-8 rounded-full cursor-pointer;
   }
 
   input[type="range"]::-webkit-slider-thumb {
@@ -108,24 +107,6 @@
     @apply btnRange;
   }
 
-  .beforeAnimation {
-    -moz-transition: 0.2s cubic-bezier(0.24, 0, 0.5, 1);
-    -o-transition: 0.2s cubic-bezier(0.24, 0, 0.5, 1);
-    -webkit-transition: 0.2s cubic-bezier(0.24, 0, 0.5, 1);
-    transition: 0.2s cubic-bezier(0.24, 0, 0.5, 1);
-  }
-
-  .afterAnimation {
-    box-shadow: 0 0 0 1px hsla(0, 0%, 0%, 0.1),
-      0 4px 0px 0 hsla(0, 0%, 0%, 0.04), 0 4px 9px hsla(0, 0%, 0%, 0.13),
-      0 3px 3px hsla(0, 0%, 0%, 0.05);
-    -moz-transition: 0.35s cubic-bezier(0.54, 1.6, 0.5, 1);
-    -o-transition: 0.35s cubic-bezier(0.54, 1.6, 0.5, 1);
-    -webkit-transition: 0.35s cubic-bezier(0.54, 1.6, 0.5, 1);
-    transition: 0.35s cubic-bezier(0.54, 1.6, 0.5, 1);
-    background-color: #00d8fa;
-  }
-
   .videoFull {
     @apply w-[calc((100%-var(--gapMD))-(100%-var(--gapMD))/3)]    h-full absolute left-0  top-0;
   }
@@ -137,10 +118,18 @@
   .videoGridFull {
     @apply md:col-[1/_span_8] lg:col-[1/_span_15] row-start-1;
   }
+  .all-unset {
+    all: unset;
+  }
+
+  summary::-webkit-details-marker {
+    display: list-item;
+    display: none;
+    justify-items: center;
+  }
 }
 
 @layer components {
-
   .paddingHeader {
     @apply pt-[calc(2.75rem+var(--p))] 
     xs:pt-[calc(2.75rem+var(--pXS))]
@@ -148,9 +137,11 @@
   }
   .blockContainer {
     @apply px-[var(--p)]      pb-[var(--p)] 
-    xs:px-[var(--pXS)]    xs:pb-[var(--pXS)] 
-    lg:px-[var(--pLG)]    lg:pb-[var(--pLG)]
-      scrollStyle;
+        xs:px-[var(--pXS)]    xs:pb-[var(--pXS)] 
+        md:px-[var(--pMD)]    md:pb-[var(--pMD)] 
+        lg:px-[var(--pLG)]    lg:pb-[var(--pLG)]
+      scrollStyle ;
+     
   }
 
   .gridAutoSpace {
@@ -174,7 +165,7 @@
     grid-cols-10
     xs:grid-cols-[repeat(15,_minmax(0,_1fr))]  
     md:grid-cols-12 
-    lg:grid-cols-[repeat(20,_minmax(0,_1fr))]
+    lg:grid-cols-[repeat(20,_minmax(0,_1fr))];
   }
 
   .spacingShrinkerBlock-x {
@@ -204,7 +195,7 @@
     
     overflow-x-auto overflow-y-hidden  snap-mandatory snap-x scroll-smooth overscroll-x-contain;
   }
- 
+
   *,
   ::before,
   ::after {
@@ -227,7 +218,6 @@
   .subTitle {
     @apply h-min p-0.5 text-onBackground1 text-lg font-semibold leading-4;
   }
-  
 
   .label {
     @apply text-onSurface1 text-base  font-medium  px-1 leading-5 antialiased;
@@ -236,11 +226,6 @@
   .data {
     @apply text-onSurface2 text-base font-normal leading-5  antialiased p-1;
   }
-
-  /* .btnStyle {
-    @apply rounded-lg inline-flex  gap-2 items-center 
-     transition-all duration-300     text-onSurface1 hover:text-mercury-950 title   mx-[-1rem] px-5  h-full;
-  } */
 
   .btn-link {
     @apply text-onBackground1  hover:text-black  
@@ -264,13 +249,11 @@
     @apply text-base text-onSurface2 font-semibold px-1 antialiased;
   }
 
-  /* dark:bg-neutral-800 dark:hover:bg-neutral-900 dark:hover:text-neutral-100 dark:text-neutral-300/50 outline outline-offset-2 outline-transparent hover:outline-blue-400/80 */
-
   .filter-BackBtn {
-    @apply  h-11 bg-onSurface1/5 px-4 inline-flex gap-2  items-center rounded-lg appearance-none cursor-pointer border-none 
+    @apply h-11 bg-onSurface1/5 px-4  inline-flex gap-2   items-center rounded-lg appearance-none cursor-pointer border-none 
     hover:shadow-onBackground2/20 shadow-lg shadow-transparent transition-all duration-300 active:bg-theme/20;
   }
-/* bg-onSurface1/5 */
+
   .filter-TextBtn {
     @apply text-base font-bold text-onSurface1;
   }
@@ -279,113 +262,16 @@
     @apply text-base font-semibold text-onSurface1;
   }
 
-
-
   .main-backBtn {
-    @apply filter-BackBtn bg-Surface80/80   backdrop-blur-xl  backdrop-saturate-150 
+    @apply filter-BackBtn bg-Surface80/80   backdrop-blur-xl  backdrop-saturate-150;
   }
 
-
-
-  /* .filter-BtnActive {
-   @apply bg-onSurface1/5 h-11  px-4 inline-flex gap-2  items-center rounded-lg appearance-none cursor-pointer border-none
+  .list-backBtn {
+    @apply rounded-lg appearance-none cursor-pointer border-none hover:bg-Surface80/40 box-content  shadow-lg shadow-transparent transition-all duration-300 active:bg-theme/20 hover:shadow-onBackground2/20
+    h-[calc(5.5rem+var(--gap))]  
+   xs:h-[calc(5.5rem+var(--gapXS))]  
+    md:h-[calc(5.5rem+var(--gapMD))]  
+    lg:h-[calc(5.5rem+var(--gapLG))]  animate-show w-full;
   }
-
-  .filter-BtnDisabled {
-
-  } */
-
-  .modal-backdrop {
-    position: absolute;
-    top: 44px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index:30;
-  }
-  
-  .modal {
-    width: 80%;
-    max-width: 500px;
-    height: auto;
-    max-height: 500px;
-    border: none;
-    border-radius: 12px;
-    background-color: white;
-    padding: 20px;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 48px;
-    font-weight: 500;
-  }
-  
-  .close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 48px;
-    height: 48px;
-    background-color: transparent;
-    border: none;
-    border-radius: 15px; /* Circular shape */
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 500;
-    font-size: 24px; /* Adjust font size as needed */
-  }
-  
-  .close-button:hover {
-    background-color: #eee;
-  }
-  
-  .close-button:after {
-    content: 'x';
-    color: black;
-  }
-  
-  .cards-container {
-    display: grid;
-    grid-template-columns: repeat(3, 200px);
-    gap: 16px;
-    justify-content: center;
-    align-items: center;
-    padding: 16px;
-  }
-  
-  .card {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 200px;
-    background-color: #eee;
-    border-radius: 8px;
-    text-decoration: none;
-    color: black;
-    font-size: 24px;
-    font-weight: 500;
-    max-width: 200px;
-  }
-  
-  @media (max-width: 600px) {
-    .cards-container {
-      grid-template-columns: 1fr;
-      justify-items: center;
-    }
-  
-    .card {
-      width: 80%;
-    }
-  }
-  
-
-
 
 }

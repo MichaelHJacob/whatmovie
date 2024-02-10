@@ -110,7 +110,6 @@ const config: Config = {
     },
     screens: {
       'xs': '475px',
-      'short': {'raw': '(max-height: 768px)' },
       ...defaultTheme.screens
     },
 

@@ -1,4 +1,4 @@
-import { BlockContainer } from "@/components/comps";
+import { BlockContainer, Container } from "@/components/comps";
 import FilterSideMenu from "@/components/Compsfilters";
 import { Suspense } from "react";
 
@@ -27,11 +27,13 @@ export default function HomeLayout({
   return (
     <Suspense
     fallback={
+      <Container>
       <BlockContainer>
         <div className=" w-full  gridTemplateSpace  ">
           <LoadingCards />
         </div>
       </BlockContainer>
+      </Container>
     }
   >
         <FilterSideMenu>
