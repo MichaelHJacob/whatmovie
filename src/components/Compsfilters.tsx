@@ -772,7 +772,7 @@ export default function FilterSideMenu({
           <div className="paddingHeader" />
           <div className="h-min sticky z-40 top-14   w-full  snap-always snap-start   ">
             <BlockContainer>
-              <div className=" w-full  flex gap-2  h-auto overflow-x-scroll transition-all duration-1000">
+              <div className=" w-full  flex gap-2  h-auto overflow-x-scroll no-scrollbar transition-all duration-1000">
                 <BtnScroll />
                 <BtnReset />
                 {usualP.length > 0 && (
