@@ -203,7 +203,7 @@ function GenreSelector({
 
       <fieldset className="h-auto  flex flex-wrap justify-start gap-2 select-none transition duration-150 ease-out hover:ease-in ">
         {genres.map((value, index) => (
-          <GenreButton genre={value} add={add} remove={remove} />
+          <GenreButton genre={value} add={add} remove={remove} key={index} />
         ))}
       </fieldset>
     </Fragment>
@@ -240,8 +240,8 @@ export default function FilterSideMenu({
       .then((res) => res.json())
       .then((data: ListGenres) => {
         // console.log(params.getAll("g"))
-        console.log("use effect");
-        console.log(params.get("g")?.split(","));
+        // console.log("use effect");
+        // console.log(params.get("g")?.split(","));
 
         // const active = data.genres.filter((value) =>
         //   params.has("g", String(value.id))
@@ -328,8 +328,8 @@ export default function FilterSideMenu({
   }, []);
 
   useEffect(() => {
-    console.log("set params");
-    console.log(params.get("g")?.split(","));
+    // console.log("set params");
+    // console.log(params.get("g")?.split(","));
     if (usualG.length >= 0) {
       params.set(
         "g",
