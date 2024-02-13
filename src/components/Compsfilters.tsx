@@ -950,7 +950,7 @@ export default function FilterSideMenu({
                 {usualP.length > 0 && (
                   <ul className="h-11 w-auto  flex   justify-start gap-2 select-none   ">
                     {usualP.map((value) => (
-                      <li key={value.provider_id} className="h-11 w-11">
+                      <li key={value.provider_id} className="h-11 backdrop-blur-xl rounded-lg w-11">
                         <ProviderButton
                           provider={value}
                           add={addProvider}
