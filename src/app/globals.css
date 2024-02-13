@@ -250,7 +250,7 @@
   }
 
   .filter-BackBtn {
-    @apply h-11 bg-onSurface1/5 px-4  inline-flex gap-2   items-center rounded-lg appearance-none cursor-pointer border-none 
+    @apply h-11 bg-Surface80 px-4  inline-flex gap-2   items-center rounded-lg appearance-none cursor-pointer border-none 
     hover:shadow-onBackground2/20 shadow-lg shadow-transparent transition-all duration-300 active:bg-theme/20;
   }
 

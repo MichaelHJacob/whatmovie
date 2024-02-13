@@ -26,23 +26,17 @@ export default function HomeLayout({
 }) {
   return (
     <Suspense
-    fallback={
-      <Container>
-      <BlockContainer>
-        <div className=" w-full  gridTemplateSpace  ">
-          <LoadingCards />
-        </div>
-      </BlockContainer>
-      </Container>
-    }
-  >
-        <FilterSideMenu>
-   
-        {children}
-     
-    </FilterSideMenu>
+      fallback={
+        <Container>
+          <BlockContainer>
+            <div className=" w-full  gridTemplateSpace  ">
+              <LoadingCards />
+            </div>
+          </BlockContainer>
+        </Container>
+      }
+    >
+      <FilterSideMenu>{children}</FilterSideMenu>
     </Suspense>
   );
 }
-
-

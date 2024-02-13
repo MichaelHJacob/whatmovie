@@ -41,17 +41,7 @@ async function getFilter(searchParams: { [key: string]: string }) {
   };
 
   const genres = () => {
-    if (Array.isArray(searchParams?.g)) {
-      // let listGenres: string = "&with_genres=";
-      // searchParams?.g.forEach((value, index, array) => {
-      //   listGenres = listGenres + value;
-      //   if (index + 1 < array.length) {
-      //     listGenres = listGenres + "%2C";
-      //   }
-      // });
-
-      return searchParams?.g.join("%2C");
-    } else if (typeof searchParams?.g == "string") {
+    if (typeof searchParams?.g == "string") {
       return `&with_genres=${searchParams?.g}`;
     } else {
       return "";
@@ -64,21 +54,15 @@ async function getFilter(searchParams: { [key: string]: string }) {
       date.getMonth() < 9
         ? `0${date.getMonth() + 1}`
         : date.getMonth() + 1}-${date.getDate() <= 9 ?  `0${date.getDate()}` : date.getDate()}`)
-      
+
 }
 
 
   const providers = () => {
-    if (Array.isArray(searchParams.p)) {
-      return `&with_watch_providers=${searchParams.p.join(
-        "|"
-      )}`;
-    } else if (typeof searchParams.p == "string") {
+  if (typeof searchParams.p == "string") {
       return `&with_watch_providers=${searchParams.p}`;
     } else {
-      return `&with_watch_providers=${dataMP.results
-        .map((value) => value.provider_id)
-        .join("|")}`;
+      return "";
     }
   };
 

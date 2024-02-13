@@ -1,7 +1,7 @@
 "use client";
 // import { extractImgSrc } from "@plaiceholder/tailwindcss/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, Fragment, useEffect, useRef, useState } from "react";
 import { BlockContainer, Container, SubTitle } from "./comps";
 import {
   ListGenres,
@@ -9,7 +9,6 @@ import {
   TypeBtnGenres,
   TypeBtnProvider,
 } from "./utils/types";
-
 
 export function BtnPages({ totalPages }: { totalPages: number }) {
   const { replace } = useRouter();
@@ -121,7 +120,7 @@ function ProviderButton({
   );
 }
 
-function SelectProviders({
+function ProviderSelector({
   providers,
   add,
   remove,
@@ -138,7 +137,7 @@ function SelectProviders({
         <span className="filter-label ">Onde assistir:</span>
         <ClearSelected onClear={() => clear("p")} />
       </div>
-    
+
       <ul className="h-auto w-full bg-neutral-500/5 rounded-lg py-2 flex flex-wrap justify-center gap-2 select-none   ">
         {providers.map((value) => (
           <li key={value.provider_id}>
@@ -146,12 +145,70 @@ function SelectProviders({
           </li>
         ))}
       </ul>
-
     </>
   );
 }
 
+function GenreButton({
+  genre,
+  add,
+  remove,
+}: {
+  genre: TypeBtnGenres;
+  add: (picked: TypeBtnGenres) => void;
+  remove: (picked: TypeBtnGenres) => void;
+}) {
+  return (
+    <label
+      htmlFor={`option${genre.id}`}
+      key={genre.id}
+      className={`filter-BackBtn backdrop-blur-xl transition-all duration-300 has-[:checked]:bg-themeSelected80/80 bg-Surface80/80 `}
+    >
+      <input
+        id={`option${genre.id}`}
+        type="checkbox"
+        value={genre.name}
+        checked={genre.state}
+        onChange={(e) => {
+          e.target.checked ? add(genre) : remove(genre);
+        }}
+        name={`option${genre.id}`}
+        className="w-3 h-3 peer  border-transparent checked:order-2 order-1 "
+      />
 
+      <span className="filter-TextBtn peer-checked:order-1 peer-checked:text-theme order-2 text-onSurface1/80 ">
+        {genre.name}
+      </span>
+    </label>
+  );
+}
+
+function GenreSelector({
+  genres,
+  add,
+  remove,
+  clear,
+}: {
+  genres: TypeBtnGenres[];
+  add: (picked: TypeBtnGenres) => void;
+  remove: (picked: TypeBtnGenres) => void;
+  clear: (filter?: string) => void;
+}) {
+  return (
+    <Fragment>
+      <div className="flex justify-between items-center">
+        <span className="filter-label ">Gênero:</span>
+        <ClearSelected onClear={() => clear("g")} />
+      </div>
+
+      <fieldset className="h-auto  flex flex-wrap justify-start gap-2 select-none transition duration-150 ease-out hover:ease-in ">
+        {genres.map((value, index) => (
+          <GenreButton genre={value} add={add} remove={remove} />
+        ))}
+      </fieldset>
+    </Fragment>
+  );
+}
 
 export default function FilterSideMenu({
   children,
@@ -159,81 +216,92 @@ export default function FilterSideMenu({
   children: React.ReactNode;
 }) {
   const { replace } = useRouter();
-  const searchParams = useSearchParams()
-   const pathname = usePathname();
-   const params = new URLSearchParams(searchParams);
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const params = new URLSearchParams(searchParams);
   let timeId = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
   const divFilters = useRef<HTMLDivElement>(null);
 
   const [handle, setHandle] = useState(false);
-  const [dataGenres, setGenres] = useState<ListGenres | null>(null);
-  const [isLoadingG, setLoadingG] = useState(true);
-  const [resetGenres, setRGenres] = useState<ListGenres | null>(null);
+  const [dataGenres, setGenres] = useState<TypeBtnGenres[] | null>(null);
+  const [usualG, setUsualG] = useState<TypeBtnGenres[]>([]);
+  const [resetGenres, setRGenres] = useState<TypeBtnGenres[] | null>(null);
 
   const [dataProviders, setProviders] = useState<TypeBtnProvider[] | null>(
     null
   );
   const [usualP, setUsualP] = useState<TypeBtnProvider[]>([]);
-  const [resetProviders, setRProviders] = useState<
-    | {
-        logo_path: string;
-        provider_name: string;
-        provider_id: number;
-        state: false;
-      }[]
-    | null
-  >(null);
+  const [resetProviders, setRProviders] = useState<TypeBtnProvider[] | null>(
+    null
+  );
 
   useEffect(() => {
     fetch("/api/genres")
       .then((res) => res.json())
-      .then((data) => {
-        setGenres(data);
-        setLoadingG(false);
-        setRGenres(data);
+      .then((data: ListGenres) => {
+        // console.log(params.getAll("g"))
+        console.log("use effect");
+        console.log(params.get("g")?.split(","));
+
+        // const active = data.genres.filter((value) =>
+        //   params.has("g", String(value.id))
+
+        // );
+
+        // setUsualG(
+        //   active.map((value) => {
+        //     return {
+        //       id: value.id,
+        //       name: value.name,
+        //       state: true,
+        //     };
+        //   })
+        // );
+
+        setGenres(
+          data.genres.map((value) => {
+            return {
+              id: value.id,
+              name: value.name,
+              // state: params.has("g", String(value.id)),
+              state: false,
+            };
+          })
+        );
+
+        setRGenres(
+          data.genres.map((value) => {
+            return {
+              id: value.id,
+              name: value.name,
+              state: false,
+            };
+          })
+        );
       });
 
     fetch("api/providers")
       .then((res) => res.json())
       .then((data: MovieProviders) => {
-        const active = data.results.filter((value) =>
-          params.has("p", String(value.provider_id))
-        );
+        // const active = data.results.filter((value) =>
+        //   params.has("p", String(value.provider_id))
+        // );
 
-        const disable = data.results.filter(
-          (value) => params.has("p", String(value.provider_id)) == false
-        );
-        setUsualP(
-          active.map((value) => {
-            return {
-              logo_path: value.logo_path,
-              provider_name: value.provider_name,
-              provider_id: value.provider_id,
-              state: true,
-            };
-          })
-        );
+        // const disable = data.results.filter(
+        //   (value) => params.has("p", String(value.provider_id)) == false
+        // );
+        // setUsualP(
+        //   active.map((value) => {
+        //     return {
+        //       logo_path: value.logo_path,
+        //       provider_name: value.provider_name,
+        //       provider_id: value.provider_id,
+        //       state: true,
+        //     };
+        //   })
+        // );
 
-        setProviders([
-          ...active.map((value) => {
-            return {
-              logo_path: value.logo_path,
-              provider_name: value.provider_name,
-              provider_id: value.provider_id,
-              state: true,
-            };
-          }),
-          ...disable.map((value) => {
-            return {
-              logo_path: value.logo_path,
-              provider_name: value.provider_name,
-              provider_id: value.provider_id,
-              state: false,
-            };
-          }),
-        ]);
-
-        setRProviders(
+        setProviders(
           data.results.map((value) => {
             return {
               logo_path: value.logo_path,
@@ -242,100 +310,55 @@ export default function FilterSideMenu({
               state: false,
             };
           })
-        );
+        ),
+          setRProviders(
+            data.results.map((value) => {
+              return {
+                logo_path: value.logo_path,
+                provider_name: value.provider_name,
+                provider_id: value.provider_id,
+                state: false,
+              };
+            })
+          );
       });
 
     const element = document.getElementById("Movies");
     if (element) element.scrollIntoView();
   }, []);
 
-  function SelectGenre({clear}: { clear: (filter?: string) => void;}) {
-    if (isLoadingG) return <p> Carregando ... </p>;
-    if (!dataGenres) return <p>Sem dados de perfil</p>;
-
-    let list = dataGenres.genres;
-
-    function ToggleBtn({
-      data,
-      i,
-    }: {
-      data: {
-        id: number;
-        name: string;
-      };
-      i: number;
-    }) {
-      const [isChecked, setIsChecked] = useState<boolean>(
-        params.has("g", `${data.id}`)
+  useEffect(() => {
+    console.log("set params");
+    console.log(params.get("g")?.split(","));
+    if (usualG.length >= 0) {
+      params.set(
+        "g",
+        usualG
+          .filter((value) => value.state == true)
+          .map((value) => value.id)
+          .join(",")
       );
 
-      function handleChecks(e: ChangeEvent<HTMLInputElement>): void {
-        let get: {
-          id: number;
-          name: string;
-        };
-        if (isChecked) {
-          get = list[i];
-          list.splice(i, 1);
-          list.push(get);
-          params.delete("g", e.target.value);
-        } else {
-          get = list[i];
-          list.splice(i, 1);
-          list.unshift(get);
-          params.append("g", e.target.value);
-        }
-        params.set("page", "1");
-        setIsChecked(!isChecked);
-        replace(`${pathname}?${params.toString()}`, { scroll: false });
-      }
-
-      return (
-        <label
-          key={data.id}
-          className={`filter-BackBtn transition-all duration-300 ${
-            isChecked ? "bg-theme/10" : "bg-neutral-500/5 "
-          } `}
-        >
-          <span
-            className={`filter-TextBtn ${
-              isChecked ? "order-1" : "order-2 text-neutral-500/75"
-            } `}
-          >
-            {data.name}
-          </span>
-          <input
-            type="checkbox"
-            value={data.id}
-            checked={isChecked}
-            // defaultChecked={params.has("g", `${data.id}`)}
-            onChange={(e) => handleChecks(e)}
-            name={`option${data.id}`}
-            className={`w-3 h-3  border-transparent ${
-              isChecked ? "order-2" : "order-1"
-            } `}
-          />
-        </label>
-      );
+      usualG.filter((value) => value.state == true).length == 0 &&
+        params.delete("g");
     }
 
-    return (
-      <>
-        <div className="flex justify-between items-center">
-          <span className="filter-label ">Gênero:</span>
-          <ClearSelected onClear={() => clear("g")} />
-        </div>
+    if (usualP.length >= 0) {
+      params.set(
+        "p",
+        usualP
+          .filter((value) => value.state == true)
+          .map((value) => value.provider_id)
+          .join("|")
+      );
 
-        <ul className="h-auto  flex flex-wrap justify-start gap-2 select-none transition duration-150 ease-out hover:ease-in ">
-          {list.map((value, index) => (
-            <li key={value.id}>
-              <ToggleBtn data={value} i={index} />
-            </li>
-          ))}
-        </ul>
-      </>
-    );
-  }
+      usualP.filter((value) => value.state == true).length == 0 &&
+        params.delete("p");
+    }
+
+    params.set("page", "1");
+    replace(`${pathname}?${params.toString()}`, { scroll: false });
+  }, [usualG, usualP]);
 
   function BtnScroll() {
     function open() {
@@ -639,10 +662,12 @@ export default function FilterSideMenu({
         break;
       case "g":
         setGenres(JSON.parse(JSON.stringify(resetGenres)));
+        setUsualG([])
         break;
       default:
         setProviders(JSON.parse(JSON.stringify(resetProviders)));
         setUsualP([]);
+        setUsualG([]);
         setGenres(JSON.parse(JSON.stringify(resetGenres)));
         replace(`${pathname}`);
         return;
@@ -660,72 +685,211 @@ export default function FilterSideMenu({
             reset();
           }}
         >
-          <span className="filter-TextBtn">Reset</span>
+          <span className="main-TextBtn ">Reset</span>
         </button>
       );
     } else {
       return (
-        <span className="main-backBtn filter-TextBtn transition animate-pulse">
-          aguarde
+        <span className="main-backBtn main-TextBtn transition animate-pulse">
+          Reset
         </span>
       );
     }
   }
 
+  function addGenre(picked: TypeBtnGenres) {
+    if (dataGenres == null) return;
+
+    setGenres(
+      dataGenres.map((value) => {
+        if (value.id == picked.id) {
+          return {
+            id: value.id,
+            name: value.name,
+            state: true,
+          };
+        } else {
+          return {
+            id: value.id,
+            name: value.name,
+            state: value.state,
+          };
+        }
+      })
+    );
+
+    if (usualG.length > 0) {
+      if (usualG.filter((value) => value.id == picked.id).length == 1) {
+        setUsualG(
+          usualG.map((value) => {
+            if (value.id == picked.id) {
+              return {
+                id: value.id,
+                name: value.name,
+                state: true,
+              };
+            } else {
+              return value;
+            }
+          })
+        );
+      } else {
+        setUsualG([
+          ...JSON.parse(JSON.stringify(usualG)),
+          {
+            id: picked.id,
+            name: picked.name,
+            state: true,
+          },
+        ]);
+      }
+    } else {
+      setUsualG([
+        {
+          id: picked.id,
+          name: picked.name,
+          state: true,
+        },
+      ]);
+    }
+  }
+
+  function removeGenre(picked: TypeBtnGenres) {
+    if (dataGenres == null) return;
+
+    setGenres(
+      dataGenres.map((value) => {
+        if (value.id == picked.id) {
+          return {
+            id: value.id,
+            name: value.name,
+            state: false,
+          };
+        } else {
+          return value;
+        }
+      })
+    );
+
+    setUsualG(
+      usualG.map((value) => {
+        if (value.id == picked.id) {
+          return {
+            id: value.id,
+            name: value.name,
+            state: false,
+          };
+        } else {
+          return value;
+        }
+      })
+    );
+  }
+
   function addProvider(picked: TypeBtnProvider) {
     if (dataProviders == null) return;
-    const copy = { ...picked };
-    copy.state = true;
 
-    setProviders([
-      { ...copy },
-      ...dataProviders?.filter(
-        (value) => value.provider_id !== picked.provider_id
-      ),
-    ]);
+    setProviders(
+      dataProviders.map((value) => {
+        if (value.provider_id == picked.provider_id) {
+          return {
+            logo_path: value.logo_path,
+            provider_name: value.provider_name,
+            provider_id: value.provider_id,
+            state: true,
+          };
+        } else {
+          return value;
+        }
+      })
+    );
 
     if (usualP.length > 0) {
-      setUsualP([
-        { ...copy },
-        ...usualP.filter((value) => value.provider_id !== copy.provider_id),
-      ]);
+      if (
+        usualP.filter((value) => value.provider_id == picked.provider_id)
+          .length == 1
+      ) {
+        setUsualP(
+          usualP.map((value) => {
+            if (value.provider_id == picked.provider_id) {
+              return {
+                logo_path: value.logo_path,
+                provider_name: value.provider_name,
+                provider_id: value.provider_id,
+                state: true,
+              };
+            } else {
+              return value;
+            }
+          })
+        );
+      } else {
+        setUsualP([
+          ...JSON.parse(JSON.stringify(usualP)),
+          {
+            logo_path: picked.logo_path,
+            provider_name: picked.provider_name,
+            provider_id: picked.provider_id,
+            state: true,
+          },
+        ]);
+      }
     } else {
-      setUsualP([{ ...copy }]);
+      setUsualP([
+        {
+          logo_path: picked.logo_path,
+          provider_name: picked.provider_name,
+          provider_id: picked.provider_id,
+          state: true,
+        },
+      ]);
     }
 
-    params.append("p", String(picked.provider_id));
-    params.set("page", "1");
-    replace(`${pathname}?${params.toString()}`, { scroll: false });
+    // params.append("p", String(picked.provider_id));
+    // params.set("page", "1");
+    // replace(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
   function removeProvider(picked: TypeBtnProvider) {
     if (dataProviders == null) return;
 
-    const copy = { ...picked };
-    copy.state = false;
+    setProviders(
+      dataProviders.map((value) => {
+        if (value.provider_id == picked.provider_id) {
+          return {
+            logo_path: value.logo_path,
+            provider_name: value.provider_name,
+            provider_id: value.provider_id,
+            state: false,
+          };
+        } else {
+          return value;
+        }
+      })
+    );
 
-    setProviders([
-      ...dataProviders?.filter(
-        (value) => value.provider_id !== picked.provider_id
-      ),
-      { ...copy },
-    ]);
-    if (usualP.length > 0) {
-      setUsualP([
-        ...usualP.filter((value) => value.provider_id !== copy.provider_id),
-        { ...copy },
-      ]);
-    } else {
-      setUsualP([{ ...copy }]);
-    }
+    setUsualP(
+      usualP.map((value) => {
+        if (value.provider_id == picked.provider_id) {
+          return {
+            logo_path: value.logo_path,
+            provider_name: value.provider_name,
+            provider_id: value.provider_id,
+            state: false,
+          };
+        } else {
+          return value;
+        }
+      })
+    );
 
-    params.delete("p", String(picked.provider_id));
-    params.set("page", "1");
-    replace(`${pathname}?${params.toString()}`, { scroll: false });
+    // params.delete("p", String(picked.provider_id));
+
+    // params.set("page", "1");
+    // replace(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
   return (
-  
     <div
       onScroll={handleOpen}
       className="overflow-x-auto  w-auto h-dvh  snap-x  z-10  snap-mandatory whitespace-nowrap  overscroll-x-contain xl:mx-auto xl:w-auto   no-scrollbar scrollStyle "
@@ -748,10 +912,18 @@ export default function FilterSideMenu({
             <Break />
             <RangeVote />
             <Break />
-            <SelectGenre clear={reset} />
+            {/* <SelectGenre clear={reset} /> */}
+            {dataGenres && (
+              <GenreSelector
+                genres={dataGenres}
+                add={addGenre}
+                remove={removeGenre}
+                clear={reset}
+              />
+            )}
             <Break />
             {dataProviders && (
-              <SelectProviders
+              <ProviderSelector
                 providers={dataProviders}
                 add={addProvider}
                 remove={removeProvider}
@@ -772,17 +944,30 @@ export default function FilterSideMenu({
           <div className="paddingHeader" />
           <div className="h-min sticky z-40 top-14   w-full  snap-always snap-start   ">
             <BlockContainer>
-              <div className=" w-full  flex gap-2  h-auto overflow-x-scroll no-scrollbar transition-all duration-1000">
+              <div className=" w-full  flex gap-2  h-auto overflow-x-scroll no-scrollbar transition-all  duration-1000">
                 <BtnScroll />
                 <BtnReset />
                 {usualP.length > 0 && (
-                  <ul className="h-11 w-auto  flex  justify-start gap-2 select-none   ">
+                  <ul className="h-11 w-auto  flex   justify-start gap-2 select-none   ">
                     {usualP.map((value) => (
-                      <li key={value.provider_id} className="h-11  w-11">
+                      <li key={value.provider_id} className="h-11 w-11">
                         <ProviderButton
                           provider={value}
                           add={addProvider}
                           remove={removeProvider}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {usualG.length > 0 && (
+                  <ul className="h-11 w-auto  flex  justify-start gap-2 select-none   ">
+                    {usualG.map((value) => (
+                      <li key={value.id} className="h-11  w-min">
+                        <GenreButton
+                          genre={value}
+                          add={addGenre}
+                          remove={removeGenre}
                         />
                       </li>
                     ))}
@@ -796,6 +981,5 @@ export default function FilterSideMenu({
         </Container>
       </div>
     </div>
-   
   );
 }

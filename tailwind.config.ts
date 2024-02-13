@@ -69,6 +69,7 @@ const config: Config = {
       onSurface2: '#5A5B5B',
       btnFilter: '#E4E7E7',
       theme: '#0A4D68',
+      themeSelected80:'#c9d7dc',
       theme2: '#088395',
       theme3: '#05BFDB',
 
