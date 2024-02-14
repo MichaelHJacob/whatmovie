@@ -1,5 +1,4 @@
 "use client";
-// import { extractImgSrc } from "@plaiceholder/tailwindcss/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, Fragment, useEffect, useRef, useState } from "react";
 import { BlockContainer, Container, SubTitle } from "./comps";
@@ -236,35 +235,27 @@ export default function FilterSideMenu({
   );
 
   useEffect(() => {
+    
+    const activeGenres = params.get("g")?.split(",") || [];
+    const activeProviders = params.get("p")?.split(",") || [];
     fetch("/api/genres")
       .then((res) => res.json())
       .then((data: ListGenres) => {
-        // console.log(params.getAll("g"))
-        // console.log("use effect");
-        // console.log(params.get("g")?.split(","));
-
-        // const active = data.genres.filter((value) =>
-        //   params.has("g", String(value.id))
-
-        // );
-
-        // setUsualG(
-        //   active.map((value) => {
-        //     return {
-        //       id: value.id,
-        //       name: value.name,
-        //       state: true,
-        //     };
-        //   })
-        // );
+        setUsualG(
+          data.genres.filter((value) =>  activeGenres.includes(`${value.id}`)).map((value) => {
+            return {
+              id: value.id,
+              name: value.name,
+              state: true,
+            };
+          }));
 
         setGenres(
           data.genres.map((value) => {
             return {
               id: value.id,
               name: value.name,
-              // state: params.has("g", String(value.id)),
-              state: false,
+              state: activeGenres.includes(`${value.id}`),
             };
           })
         );
@@ -283,23 +274,16 @@ export default function FilterSideMenu({
     fetch("api/providers")
       .then((res) => res.json())
       .then((data: MovieProviders) => {
-        // const active = data.results.filter((value) =>
-        //   params.has("p", String(value.provider_id))
-        // );
-
-        // const disable = data.results.filter(
-        //   (value) => params.has("p", String(value.provider_id)) == false
-        // );
-        // setUsualP(
-        //   active.map((value) => {
-        //     return {
-        //       logo_path: value.logo_path,
-        //       provider_name: value.provider_name,
-        //       provider_id: value.provider_id,
-        //       state: true,
-        //     };
-        //   })
-        // );
+     
+        setUsualP(
+          data.results.filter((value) =>  activeProviders.includes(`${value.provider_id}`)).map((value) => {
+            return {
+              logo_path: value.logo_path,
+              provider_name: value.provider_name,
+              provider_id: value.provider_id,
+              state: true,
+            };
+          }));
 
         setProviders(
           data.results.map((value) => {
@@ -307,7 +291,7 @@ export default function FilterSideMenu({
               logo_path: value.logo_path,
               provider_name: value.provider_name,
               provider_id: value.provider_id,
-              state: false,
+              state: activeGenres.includes(`${value.provider_id}`),
             };
           })
         ),
@@ -327,10 +311,9 @@ export default function FilterSideMenu({
     if (element) element.scrollIntoView();
   }, []);
 
-  useEffect(() => {
-    // console.log("set params");
-    // console.log(params.get("g")?.split(","));
-    if (usualG.length >= 0) {
+ 
+ useEffect(() => {
+      if (dataGenres !== null && dataProviders !== null) {
       params.set(
         "g",
         usualG
@@ -339,9 +322,6 @@ export default function FilterSideMenu({
           .join(",")
       );
 
-      usualG.filter((value) => value.state == true).length == 0 &&
-        params.delete("g");
-    }
 
     if (usualP.length >= 0) {
       params.set(
@@ -357,8 +337,8 @@ export default function FilterSideMenu({
     }
 
     params.set("page", "1");
-    replace(`${pathname}?${params.toString()}`, { scroll: false });
-  }, [usualG, usualP]);
+    replace(`${pathname}?${params.toString()}`, { scroll: false });}
+  }, [usualG, usualP])
 
   function BtnScroll() {
     function open() {
@@ -431,12 +411,6 @@ export default function FilterSideMenu({
       replace(`${pathname}?${params.toString()}`);
     }
 
-    // function disable() {
-    //   params.delete("vote_gte");
-    //   params.delete("vote_lte");
-
-    //   replace(`${pathname}?${params.toString()}`);
-    // }
 
     function handleMinRange(valor: number) {
       if (valor < maxRange - 0.9) {
@@ -752,6 +726,7 @@ export default function FilterSideMenu({
         },
       ]);
     }
+  
   }
 
   function removeGenre(picked: TypeBtnGenres) {
@@ -784,6 +759,7 @@ export default function FilterSideMenu({
         }
       })
     );
+
   }
 
   function addProvider(picked: TypeBtnProvider) {
@@ -845,9 +821,6 @@ export default function FilterSideMenu({
       ]);
     }
 
-    // params.append("p", String(picked.provider_id));
-    // params.set("page", "1");
-    // replace(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
   function removeProvider(picked: TypeBtnProvider) {
@@ -883,10 +856,6 @@ export default function FilterSideMenu({
       })
     );
 
-    // params.delete("p", String(picked.provider_id));
-
-    // params.set("page", "1");
-    // replace(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
   return (
