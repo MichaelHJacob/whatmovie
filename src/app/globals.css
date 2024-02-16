@@ -274,4 +274,8 @@
     lg:h-[calc(5.5rem+var(--gapLG))]  animate-show w-full;
   }
 
+  .unavailable {
+    @apply  bg-gradient-to-b from-solid-pink-950/5 to-neutral-500/15  object-cover;
+  } 
+
 }

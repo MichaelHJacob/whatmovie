@@ -54,11 +54,12 @@ export default async function Home() {
         <div className="w-min landscape:min-h-96 flex-1 mx-auto flex align-middle paddingHeader ">
           <h1 className="text-5xl text-center rounded-lg w-min my-auto mx-auto   text-onBackground1">WM</h1>
         </div>
-
+        <div className="bg-Surface relative  before:bg-Surface  before:w-screen before:h-full before:absolute before:bottom-0 before:left-[50%] before:translate-x-[-50%] before:z-[-1]">
         <BlockContainer>
           <SubTitle>Lançamentos</SubTitle>
           <ListMovie data={inTheatres?.results} />
         </BlockContainer>
+        </div>
       </div>
     </Container>
   );

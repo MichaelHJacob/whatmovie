@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { CreditsType, MovieType } from "./utils/types";
-import { FaFilter } from "react-icons/fa6";
 import { ReactNode } from "react";
-
+import Search from "./compsSearch";
 
 export function Header() {
   return (
@@ -38,11 +37,11 @@ export function BlockContainer({ children }: { children: ReactNode }) {
 
 export function ListMovie({ data }: { data: MovieType[] }) {
   return (
-    <ul className="ListSpacing list-none ">
+    <ul className="ListSpacing list-none no-scrollbar ">
       {data.map((value) => (
         <li
           key={value.id}
-          className="col-span-5 xs:col-span-5 md:col-span-3 lg:col-span-4 snap-start   "
+          className="col-span-5 xs:col-span-5 md:col-span-3 lg:col-span-4 snap-start landscape:short:lg:col-span-3  "
         >
           <CardMovie data={value} />
         </li>
@@ -53,7 +52,7 @@ export function ListMovie({ data }: { data: MovieType[] }) {
 
 export function ListPeople({ data }: { data: CreditsType }) {
   return (
-    <ul className="ListSpacing list-none ">
+    <ul className="ListSpacing list-none no-scrollbar ">
       {data.cast.length >= 1 &&
         data.cast.map((value, index) => (
           <li
@@ -70,10 +69,18 @@ export function ListPeople({ data }: { data: CreditsType }) {
                 className="rounded-full w-full  aspect-square  object-cover"
               />
             ) : (
-              <div className="rounded-full overflow-hidden aspect-square">
-                <Unavailable  name={value.name}/>
-              </div>
-              
+              <div
+              className="rounded-full overflow-hidden aspect-square
+            unavailable relative"
+            >
+              <p className="filter-TextBtn text-opacity-30 text-center text-xs  text-wrap  w-min  absolute bottom-1 left-[50%] translate-x-[-50%] top-[10%]">
+                imagem indisponível
+              </p>
+              <span className="overflow-hidden h-min w-[50%]  absolute left-[50%] translate-x-[-50%] bottom-[15%]">
+              <p className="filter-TextBtn text-opacity-90 line-clamp-1 h-auto   overflow-hidden text-center  text-wrap    ">
+                {value.name} 
+              </p></span>
+            </div>
             )}
 
             <div className="w-full mt-2 text-center h-fit ">
@@ -99,7 +106,18 @@ export function ListPeople({ data }: { data: CreditsType }) {
                 className="rounded-full w-full  aspect-square  object-cover"
               />
             ) : (
-              <Unavailable  name={value.name}/>
+              <div
+              className="rounded-full overflow-hidden aspect-square
+            unavailable relative"
+            >
+              <p className="filter-TextBtn text-opacity-30 text-center text-xs  text-wrap  w-min  absolute bottom-1 left-[50%] translate-x-[-50%] top-[10%]">
+                imagem indisponível
+              </p>
+              <span className="overflow-hidden h-min w-[50%]  absolute left-[50%] translate-x-[-50%] bottom-[15%]">
+              <p className="filter-TextBtn text-opacity-90 line-clamp-1 h-auto   overflow-hidden text-center  text-wrap    ">
+                {value.name} 
+              </p></span>
+            </div>
             )}
             <div className="w-full mt-2 text-center h-fit">
               <p className="label line-clamp-2">{value.name}</p>
@@ -133,7 +151,6 @@ export function SubTitle({ children }: { children: ReactNode }) {
 export function SubTitle2({ children }: { children: ReactNode }) {
   return (
     <div className="py-1 xs:py-2  lg:py-3 ">
-      {/* <h4 className="subTitle p-0.5 text-onBackground1 text-lg font-normal leading-4  ">{children}</h4> */}
       <h4 className="subTitle p-0.5 text-Background text-lg font-normal leading-4 md:text-center line-clamp-2  ">
         {children}
       </h4>
@@ -156,8 +173,6 @@ export async function CardMovie({ data }: { data: MovieType }) {
       </Link>
     );
   } else {
-    console.log(data.poster_path);
-    console.log(data.title);
     return (
       <Link href={`/movie/${data.id}`} className=" w-full   ">
         <div className="rounded-lg flex flex-col justify-between items-center pb-10 pt-5  w-full h-full overflow-hidden bg-gradient-to-b from-solid-pink-950/5 to-neutral-500/15  break-words  shadow-xl shadow-black/30 aspect-[18/27]">
@@ -178,15 +193,15 @@ export function Break() {
     <hr className="border-2 border-solid border-Surface mx-[var(--p)] xs:mx-[var(--pXS)] lg:mx-[var(--pLG)] rounded-lg " />
   );
 }
-export function Unavailable({name}: {name: string}) {
-  return (
-    <div className=" flex flex-col justify-between items-center pb-10 pt-5  w-full h-full  bg-gradient-to-b from-solid-pink-950/5 to-neutral-500/15  object-cover  break-words ">
-      <p className="filter-TextBtn text-solid-pink-950/30  text-wrap  w-min text-center ">
-        imagem indisponível
-      </p>
-      <p className="filter-TextBtn  font-extrabold text-2xl  text-wrap  line-clamp-1  ">
-        {name}
-      </p>
-    </div>
-  );
-}
+// export function Unavailable({ name }: { name: string }) {
+//   return (
+//     <div className=" flex flex-col  justify-between items-center    ">
+//       <p className="filter-TextBtn text-solid-pink-950/30  text-wrap text-center w-full ">
+//         imagem indisponível
+//       </p>
+//       <p className="filter-TextBtn  font-extrabold text-2xl  text-wrap  line-clamp-1  w-full">
+//         {name}
+//       </p>
+//     </div>
+//   );
+// }

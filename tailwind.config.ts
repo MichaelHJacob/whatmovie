@@ -33,10 +33,15 @@ const config: Config = {
         },
         show: {
           '0%': { opacity: '0' },
-          '100%': { opacity: '100' },
+          '100%': { opacity: '100%' },
+        },
+        mainMovie: {
+          '0%': { opacity: '0' },
+          '50%': { opacity: '100%' },
+          '100%': { opacity: '80%' },
         },
         hidden: {
-          '0%': { opacity: '100' },
+          '0%': { opacity: '100%' },
           '100%': { opacity: '0' },
         },
 
@@ -44,6 +49,7 @@ const config: Config = {
       animation: {
         wrong: 'wrong 0.5s ease-in-out   ',
         show: 'show 1s ease-in-out   ',
+        mainMovie: 'mainMovie 2s    ',
         hidden: 'hidden 1s ease-in-out   ',
       },
       backgroundImage: {
