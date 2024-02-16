@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { CreditsType, MovieType } from "./utils/types";
 import { ReactNode } from "react";
-import Search from "./compsSearch";
+
 
 export function Header() {
   return (
