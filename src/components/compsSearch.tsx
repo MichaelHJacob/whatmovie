@@ -15,16 +15,7 @@ export default function Search() {
   let details = useRef<HTMLDetailsElement | null>(null);
   let input = useRef<HTMLInputElement | null>(null);
 
-  function getData(getTerm: string) {
-    const params = new URLSearchParams(searchParams);
-    params.set("query", getTerm);
 
-    fetch(`/api/search?${params.toString()}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data.results);
-      });
-  }
 
   useEffect(() => {
     fetch("/api/genres")
@@ -61,6 +52,17 @@ export default function Search() {
     return result.map((term) => term?.name).join(", ");
   }
 
+  function getData(getTerm: string) {
+    const params = new URLSearchParams(searchParams);
+    params.set("query", getTerm);
+
+    fetch(`/api/search?${params.toString()}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data.results);
+      });
+  }
+
   return (
     <details
       ref={details}
@@ -75,8 +77,6 @@ export default function Search() {
     >
       <summary
         onKeyUp={(e) => {
-          // console.log(e.key)
-          // console.log(e.metaKey)
           e.key == " " && e.preventDefault();
         }}
         className=" cursor-pointer   sm:pl-[--pXS] lg:pl-[--pLG] flex relative z-10 group-open:gap-[var(--gap)] group-open:xs:gap-[var(--gapXS)] md:gap-[var(--gapMD)] lg:gap-[var(--gapLG)]"
@@ -108,9 +108,9 @@ export default function Search() {
       </summary>
 
       <div
-        // onTouchMove={() => {
-        //   input.current && input.current.blur();
-        // }}
+        onTouchMove={() => {
+          input.current && input.current.blur();
+        }}
         className="   max-sm:fixed absolute top-0 left-0 sm:left-1 z-0  overflow-y-auto h-dvh   overscroll-contain no-scrollbar box-content sm:w-[calc(100%+var(--pXS))] md:w-[calc(100%+var(--pMD))] lg:w-[calc(100%+var(--pLG))] xl:pr-[calc((100vw-1280px)/2)] max-sm:w-screen bg-Background/80 backdrop-contrast-100  backdrop-saturate-200 backdrop-blur-2xl animate-show  duration-300 bg-gradient-to-b from-Background "
       >
         <div className="bg-gradient-to-b  from-Background/80  via-Background/50 bg-transparent  sticky top-0  left-0 h-[5.5rem] backdrop-blur-[1px] w-full   backdrop-saturate-[1.2]   z-10 ">
@@ -123,13 +123,13 @@ export default function Search() {
                 return (
                   <li
                     key={value.title}
-                    // onClick={() => {
-                    //   if (details.current !== null) {
-                    //     if (details.current.hasAttribute("open")) {
-                    //       details.current.toggleAttribute("open");
-                    //     }
-                    //   }
-                    // }}
+                    onClick={() => {
+                      if (details.current !== null) {
+                        if (details.current.hasAttribute("open")) {
+                          details.current.toggleAttribute("open");
+                        }
+                      }
+                    }}
                     className="    list-backBtn    group/list"
                   >
                     <Link

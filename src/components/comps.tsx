@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { CreditsType, MovieType } from "./utils/types";
-import { ReactNode } from "react";
+import { ReactNode, Suspense } from "react";
 import Search from "./compsSearch";
 
 export function Header() {
@@ -16,7 +16,7 @@ export function Header() {
     md:gap-[var(--gapMD)] 
     lg:gap-[var(--gapLG)] "
       >
-        <Search />
+        <Suspense><Search /></Suspense>
 
         <Link
           href={`/filter`}
@@ -82,17 +82,18 @@ export function ListPeople({ data }: { data: CreditsType }) {
               />
             ) : (
               <div
-              className="rounded-full overflow-hidden aspect-square
+                className="rounded-full overflow-hidden aspect-square
             unavailable relative"
-            >
-              <p className="filter-TextBtn text-opacity-30 text-center text-xs  text-wrap  w-min  absolute bottom-1 left-[50%] translate-x-[-50%] top-[10%]">
-                imagem indisponível
-              </p>
-              <span className="overflow-hidden h-min w-[50%]  absolute left-[50%] translate-x-[-50%] bottom-[15%]">
-              <p className="filter-TextBtn text-opacity-90 line-clamp-1 h-auto   overflow-hidden text-center  text-wrap    ">
-                {value.name} 
-              </p></span>
-            </div>
+              >
+                <p className="filter-TextBtn text-opacity-30 text-center text-xs  text-wrap  w-min  absolute bottom-1 left-[50%] translate-x-[-50%] top-[10%]">
+                  imagem indisponível
+                </p>
+                <span className="overflow-hidden h-min w-[50%]  absolute left-[50%] translate-x-[-50%] bottom-[15%]">
+                  <p className="filter-TextBtn text-opacity-90 line-clamp-1 h-auto   overflow-hidden text-center  text-wrap    ">
+                    {value.name}
+                  </p>
+                </span>
+              </div>
             )}
 
             <div className="w-full mt-2 text-center h-fit ">
@@ -119,17 +120,18 @@ export function ListPeople({ data }: { data: CreditsType }) {
               />
             ) : (
               <div
-              className="rounded-full overflow-hidden aspect-square
+                className="rounded-full overflow-hidden aspect-square
             unavailable relative"
-            >
-              <p className="filter-TextBtn text-opacity-30 text-center text-xs  text-wrap  w-min  absolute bottom-1 left-[50%] translate-x-[-50%] top-[10%]">
-                imagem indisponível
-              </p>
-              <span className="overflow-hidden h-min w-[50%]  absolute left-[50%] translate-x-[-50%] bottom-[15%]">
-              <p className="filter-TextBtn text-opacity-90 line-clamp-1 h-auto   overflow-hidden text-center  text-wrap    ">
-                {value.name} 
-              </p></span>
-            </div>
+              >
+                <p className="filter-TextBtn text-opacity-30 text-center text-xs  text-wrap  w-min  absolute bottom-1 left-[50%] translate-x-[-50%] top-[10%]">
+                  imagem indisponível
+                </p>
+                <span className="overflow-hidden h-min w-[50%]  absolute left-[50%] translate-x-[-50%] bottom-[15%]">
+                  <p className="filter-TextBtn text-opacity-90 line-clamp-1 h-auto   overflow-hidden text-center  text-wrap    ">
+                    {value.name}
+                  </p>
+                </span>
+              </div>
             )}
             <div className="w-full mt-2 text-center h-fit">
               <p className="label line-clamp-2">{value.name}</p>

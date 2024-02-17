@@ -47,7 +47,7 @@ const config: Config = {
       },
       animation: {
         wrong: 'wrong 0.5s ease-in-out   ',
-        show: 'show 1s ease-in-out   ',
+        show: 'show 0.3s ease-in-out   ',
         mainMovie: 'mainMovie 2s ease-in-out  ',
         hidden: 'hidden 1s ease-in-out   ',
       },
