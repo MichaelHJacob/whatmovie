@@ -181,10 +181,15 @@ export default async function Movie({
       <div className="h-min w-full relative paddingHeader z-30">
         <div className="w-screen left-[50%] translate-x-[-50%]  h-full absolute top-0  z-[-1] overflow-hidden">
           <div
-            className="  w-full h-full bg-no-repeat opacity-80   blur-3xl transform scale-125 animate-mainMovie "
+            className="  w-full h-full  bg-no-repeat saturate-150  blur-3xl transform scale-125 animate-mainMovie  "
             style={css}
           />
-          {/* <div className="  w-full h-full bg-no-repeat absolute top-0    bg-Background/90 transform backdrop-contrast-200 backdrop-saturate-200 scale-125 " /> */}
+          <div
+            className="  w-full h-full absolute top-0 left-0  bg-white/50 "
+            
+          />
+
+
         </div>
         <BlockContainer>
           <div className="md:gridTemplateSpace  ">
@@ -199,7 +204,7 @@ export default async function Movie({
                   height={1170}
                   // placeholder="blur"
                   sizes="80vh"
-                  className="rounded-lg  shadow-2xl shadow-gray-700/100 "
+                  className="rounded-lg  shadow-2xl shadow-black/40"
                 />
               ) : (
                 <div className="rounded-lg flex flex-col justify-between items-center pb-10 pt-5  w-full h-full overflow-hidden bg-gradient-to-b from-solid-pink-950/5 to-neutral-500/15  break-words  shadow-xl shadow-black/30 aspect-[18/27] ">
@@ -212,7 +217,9 @@ export default async function Movie({
                 </div>
               )}
             </div>
-            <dl className="relative z-40 md:col-span-8 lg:col-[span_15_/_span_15] max-md:bg-gray-950/50 max-md:backdrop-blur-3xl rounded-lg px-4 pb-4 ">
+            {/* before:absolute before:animate-deform before:h-full before:w-full before:bg-black/50 before:blur-3xl before:z-[-2] */}
+            <dl className="relative z-40 md:col-span-8 lg:col-[span_15_/_span_15] max-md:bg-gray-950/50 max-md:backdrop-blur-3xl rounded-lg px-4 pb-4 
+             text-black">
               <h2
                 className="uppercase font-semibold tracking-widest text-4xl px-1 py-5 max-md:text-Background text-black  
               md:col-span-4 lg:col-span-5
@@ -220,7 +227,7 @@ export default async function Movie({
               >
                 {data.title}
               </h2>
-              <dd className="data mb-2 max-md:text-Background text-black mt-[-1.25rem] ">
+              <dd className="data mb-2  max-md:text-Background text-black font-semibold mt-[-1.25rem] ">
                 {data.release_date && (
                   <>{formatDateNumber(data.release_date)}</>
                 )}{" "}
@@ -238,10 +245,10 @@ export default async function Movie({
 
               {data.overview && (
                 <>
-                  <dt className="label max-md:text-Background text-black">
+                  <dt className="label max-md:text-Background text-black font-bold">
                     Sinopse:
                   </dt>
-                  <dd className="data mb-2 max-md:text-Background text-black    ">
+                  <dd className="data mb-2 max-md:text-Background text-black font-semibold    ">
                     {" "}
                     {data.overview}
                   </dd>

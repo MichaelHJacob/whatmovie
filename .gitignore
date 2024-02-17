@@ -33,7 +33,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-src/components/filtersEstado.tsx
-src/components/filters estao preservado.tsx
-src/components/filters manipulando array.tsx
-src/components/Provider.tsx
+src/app/teste/page.tsx

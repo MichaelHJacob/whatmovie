@@ -10,7 +10,7 @@ export default function Loading() {
     <Container>
       <div className="h-min w-full relative paddingHeader z-30">
         <div className="w-screen left-[50%] translate-x-[-50%]  h-full absolute top-0  z-[-1] overflow-hidden">
-          <div className="  w-full h-full   bg-onBackground1/30 animate-pulse   blur-3xl transform scale-125 " />
+          <div className="  w-full h-full   bg-white animate-pulse  " />
         </div>
         <BlockContainer>
           <div className="md:gridTemplateSpace  ">
@@ -29,7 +29,7 @@ export default function Loading() {
 
       <BlockContainer>
         <div className="py-2 xs:py-[1rem] lg:py-6">
-          <div className="h-6 w-40 rounded-lg mb-2 bg-black/20" />
+          <div className="h-6 w-24 rounded-lg mb-2 bg-onBackground1/90" />
         </div>
 
         <div className="ListSpacing animate-pulse">

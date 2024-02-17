@@ -1,28 +1,40 @@
 import Link from "next/link";
 import { CreditsType, MovieType } from "./utils/types";
 import { ReactNode } from "react";
-
+import Search from "./compsSearch";
 
 export function Header() {
   return (
-    <header className=" w-full max-w-screen-2xl  top-0 fixed left-1/2 translate-x-[-50%] z-[1000] ">
-      <div className="w-full h-11 z-[2000] bg-Background/10  backdrop-saturate-150   backdrop-blur-xl px-[var(--p)] xs:px-[var(--pXS)] lg:px-[var(--pLG)] max-w-7xl mx-auto  flex justify-between items-center xl:rounded-lg  has-[:focus]:bg-Background/95 transition-all duration-700 has-[:focus]:rounded-none group ">
+    <header className=" w-full max-w-screen-2xl  top-0 fixed left-1/2 translate-x-[-50%] z-[1000] overflow-visible ">
+      <nav
+        className="w-full h-11 z-[2000]  backdrop-saturate-150   backdrop-blur-xl 
+      px-[var(--p)] xs:px-[var(--pXS)] lg:px-[var(--pLG)] max-w-7xl 
+      mx-auto  flex justify-start items-center xl:rounded-lg   transition-all duration-700 overflow-visible  has-[:open]:bg-black invert-0
+     
+      gap-[var(--gap)] 
+    xs:gap-[var(--gapXS)] 
+    md:gap-[var(--gapMD)] 
+    lg:gap-[var(--gapLG)] "
+      >
+        <Search />
+
         <Link
-          href="/"
-          className="btn-link text-xl  font-bold whitespace-nowrap w-min  max-sm:group-has-[:focus]:w-0 max-sm:group-has-[:focus]:opacity-0 transition-all duration-700 overflow-hidden"
+          href={`/filter`}
+          className=" main-backBtn bg-transparent main-TextBtn   overflow-hidden  backdrop-filter-none w-36 justify-center px-0
+          peer-open:w-0  order-3"
         >
-          <h1>What Movie</h1>
+          <h2>Filtro</h2>
         </Link>
 
+        <div className="w-full max-sm:peer-open:w-0 max-sm:peer-open:opacity-0 transition-all duration-700 overflow-hidden">
           <Link
-            href={`/filter`}
-            className="main-backBtn bg-transparent main-TextBtn  order-3 max-sm:peer-focus:hidden backdrop-filter-none "
+            href="/"
+            className="btn-link text-xl  font-bold whitespace-nowrap w-auto "
           >
-            
-            <h2>Filtro</h2>
+            <h1>What Movie</h1>
           </Link>
-        
-      </div>
+        </div>
+      </nav>
     </header>
   );
 }
@@ -32,7 +44,7 @@ export function Container({ children }: { children: ReactNode }) {
 }
 
 export function BlockContainer({ children }: { children: ReactNode }) {
-  return <div className="blockContainer  ">{children}</div>;
+  return <div className="blockContainer">{children}</div>;
 }
 
 export function ListMovie({ data }: { data: MovieType[] }) {
