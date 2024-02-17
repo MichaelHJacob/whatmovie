@@ -76,6 +76,9 @@ export default function Search() {
       <summary
         onKeyUp={(e) => {
           e.key == " " && e.preventDefault();
+          if(e.key == "Enter" && term == "" ){
+            setData(null)
+          }
         }}
         className=" cursor-pointer   sm:pl-[--pXS] lg:pl-[--pLG] flex relative z-10 group-open:gap-[var(--gap)] group-open:xs:gap-[var(--gapXS)] md:gap-[var(--gapMD)] lg:gap-[var(--gapLG)]"
       >
