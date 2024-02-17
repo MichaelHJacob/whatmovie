@@ -18,10 +18,10 @@ export default function Loading() {
               <div className="rounded-lg flex flex-col justify-between items-center pb-10 pt-5  w-full h-full overflow-hidden bg-gradient-to-b from-solid-pink-950/5 to-neutral-500/15   shadow-xl shadow-black/10 aspect-[18/27]"></div>
             </div>
             <div className="relative  z-40 md:col-span-8 lg:col-[span_15_/_span_15] max-md:bg-gray-950/50 max-md:backdrop-blur-3xl rounded-lg p-4 pt-2 animate-pulse ">
-              <div className="h-11 w-3/4   max-md:bg-white/30 rounded-lg mb-1 bg-black/20" />
-              <div className="h-5 w-1/2    max-md:bg-white/30 rounded-lg mb-2 bg-black/20" />
-              <div className="h-5 w-2/12   max-md:bg-white/30 rounded-lg mb-2 bg-black/20" />
-              <div className="h-1/2 w-full max-md:bg-white/30 rounded-lg bg-black/10" />
+              <div className="h-11 w-3/4   max-md:bg-white/30 rounded-lg mb-1 bg-onBackground1/40" />
+              <div className="h-5 w-1/2    max-md:bg-white/30 rounded-lg mb-2 bg-onBackground1/40" />
+              <div className="h-5 w-2/12   max-md:bg-white/30 rounded-lg mb-2 bg-onBackground1/40" />
+              <div className="h-1/2 w-full max-md:bg-white/30 rounded-lg bg-onBackground1/20" />
             </div>
           </div>
         </BlockContainer>
@@ -29,7 +29,7 @@ export default function Loading() {
 
       <BlockContainer>
         <div className="py-2 xs:py-[1rem] lg:py-6">
-          <div className="h-6 w-24 rounded-lg mb-2 bg-onBackground1/90" />
+          <div className="h-6 w-24 rounded-lg mb-2 bg-onBackground1/40" />
         </div>
 
         <div className="ListSpacing animate-pulse">

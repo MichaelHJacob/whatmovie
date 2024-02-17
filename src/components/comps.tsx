@@ -207,15 +207,4 @@ export function Break() {
     <hr className="border-2 border-solid border-Surface mx-[var(--p)] xs:mx-[var(--pXS)] lg:mx-[var(--pLG)] rounded-lg " />
   );
 }
-// export function Unavailable({ name }: { name: string }) {
-//   return (
-//     <div className=" flex flex-col  justify-between items-center    ">
-//       <p className="filter-TextBtn text-solid-pink-950/30  text-wrap text-center w-full ">
-//         imagem indisponível
-//       </p>
-//       <p className="filter-TextBtn  font-extrabold text-2xl  text-wrap  line-clamp-1  w-full">
-//         {name}
-//       </p>
-//     </div>
-//   );
-// }
+

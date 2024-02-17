@@ -15,8 +15,6 @@ export default function Search() {
   let details = useRef<HTMLDetailsElement | null>(null);
   let input = useRef<HTMLInputElement | null>(null);
 
-
-
   useEffect(() => {
     fetch("/api/genres")
       .then((res) => res.json())
@@ -27,7 +25,6 @@ export default function Search() {
 
   function handleSearch(term: string) {
     setTerm(term);
-
     timeGet.current && clearTimeout(timeGet.current);
     if (term.length > 1 && term !== " ") {
       timeGet.current = setTimeout(() => {
@@ -67,9 +64,10 @@ export default function Search() {
     <details
       ref={details}
       onMouseLeave={() => {
-        if (details.current !== null) {
+        if (details.current !== null ) {
           if (details.current.hasAttribute("open")) {
             details.current.toggleAttribute("open");
+            input.current && input.current.blur();
           }
         }
       }}
