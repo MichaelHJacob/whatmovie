@@ -44,7 +44,7 @@ export function Container({ children }: { children: ReactNode }) {
 }
 
 export function BlockContainer({ children }: { children: ReactNode }) {
-  return <div className="blockContainer">{children}</div>;
+  return <div className="blockContainer ">{children}</div>;
 }
 
 export function ListMovie({ data }: { data: MovieType[] }) {
@@ -53,7 +53,7 @@ export function ListMovie({ data }: { data: MovieType[] }) {
       {data.map((value) => (
         <li
           key={value.id}
-          className="col-span-5 xs:col-span-5 md:col-span-3 lg:col-span-4 snap-start landscape:short:lg:col-span-3  "
+          className="gridColSpanMovie"
         >
           <CardMovie data={value} />
         </li>
@@ -69,7 +69,7 @@ export function ListPeople({ data }: { data: CreditsType }) {
         data.cast.map((value, index) => (
           <li
             key={index}
-            className="col-span-3 xs:col-span-3 md:col-span-2 lg:col-span-3  snap-start h-min "
+            className="h-min gridColSpanPeople "
           >
             {typeof value.profile_path == "string" ? (
               <img
@@ -158,16 +158,6 @@ export function SubTitle({ children }: { children: ReactNode }) {
   return (
     <div className="py-2 xs:py-[1rem] lg:py-6  ">
       <h3 className="subTitle  ">{children}</h3>
-    </div>
-  );
-}
-
-export function SubTitle2({ children }: { children: ReactNode }) {
-  return (
-    <div className="py-1 xs:py-2  lg:py-3 ">
-      <h4 className="subTitle p-0.5 text-Background text-lg font-normal leading-4 md:text-center line-clamp-2  ">
-        {children}
-      </h4>
     </div>
   );
 }

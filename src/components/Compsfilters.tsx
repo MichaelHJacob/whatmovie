@@ -166,7 +166,7 @@ function GenreButton({
       <input
         id={`option${genre.id}`}
         type="checkbox"
-        value={genre.name}
+        value={genre.name} 
         checked={genre.state}
         onChange={(e) => {
           e.target.checked ? add(genre) : remove(genre);

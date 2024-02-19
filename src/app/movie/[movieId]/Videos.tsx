@@ -1,77 +1,89 @@
 "use client";
-import { SetStateAction, useState } from "react";
-import { BlockContainer, Break, SubTitle, SubTitle2 } from "@/components/comps";
-import {
-  VideosResultsType,
-} from "@/components/utils/types";
+import { useState } from "react";
+import { BlockContainer, Break, SubTitle} from "@/components/comps";
+import { VideosResultsType } from "@/components/utils/types";
 
-
-export default function Videos({videosArray} : {videosArray: VideosResultsType[]}) {
-
-
+export default function Videos({
+  videosArray,
+}: {
+  videosArray: VideosResultsType[];
+}) {
   const [selected, setSelected] = useState(videosArray[0]);
 
-  function handleVideoClick(v : VideosResultsType) {
-    setSelected(v);
-  }
-
-  function VideoDisplay({video} : {video: VideosResultsType}) {
+  function VideoDisplay({ video }: { video: VideosResultsType }) {
     return (
-      <div className={`lg:col-[1/_span_15] max-md:pb-5 md:pl-5 pt-5   md:sticky top-0 md:h-full flex flex-col  w-full box-border ${ videosArray.length > 1 ? `md:col-[1/_span_8] lg:col-[1/_span_15] ` : `md:pr-5 md:col-[1/_span_12] lg:col-[1/_span_20]`}`}>
-        <div className="relative top-0 flex-1">
+      <div className="h-min ">
+        <div className="max-md:spacingShrinkerBlock-x bg-black ">
           <iframe
-            className="w-full h-full aspect-video rounded-md"
-            allow="fullscreen; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            
+            className="w-full  h-full aspect-video "
+            allow="fullscreen; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             src={`https://www.youtube.com/embed/${video.key}`}
             title="YouTube video player"
             frameBorder="0"
           ></iframe>
         </div>
-
-        <SubTitle2>{video.name}</SubTitle2>
+        <SubTitle>
+          <span className="line-clamp-2 max-md:text-white">{video.name}</span>
+        </SubTitle>
       </div>
     );
   }
 
-
   return (
-    <><Break />
-    <BlockContainer>
-      <SubTitle>Videos, Trailers e mais</SubTitle>
-      <div className="transition-all max-md:w-screen  w-full md:aspect-[19/9] relative duration-700 bg-black md:rounded-lg
-      
-      md:gridTemplateSpace
-   
-      
-      max-md:spacingShrinkerBlock
-       ">
-        <VideoDisplay video={selected} />
+    <>
+      <Break />
 
-        <div className={`md:col-[9/_span_4] lg:col-[16/_span_5] w-full md:h-full bg-Surface/10 p-4  overflow-scroll  select-none 
-        scroll-pl-[var(--p)] 
-        md:scroll-pt-[var(--pXS)] 
-        lg:scroll-pt-[var(--pLG)] snap-mandatory snap-both scroll-smooth  no-scrollbar  
-        ${ videosArray.length > 1 ? 'inline-flex md:block' : 'hidden'}`}>
-          
-          {videosArray.map((value, index) => (
-            <div
-              className={`md:w-full snap-start snap-always bg-Surface/10 rounded-lg px-4 pt-4  max-xs:mr-[var(--gap)] max-md:mr-[var(--gapXS)] md:mb-[var(--gapMD)] cursor-pointer ${selected == value && 'hidden'}`}
-            
-              onClick={() =>  setSelected(value)} key={index}
+      <div className="max-md:bg-black">
+        <BlockContainer>
+          <SubTitle>
+            <span className="max-md:text-Background">
+              Videos, Trailers e mais
+            </span>
+          </SubTitle>
+          <VideoDisplay video={selected} />
+
+          <details
+            open
+            className={`w-full relative h-min group ${
+              videosArray.length <= 1 && "hidden"
+            }`}
+          >
+            <summary
+              className="absolute  h-11 w-fit top-[-2.75rem] right-0  main-TextBtn main-backBtn shadow-none max-md:bg-[#0c0c0c]/70 max-md:text-Background/70 
+              "
             >
-              <div
-                className=" max-md:w-[30vw] md:h-full  aspect-video   shadow-xl shadow-black rounded-lg overflow-hidden " >
-               <img src={`https://i.ytimg.com/vi/${value.key}/hqdefault.jpg`} className="object-cover  aspect-video md:h-full w-full "/>
-              </div>
-              <SubTitle2>{value.name}</SubTitle2>
-            </div>
-          ))}
-         
-           
-        </div>
+              <span className="">Mais videos</span>
+              <span className=" w-[12px] h-[12px] group-open:rotate-[270deg] bg-[url('/toRight.svg')] bg-[length:12px_12px] bg-[center_center] bg-no-repeat transition-all duration-300 "></span>
+            </summary>
+            <ul
+              className="max-md:flex max-md:flex-col max-xs:gap-[var(--gap)] max-md:gap-[var(--gapXS)] pt-[var(--gap)] xs:pt-[var(--gapXS)] md:pt-[var(--gapMD)] lg:pt-[var(--gapLG) 
+                md:ListSpacing list-none no-scrollbar relative 
+               "
+            >
+              {videosArray.map((value, index) => (
+                <li
+                  className={`w-full max-md:flex box-content relative snap-start snap-always cursor-pointer   overflow-visible items-center  justify-start md:gridColSpanMovie transform-gpu transition-all duration-300  ${
+                    selected == value &&
+                    "max-md:bg-[#0c0c0c]/70 max-md:py-2 max-md:pl-2 max-md:my-[-0.5rem] max-md:ml-[-0.5rem] rounded-xl md:scale-105 "
+                  }`}
+                  onClick={() => setSelected(value)}
+                  key={index}
+                >
+                  <img
+                    src={`https://i.ytimg.com/vi/${value.key}/hqdefault.jpg`}
+                    className={`object-cover bg-center max-md:w-20 md:w-full aspect-[16/9]  rounded-lg transition-all duration-300  md:shadow-[0_10px_50px_-12px] ${selected == value? "md:shadow-onBackground1  ": "md:shadow-transparent"}`}/>
+                  <div className="w-full  px-[calc(var(--p)/2)] xs:px-[calc(var(--pXS)/2)] md:px-0">
+                    <h4
+                      className={`data max-md:text-white/70 line-clamp-2 antialiased   ${                      selected == value && "text-black  max-md:font-semibold"}`}>
+                      {value.name}
+                    </h4>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </details>
+        </BlockContainer>
       </div>
-    </BlockContainer>
     </>
   );
 }

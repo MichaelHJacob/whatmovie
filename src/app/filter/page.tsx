@@ -85,6 +85,7 @@ async function getFilter(searchParams: { [key: string]: string }) {
 
   let url = `${process.env.DB_API_URL_F}discover/movie?language=pt-BR&watch_region=BR&include_adult=false&include_video=false&page=${page}${releaseDate()}${providers()}&sort_by=${sortBy()}${vote()}${genres()}`;
 
+  console.log(url)
 
   const res = await fetch(url, {
     cache: "no-store",
@@ -115,7 +116,7 @@ export default async function Page({
           {data?.results.length > 0 ? (
             data?.results.map((value) => (
               <div
-                className="col-span-5 xs:col-span-5 md:col-span-3  lg:col-span-4 xl:col-span-3 2xl:col-span-4"
+                className="gridColSpanMovie"
                 key={value.id}
               >
                 

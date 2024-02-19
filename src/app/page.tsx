@@ -59,7 +59,7 @@ export default async function Home() {
           <SubTitle>Lançamentos</SubTitle>
           <ListMovie data={inTheatres?.results} />
         </BlockContainer>
-        </div>
+        </div> 
       </div>
     </Container>
   );
