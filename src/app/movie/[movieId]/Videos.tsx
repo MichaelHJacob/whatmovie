@@ -23,7 +23,7 @@ export default function Videos({
           ></iframe>
         </div>
         <SubTitle>
-          <span className="line-clamp-2 max-md:text-white">{video.name}</span>
+          <span className="line-clamp-2 max-md:line-clamp-1 max-md:text-white mr-32" >{video.name}</span>
         </SubTitle>
       </div>
     );
@@ -36,7 +36,7 @@ export default function Videos({
       <div className="max-md:bg-black">
         <BlockContainer>
           <SubTitle>
-            <span className="max-md:text-Background">
+            <span className="max-md:text-Background ">
               Videos, Trailers e mais
             </span>
           </SubTitle>
@@ -48,8 +48,8 @@ export default function Videos({
               videosArray.length <= 1 && "hidden"
             }`}
           >
-            <summary
-              className="absolute  h-11 w-fit top-[-2.75rem] right-0  main-TextBtn main-backBtn shadow-none max-md:bg-[#0c0c0c]/70 max-md:text-Background/70 
+            <summary id="summary"
+              className="absolute  h-11 w-fit top-[-2.75rem] xs:top-[calc(-2.75rem-0.25rem)] lg:top-[calc(-2.75rem-0.75rem)] right-0  main-TextBtn main-backBtn shadow-none max-md:bg-onBackground1/40 max-md:text-Background/70 
               "
             >
               <span className="">Mais videos</span>
@@ -60,11 +60,12 @@ export default function Videos({
                 md:ListSpacing list-none no-scrollbar relative 
                "
             >
+              {/* max-md:py-2 max-md:pl-2 max-md:my-[-0.5rem] max-md:ml-[-0.5rem] */}
               {videosArray.map((value, index) => (
                 <li
                   className={`w-full max-md:flex box-content relative snap-start snap-always cursor-pointer   overflow-visible items-center  justify-start md:gridColSpanMovie transform-gpu transition-all duration-300  ${
                     selected == value &&
-                    "max-md:bg-[#0c0c0c]/70 max-md:py-2 max-md:pl-2 max-md:my-[-0.5rem] max-md:ml-[-0.5rem] rounded-xl md:scale-105 "
+                    "max-md:bg-onBackground1/40  max-xs:py-[calc(var(--gap)/2)] max-xs:pl-[calc(var(--gap)/2)] max-xs:my-[calc((var(--gap)/2)*-1)] max-xs:ml-[calc((var(--gap)/2)*-1)]  max-md:py-[calc(var(--gapXS)/2)] max-md:pl-[calc(var(--gapXS)/2)] max-md:my-[calc((var(--gapXS)/2)*-1)] max-md:ml-[calc((var(--gapXS)/2)*-1)] rounded-xl md:scale-105 "
                   }`}
                   onClick={() => setSelected(value)}
                   key={index}
@@ -74,7 +75,7 @@ export default function Videos({
                     className={`object-cover bg-center max-md:w-20 md:w-full aspect-[16/9]  rounded-lg transition-all duration-300  md:shadow-[0_10px_50px_-12px] ${selected == value? "md:shadow-onBackground1  ": "md:shadow-transparent"}`}/>
                   <div className="w-full  px-[calc(var(--p)/2)] xs:px-[calc(var(--pXS)/2)] md:px-0">
                     <h4
-                      className={`data max-md:text-white/70 line-clamp-2 antialiased   ${                      selected == value && "text-black  max-md:font-semibold"}`}>
+                      className={`data max-md:text-white/70 line-clamp-2 antialiased   ${selected == value && "text-black  max-md:font-semibold"}`}>
                       {value.name}
                     </h4>
                   </div>
