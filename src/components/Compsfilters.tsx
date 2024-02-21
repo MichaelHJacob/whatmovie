@@ -314,6 +314,7 @@ export default function FilterSideMenu({
  
  useEffect(() => {
       if (dataGenres !== null && dataProviders !== null) {
+            
       params.set(
         "g",
         usualG
@@ -321,9 +322,9 @@ export default function FilterSideMenu({
           .map((value) => value.id)
           .join(",")
       );
+      usualG.filter((value) => value.state == true).length == 0 && params.delete("g")
 
-
-    if (usualP.length >= 0) {
+ 
       params.set(
         "p",
         usualP
@@ -334,8 +335,7 @@ export default function FilterSideMenu({
 
       usualP.filter((value) => value.state == true).length == 0 &&
         params.delete("p");
-    }
-
+    
     params.set("page", "1");
     replace(`${pathname}?${params.toString()}`, { scroll: false });}
   }, [usualG, usualP])

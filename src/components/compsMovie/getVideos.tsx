@@ -1,5 +1,6 @@
 import { VideosType } from "@/components/utils/types";
-import Videos from "./Videos";
+import Videos from "./compsClient";
+
 
 async function getVideos(movieID: string) {
     const options = {
@@ -22,6 +23,8 @@ async function getVideos(movieID: string) {
   export default async function GetVideo({movieID}: {movieID: string}){
     const videos: VideosType = await getVideos(movieID);
 
+
     if(videos.results.length > 0){ return (<Videos videosArray={videos.results} />)} else {
     return(<span className="hidden">videos não disponível</span>)}
+  
   }

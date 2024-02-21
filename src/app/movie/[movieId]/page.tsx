@@ -1,23 +1,21 @@
 import {
   DetailsMovieType,
-  CreditsType,
-  VideosType,
+  // CreditsType,
+  // VideosType,
 } from "@/components/utils/types";
 import {
   BlockContainer,
-  Break,
   CardInformation,
   Container,
-  ListPeople,
   SubTitle,
 } from "@/components/comps";
 // import Image from "next/image";
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { getPlaiceholder } from "plaiceholder";
-import GetVideo from "./getVideos";
-import GetRecommendations, { LoadingCardsList } from "./getRecommendations";
-import GetPeople from "./getPeople";
+import GetVideo from "@/components/compsMovie/getVideos";
+import GetRecommendations, { LoadingCardsList } from "@/components/compsMovie/getRecommendations";
+import GetPeople from "@/components/compsMovie/getPeople";
 
 async function getDetails(id: string) {
   const options = {
@@ -51,39 +49,12 @@ async function getCssBlurIMG(src: string) {
   return css;
 }
 
-
-// async function getSimilar(movieID: string) {
-//   const options = {
-//     headers: {
-//       accept: "application/json",
-//       Authorization: `${process.env.DB_TOKEN_AUTH}`,
-//     },
-//   };
-//   const res = await fetch(
-//     process.env.DB_API_URL + movieID + "/similar?language=pt-BR&page=1",
-//     options
-//   );
-
-//   if (!res.ok) {
-//     throw new Error("Falha ao buscar dados");
-//   }
-//   return res.json();
-// }
-
-
-
-
-
 export default async function Movie({
   params,
 }: {
   params: { movieId: string };
 }) {
   const data: DetailsMovieType = await getDetails(params.movieId);
-  // const DtRecommendations = await getRecommendations(params.movieId);
-
-  // const DtSimilar = await getSimilar(params.movieId);
-  // const base64 = await getBase64(process.env.DB_IMG_URL_S + data.poster_path);
   if (typeof data.poster_path == "string") {
     var css = await getCssBlurIMG(process.env.DB_IMG_URL_S + data.poster_path);
   } else {
@@ -94,8 +65,6 @@ export default async function Movie({
       backgroundRepeat: "no-repeat",
     };
   }
-
-
 
   if (!data || !params.movieId) {
     redirect("/");

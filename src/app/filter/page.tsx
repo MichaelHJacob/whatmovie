@@ -1,27 +1,10 @@
 import { BlockContainer, CardMovie, SubTitle } from "@/components/comps";
 import { BtnPages } from "@/components/Compsfilters";
-import { DiscoverType, MovieProviders } from "@/components/utils/types";
+import { DiscoverType} from "@/components/utils/types";
 
-async function getAllMovieProviders() {
-  const res = await fetch(
-    `${process.env.DB_API_URL_F}watch/providers/movie?language=pt-BR&watch_region=BR`,{
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization: `${process.env.DB_TOKEN_AUTH}`,
-      },
-    }
-  );
-
-  if (!res.ok) {
-    throw new Error("Falha ao buscar dados");
-  }
-
-  return res.json();
-}
 
 async function getFilter(searchParams: { [key: string]: string }) {
-  const dataMP: MovieProviders = await getAllMovieProviders();
+
 
   const page: string =
     Number(searchParams?.page) > 1 && Number(searchParams?.page) <= 500
@@ -42,9 +25,18 @@ async function getFilter(searchParams: { [key: string]: string }) {
 
   const genres = () => {
     if (typeof searchParams?.g == "string") {
-      return `&with_genres=${searchParams?.g}`;
+        
+      let genres = searchParams?.g.split(',')
+      console.log(genres)
+      if (genres.includes('27'||'36'||'9648'||'10749'||'53'||'10752')){
+        return `&with_genres=${encodeURIComponent(searchParams?.g)}`;
+      } else {
+        return `certification.lte=16&certification_country=BR&region=BR&with_genres=${encodeURIComponent(searchParams?.g)}`;
+      }
+            
+      
     } else {
-      return "";
+      return "certification.lte=16&certification_country=BR&region=BR";
     }
   };
 
@@ -60,7 +52,7 @@ async function getFilter(searchParams: { [key: string]: string }) {
 
   const providers = () => {
   if (typeof searchParams.p == "string") {
-      return `&with_watch_providers=${searchParams.p}`;
+      return `&with_watch_providers=${encodeURIComponent(searchParams.p)}`;
     } else {
       return "";
     }
@@ -83,9 +75,8 @@ async function getFilter(searchParams: { [key: string]: string }) {
     }
   };
 
-  let url = `${process.env.DB_API_URL_F}discover/movie?language=pt-BR&watch_region=BR&include_adult=false&include_video=false&page=${page}${releaseDate()}${providers()}&sort_by=${sortBy()}${vote()}${genres()}`;
+  let url = `${process.env.DB_API_URL_F}discover/movie?language=pt-BR&watch_region=BR&include_adult=false&include_video=false&page=${page}${genres()}${releaseDate()}${providers()}&sort_by=${sortBy()}${vote()}`;
 
-  console.log(url)
 
   const res = await fetch(url, {
     cache: "no-store",
