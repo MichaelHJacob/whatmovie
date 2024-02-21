@@ -29,7 +29,7 @@ export default function Search() {
     if (term.length > 1 && term !== " ") {
       timeGet.current = setTimeout(() => {
         getData(term);
-      }, 1000);
+      }, 300);
     }
   }
 
