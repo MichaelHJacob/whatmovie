@@ -1,7 +1,13 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ChangeEvent, Fragment, useEffect, useRef, useState } from "react";
-import { BlockContainer, Container, SubTitle } from "./comps";
+import {
+  ChangeEvent,
+  Fragment,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { BlockContainer, Container } from "./comps";
 import {
   ListGenres,
   MovieProviders,
@@ -40,44 +46,34 @@ export function BtnPages({ totalPages }: { totalPages: number }) {
     }
   }
 
-  if (totalPages == 1)
-    return (
-      <SubTitle>
-        Considere um filtro mais amplo para exibir mais resultados
-      </SubTitle>
-    );
-  if (totalPages == 0) return;
-
   return (
     <div className=" w-full flex justify-end">
-      <div
-        className=" inline-flex items-center gap-[var(--gap)] 
-    xs:gap-[var(--gapXS)] 
-    lg:gap-[var(--gapLG)]"
-      >
-        <div
-          className="text-onBackground1 
+      {totalPages > 1 && (
+        <div className=" inline-flex items-center gap-[var(--gap)] xs:gap-[var(--gapXS)] lg:gap-[var(--gapLG)]">
+          <div
+            className="text-onBackground1 
     text-lg font-medium antialiased"
-        >
-          <span className="md:hidden">Pag.</span>
-          <span className="max-md:hidden">Página </span>
-          {atual}
-          <span className="max-md:hidden">
-            {totalPages < 500 && ` de ${totalPages}`}
-          </span>
-        </div>
-        <button
-          onClick={back}
-          className="mr-[calc(var(--gap)_*_-1)] xs:mr-[calc(var(--gapXS)_*_-1)] md:mr-[calc(var(--gapMD)_*_-1)] lg:mr-[calc(var(--gapLG)_*_-1)]  main-backBtn rounded-r-none"
-        >
-          {" "}
-          {"<"}
-        </button>
+          >
+            <span className="md:hidden">Pag.</span>
+            <span className="max-md:hidden">Página </span>
+            {atual}
+            <span className="max-md:hidden">
+              {totalPages < 500 && ` de ${totalPages}`}
+            </span>
+          </div>
+          <button
+            onClick={back}
+            className="mr-[calc(var(--gap)_*_-1)] xs:mr-[calc(var(--gapXS)_*_-1)] md:mr-[calc(var(--gapMD)_*_-1)] lg:mr-[calc(var(--gapLG)_*_-1)]  main-backBtn rounded-r-none"
+          >
+            {" "}
+            {"<"}
+          </button>
 
-        <button onClick={next} className="main-backBtn rounded-l-none">
-          {">"}
-        </button>
-      </div>
+          <button onClick={next} className="main-backBtn rounded-l-none">
+            {">"}
+          </button>
+        </div>
+      )}
     </div>
   );
 }
@@ -166,7 +162,7 @@ function GenreButton({
       <input
         id={`option${genre.id}`}
         type="checkbox"
-        value={genre.name} 
+        value={genre.name}
         checked={genre.state}
         onChange={(e) => {
           e.target.checked ? add(genre) : remove(genre);
@@ -214,7 +210,7 @@ export default function FilterSideMenu({
 }: {
   children: React.ReactNode;
 }) {
-  const { replace } = useRouter();
+  const { replace, push } = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const params = new URLSearchParams(searchParams);
@@ -235,20 +231,22 @@ export default function FilterSideMenu({
   );
 
   useEffect(() => {
-    
     const activeGenres = params.get("g")?.split(",") || [];
     const activeProviders = params.get("p")?.split(",") || [];
     fetch("/api/genres")
       .then((res) => res.json())
       .then((data: ListGenres) => {
         setUsualG(
-          data.genres.filter((value) =>  activeGenres.includes(`${value.id}`)).map((value) => {
-            return {
-              id: value.id,
-              name: value.name,
-              state: true,
-            };
-          }));
+          data.genres
+            .filter((value) => activeGenres.includes(`${value.id}`))
+            .map((value) => {
+              return {
+                id: value.id,
+                name: value.name,
+                state: true,
+              };
+            })
+        );
 
         setGenres(
           data.genres.map((value) => {
@@ -274,16 +272,18 @@ export default function FilterSideMenu({
     fetch("api/providers")
       .then((res) => res.json())
       .then((data: MovieProviders) => {
-     
         setUsualP(
-          data.results.filter((value) =>  activeProviders.includes(`${value.provider_id}`)).map((value) => {
-            return {
-              logo_path: value.logo_path,
-              provider_name: value.provider_name,
-              provider_id: value.provider_id,
-              state: true,
-            };
-          }));
+          data.results
+            .filter((value) => activeProviders.includes(`${value.provider_id}`))
+            .map((value) => {
+              return {
+                logo_path: value.logo_path,
+                provider_name: value.provider_name,
+                provider_id: value.provider_id,
+                state: true,
+              };
+            })
+        );
 
         setProviders(
           data.results.map((value) => {
@@ -310,35 +310,6 @@ export default function FilterSideMenu({
     const element = document.getElementById("Movies");
     if (element) element.scrollIntoView();
   }, []);
-
- 
- useEffect(() => {
-      if (dataGenres !== null && dataProviders !== null) {
-            
-      params.set(
-        "g",
-        usualG
-          .filter((value) => value.state == true)
-          .map((value) => value.id)
-          .join(",")
-      );
-      usualG.filter((value) => value.state == true).length == 0 && params.delete("g")
-
- 
-      params.set(
-        "p",
-        usualP
-          .filter((value) => value.state == true)
-          .map((value) => value.provider_id)
-          .join("|")
-      );
-
-      usualP.filter((value) => value.state == true).length == 0 &&
-        params.delete("p");
-    
-    params.set("page", "1");
-    replace(`${pathname}?${params.toString()}`, { scroll: false });}
-  }, [usualG, usualP])
 
   function BtnScroll() {
     function open() {
@@ -410,7 +381,6 @@ export default function FilterSideMenu({
       params.set("vote_lte", `${max}`);
       replace(`${pathname}?${params.toString()}`);
     }
-
 
     function handleMinRange(valor: number) {
       if (valor < maxRange - 0.9) {
@@ -514,7 +484,6 @@ export default function FilterSideMenu({
     return (
       <>
         <span className="filter-label ">Pontuação:</span>
-        {/* <div className="w-full h-full text-filter   relative"> */}
         <div className="w-full flex justify-between ">
           <label className="filter-BackBtn">
             <span className="filter-labelBtn">Min</span>
@@ -551,10 +520,9 @@ export default function FilterSideMenu({
             />
           </label>
         </div>
-        {/* dark:bg-neutral-800  */}
+     
         <div className=" w-full h-11  pt-[20px] ">
-          <div className="h-1  bg-btnFilter relative  rounded-lg    ">
-            {/* dark:bg-neutral-300/50 */}
+          <div className="h-1  bg-btnFilter relative  rounded-lg">
             <div
               className="h-full absolute rounded-lg bg-theme  "
               style={{
@@ -633,19 +601,22 @@ export default function FilterSideMenu({
       case "p":
         setProviders(JSON.parse(JSON.stringify(resetProviders)));
         setUsualP([]);
+        console.log("provedor");
         break;
       case "g":
         setGenres(JSON.parse(JSON.stringify(resetGenres)));
-        setUsualG([])
+        setUsualG([]);
+        console.log("genres");
         break;
       default:
         setProviders(JSON.parse(JSON.stringify(resetProviders)));
+        setGenres(JSON.parse(JSON.stringify(resetGenres)));
         setUsualP([]);
         setUsualG([]);
-        setGenres(JSON.parse(JSON.stringify(resetGenres)));
         replace(`${pathname}`);
         return;
     }
+    console.log("depois do switch");
     params.delete(filter);
     replace(`${pathname}?${params.toString()}`);
   }
@@ -726,7 +697,15 @@ export default function FilterSideMenu({
         },
       ]);
     }
-  
+
+    let getTrue = usualG
+      .filter((value) => value.state == true)
+      .map((value) => value.id);
+    getTrue.push(picked.id);
+
+    params.set("g", getTrue.join(","));
+    params.set("page", "1");
+    replace(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
   function removeGenre(picked: TypeBtnGenres) {
@@ -760,6 +739,19 @@ export default function FilterSideMenu({
       })
     );
 
+    let getTrue = usualG
+      .filter((value) => value.state == true)
+      .map((value) => value.id)
+      .filter((value) => value !== picked.id);
+
+    if (getTrue.length == 0) {
+      params.delete("g");
+    } else {
+      params.set("g", getTrue.join(","));
+    }
+
+    params.set("page", "1");
+    replace(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
   function addProvider(picked: TypeBtnProvider) {
@@ -821,6 +813,15 @@ export default function FilterSideMenu({
       ]);
     }
 
+    let getTrue = usualP
+      .filter((value) => value.state == true)
+      .map((value) => value.provider_id);
+
+    getTrue.push(picked.provider_id);
+
+    params.set("p", getTrue.join("|"));
+    params.set("page", "1");
+    replace(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
   function removeProvider(picked: TypeBtnProvider) {
@@ -856,6 +857,19 @@ export default function FilterSideMenu({
       })
     );
 
+    let getTrue = usualP
+      .filter((value) => value.state == true)
+      .map((value) => value.provider_id)
+      .filter((value) => value !== picked.provider_id);
+
+    if (getTrue.length == 0) {
+      params.delete("p");
+    } else {
+      params.set("p", getTrue.join("|"));
+    }
+
+    params.set("page", "1");
+    replace(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
   return (
@@ -881,7 +895,7 @@ export default function FilterSideMenu({
             <Break />
             <RangeVote />
             <Break />
-            {/* <SelectGenre clear={reset} /> */}
+
             {dataGenres && (
               <GenreSelector
                 genres={dataGenres}
@@ -919,7 +933,10 @@ export default function FilterSideMenu({
                 {usualP.length > 0 && (
                   <ul className="h-11 w-auto  flex   justify-start gap-2 select-none   ">
                     {usualP.map((value) => (
-                      <li key={value.provider_id} className="h-11 backdrop-blur-xl rounded-lg w-11">
+                      <li
+                        key={value.provider_id}
+                        className="h-11 backdrop-blur-xl rounded-lg w-11"
+                      >
                         <ProviderButton
                           provider={value}
                           add={addProvider}

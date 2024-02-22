@@ -62,13 +62,10 @@ const config: Config = {
       current: 'currentColor',
       white: colors.white,
       black: colors.black,
-
-      // Background: '#e4e6e6',
       Background: '#F9F9F9',
       onBackground1: '#494A4A',
       onBackground2: '#5A5B5B',
       Surface: '#F2F4F4',
-      // Surface80: '#edf2f2',
       Surface80: '#E4E6E6',
       onSurface1: '#494A4A',
       onSurface2: '#5A5B5B',

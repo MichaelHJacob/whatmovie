@@ -223,7 +223,7 @@
   } */
 
   .subTitle {
-    @apply h-min p-0.5 text-onBackground1 text-lg font-semibold leading-4 antialiased tracking-normal ;
+    @apply  p-0.5 text-onBackground1 text-lg font-semibold leading-4 antialiased tracking-normal whitespace-normal;
   }
 
   .label {

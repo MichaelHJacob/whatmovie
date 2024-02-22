@@ -60,7 +60,6 @@ export default function Videos({
                 md:ListSpacing list-none no-scrollbar relative 
                "
             >
-              {/* max-md:py-2 max-md:pl-2 max-md:my-[-0.5rem] max-md:ml-[-0.5rem] */}
               {videosArray.map((value, index) => (
                 <li
                   className={`w-full max-md:flex box-content relative snap-start snap-always cursor-pointer   overflow-visible items-center  justify-start md:gridColSpanMovie transform-gpu transition-all duration-300  ${

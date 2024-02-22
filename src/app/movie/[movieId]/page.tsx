@@ -1,7 +1,5 @@
 import {
   DetailsMovieType,
-  // CreditsType,
-  // VideosType,
 } from "@/components/utils/types";
 import {
   BlockContainer,
@@ -9,7 +7,6 @@ import {
   Container,
   SubTitle,
 } from "@/components/comps";
-// import Image from "next/image";
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { getPlaiceholder } from "plaiceholder";
@@ -167,11 +164,9 @@ export default async function Movie({
               {typeof data.poster_path == "string" ? (
                 <img
                   src={process.env.DB_IMG_URL_L + data.poster_path}
-                  // blurDataURL={base64}
                   alt={data.original_title}
                   width={780}
                   height={1170}
-                  // placeholder="blur"
                   sizes="80vh"
                   className="rounded-lg  shadow-2xl shadow-black/40"
                 />
@@ -186,7 +181,6 @@ export default async function Movie({
                 </div>
               )}
             </div>
-            {/* before:absolute before:animate-deform before:h-full before:w-full before:bg-black/50 before:blur-3xl before:z-[-2] */}
             <dl className="relative z-40 md:col-span-8 lg:col-[span_15_/_span_15] max-md:bg-gray-950/50 max-md:backdrop-blur-3xl rounded-lg px-4 pb-4 
              text-black">
               <h2
@@ -308,9 +302,7 @@ export default async function Movie({
               </>
             )}
             {data.homepage && (
-              <>
-                <dt className="label">Data de lançamento:</dt>
-                <dd className="data mb-2">
+                <dt className="label mb-2">
                   <a
                     href={data.homepage}
                     target="_blank"
@@ -318,8 +310,7 @@ export default async function Movie({
                   >
                     Site Oficial
                   </a>
-                </dd>
-              </>
+                </dt>
             )}
           </CardInformation>
           <CardInformation>
