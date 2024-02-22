@@ -5,7 +5,6 @@ import { SearchResult, ListGenres } from "./utils/types";
 import Link from "next/link";
 import { BlockContainer } from "./comps";
 
-
 export default function Search() {
   const searchParams = useSearchParams();
   const [dataGenres, setGenres] = useState<ListGenres | null>(null);
@@ -29,7 +28,7 @@ export default function Search() {
     if (term.length > 1 && term !== " ") {
       timeGet.current = setTimeout(() => {
         getData(term);
-      }, 300);
+      }, 500);
     }
   }
 
@@ -64,7 +63,7 @@ export default function Search() {
     <details
       ref={details}
       onMouseLeave={() => {
-        if (details.current !== null ) {
+        if (details.current !== null) {
           if (details.current.hasAttribute("open")) {
             details.current.toggleAttribute("open");
             input.current && input.current.blur();
@@ -75,9 +74,17 @@ export default function Search() {
     >
       <summary
         onKeyUp={(e) => {
-          e.key == " " && e.preventDefault();
-          if(e.key == "Enter" && term == "" ){
-            setData(null)
+          if (
+            input.current !== undefined &&
+            input.current?.focus &&
+            e.key == " "
+          ) {
+            if (
+              details.current !== undefined &&
+              details.current?.hasAttribute("open")
+            ) {
+              e.preventDefault();
+            }
           }
         }}
         className=" cursor-pointer   sm:pl-[--pXS] lg:pl-[--pLG] flex relative z-10 group-open:gap-[var(--gap)] group-open:xs:gap-[var(--gapXS)] md:gap-[var(--gapMD)] lg:gap-[var(--gapLG)]"
@@ -94,6 +101,18 @@ export default function Search() {
                 if (details.current.hasAttribute("open") == false) {
                   details.current.toggleAttribute("open");
                 }
+              }
+            }}
+            onKeyUp={(e) => {
+              if (e.key == "Enter" && input.current?.value == "") {
+                setData([]);
+              }
+              if (
+                e.key == "Enter" &&
+                input.current != undefined &&
+                input.current?.value.length >= 2
+              ) {
+                getData(input.current?.value);
               }
             }}
             type="search"
@@ -119,11 +138,11 @@ export default function Search() {
         </div>
         <BlockContainer>
           <ul className="h-full w-full flex justify-start flex-col items-start gap-[var(--gap)] xs:gap-[var(--gapXS)] md:gap-[var(--gapMD)] lg:gap-[var(--gapLG)]  box-border">
-            {data &&
+            {data !== null &&
               data?.map((value) => {
                 return (
                   <li
-                    key={value.title}
+                    key={value.id}
                     onClick={() => {
                       if (details.current !== null) {
                         if (details.current.hasAttribute("open")) {

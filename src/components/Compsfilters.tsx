@@ -1,12 +1,6 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import {
-  ChangeEvent,
-  Fragment,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, Fragment, useEffect, useRef, useState } from "react";
 import { BlockContainer, Container } from "./comps";
 import {
   ListGenres,
@@ -520,7 +514,7 @@ export default function FilterSideMenu({
             />
           </label>
         </div>
-     
+
         <div className=" w-full h-11  pt-[20px] ">
           <div className="h-1  bg-btnFilter relative  rounded-lg">
             <div
@@ -601,12 +595,10 @@ export default function FilterSideMenu({
       case "p":
         setProviders(JSON.parse(JSON.stringify(resetProviders)));
         setUsualP([]);
-        console.log("provedor");
         break;
       case "g":
         setGenres(JSON.parse(JSON.stringify(resetGenres)));
         setUsualG([]);
-        console.log("genres");
         break;
       default:
         setProviders(JSON.parse(JSON.stringify(resetProviders)));
@@ -616,7 +608,6 @@ export default function FilterSideMenu({
         replace(`${pathname}`);
         return;
     }
-    console.log("depois do switch");
     params.delete(filter);
     replace(`${pathname}?${params.toString()}`);
   }

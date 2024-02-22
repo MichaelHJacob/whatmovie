@@ -48,7 +48,6 @@ async function getFilter(searchParams: { [key: string]: string }) {
 
   const providers = () => {
     if (typeof searchParams?.p == "string") {
-      console.log(searchParams?.p);
       return `&with_watch_providers=${encodeURIComponent(searchParams?.p)}`;
     } else {
       return "";
@@ -97,7 +96,6 @@ export default async function Page({
   searchParams: { [key: string]: string };
 }) {
   const data: DiscoverType = await getFilter(searchParams);
-  console.log(data.results.length);
   return (
     <>
       <BlockContainer>
