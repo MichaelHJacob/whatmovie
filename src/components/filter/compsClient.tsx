@@ -1,13 +1,13 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, Fragment, useEffect, useRef, useState } from "react";
-import { BlockContainer, Container } from "./comps";
 import {
   ListGenres,
   MovieProviders,
   TypeBtnGenres,
   TypeBtnProvider,
-} from "./utils/types";
+} from "../utils/types";
+import { BlockContainer, Container } from "../frame";
 
 export function BtnPages({ totalPages }: { totalPages: number }) {
   const { replace } = useRouter();

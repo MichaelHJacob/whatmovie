@@ -1,5 +1,5 @@
-import { BlockContainer, Container } from "@/components/comps";
-import FilterSideMenu from "@/components/Compsfilters";
+import { BlockContainer, Container } from "@/components/frame";
+import FilterSideMenu from "@/components/filter/compsClient";
 import { Suspense } from "react";
 
 function LoadingCards() {

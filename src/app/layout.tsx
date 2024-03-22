@@ -1,8 +1,9 @@
 import "./globals.css";
 import type { Metadata , Viewport } from "next";
 import { Barlow } from "next/font/google";
-// import Background from "@/components/background";
-import { Header } from "@/components/comps";
+import { Suspense } from "react";
+import Link from "next/link";
+import Search from "@/components/client/search";
 
 
 const barlow = Barlow({weight: ['400', '500', '600', '700'], subsets: ['latin']})
@@ -26,9 +27,41 @@ export default function RootLayout({children}: {
 }) {
   return (
     <html lang="pt-br" className={barlow.className}>
-      <body className="bg-Background overflow-x-hidden scrollStyle">
+      <body className="bg-Background overflow-x-clip scrollStyle">
        
-        <Header />
+      <header className=" w-full max-w-screen-2xl  top-0 fixed left-1/2 translate-x-[-50%] z-[1000] overflow-visible">
+      <nav
+        className="w-full h-11 z-[2000]  backdrop-saturate-150   backdrop-blur-xl 
+      px-[var(--p)] xs:px-[var(--pXS)] lg:px-[var(--pLG)] max-w-7xl 
+      mx-auto  flex justify-start items-center xl:rounded-lg   transition-all duration-700 overflow-visible  has-[:open]:bg-black invert-0
+     
+      gap-[var(--gap)] 
+    xs:gap-[var(--gapXS)] 
+    md:gap-[var(--gapMD)] 
+    lg:gap-[var(--gapLG)] "
+      >
+        <Suspense>
+          <Search />
+        </Suspense>
+
+        <Link
+          href={`/filter`}
+          className=" main-backBtn bg-transparent main-TextBtn   overflow-hidden  backdrop-filter-none w-36 justify-center px-0
+          peer-open:w-0  order-3"
+        >
+          <h2>Filtro</h2>
+        </Link>
+
+        <div className="w-full max-sm:peer-open:w-0 max-sm:peer-open:opacity-0 transition-all duration-700 overflow-hidden">
+          <Link
+            href="/"
+            className="btn-link text-xl  font-bold whitespace-nowrap w-auto "
+          >
+            <h1>What Movie</h1>
+          </Link>
+        </div>
+      </nav>
+    </header>
 
       
         {children}

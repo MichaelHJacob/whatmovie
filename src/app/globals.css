@@ -77,8 +77,8 @@
   }
   /* Hide scrollbar for IE, Edge and Firefox */
   .no-scrollbar {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
   }
 
   .btnRange {
@@ -126,13 +126,21 @@
     xs:pt-[calc(2.75rem+var(--pXS))]
     lg:pt-[calc(2.75rem+var(--pLG))];
   }
+
+  .blockContainer-x {
+    @apply px-[var(--p)]      
+        xs:px-[var(--pXS)]     
+        md:px-[var(--pMD)]     
+        lg:px-[var(--pLG)];
+  }
+
   .blockContainer {
-    @apply px-[var(--p)]      pb-[var(--p)] 
-        xs:px-[var(--pXS)]    xs:pb-[var(--pXS)] 
-        md:px-[var(--pMD)]    md:pb-[var(--pMD)] 
-        lg:px-[var(--pLG)]    lg:pb-[var(--pLG)]
-      scrollStyle ;
-     
+    @apply blockContainer-x
+         pb-[var(--p)] 
+      xs:pb-[var(--pXS)] 
+      md:pb-[var(--pMD)] 
+      lg:pb-[var(--pLG)]
+      scrollStyle;
   }
 
   .gridAutoSpace {
@@ -159,21 +167,16 @@
     xs:grid-cols-[repeat(15,_minmax(0,_1fr))]  
     md:grid-cols-12 
     lg:grid-cols-[repeat(20,_minmax(0,_1fr))]
-    /* xl:grid-cols-12;  */
+    /* xl:grid-cols-12;  */;
   }
 
   .gridColSpanMovie {
-    @apply col-span-5 xs:col-span-5 md:col-span-3 lg:col-span-4 
-    /* xl:col-span-2  */
-    snap-start;
+    @apply col-span-5 xs:col-span-5 md:col-span-3 lg:col-span-4 snap-start;
   }
 
   .gridColSpanPeople {
-    @apply col-span-3 xs:col-span-3 md:col-span-2 lg:col-span-3 snap-start;
-    /* xl:col-span-3 */
+    @apply h-min col-span-3 xs:col-span-3 md:col-span-2 lg:col-span-3 snap-start;
   }
-
-  
 
   .spacingShrinkerBlock-x {
     @apply mx-[calc(var(--p)*-1)]      
@@ -189,10 +192,10 @@
   }
 
   .ListSpacing {
-    @apply blockContainer scrollStyle 
+    @apply scrollStyle blockContainer-x spacingShrinkerBlock-x 
     grid grid-flow-col grid-rows-[min-content]
    
-    spacingShrinkerBlock
+    
     
        scroll-pl-[var(--p)] 
     xs:scroll-pl-[var(--pXS)] 
@@ -218,12 +221,8 @@
     -moz-appearance: textfield;
   }
 
-  /* .title {
-    @apply text-base uppercase font-semibold text-onSurface1;
-  } */
-
   .subTitle {
-    @apply  p-0.5 text-onBackground1 text-lg font-semibold leading-4 antialiased tracking-normal whitespace-normal;
+    @apply p-0.5 text-onBackground1 text-lg font-semibold leading-4 antialiased tracking-normal whitespace-normal;
   }
 
   .label {
@@ -248,7 +247,6 @@
   }
 
   .filter-label {
-    /* dark:text-neutral-300/50 */
     @apply text-base text-onSurface2  font-semibold px-1 antialiased;
   }
 
@@ -270,7 +268,7 @@
   }
 
   .main-backBtn {
-    @apply filter-BackBtn bg-Surface80/80   backdrop-blur-xl  backdrop-saturate-150 ;
+    @apply filter-BackBtn bg-Surface80/80   backdrop-blur-xl  backdrop-saturate-150;
   }
 
   .list-backBtn {
@@ -282,7 +280,6 @@
   }
 
   .unavailable {
-    @apply  bg-gradient-to-b from-solid-pink-950/5 to-neutral-500/15  object-cover;
-  } 
-
+    @apply bg-gradient-to-b from-solid-pink-950/5 to-neutral-500/15  object-cover;
+  }
 }

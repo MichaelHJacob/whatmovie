@@ -1,11 +1,9 @@
 import "./globals.css";
 import { NowPlaying } from "@/components/utils/types";
-import {
-  ListMovie,
-  Container,
-  SubTitle,
-  BlockContainer,
-} from "@/components/comps";
+import { Container, BlockContainer } from "@/components/frame";
+import { SubTitle } from "@/components/comps";
+import { ListMovie } from "@/components/comps";
+import { ListControl } from "@/components/client/comps";
 
 async function getTheatres() {
   const options = {
@@ -52,14 +50,18 @@ export default async function Home() {
     <Container>
       <div className="min-h-dvh  w-full flex flex-col justify-between ">
         <div className="w-min landscape:min-h-96 flex-1 mx-auto flex align-middle paddingHeader ">
-          <h1 className="text-5xl text-center rounded-lg w-min my-auto mx-auto   text-onBackground1">WM</h1>
+          <h1 className="text-5xl text-center rounded-lg w-min my-auto mx-auto   text-onBackground1">
+            WM
+          </h1>
         </div>
         <div className="bg-Surface relative  before:bg-Surface  before:w-screen before:h-full before:absolute before:bottom-0 before:left-[50%] before:translate-x-[-50%] before:z-[-1]">
-        <BlockContainer>
-          <SubTitle>Lançamentos</SubTitle>
-          <ListMovie data={inTheatres?.results} />
-        </BlockContainer>
-        </div> 
+          <BlockContainer>
+            <SubTitle>Lançamentos</SubTitle>
+            <ListControl id={"lancamentos"} length={inTheatres.results.length}>
+              <ListMovie data={inTheatres?.results} id={"lancamentos"} />
+            </ListControl>
+          </BlockContainer>
+        </div>
       </div>
     </Container>
   );

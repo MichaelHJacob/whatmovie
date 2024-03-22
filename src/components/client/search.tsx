@@ -1,9 +1,10 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
-import { SearchResult, ListGenres } from "./utils/types";
+import { SearchResult, ListGenres } from "../utils/types";
 import Link from "next/link";
-import { BlockContainer } from "./comps";
+import { BlockContainer } from "../frame";
+
 
 export default function Search() {
   const searchParams = useSearchParams();

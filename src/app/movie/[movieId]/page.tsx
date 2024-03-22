@@ -1,18 +1,14 @@
-import {
-  DetailsMovieType,
-} from "@/components/utils/types";
-import {
-  BlockContainer,
-  CardInformation,
-  Container,
-  SubTitle,
-} from "@/components/comps";
+import { DetailsMovieType } from "@/components/utils/types";
+import { SubTitle } from "@/components/comps";
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { getPlaiceholder } from "plaiceholder";
-import GetVideo from "@/components/compsMovie/getVideos";
-import GetRecommendations, { LoadingCardsList } from "@/components/compsMovie/getRecommendations";
-import GetPeople from "@/components/compsMovie/getPeople";
+import GetVideo from "@/components/movie/getVideos";
+import GetRecommendations, {
+  LoadingCardsList,
+} from "@/components/movie/getRecommendations";
+import GetPeople from "@/components/movie/getPeople";
+import { BlockContainer, CardInformation, Container } from "@/components/frame";
 
 async function getDetails(id: string) {
   const options = {
@@ -140,8 +136,6 @@ export default async function Movie({
     }
   }
 
-
-
   return (
     <Container>
       <div className="h-min w-full relative paddingHeader z-30">
@@ -150,20 +144,14 @@ export default async function Movie({
             className="  w-full h-full  bg-no-repeat saturate-150  blur-3xl transform scale-125 animate-mainMovie  "
             style={css}
           />
-          <div
-            className="  w-full h-full absolute top-0 left-0  bg-white/50 "
-            
-          />
-
-
+          <div className="  w-full h-full absolute top-0 left-0  bg-white/50 " />
         </div>
         <BlockContainer>
           <div className="md:gridTemplateSpace  ">
-
             <div className="relative  md:col-span-4 lg:col-span-5 overflow-visible">
               {typeof data.poster_path == "string" ? (
                 <img
-                  src={process.env.DB_IMG_URL_L + data.poster_path}
+                  src={`https://image.tmdb.org/t/p/w780` + data.poster_path}
                   alt={data.original_title}
                   width={780}
                   height={1170}
@@ -181,8 +169,10 @@ export default async function Movie({
                 </div>
               )}
             </div>
-            <dl className="relative z-40 md:col-span-8 lg:col-[span_15_/_span_15] max-md:bg-gray-950/50 max-md:backdrop-blur-3xl rounded-lg px-4 pb-4 
-             text-black">
+            <dl
+              className="relative z-40 md:col-span-8 lg:col-[span_15_/_span_15] max-md:bg-gray-950/50 max-md:backdrop-blur-3xl rounded-lg px-4 pb-4 
+             text-black"
+            >
               <h2
                 className="uppercase font-semibold tracking-widest text-4xl px-1 py-5 max-md:text-Background text-black  
               md:col-span-4 lg:col-span-5
@@ -302,15 +292,15 @@ export default async function Movie({
               </>
             )}
             {data.homepage && (
-                <dt className="label mb-2">
-                  <a
-                    href={data.homepage}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                  >
-                    Site Oficial
-                  </a>
-                </dt>
+              <dt className="label mb-2">
+                <a
+                  href={data.homepage}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  Site Oficial
+                </a>
+              </dt>
             )}
           </CardInformation>
           <CardInformation>
@@ -348,21 +338,21 @@ export default async function Movie({
         </div>
       </BlockContainer>
 
-      <Suspense fallback={<div className="bg-Surface w-full aspect-video animate-pulse "/>}>
-      <GetVideo movieID={params.movieId} />
+      <Suspense
+        fallback={
+          <div className="bg-Surface w-full aspect-video animate-pulse " />
+        }
+      >
+        <GetVideo movieID={params.movieId} />
       </Suspense>
-
 
       <Suspense>
-      <GetPeople movieID={params.movieId} />
+        <GetPeople movieID={params.movieId} />
       </Suspense>
-
-
 
       <Suspense fallback={<LoadingCardsList />}>
-      <GetRecommendations movieID={params.movieId} />
+        <GetRecommendations movieID={params.movieId} />
       </Suspense>
-
     </Container>
   );
 }

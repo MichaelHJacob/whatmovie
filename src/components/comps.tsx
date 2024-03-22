@@ -1,59 +1,16 @@
 import Link from "next/link";
 import { CreditsType, MovieType } from "./utils/types";
-import { ReactNode, Suspense } from "react";
-import Search from "./compsSearch";
+import { ReactNode } from "react";
 
-export function Header() {
+
+export function ListMovie({ data, id }: { data: MovieType[]; id: string }) {
   return (
-    <header className=" w-full max-w-screen-2xl  top-0 fixed left-1/2 translate-x-[-50%] z-[1000] overflow-visible ">
-      <nav
-        className="w-full h-11 z-[2000]  backdrop-saturate-150   backdrop-blur-xl 
-      px-[var(--p)] xs:px-[var(--pXS)] lg:px-[var(--pLG)] max-w-7xl 
-      mx-auto  flex justify-start items-center xl:rounded-lg   transition-all duration-700 overflow-visible  has-[:open]:bg-black invert-0
-     
-      gap-[var(--gap)] 
-    xs:gap-[var(--gapXS)] 
-    md:gap-[var(--gapMD)] 
-    lg:gap-[var(--gapLG)] "
-      >
-        <Suspense><Search /></Suspense>
-
-        <Link
-          href={`/filter`}
-          className=" main-backBtn bg-transparent main-TextBtn   overflow-hidden  backdrop-filter-none w-36 justify-center px-0
-          peer-open:w-0  order-3"
-        >
-          <h2>Filtro</h2>
-        </Link>
-
-        <div className="w-full max-sm:peer-open:w-0 max-sm:peer-open:opacity-0 transition-all duration-700 overflow-hidden">
-          <Link
-            href="/"
-            className="btn-link text-xl  font-bold whitespace-nowrap w-auto "
-          >
-            <h1>What Movie</h1>
-          </Link>
-        </div>
-      </nav>
-    </header>
-  );
-}
-
-export function Container({ children }: { children: ReactNode }) {
-  return <div className="max-w-7xl w-full h-auto mx-auto   ">{children}</div>;
-}
-
-export function BlockContainer({ children }: { children: ReactNode }) {
-  return <div className="blockContainer ">{children}</div>;
-}
-
-export function ListMovie({ data }: { data: MovieType[] }) {
-  return (
-    <ul className="ListSpacing list-none no-scrollbar ">
-      {data.map((value) => (
+    <ul id={id} className="ListSpacing list-none no-scrollbar ">
+      {data.map((value, index) => (
         <li
+          id={id + String(index)}
           key={value.id}
-          className="gridColSpanMovie"
+          className="gridColSpanMovie relative"
         >
           <CardMovie data={value} />
         </li>
@@ -62,15 +19,12 @@ export function ListMovie({ data }: { data: MovieType[] }) {
   );
 }
 
-export function ListPeople({ data }: { data: CreditsType }) {
+export function ListPeople({ data, id }: { data: CreditsType;  id: string  }) {
   return (
-    <ul className="ListSpacing list-none no-scrollbar ">
+    <ul id={id} className="ListSpacing lg:auto-cols-[calc((100%-20*var(--gapLG))/21)]  list-none no-scrollbar rounded-2xl">
       {data.cast.length >= 1 &&
         data.cast.map((value, index) => (
-          <li
-            key={index}
-            className="h-min gridColSpanPeople "
-          >
+          <li id={id + String(index)} key={index} className="gridColSpanPeople ">
             {typeof value.profile_path == "string" ? (
               <img
                 src={`https://image.tmdb.org/t/p/w500${value.profile_path}`}
@@ -106,8 +60,8 @@ export function ListPeople({ data }: { data: CreditsType }) {
       {data.crew.length >= 1 &&
         data.crew.map((value, index) => (
           <li
-            key={index}
-            className="col-span-3 xs:col-span-3 md:col-span-2 lg:col-span-3 snap-start h-min"
+          id={id + String(index + data.cast.length)} key={index}
+            className="gridColSpanPeople"
           >
             {typeof value.profile_path == "string" ? (
               <img
@@ -143,31 +97,12 @@ export function ListPeople({ data }: { data: CreditsType }) {
   );
 }
 
-export function CardInformation({ children }: { children: ReactNode }) {
-  return (
-    <dl
-      className="bg-Surface rounded-lg px-4 pt-4 pb-2  flex flex-col  
-   col-span-9 xs:col-span-7 sm:col-span-6 md:col-span-4 lg:col-span-5 snap-start"
-    >
-      {children}
-    </dl>
-  );
-}
-
-export function SubTitle({ children }: { children: ReactNode }) {
-  return (
-    <div className="py-2 xs:py-[1rem] lg:py-6 min-h-11">
-      <h3 className="subTitle  ">{children}</h3>
-    </div>
-  );
-}
-
-export async function CardMovie({ data }: { data: MovieType }) {
+export function CardMovie({ data }: { data: MovieType }) {
   if (typeof data.poster_path == "string") {
     return (
       <Link href={`/movie/${data.id}`} className=" w-full   ">
         <img
-          src={process.env.DB_IMG_URL_M + data.poster_path}
+          src={`https://image.tmdb.org/t/p/w780${data.poster_path}`}
           alt={data.title}
           height={330}
           width={220}
@@ -192,9 +127,11 @@ export async function CardMovie({ data }: { data: MovieType }) {
   }
 }
 
-export function Break() {
+export function SubTitle({ children }: { children: ReactNode }) {
   return (
-    <hr className="border-2 border-solid border-Surface mx-[var(--p)] xs:mx-[var(--pXS)] lg:mx-[var(--pLG)] rounded-lg " />
+    <div className="py-2 xs:py-[1rem] lg:py-6 min-h-11">
+      <h3 className="subTitle  ">{children}</h3>
+    </div>
   );
 }
 

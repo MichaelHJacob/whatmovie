@@ -1,7 +1,9 @@
 "use client";
 import { useState } from "react";
-import { BlockContainer, Break, SubTitle} from "@/components/comps";
+import { BlockContainer, Break} from "@/components/frame";
+import { SubTitle} from "@/components/comps";
 import { VideosResultsType } from "@/components/utils/types";
+import { ListControl } from "../client/comps";
 
 export default function Videos({
   videosArray,
@@ -55,13 +57,14 @@ export default function Videos({
               <span className="">Mais videos</span>
               <span className=" w-[12px] h-[12px] group-open:rotate-[270deg] bg-[url('/toRight.svg')] bg-[length:12px_12px] bg-[center_center] bg-no-repeat transition-all duration-300 "></span>
             </summary>
-            <ul
+            <ListControl id={"videos"} length={videosArray.length}>
+            <ul id="videos"
               className="max-md:flex max-md:flex-col max-xs:gap-[var(--gap)] max-md:gap-[var(--gapXS)] pt-[var(--gap)] xs:pt-[var(--gapXS)] md:pt-[var(--gapMD)] lg:pt-[var(--gapLG) 
                 md:ListSpacing list-none no-scrollbar relative 
                "
             >
               {videosArray.map((value, index) => (
-                <li
+                <li id={`videos${index}`}
                   className={`w-full max-md:flex box-content relative snap-start snap-always cursor-pointer   overflow-visible items-center  justify-start md:gridColSpanMovie transform-gpu transition-all duration-300  ${
                     selected == value &&
                     "max-md:bg-onBackground1/40  max-xs:py-[calc(var(--gap)/2)] max-xs:pl-[calc(var(--gap)/2)] max-xs:my-[calc((var(--gap)/2)*-1)] max-xs:ml-[calc((var(--gap)/2)*-1)]  max-md:py-[calc(var(--gapXS)/2)] max-md:pl-[calc(var(--gapXS)/2)] max-md:my-[calc((var(--gapXS)/2)*-1)] max-md:ml-[calc((var(--gapXS)/2)*-1)] rounded-xl md:scale-105 "
@@ -81,6 +84,7 @@ export default function Videos({
                 </li>
               ))}
             </ul>
+            </ListControl>
           </details>
         </BlockContainer>
       </div>

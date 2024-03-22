@@ -1,5 +1,6 @@
-import { BlockContainer, CardMovie, SubTitle } from "@/components/comps";
-import { BtnPages } from "@/components/Compsfilters";
+import { BlockContainer } from "@/components/frame";
+import { CardMovie, SubTitle } from "@/components/comps";
+import { BtnPages } from "@/components/filter/compsClient";
 import { DiscoverType } from "@/components/utils/types";
 
 async function getFilter(searchParams: { [key: string]: string }) {

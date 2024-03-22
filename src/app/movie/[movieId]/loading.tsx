@@ -2,8 +2,8 @@ import {
   BlockContainer,
   CardInformation,
   Container,
-  SubTitle,
-} from "@/components/comps";
+} from "@/components/frame";
+
 
 export default function Loading() {
   return (
