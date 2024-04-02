@@ -45,14 +45,20 @@ async function getTheatres() {
 
 export default async function Home() {
   const inTheatres: NowPlaying = await getTheatres();
-  // const upcoming = await getUpcoming();
+  // const upcoming = await getUpcoming(); 
   return (
     <Container>
       <div className="min-h-dvh  w-full flex flex-col justify-between ">
-        <div className="w-min landscape:min-h-96 flex-1 mx-auto flex align-middle paddingHeader ">
-          <h1 className="text-5xl text-center rounded-lg w-min my-auto mx-auto   text-onBackground1">
-            WM
-          </h1>
+        <div className="w-full landscape:min-h-96 flex-1 mx-auto flex justify-center items-center paddingHeader">
+          <div className="relative  before:content-[''] before:absolute before:w-[200%]  before:h-2/3 before:bg-gradient-to-r before:from-[#F66659] before:via-[#25356B] before:to-[#00CCFF] before:rounded-full before:opacity-70 before:left-1/2 before:-translate-x-[43%] before:-rotate-2 before:blur-3xl before:top-3/4 ">
+          <img
+              className="drop-shadow-[0_15px_25px_#69696954] "
+              src="/logoWM.svg"
+              alt="What Movie Logo"
+              width={180}
+              height={37}
+            />
+          </div>
         </div>
         <div className="bg-Surface relative  before:bg-Surface  before:w-screen before:h-full before:absolute before:bottom-0 before:left-[50%] before:translate-x-[-50%] before:z-[-1]">
           <BlockContainer>
