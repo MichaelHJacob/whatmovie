@@ -21,10 +21,8 @@ async function getCredits(movieID: string) {
   return res.json();
 }
 
-export default async function GetPeople({ movieID }: { movieID: string }) {
+export  async function GetPeople({ movieID }: { movieID: string }) {
   const Credits: CreditsType = await getCredits(movieID);
-  let cast = false;
-  let crew = true;
 
   if (Credits.cast.length >= 1 || Credits.crew.length >= 1) {
 
@@ -44,5 +42,27 @@ export default async function GetPeople({ movieID }: { movieID: string }) {
     );
   } else {
     return <span className="hidden">Recomendações não disponível</span>;
+  }
+}
+export  async function GetDirector({ movieID }: { movieID: string }) {
+  const Credits: CreditsType = await getCredits(movieID);
+  
+  function getDirector(){
+   
+    return <>{Credits.crew.filter((value) => value.job == 'Director').map((value) => value.name).join(', ')}</>
+  }
+
+  if (Credits.crew.length >= 1) {
+
+    return (
+      <>
+      <dt className="label max-md:text-Background text-black font-bold">
+        Diretor:
+      </dt>
+      <dd className="data mb-2 max-md:text-Background text-black font-semibold">
+        {getDirector()}
+      </dd>
+    </>
+    );
   }
 }

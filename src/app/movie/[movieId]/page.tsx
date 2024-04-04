@@ -7,7 +7,7 @@ import GetVideo from "@/components/movie/getVideos";
 import GetRecommendations, {
   LoadingCardsList,
 } from "@/components/movie/getRecommendations";
-import GetPeople from "@/components/movie/getPeople";
+import { GetPeople, GetDirector } from "@/components/movie/getPeople";
 import { BlockContainer, CardInformation, Container } from "@/components/frame";
 
 async function getDetails(id: string) {
@@ -201,24 +201,14 @@ export default async function Movie({
                   <dt className="label max-md:text-Background text-black font-bold">
                     Sinopse:
                   </dt>
-                  <dd className="data mb-2 max-md:text-Background text-black font-semibold    ">
-                    {" "}
+                  <dd className="data mb-2 max-md:text-Background text-black font-semibold">
                     {data.overview}
                   </dd>
                 </>
               )}
-
-              {/* {getDirector() !== undefined && (
-                <>
-                  <dt className="label max-md:text-Background text-black">
-                    Diretor:
-                  </dt>
-                  <dd className="data mb-2 max-md:text-Background text-black">
-                    {" "}
-                    {getDirector()}
-                  </dd>
-                </>
-              )} */}
+              <Suspense>
+                <GetDirector movieID={params.movieId} />
+              </Suspense>
             </dl>
           </div>
         </BlockContainer>
