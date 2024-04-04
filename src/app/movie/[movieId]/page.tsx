@@ -183,15 +183,10 @@ export default async function Movie({
               <dd className="data mb-2  max-md:text-Background text-black font-semibold mt-[-1.25rem] ">
                 {data.release_date && (
                   <>{formatDateNumber(data.release_date)}</>
-                )}{" "}
+                )}{"; "}
                 {data.genres && (
                   <>
-                    {data.genres.map((value, i, a) => (
-                      <>
-                        {value.name}
-                        {i + 1 < a.length && ", "}
-                      </>
-                    ))}
+                    {data.genres.map((value, i, a) => value.name).join(", ")}
                   </>
                 )}
               </dd>
@@ -213,8 +208,7 @@ export default async function Movie({
           </div>
         </BlockContainer>
       </div>
-      <div className="    bg-Background/70 fixed top-0  left-0 h-11  w-full    z-20 " />
-
+      <div className="bg-Background/70  fixed top-0  left-0 h-11  w-full z-20 "/>
       <BlockContainer>
         <SubTitle>Mais detalhes</SubTitle>
 
@@ -272,12 +266,7 @@ export default async function Movie({
               <>
                 <dt className="label">Gêneros:</dt>
                 <dd className="data mb-2">
-                  {data.genres.map((value, i, a) => (
-                    <>
-                      {value.name}
-                      {i + 1 < a.length && ", "}
-                    </>
-                  ))}
+                  {data.genres.map((value, i, a) => value.name).join(", ")}
                 </dd>
               </>
             )}

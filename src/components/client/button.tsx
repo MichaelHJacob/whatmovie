@@ -62,12 +62,22 @@ export default function BtnScrollTo({
           atual !== null &&
           atual.getBoundingClientRect().right > parentSdR
         ) {
-          if (i == length - 1 || i + visible >= length - 1) {
+          if (i == length - 1 || i - 1 + visible >= length - 1) {
             let last = document.getElementById(id + String(length - 1));
-            last !== null && last.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
+            last !== null &&
+              last.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest",
+                inline: "nearest",
+              });
           } else {
-            let last = document.getElementById(id + String(i + visible));
-            last !== null && last.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
+            let last = document.getElementById(id + String(i - 1 + visible));
+            last !== null &&
+              last.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest",
+                inline: "nearest",
+              });
             i = length;
           }
         }
@@ -97,12 +107,22 @@ export default function BtnScrollTo({
           atual !== null &&
           atual.getBoundingClientRect().left < parentSdL
         ) {
-          if (i == 0 || i - visible < 0) {
-            let last = document.getElementById(id + String(0));
-            last !== null && last.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
+          if (i == 0 || i + 1 - visible <= 0) {
+            let last = document.getElementById(id + "0");
+            last !== null &&
+              last.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest",
+                inline: "nearest",
+              });
           } else {
-            let last = document.getElementById(id + String(i - visible));
-            last !== null && last.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
+            let last = document.getElementById(id + String(i + 1 - visible));
+            last !== null &&
+              last.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest",
+                inline: "nearest",
+              });
             i = 0;
           }
         }

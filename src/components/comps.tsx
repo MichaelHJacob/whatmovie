@@ -2,10 +2,9 @@ import Link from "next/link";
 import { CreditsType, MovieType } from "./utils/types";
 import { ReactNode } from "react";
 
-
 export function ListMovie({ data, id }: { data: MovieType[]; id: string }) {
   return (
-    <ul id={id} className="ListSpacing list-none no-scrollbar ">
+    <ul id={id} className="ListSpacing list-none no-scrollbar">
       {data.map((value, index) => (
         <li
           id={id + String(index)}
@@ -19,12 +18,19 @@ export function ListMovie({ data, id }: { data: MovieType[]; id: string }) {
   );
 }
 
-export function ListPeople({ data, id }: { data: CreditsType;  id: string  }) {
+export function ListPeople({ data, id }: { data: CreditsType; id: string }) {
   return (
-    <ul id={id} className="ListSpacing lg:auto-cols-[calc((100%-20*var(--gapLG))/21)]  list-none no-scrollbar rounded-2xl">
+    <ul
+      id={id}
+      className="ListSpacing lg:auto-cols-[calc((100%-20*var(--gapLG))/21)]  list-none no-scrollbar rounded-2xl"
+    >
       {data.cast.length >= 1 &&
         data.cast.map((value, index) => (
-          <li id={id + String(index)} key={index} className="gridColSpanPeople ">
+          <li
+            id={id + String(index)}
+            key={index}
+            className="gridColSpanPeople "
+          >
             {typeof value.profile_path == "string" ? (
               <img
                 src={`https://image.tmdb.org/t/p/w500${value.profile_path}`}
@@ -60,7 +66,8 @@ export function ListPeople({ data, id }: { data: CreditsType;  id: string  }) {
       {data.crew.length >= 1 &&
         data.crew.map((value, index) => (
           <li
-          id={id + String(index + data.cast.length)} key={index}
+            id={id + String(index + data.cast.length)}
+            key={index}
             className="gridColSpanPeople"
           >
             {typeof value.profile_path == "string" ? (
@@ -134,4 +141,3 @@ export function SubTitle({ children }: { children: ReactNode }) {
     </div>
   );
 }
-
