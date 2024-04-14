@@ -922,11 +922,11 @@ export default function FilterSideMenu({
                 <BtnScroll />
                 <BtnReset />
                 {usualP.length > 0 && (
-                  <ul className="h-11 w-auto  flex   justify-start gap-2 select-none   ">
+                  <ul className="h-11 w-auto  flex   justify-start gap-2 select-none  ">
                     {usualP.map((value) => (
                       <li
                         key={value.provider_id}
-                        className="h-11 backdrop-blur-xl rounded-lg w-11"
+                        className="h-9 overflow-hidden items-center flex backdrop-blur-xl rounded-lg w-11"
                       >
                         <ProviderButton
                           provider={value}
@@ -938,7 +938,7 @@ export default function FilterSideMenu({
                   </ul>
                 )}
                 {usualG.length > 0 && (
-                  <ul className="h-11 w-auto  flex  justify-start gap-2 select-none   ">
+                  <ul className="h-11 w-auto  flex  justify-start gap-2 select-none  ">
                     {usualG.map((value) => (
                       <li key={value.id} className="h-11  w-min">
                         <GenreButton

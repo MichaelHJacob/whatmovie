@@ -220,9 +220,9 @@
   input[type="number"] {
     -moz-appearance: textfield;
   }
-
+/*  */
   .subTitle {
-    @apply p-0.5 text-onBackground1 text-lg font-bold leading-4 antialiased tracking-normal whitespace-normal;
+    @apply p-0.5  text-onBackground1 text-lg font-bold leading-4 antialiased tracking-normal whitespace-normal;
   }
 
   .label {
@@ -255,7 +255,7 @@
   }
 
   .filter-BackBtn {
-    @apply h-11 bg-Surface80 px-4  inline-flex gap-2   items-center rounded-lg appearance-none cursor-pointer border-none 
+    @apply h-9 bg-Surface80 px-4  inline-flex gap-2   items-center rounded-lg appearance-none cursor-pointer border-none 
     hover:shadow-onBackground2/20 shadow-lg shadow-transparent transition-all duration-300 active:bg-theme/20;
   }
 
@@ -264,7 +264,7 @@
   }
 
   .main-TextBtn {
-    @apply text-base font-semibold text-onSurface1 select-none;
+    @apply text-base font-semibold text-onBackground1 select-none tracking-wide ;
   }
 
   .main-backBtn {

@@ -62,10 +62,10 @@ const config: Config = {
       current: 'currentColor',
       white: colors.white,
       black: colors.black,
-      Background: '#F9F9F9',
-      onBackground1: '#494A4A',
+      Background: '#f5f5f7',
+      onBackground1: 'rgb(0 0 0 / 0.75)',
       onBackground2: '#5A5B5B',
-      Surface: '#F2F4F4',
+      Surface: '#ffffff',
       Surface80: '#E4E6E6',
       onSurface1: '#494A4A',
       onSurface2: '#5A5B5B',
@@ -115,6 +115,9 @@ const config: Config = {
       'xs': '475px',
       ...defaultTheme.screens
     },
+    fontFamily: {
+      'sans': ['"Helvetica Neue"', 'Helvetica','var(--font-open-sans)','var(--font-barlow)','Arial' ]
+    }
 
   },
   plugins: [

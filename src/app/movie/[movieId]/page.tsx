@@ -54,7 +54,7 @@ export default async function Movie({
     var css = {
       backgroundImage: "linear-gradient(to top right, #075985, #3e131ca8)",
       backgroundPosition: "center",
-      backgroundSize: "100%, 100%",
+      backgroundSize: "contain",
       backgroundRepeat: "no-repeat",
     };
   }
@@ -139,15 +139,15 @@ export default async function Movie({
   return (
     <Container>
       <div className="h-min w-full relative paddingHeader z-30">
-        <div className="w-screen left-[50%] translate-x-[-50%]  h-full absolute top-0  z-[-1] overflow-hidden">
+        <div className="w-screen left-[50%] translate-x-[-50%]  h-full absolute top-0  z-[-1] overflow-hidden bg-gray-400 animate-mainMovie">
           <div
-            className="  w-full h-full  bg-no-repeat saturate-150  blur-3xl transform scale-125 animate-mainMovie  "
             style={css}
+            className="w-full h-full  bg-no-repeat saturate-150 rotate-180 opacity-50  blur-3xl"
           />
-          <div className="  w-full h-full absolute top-0 left-0  bg-white/50 " />
+          <div className="  w-full h-full absolute top-0 left-0   backdrop-blur-3xl " />
         </div>
         <BlockContainer>
-          <div className="md:gridTemplateSpace  ">
+          <div className="md:gridTemplateSpace items-center  ">
             <div className="relative  md:col-span-4 lg:col-span-5 overflow-visible">
               {typeof data.poster_path == "string" ? (
                 <img
@@ -156,7 +156,7 @@ export default async function Movie({
                   width={780}
                   height={1170}
                   sizes="80vh"
-                  className="rounded-lg  shadow-2xl shadow-black/40"
+                  className="rounded-lg  shadow-2xl shadow-onBackground1"
                 />
               ) : (
                 <div className="rounded-lg flex flex-col justify-between items-center pb-10 pt-5  w-full h-full overflow-hidden bg-gradient-to-b from-solid-pink-950/5 to-neutral-500/15  break-words  shadow-xl shadow-black/30 aspect-[18/27] ">
@@ -171,32 +171,29 @@ export default async function Movie({
             </div>
             <dl
               className="relative z-40 md:col-span-8 lg:col-[span_15_/_span_15] max-md:bg-gray-950/50 max-md:backdrop-blur-3xl rounded-lg px-4 pb-4 
-             text-black"
+              h-min  "
             >
               <h2
-                className="uppercase font-semibold tracking-widest text-4xl px-1 py-5 max-md:text-Background text-black  
+                className="font-semibold tracking-wide text-4xl px-1 py-5 
               md:col-span-4 lg:col-span-5
-                 mt-[calc(var(--p)*-1)]  "
+                 mt-[calc(var(--p)*-1)] text-Surface "
               >
                 {data.title}
               </h2>
-              <dd className="data mb-2  max-md:text-Background text-black font-semibold mt-[-1.25rem] ">
+              <dd className="data mb-2  text-Surface font-semibold mt-[-1.25rem]">
                 {data.release_date && (
                   <>{formatDateNumber(data.release_date)}</>
-                )}{"; "}
+                )}
+                {" - "}
                 {data.genres && (
-                  <>
-                    {data.genres.map((value, i, a) => value.name).join(", ")}
-                  </>
+                  <>{data.genres.map((value) => value.name).join(", ")}</>
                 )}
               </dd>
 
               {data.overview && (
                 <>
-                  <dt className="label max-md:text-Background text-black font-bold">
-                    Sinopse:
-                  </dt>
-                  <dd className="data mb-2 max-md:text-Background text-black font-semibold">
+                  <dt className="label text-Surface  font-bold">Sinopse:</dt>
+                  <dd className="data mb-2 text-Surface  font-semibold">
                     {data.overview}
                   </dd>
                 </>
@@ -208,11 +205,11 @@ export default async function Movie({
           </div>
         </BlockContainer>
       </div>
-      <div className="bg-Background/70  fixed top-0  left-0 h-11  w-full z-20 "/>
+      <div className="bg-Background/70  fixed top-0  left-0 h-11  w-full z-20 " />
       <BlockContainer>
         <SubTitle>Mais detalhes</SubTitle>
 
-        <div className="ListSpacing">
+        <div className="ListSpacing  pt-11 mt-[-44px] ">
           <CardInformation>
             {data.original_title && (
               <>

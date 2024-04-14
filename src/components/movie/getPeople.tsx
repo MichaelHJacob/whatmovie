@@ -60,10 +60,10 @@ export async function GetDirector({ movieID }: { movieID: string }) {
   if (Credits.crew.length >= 1) {
     return (
       <>
-        <dt className="label max-md:text-Background text-black font-bold">
+        <dt className="label text-Background  font-bold">
           Diretor:
         </dt>
-        <dd className="data mb-2 max-md:text-Background text-black font-semibold">
+        <dd className="data mb-2 text-Background  font-semibold">
           {getDirector()}
         </dd>
       </>

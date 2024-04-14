@@ -136,7 +136,7 @@ export function CardMovie({ data }: { data: MovieType }) {
 
 export function SubTitle({ children }: { children: ReactNode }) {
   return (
-    <div className="py-2 xs:py-[1rem] lg:py-6 min-h-11">
+    <div className="py-2 xs:py-[1rem] lg:py-6 min-h-11  ">
       <h3 className="subTitle  ">{children}</h3>
     </div>
   );

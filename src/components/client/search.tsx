@@ -92,7 +92,7 @@ export default function Search() {
       >
         <span
           className=" group-open:w-11 aspect-square w-0 h-11 inline opacity-0 group-open:opacity-100
-      sm:bg-[url('/close.svg')] bg-[url('/toLeft.svg')] bg-[length:12px_12px] bg-[center_center] bg-no-repeat  rounded-lg main-TextBtn main-backBtn bg-Surface80/30 shadow-lg shadow-transparent px-0"
+      sm:bg-[url('/close.svg')] bg-[url('/toLeft.svg')] bg-[length:12px_12px] bg-[center_center]  bg-no-repeat  rounded-lg main-TextBtn main-backBtn bg-Surface80/30 shadow-lg shadow-transparent px-0"
         ></span>
         <label htmlFor="search" className=" inline w-full cursor-pointer">
           <input
@@ -117,7 +117,7 @@ export default function Search() {
               }
             }}
             type="search"
-            className="w-full h-11 bg-[url('/lupa.svg')] bg-[length:12px_12px] bg-[center_left_1.3rem] bg-no-repeat pl-11  max-sm:w-full  rounded-lg main-TextBtn main-backBtn placeholder:main-TextBtn bg-Surface80/30 shadow-lg shadow-transparent peer order-2 hover:shadow-onBackground2/20 focus:bg-Surface80"
+            className="w-full h-11 bg-[url('/lupa.svg')] bg-[length:12px_12px] bg-[center_left_1.3rem]  bg-no-repeat pl-11  max-sm:w-full  rounded-lg main-TextBtn main-backBtn placeholder:main-TextBtn bg-Surface80/30 shadow-lg shadow-transparent peer order-2 hover:shadow-onBackground2/20 focus:bg-Surface80"
             id="search"
             placeholder="Buscar por filme"
             onChange={(e) => {

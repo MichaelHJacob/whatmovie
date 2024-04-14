@@ -5,7 +5,7 @@ export function Container({ children }: { children: ReactNode }) {
 }
 
 export function BlockContainer({ children }: { children: ReactNode }) {
-  return <div className="blockContainer ">{children}</div>;
+  return <div className="blockContainer">{children}</div>;
 }
 
 export function CardInformation({ children }: { children: ReactNode }) {
@@ -21,6 +21,6 @@ export function CardInformation({ children }: { children: ReactNode }) {
 
 export function Break() {
   return (
-    <hr className="border-2 border-solid border-Surface mx-[var(--p)] xs:mx-[var(--pXS)] lg:mx-[var(--pLG)] rounded-lg " />
+    <hr className="border-1 border-solid border-Surface shadow-sm mx-[var(--p)] xs:mx-[var(--pXS)] lg:mx-[var(--pLG)] rounded-lg " />
   );
 }
