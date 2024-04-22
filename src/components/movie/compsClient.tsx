@@ -15,9 +15,9 @@ export default function Videos({
   function VideoDisplay({ video }: { video: VideosResultsType }) {
     return (
       <div className="h-min ">
-        <div className="max-md:spacingShrinkerBlock-x bg-black ">
+        <div className="max-md:spacingShrinkerBlock-x bg-black rounded-lg overflow-hidden">
           <iframe
-            className="w-full  h-full aspect-video "
+            className="w-full aspect-video "
             allow="fullscreen; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             src={`https://www.youtube.com/embed/${video.key}`}
             title="YouTube video player"

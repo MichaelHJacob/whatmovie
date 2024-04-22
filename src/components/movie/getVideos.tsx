@@ -26,5 +26,4 @@ async function getVideos(movieID: string) {
 
     if(videos.results.length > 0){ return (<Videos videosArray={videos.results} />)} else {
     return(<span className="hidden">videos não disponível</span>)}
-  
   }

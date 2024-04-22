@@ -10,10 +10,7 @@ export function BlockContainer({ children }: { children: ReactNode }) {
 
 export function CardInformation({ children }: { children: ReactNode }) {
   return (
-    <dl
-      className="bg-Surface rounded-lg px-4 pt-4 pb-2  flex flex-col  
-   col-span-9 xs:col-span-7 sm:col-span-6 md:col-span-4 lg:col-span-5 snap-start"
-    >
+    <dl className="bg-Surface rounded-lg px-4 pt-4 pb-2 flex flex-col col-span-9 xs:col-span-7 sm:col-span-6 md:col-span-4 lg:col-span-5 snap-start">
       {children}
     </dl>
   );

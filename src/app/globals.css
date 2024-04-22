@@ -144,8 +144,10 @@
   }
 
   .gridAutoSpace {
-    @apply gap-[var(--gap)] 
+    @apply 
+    gap-[var(--gap)] 
     xs:gap-[var(--gapXS)] 
+    md:gap-[var(--gapMD)] 
     lg:gap-[var(--gapLG)] 
 
     auto-cols-[calc((100%-9*var(--gap))/10)] 
@@ -258,6 +260,8 @@
     @apply h-9 bg-Surface80 px-4  inline-flex gap-2   items-center rounded-lg appearance-none cursor-pointer border-none 
     hover:shadow-onBackground2/20 shadow-lg shadow-transparent transition-all duration-300 active:bg-theme/20;
   }
+
+  
 
   .filter-TextBtn {
     @apply text-base font-bold text-onSurface1 select-none;

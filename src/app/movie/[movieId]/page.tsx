@@ -7,7 +7,12 @@ import GetVideo from "@/components/movie/getVideos";
 import GetRecommendations, {
   LoadingCardsList,
 } from "@/components/movie/getRecommendations";
-import { GetPeople, GetDirector } from "@/components/movie/getPeople";
+import {
+  GetPeople,
+  GetDirector,
+  GetStream,
+  GetTranslations,
+} from "@/components/movie/comps";
 import { BlockContainer, CardInformation, Container } from "@/components/frame";
 
 async function getDetails(id: string) {
@@ -139,10 +144,10 @@ export default async function Movie({
   return (
     <Container>
       <div className="h-min w-full relative paddingHeader z-30">
-        <div className="w-screen left-[50%] translate-x-[-50%]  h-full absolute top-0  z-[-1] overflow-hidden bg-gray-400 animate-mainMovie">
+        <div className="w-screen left-[50%] translate-x-[-50%]  h-full absolute top-0  z-[-1] overflow-hidden bg-gray-400">
           <div
             style={css}
-            className="w-full h-full  bg-no-repeat saturate-150 rotate-180 opacity-50  blur-3xl"
+            className="w-full h-full  bg-no-repeat  rotate-180 opacity-70   blur-3xl  animate-mainMovie"
           />
           <div className="  w-full h-full absolute top-0 left-0   backdrop-blur-3xl " />
         </div>
@@ -201,15 +206,25 @@ export default async function Movie({
               <Suspense>
                 <GetDirector movieID={params.movieId} />
               </Suspense>
+              <Suspense>
+                <GetStream movieID={params.movieId} />
+              </Suspense>
             </dl>
           </div>
         </BlockContainer>
       </div>
       <div className="bg-Background/70  fixed top-0  left-0 h-11  w-full z-20 " />
+      <Suspense
+        fallback={
+          <div className="bg-Surface w-full aspect-video animate-pulse " />
+        }
+      >
+        <GetVideo movieID={params.movieId} />
+      </Suspense>
       <BlockContainer>
         <SubTitle>Mais detalhes</SubTitle>
 
-        <div className="ListSpacing  pt-11 mt-[-44px] ">
+        <div className="ListSpacing  py-11 mt-[-44px] ">
           <CardInformation>
             {data.original_title && (
               <>
@@ -229,6 +244,19 @@ export default async function Movie({
                 <dd className="data mb-2">{formatDate(data.release_date)}</dd>
               </>
             )}
+            {data.homepage && (
+              <dt className="label mb-2">
+                <a
+                  href={data.homepage}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  Site Oficial
+                </a>
+              </dt>
+            )}
+          </CardInformation>
+          <CardInformation>
             {data.runtime && (
               <>
                 <dt className="label">Duração:</dt>
@@ -237,8 +265,14 @@ export default async function Movie({
                 </dd>
               </>
             )}
-          </CardInformation>
-          <CardInformation>
+            {data.genres && (
+              <>
+                <dt className="label">Gêneros:</dt>
+                <dd className="data mb-2">
+                  {data.genres.map((value, i, a) => value.name).join(", ")}
+                </dd>
+              </>
+            )}
             {data.belongs_to_collection?.name != undefined && (
               <>
                 <dt className="label">Coleção:</dt>
@@ -258,25 +292,6 @@ export default async function Movie({
                 <dt className="label">Receita:</dt>
                 <dd className="data mb-2"> {formatNumber(data.revenue)}</dd>
               </>
-            )}
-            {data.genres && (
-              <>
-                <dt className="label">Gêneros:</dt>
-                <dd className="data mb-2">
-                  {data.genres.map((value, i, a) => value.name).join(", ")}
-                </dd>
-              </>
-            )}
-            {data.homepage && (
-              <dt className="label mb-2">
-                <a
-                  href={data.homepage}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                >
-                  Site Oficial
-                </a>
-              </dt>
             )}
           </CardInformation>
           <CardInformation>
@@ -312,15 +327,13 @@ export default async function Movie({
             )}
           </CardInformation>
         </div>
-      </BlockContainer>
 
-      <Suspense
-        fallback={
-          <div className="bg-Surface w-full aspect-video animate-pulse " />
-        }
-      >
-        <GetVideo movieID={params.movieId} />
-      </Suspense>
+        <CardInformation>
+          <Suspense>
+            <GetTranslations movieID={params.movieId} />
+          </Suspense>
+        </CardInformation>
+      </BlockContainer>
 
       <Suspense>
         <GetPeople movieID={params.movieId} />
