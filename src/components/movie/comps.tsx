@@ -1,6 +1,6 @@
 import { BlockContainer, Break } from "@/components/frame";
 import { ListPeople, SubTitle } from "@/components/comps";
-import { CreditsType } from "@/components/utils/types";
+import { CreditsType, ProviderBr, TranslationsType } from "@/components/utils/types";
 import { ListControl } from "../client/comps";
 
 async function getCredits(movieID: string) {
@@ -99,20 +99,22 @@ export async function GetDirector({ movieID }: { movieID: string }) {
 
 export async function GetStream({ movieID }: { movieID: string }) {
   const providers = await getProvider(movieID);
+  
 
   if (
     typeof providers.results == "object" &&
     typeof providers.results.BR == "object" &&
     typeof providers.results.BR.flatrate == "object"
   ) {
+    const wpBr: ProviderBr = providers.results.BR;
+
     return (
       <>
         <dt className="label mb-2 text-Background font-bold">Disponível em:</dt>
        
         <dd className="flex flex-row flex-wrap w-full gap-[--gap] xs:gap-[--gapXS] md:gap-[--gapMD] lg:gap-[--gapLG]  ">
-          {providers.results.BR.flatrate
-            .map((value, i, arr ) => <span key={i} className="mb-1 inline-flex h-11 w-fit  items-center gap-[calc(var(--gap)/2)] xs:gap-[calc(var(--gapXS)/2)] md:gap-[calc(var(--gapMD)/2)] lg:gap-[calc(var(--gapLG)/2)]
-            ">
+          {wpBr.flatrate.map((value, i:number, arr ) => <span key={i} className="mb-1 inline-flex h-11 w-fit  items-center gap-[calc(var(--gap)/2)] xs:gap-[calc(var(--gapXS)/2)] md:gap-[calc(var(--gapMD)/2)] lg:gap-[calc(var(--gapLG)/2)]
+          ">
          
           <img
             className="rounded-xl h-10 aspect-square select-none "
@@ -128,16 +130,16 @@ export async function GetStream({ movieID }: { movieID: string }) {
   }
 }
 export async function GetTranslations({ movieID }: { movieID: string }) {
-  const resul = await getTranslations(movieID);
+  const result: TranslationsType  = await getTranslations(movieID);
 
   if (
-    typeof resul.translations == "object"
+    typeof result.translations == "object"
   ){
     return (
       <>
         <dt className="label mb-1">Traduções:</dt>    
         <dd className="data mb-2">
-          <>{resul.translations.map((value) => value.name + "-" + value.iso_3166_1).join(", ")}</>
+          <>{result.translations.map((value) => value.name + "-" + value.iso_3166_1).join(", ")}</>
         </dd>
       </>
     );

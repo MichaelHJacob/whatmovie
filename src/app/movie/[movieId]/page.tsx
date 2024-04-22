@@ -184,6 +184,7 @@ export default async function Movie({
                  mt-[calc(var(--p)*-1)] text-Surface "
               >
                 {data.title}
+                {params.movieId}
               </h2>
               <dd className="data mb-2  text-Surface font-semibold mt-[-1.25rem]">
                 {data.release_date && (
@@ -244,17 +245,6 @@ export default async function Movie({
                 <dd className="data mb-2">{formatDate(data.release_date)}</dd>
               </>
             )}
-            {data.homepage && (
-              <dt className="label mb-2">
-                <a
-                  href={data.homepage}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                >
-                  Site Oficial
-                </a>
-              </dt>
-            )}
           </CardInformation>
           <CardInformation>
             {data.runtime && (
@@ -270,14 +260,6 @@ export default async function Movie({
                 <dt className="label">Gêneros:</dt>
                 <dd className="data mb-2">
                   {data.genres.map((value, i, a) => value.name).join(", ")}
-                </dd>
-              </>
-            )}
-            {data.belongs_to_collection?.name != undefined && (
-              <>
-                <dt className="label">Coleção:</dt>
-                <dd className="data mb-2">
-                  {data.belongs_to_collection?.name}
                 </dd>
               </>
             )}
@@ -326,6 +308,29 @@ export default async function Movie({
               </>
             )}
           </CardInformation>
+          {data.belongs_to_collection?.name != undefined || data.homepage && (
+              <CardInformation>
+                {data.belongs_to_collection?.name != undefined && (
+                  <>
+                    <dt className="label">Coleção:</dt>
+                    <dd className="data mb-2">
+                      {data.belongs_to_collection?.name}
+                    </dd>
+                  </>
+                )}
+                {data.homepage && (
+                  <dt className="label mb-2">
+                    <a
+                      href={data.homepage}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                    >
+                      Site Oficial
+                    </a>
+                  </dt>
+                )}
+              </CardInformation>
+            )}
         </div>
 
         <CardInformation>

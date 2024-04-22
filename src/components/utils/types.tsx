@@ -1,3 +1,30 @@
+export interface TranslationsType {
+  id: number;
+  translations: {
+    iso_3166_1: string;
+    iso_639_1: string;
+    name: string;
+    english_name: string;
+    data: {
+      homepage: string;
+      overview: string;
+      runtime: number;
+      tagline: string;
+      title: string;
+    };
+  }[];
+}
+
+export interface ProviderBr {
+  link: string;
+  flatrate: {
+    logo_path: string;
+    provider_id: number;
+    provider_name: string;
+    display_priority: number;
+  }[];
+}
+
 export interface MovieProviders {
   results: {
     display_priorities: object;
