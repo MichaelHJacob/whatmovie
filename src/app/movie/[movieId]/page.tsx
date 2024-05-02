@@ -184,6 +184,7 @@ export default async function Movie({
                  mt-[calc(var(--p)*-1)] text-Surface "
               >
                 {data.title}
+                {params.movieId}
               </h2>
               <dd className="data mb-2  text-Surface font-semibold mt-[-1.25rem]">
                 {data.release_date && (
