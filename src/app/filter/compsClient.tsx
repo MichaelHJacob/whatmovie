@@ -29,9 +29,6 @@ export function ScrollPages({
 }) {
   const [movies, setMovies] = useState<MovieType[]>([]);
   const npRef = useRef<number>(Number(parameters.page) || 1);
-  console.log("npRef : ", npRef.current);
-  console.log("page  : ", parameters.page);
- 
 
   async function getData(nPage: number) {
     parameters.page = nPage.toString();
@@ -44,7 +41,7 @@ export function ScrollPages({
   useEffect(() => {
     const moviesDiv = document.getElementById("Movies");
     const observerCard = document.getElementById("loadC0");
-    console.log("npRef: ", npRef.current)
+
     if (moviesDiv !== null) {
       moviesDiv.scrollTop = 0;
     }

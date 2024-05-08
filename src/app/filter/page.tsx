@@ -14,7 +14,6 @@ export default async function Page({
 
   return (
     <>
-      {data.total_pages}
       <BlockContainer>
         {data?.results.length > 0 && (
           <ul
