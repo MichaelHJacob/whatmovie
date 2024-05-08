@@ -22,3 +22,18 @@ export function Break() {
     <hr className="border-1 border-solid border-Surface shadow-sm mx-[var(--p)] xs:mx-[var(--pXS)] lg:mx-[var(--pLG)] rounded-lg " />
   );
 }
+
+export function LoadingCards({size = 20}: {size?: number}) {
+  const skeleton = [];
+
+  for (let i = 0; i < size ; i++) {
+    skeleton.push(
+      <div id={`loadC${i}`} className={`gridColSpanMovie ${size <= 5 && i >= 2 && 'max-xs:hidden' } 
+      ${size <= 5 && i >= 4 && 'max-lg:hidden' } ${size <= 5 && i >= 4 && 'xl:hidden' }`} key={i} >
+        <div className="w-full aspect-[18/27] bg-onSurface2/10 animate-pulse rounded-lg shadow-xl shadow-black/30">{i}</div>
+      </div>
+    );
+  }
+
+  return skeleton;
+}

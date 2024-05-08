@@ -1,6 +1,5 @@
 import { BlockContainer } from "@/components/frame";
 import { SubTitle, ListMovie } from "@/components/comps";
-import { Fragment } from "react";
 import { ListControl } from "../client/comps";
 
 async function getRecommendations(movieID: string) {
@@ -19,27 +18,6 @@ async function getRecommendations(movieID: string) {
     throw new Error("Falha ao buscar dados");
   }
   return res.json();
-}
-
-export function LoadingCardsList() {
-  const skeleton = [];
-
-  for (let i = 0; i <= 5; i++) {
-    skeleton.push(
-      <li
-        className="col-span-5 xs:col-span-5 md:col-span-3 lg:col-span-4 snap-start landscape:short:lg:col-span-3 aspect-[18/27] bg-onSurface2/10 animate-pulse rounded-lg shadow-xl shadow-black/30 "
-        key={i}
-      ></li>
-    );
-  }
-
-  return (
-    <ul className="ListSpacing list-none ">
-      {skeleton.map((value, index) => (
-        <Fragment key={index}>{value}</Fragment>
-      ))}
-    </ul>
-  );
 }
 
 export default async function GetRecommendations({

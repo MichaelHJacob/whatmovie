@@ -1,13 +1,75 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ChangeEvent, Fragment, useEffect, useRef, useState } from "react";
 import {
+  ChangeEvent,
+  Fragment,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import {
+  DiscoverType,
   ListGenres,
   MovieProviders,
+  MovieType,
   TypeBtnGenres,
   TypeBtnProvider,
-} from "../utils/types";
-import { BlockContainer, Container } from "../frame";
+} from "@/components/utils/types";
+import { LoadingCards } from "@/components/frame";
+import { fetchMovies } from "./actions";
+import { MapCardMovie } from "./comps";
+import { BlockContainer, Container } from "@/components/frame";
+
+export function ScrollPages({
+  parameters,
+  totalPages,
+}: {
+  parameters: { [key: string]: string | string[] | undefined };
+  totalPages: number;
+}) {
+  const [movies, setMovies] = useState<MovieType[]>([]);
+  const npRef = useRef<number>(Number(parameters.page) || 1);
+  console.log("npRef : ", npRef.current);
+  console.log("page  : ", parameters.page);
+ 
+
+  async function getData(nPage: number) {
+    parameters.page = nPage.toString();
+
+    const moviesData: DiscoverType = await fetchMovies(parameters);
+
+    setMovies((prev) => [...prev, ...moviesData.results]);
+  }
+
+  useEffect(() => {
+    const moviesDiv = document.getElementById("Movies");
+    const observerCard = document.getElementById("loadC0");
+    console.log("npRef: ", npRef.current)
+    if (moviesDiv !== null) {
+      moviesDiv.scrollTop = 0;
+    }
+
+    if (observerCard !== null) {
+      const observer = new IntersectionObserver((entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          npRef.current = npRef.current + 1;
+          getData(npRef.current);
+        }
+      });
+      document !== null && observer.observe(observerCard);
+    }
+  }, []);
+
+  return (
+    <>
+      <MapCardMovie data={movies} />
+
+      {npRef.current < 400 && npRef.current < totalPages && (
+        <LoadingCards size={5} />
+      )}
+    </>
+  );
+}
 
 export function BtnPages({ totalPages }: { totalPages: number }) {
   const { replace } = useRouter();
@@ -41,7 +103,7 @@ export function BtnPages({ totalPages }: { totalPages: number }) {
   }
 
   return (
-    <div className=" w-full flex justify-end">
+    <div className=" w-full flex justify-end bg-black">
       {totalPages > 1 && (
         <div className=" inline-flex items-center gap-[var(--gap)] xs:gap-[var(--gapXS)] lg:gap-[var(--gapLG)]">
           <div
@@ -198,6 +260,8 @@ function GenreSelector({
     </Fragment>
   );
 }
+
+
 
 export default function FilterSideMenu({
   children,
@@ -910,13 +974,13 @@ export default function FilterSideMenu({
 
       <div
         id="Movies"
-        className="snap-start snap-always h-full w-screen  xl:w-[calc(100%-448px)] inline-block overscroll-y-contain  overflow-auto "
+        className="snap-start snap-always h-full w-screen  xl:w-[calc(100%-448px)] inline-block overscroll-y-contain  overflow-auto  "
       >
         <Container>
           <div className="bg-gradient-to-b from-Background  via-Background/80 to-transparent  fixed top-0  left-0 h-11 backdrop-blur-[2px] w-full   z-10 " />
           <div className="bg-gradient-to-b from-Background  via-Background/50 bg-transparent  fixed top-0  left-0 h-[5.5rem] backdrop-blur-[1px] w-full   backdrop-saturate-[1.2]   z-10 " />
           <div className="paddingHeader" />
-          <div className="h-min sticky z-40 top-14   w-full  snap-always snap-start   ">
+          <div className="h-min sticky z-40 top-14 w-full snap-always snap-start ">
             <BlockContainer>
               <div className=" w-full  flex gap-2  h-auto overflow-x-scroll no-scrollbar transition-all  duration-1000">
                 <BtnScroll />

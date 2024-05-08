@@ -15,7 +15,7 @@ export default function Videos({
   function VideoDisplay({ video }: { video: VideosResultsType }) {
     return (
       <div className="h-min ">
-        <div className="max-md:spacingShrinkerBlock-x bg-black rounded-lg overflow-hidden">
+        <div className="max-md:spacingShrinkerBlock-x bg-black rounded-2xl overflow-hidden">
           <iframe
             className="w-full aspect-video "
             allow="fullscreen; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -33,8 +33,6 @@ export default function Videos({
 
   return (
     <>
-      <Break />
-
       <div className="max-md:bg-black">
         <BlockContainer>
           <SubTitle>
@@ -88,6 +86,7 @@ export default function Videos({
           </details>
         </BlockContainer>
       </div>
+      <Break />
     </>
   );
 }

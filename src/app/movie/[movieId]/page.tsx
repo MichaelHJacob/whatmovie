@@ -4,16 +4,14 @@ import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { getPlaiceholder } from "plaiceholder";
 import GetVideo from "@/components/movie/getVideos";
-import GetRecommendations, {
-  LoadingCardsList,
-} from "@/components/movie/getRecommendations";
+import GetRecommendations from "@/components/movie/getRecommendations";
 import {
   GetPeople,
   GetDirector,
   GetStream,
   GetTranslations,
 } from "@/components/movie/comps";
-import { BlockContainer, CardInformation, Container } from "@/components/frame";
+import { BlockContainer, CardInformation, Container, LoadingCards } from "@/components/frame";
 
 async function getDetails(id: string) {
   const options = {
@@ -343,7 +341,7 @@ export default async function Movie({
         <GetPeople movieID={params.movieId} />
       </Suspense>
 
-      <Suspense fallback={<LoadingCardsList />}>
+      <Suspense fallback={<LoadingCards size={5} />}>
         <GetRecommendations movieID={params.movieId} />
       </Suspense>
     </Container>

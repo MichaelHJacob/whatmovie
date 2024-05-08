@@ -54,7 +54,7 @@ export default function RootLayout({
 
             <Link
               href={`/filter`}
-              className="main-backBtn bg-transparent hover:bg-Background/10 backdrop-saturate-[none]  main-TextBtn  font-bold overflow-hidden  w-40 justify-center px-0
+              className="main-backBtn bg-transparent hover:bg-Background/10 backdrop-saturate-[none]  main-TextBtn overflow-hidden  w-40 justify-center px-0
           peer-open:w-0  order-3 uppercase "
             >
               <h2>Filtro</h2>
@@ -63,7 +63,7 @@ export default function RootLayout({
             <div className="w-full max-sm:peer-open:w-0 max-sm:peer-open:opacity-0 transition-all duration-700 overflow-hidden">
               <Link
                 href="/"
-                className="main-backBtn bg-transparent hover:bg-Background/10 backdrop-saturate-[none]  main-TextBtn font-bold whitespace-nowrap w-auto uppercase"
+                className="main-backBtn bg-transparent hover:bg-Background/10 backdrop-saturate-[none]  main-TextBtn whitespace-nowrap w-auto uppercase"
               >
                 <h1>What Movie</h1>
               </Link>
