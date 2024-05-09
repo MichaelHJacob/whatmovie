@@ -28,8 +28,8 @@ export function LoadingCards({size = 20}: {size?: number}) {
 
   for (let i = 0; i < size ; i++) {
     skeleton.push(
-      <div id={`loadC${i}`} className={`gridColSpanMovie ${size <= 5 && i >= 2 && 'max-xs:hidden' } 
-      ${size <= 5 && i >= 4 && 'max-lg:hidden' } ${size <= 5 && i >= 4 && 'xl:hidden' }`} key={i} >
+      <div  key={`${i}${Math.random()}`} id={`loadC${i}`} className={`gridColSpanMovie ${size <= 5 && i >= 2 && 'max-xs:hidden' } 
+      ${size <= 5 && i >= 4 && 'max-lg:hidden' } ${size <= 5 && i >= 4 && 'xl:hidden' }`} >
         <div className="w-full aspect-[18/27] bg-onSurface2/10 animate-pulse rounded-lg shadow-xl shadow-black/30"></div>
       </div>
     );

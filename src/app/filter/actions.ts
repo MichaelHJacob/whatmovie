@@ -78,9 +78,7 @@ async function getFilter(parameters: { [key: string]: string | string[] | undefi
     };
   
     let url = `${process.env.DB_API_URL_F}discover/movie?${certification}&include_adult=false&include_video=false&language=pt-BR&page=${page()}${releaseDate()}&region=BR&sort_by=${sortBy()}${vote()}${voteCount}&watch_region=BR${genres()}&with_watch_monetization_types=flatrate%7Cfree%7Cads%7Crent%7Cbuy${providers()}`;
-  
-    console.log("url server ",url)
-  
+    
     const res = await fetch(url, {
       next : {revalidate: 3600},
       headers: {
@@ -96,6 +94,6 @@ async function getFilter(parameters: { [key: string]: string | string[] | undefi
   }
 export async function fetchMovies( parameters: { [key: string]: string | undefined | string[]}) {
     const data: DiscoverType = await getFilter(parameters);
-    return JSON.parse(JSON.stringify(data))
+    return data
 }
 

@@ -52,13 +52,13 @@ export default function RootLayout({
               <Search />
             </Suspense>
 
-            <Link
+            <a
               href={`/filter`}
               className="main-backBtn bg-transparent hover:bg-Background/10 backdrop-saturate-[none]  main-TextBtn overflow-hidden  w-40 justify-center px-0
           peer-open:w-0  order-3 uppercase "
             >
               <h2>Filtro</h2>
-            </Link>
+            </a>
 
             <div className="w-full max-sm:peer-open:w-0 max-sm:peer-open:opacity-0 transition-all duration-700 overflow-hidden">
               <Link

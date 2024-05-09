@@ -1,5 +1,5 @@
 import { BlockContainer } from "@/components/frame";
-import { SubTitle } from "@/components/comps";
+import { CardMovie, SubTitle } from "@/components/comps";
 import { DiscoverType } from "@/components/utils/types";
 import { fetchMovies } from "./actions";
 import { ScrollPages } from "./compsClient";
@@ -20,8 +20,8 @@ export default async function Page({
             key={Math.random()}
             className=" w-full  gridTemplateSpace  xl:grid-cols-12 2xl:grid-cols-[repeat(20,_minmax(0,_1fr))] xl:gap-[var(--gapMD)] 2xl:gap-[var(--gapLG)] relative"
           >
-            <MapCardMovie data={data?.results} />
             <ScrollPages
+              initialData={data.results}
               totalPages={data.total_pages}
               parameters={searchParams}
             />
@@ -42,7 +42,7 @@ export default async function Page({
               </SubTitle>
             )}
           </div>
-        )} 
+        )}
       </BlockContainer>
     </>
   );

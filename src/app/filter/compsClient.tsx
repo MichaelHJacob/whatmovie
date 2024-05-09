@@ -21,13 +21,15 @@ import { MapCardMovie } from "./comps";
 import { BlockContainer, Container } from "@/components/frame";
 
 export function ScrollPages({
+  initialData,
   parameters,
   totalPages,
 }: {
   parameters: { [key: string]: string | string[] | undefined };
   totalPages: number;
+  initialData: MovieType[];
 }) {
-  const [movies, setMovies] = useState<MovieType[]>([]);
+  const [movies, setMovies] = useState<MovieType[]>(initialData);
   const npRef = useRef<number>(Number(parameters.page) || 1);
 
   async function getData(nPage: number) {
@@ -58,13 +60,13 @@ export function ScrollPages({
   }, []);
 
   return (
-    <>
+    <Fragment key={Math.random()}>
       <MapCardMovie data={movies} />
 
       {npRef.current < 400 && npRef.current < totalPages && (
         <LoadingCards size={5} />
       )}
-    </>
+    </Fragment>
   );
 }
 

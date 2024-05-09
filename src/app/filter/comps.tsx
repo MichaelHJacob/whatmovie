@@ -1,4 +1,4 @@
-import { CardMovie } from "@/components/comps";
+import { CardMovie } from "@/components/client/comps";
 import { MovieType } from "@/components/utils/types";
 
 export function MapCardMovie({data}:{data: MovieType[]}) {

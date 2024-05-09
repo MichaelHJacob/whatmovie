@@ -1,6 +1,7 @@
 "use client";
 import { ReactNode, useState } from "react";
 import dynamic from "next/dynamic";
+import { MovieType } from "../utils/types";
 
 const BtnScrollTo = dynamic(() => import("./button"));
 
@@ -45,4 +46,34 @@ export function ListControl({
       {children}
     </div>
   );
+}
+
+export function CardMovie({ data }: { data: MovieType }) {
+  if (typeof data.poster_path == "string") {
+    return (
+      <a href={`/movie/${data.id}`} className=" w-full   ">
+        <img
+          src={`https://image.tmdb.org/t/p/w780${data.poster_path}`}
+          alt={data.title}
+          height={330}
+          width={220}
+          sizes="150px"
+          className="rounded-lg w-full   shadow-xl shadow-black/30"
+        />
+      </a>
+    );
+  } else {
+    return (
+      <a href={`/movie/${data.id}`} className=" w-full   ">
+        <div className="rounded-lg flex flex-col justify-between items-center pb-10 pt-5  w-full h-full overflow-hidden bg-gradient-to-b from-solid-pink-950/5 to-neutral-500/15  break-words  shadow-xl shadow-black/30 aspect-[18/27]">
+          <p className="filter-TextBtn text-solid-pink-950/30  text-wrap place-items-center w-min text-center ">
+            imagem indisponível
+          </p>
+          <p className="filter-TextBtn  font-extrabold text-2xl  text-wrap place-items-center  ">
+            {data.title}{" "}
+          </p>
+        </div>
+      </a>
+    );
+  }
 }
