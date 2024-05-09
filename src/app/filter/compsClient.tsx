@@ -60,13 +60,13 @@ export function ScrollPages({
   }, []);
 
   return (
-    <Fragment key={Math.random()}>
+    <>
       <MapCardMovie data={movies} />
 
       {npRef.current < 400 && npRef.current < totalPages && (
         <LoadingCards size={5} />
       )}
-    </Fragment>
+    </>
   );
 }
 
