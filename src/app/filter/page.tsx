@@ -1,6 +1,6 @@
 import { BlockContainer } from "@/components/frame";
 import { CardMovie, SubTitle } from "@/components/comps";
-import { DiscoverType } from "@/components/utils/types";
+import { CardMovieType, DiscoverType } from "@/components/utils/types";
 import { fetchMovies } from "./actions";
 import { ScrollPages } from "./compsClient";
 import { MapCardMovie } from "./comps";
@@ -10,7 +10,8 @@ export default async function Page({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const data: DiscoverType = await fetchMovies(searchParams);
+  const data: CardMovieType = await fetchMovies(searchParams);
+
 
   return (
     <>
@@ -21,7 +22,7 @@ export default async function Page({
             className=" w-full  gridTemplateSpace  xl:grid-cols-12 2xl:grid-cols-[repeat(20,_minmax(0,_1fr))] xl:gap-[var(--gapMD)] 2xl:gap-[var(--gapLG)] relative"
           >
             <ScrollPages
-              initialData={data.results}
+              initialData={data}
               totalPages={data.total_pages}
               parameters={searchParams}
             />

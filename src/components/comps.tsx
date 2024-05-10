@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CreditsType, MovieType } from "./utils/types";
+import { CreditsType, MovieClient, MovieType } from "./utils/types";
 import { ReactNode } from "react";
 
 export function ListMovie({ data, id }: { data: MovieType[]; id: string }) {
@@ -104,10 +104,10 @@ export function ListPeople({ data, id }: { data: CreditsType; id: string }) {
   );
 }
 
-export function CardMovie({ data }: { data: MovieType }) {
+export function CardMovie({ data }: { data: MovieClient | MovieType}) {
   if (typeof data.poster_path == "string") {
     return (
-      <Link href={`/movie/${data.id}`} className=" w-full   ">
+      <Link href={`/movie/${data.id}`} target="_top" className=" w-full   ">
         <img
           src={`https://image.tmdb.org/t/p/w780${data.poster_path}`}
           alt={data.title}

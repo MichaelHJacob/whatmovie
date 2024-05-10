@@ -15,7 +15,7 @@ export default function Videos({
   function VideoDisplay({ video }: { video: VideosResultsType }) {
     return (
       <div className="h-min ">
-        <div className="max-md:spacingShrinkerBlock-x bg-black rounded-2xl overflow-hidden">
+        <div className="max-md:spacingShrinkerBlock-x bg-black md:rounded-2xl overflow-hidden">
           <iframe
             className="w-full aspect-video "
             allow="fullscreen; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

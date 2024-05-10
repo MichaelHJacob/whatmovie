@@ -4,6 +4,7 @@ import { Barlow, Open_Sans} from "next/font/google";
 import { Suspense } from "react";
 import Link from "next/link";
 import Search from "@/components/client/search";
+import next from "next";
 
 const barlow = Barlow({
   weight: ["400", "500", "600", "700"],
@@ -52,13 +53,14 @@ export default function RootLayout({
               <Search />
             </Suspense>
 
-            <a
+            <Link
               href={`/filter`}
+              target="_top"
               className="main-backBtn bg-transparent hover:bg-Background/10 backdrop-saturate-[none]  main-TextBtn overflow-hidden  w-40 justify-center px-0
           peer-open:w-0  order-3 uppercase "
             >
               <h2>Filtro</h2>
-            </a>
+            </Link>
 
             <div className="w-full max-sm:peer-open:w-0 max-sm:peer-open:opacity-0 transition-all duration-700 overflow-hidden">
               <Link

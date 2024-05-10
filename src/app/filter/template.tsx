@@ -5,7 +5,7 @@ import { Suspense } from "react";
 
 
 
-export default function HomeLayout({
+export default function Template({
   children,
 }: {
   children: React.ReactNode;

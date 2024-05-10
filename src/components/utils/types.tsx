@@ -74,11 +74,29 @@ export interface NowPlaying {
   total_results: number;
 }
 
+export interface ArrayMoviesType {
+  current_page: number;
+  results: MovieClient[];
+}
+
+export interface CardMovieType {
+  page: number;
+  total_pages: number;
+  results: MovieClient[];
+}
+
 export interface DiscoverType {
   page: number;
   results: MovieType[];
   total_pages: number;
   total_results: number;
+}
+
+export interface MovieClient {
+  adult?: boolean;
+  id: number;
+  title?: string;
+  poster_path: string;
 }
 
 export interface MovieType {

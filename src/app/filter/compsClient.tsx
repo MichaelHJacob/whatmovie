@@ -1,14 +1,9 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { ChangeEvent, Fragment, useEffect, useRef, useState } from "react";
 import {
-  ChangeEvent,
-  Fragment,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import {
-  DiscoverType,
+  CardMovieType,
+  ArrayMoviesType,
   ListGenres,
   MovieProviders,
   MovieType,
@@ -27,17 +22,25 @@ export function ScrollPages({
 }: {
   parameters: { [key: string]: string | string[] | undefined };
   totalPages: number;
-  initialData: MovieType[];
+  initialData: CardMovieType;
 }) {
-  const [movies, setMovies] = useState<MovieType[]>(initialData);
-  const npRef = useRef<number>(Number(parameters.page) || 1);
+  const [movies, setMovies] = useState<ArrayMoviesType>({
+    current_page: initialData.page,
+    results: initialData.results,
+  });
+  const npRef = useRef<number>(initialData.page || 1);
 
   async function getData(nPage: number) {
     parameters.page = nPage.toString();
 
-    const moviesData: DiscoverType = await fetchMovies(parameters);
+    const moviesData: CardMovieType = await fetchMovies(parameters);
 
-    setMovies((prev) => [...prev, ...moviesData.results]);
+    setMovies((prev) => {
+      return {
+        current_page: moviesData.page,
+        results: [...prev.results, ...moviesData.results],
+      };
+    });
   }
 
   useEffect(() => {
@@ -61,9 +64,9 @@ export function ScrollPages({
 
   return (
     <>
-      <MapCardMovie data={movies} />
+      <MapCardMovie data={movies.results} />
 
-      {npRef.current < 400 && npRef.current < totalPages && (
+      {movies.current_page < 400 && movies.current_page < totalPages && (
         <LoadingCards size={5} />
       )}
     </>
@@ -259,8 +262,6 @@ function GenreSelector({
     </Fragment>
   );
 }
-
-
 
 export default function FilterSideMenu({
   children,
