@@ -53,7 +53,7 @@ export default async function Movie({
 }) {
   const data: DetailsMovieType = await getDetails(params.movieId);
   if (typeof data.poster_path == "string") {
-    var css = await getCssBlurIMG(process.env.DB_IMG_URL_S + data.poster_path);
+    var css = await getCssBlurIMG("https://image.tmdb.org/t/p/w185" + data.poster_path);
   } else {
     var css = {
       backgroundImage: "linear-gradient(to top right, #075985, #3e131ca8)",

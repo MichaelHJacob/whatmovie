@@ -1,6 +1,7 @@
 import { BlockContainer } from "@/components/frame";
 import { SubTitle, ListMovie } from "@/components/comps";
 import { ListControl } from "../client/comps";
+import { RecommendationsType } from "../utils/types";
 
 async function getRecommendations(movieID: string) {
   const options = {
@@ -26,18 +27,20 @@ export default async function GetRecommendations({
 }: {
   movieID: string;
 }) {
-  const DtRecommendations = await getRecommendations(movieID);
+  const DtRecommendations:RecommendationsType = await getRecommendations(movieID);
 
-  if (DtRecommendations.results.length >= 1) {
+  const FilterRecommendations = DtRecommendations.results.filter((value) => value.vote_count >= 100) 
+
+  if (FilterRecommendations.length >= 1) {
     return (
       <section className="bg-Surface relative  before:bg-Surface  before:w-screen before:h-full before:absolute before:bottom-0 before:left-[50%] before:translate-x-[-50%] before:z-[-1]">
         <BlockContainer>
           <SubTitle>Recomendações</SubTitle>
           <ListControl
             id={"Recomendacoes"}
-            length={DtRecommendations.results.length}
+            length={FilterRecommendations.length}
           >
-            <ListMovie data={DtRecommendations.results} id={"Recomendacoes"} />
+            <ListMovie data={FilterRecommendations} id={"Recomendacoes"} />
           </ListControl>
         </BlockContainer>
       </section>

@@ -9,7 +9,7 @@ export function ListMovie({ data, id }: { data: MovieType[]; id: string }) {
         <li
           id={id + String(index)}
           key={value.id}
-          className={`gridColSpanMovie relative ${value.vote_count <= 100 && 'hidden'} `}
+          className="gridColSpanMovie relative"
         >
           <CardMovie data={value} />
         </li>
@@ -109,7 +109,7 @@ export function CardMovie({ data }: { data: MovieClient | MovieType}) {
     return (
       <Link href={`/movie/${data.id}`} target="_top" className=" w-full   ">
         <img
-          src={`https://image.tmdb.org/t/p/w780${data.poster_path}`}
+          src={`https://image.tmdb.org/t/p/w342${data.poster_path}`}
           alt={data.title}
           height={330}
           width={220}
@@ -126,7 +126,7 @@ export function CardMovie({ data }: { data: MovieClient | MovieType}) {
             imagem indisponível
           </p>
           <p className="filter-TextBtn  font-extrabold text-2xl  text-wrap place-items-center  ">
-            {data.title}{" "}
+            {data.title}
           </p>
         </div>
       </Link>

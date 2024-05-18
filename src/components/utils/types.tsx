@@ -92,6 +92,12 @@ export interface DiscoverType {
   total_results: number;
 }
 
+export interface RecommendationsType {
+  page: number;
+  results: MovieType[];
+  total_pages: number;
+  total_results: number;
+}
 export interface MovieClient {
   adult?: boolean;
   id: number;
