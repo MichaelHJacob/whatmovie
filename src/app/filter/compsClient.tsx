@@ -44,12 +44,7 @@ export function ScrollPages({
   }
 
   useEffect(() => {
-    const moviesDiv = document.getElementById("Movies");
     const observerCard = document.getElementById("loadC0");
-
-    if (moviesDiv !== null) {
-      moviesDiv.scrollTop = 0;
-    }
 
     if (observerCard !== null) {
       const observer = new IntersectionObserver((entries) => {
@@ -65,7 +60,6 @@ export function ScrollPages({
   return (
     <>
       <MapCardMovie data={movies.results} />
-
       {movies.current_page < 400 && movies.current_page < totalPages && (
         <LoadingCards size={5} />
       )}

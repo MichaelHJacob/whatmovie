@@ -8,6 +8,7 @@ async function getRecommendations(movieID: string) {
       accept: "application/json",
       Authorization: `${process.env.DB_TOKEN_AUTH}`,
     },
+    next: { revalidate: 3600 },
   };
   const res = await fetch(
     process.env.DB_API_URL + movieID + "/recommendations?language=pt-BR&page=1",

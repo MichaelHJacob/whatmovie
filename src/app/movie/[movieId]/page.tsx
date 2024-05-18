@@ -19,6 +19,7 @@ async function getDetails(id: string) {
       accept: "application/json",
       Authorization: `${process.env.DB_TOKEN_AUTH}`,
     },
+    next: { revalidate: 3600 },
   };
   const res = await fetch(
     process.env.DB_API_URL + id + "?language=pt-BR&watch_region=BR",
@@ -305,29 +306,30 @@ export default async function Movie({
               </>
             )}
           </CardInformation>
-          {data.belongs_to_collection?.name != undefined || data.homepage && (
-              <CardInformation>
-                {data.belongs_to_collection?.name != undefined && (
-                  <>
-                    <dt className="label">Coleção:</dt>
-                    <dd className="data mb-2">
-                      {data.belongs_to_collection?.name}
-                    </dd>
-                  </>
-                )}
-                {data.homepage && (
-                  <dt className="label mb-2">
-                    <a
-                      href={data.homepage}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                    >
-                      Site Oficial
-                    </a>
-                  </dt>
-                )}
-              </CardInformation>
-            )}
+          {(data.belongs_to_collection?.name != undefined ||
+            data.homepage != undefined) && (
+            <CardInformation>
+              {data.belongs_to_collection?.name != undefined && (
+                <>
+                  <dt className="label">Coleção:</dt>
+                  <dd className="data mb-2">
+                    {data.belongs_to_collection?.name}
+                  </dd>
+                </>
+              )}
+              {data.homepage && (
+                <dt className="label mb-2">
+                  <a
+                    href={data.homepage}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    Site Oficial
+                  </a>
+                </dt>
+              )}
+            </CardInformation>
+          )}
         </div>
 
         <CardInformation>

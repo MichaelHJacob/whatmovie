@@ -12,6 +12,7 @@ export async function GET(request: NextRequest) {
         accept: "application/json",
         Authorization: `${process.env.DB_TOKEN_AUTH}`,
       },
+      next: { revalidate: 3600 },
     }
   );
 

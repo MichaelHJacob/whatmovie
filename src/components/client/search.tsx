@@ -140,7 +140,7 @@ export default function Search() {
         <BlockContainer>
           <ul className="h-full w-full flex justify-start flex-col items-start gap-[var(--gap)] xs:gap-[var(--gapXS)] md:gap-[var(--gapMD)] lg:gap-[var(--gapLG)]  box-border">
             {data !== null &&
-              data?.map((value) => {
+              data?.filter((value) => value.vote_count >= 100).map((value) => {
                 return (
                   <li
                     key={value.id}
@@ -160,7 +160,7 @@ export default function Search() {
                       {value.poster_path ? (
                         <img
                           src={
-                            `https://image.tmdb.org/t/p/w342` +
+                            `https://image.tmdb.org/t/p/w185` +
                             value.poster_path
                           }
                           alt={value.title}

@@ -9,7 +9,7 @@ export function ListMovie({ data, id }: { data: MovieType[]; id: string }) {
         <li
           id={id + String(index)}
           key={value.id}
-          className="gridColSpanMovie relative"
+          className={`gridColSpanMovie relative ${value.vote_count <= 100 && 'hidden'} `}
         >
           <CardMovie data={value} />
         </li>
