@@ -1,8 +1,14 @@
 import Link from "next/link";
-import { CreditsType, MovieClient, MovieType } from "./utils/types";
+import { CreditsType, MovieClient, MovieType, RecommendationsMovieRate } from "./utils/types";
 import { ReactNode } from "react";
 
-export function ListMovie({ data, id }: { data: MovieType[]; id: string }) {
+export function ListMovie({
+  data,
+  id,
+}: {
+  data: RecommendationsMovieRate[];
+  id: string;
+}) {
   return (
     <ul id={id} className="ListSpacing list-none no-scrollbar">
       {data.map((value, index) => (

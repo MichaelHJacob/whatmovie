@@ -11,7 +11,12 @@ import {
   GetStream,
   GetTranslations,
 } from "@/components/movie/comps";
-import { BlockContainer, CardInformation, Container, LoadingCards } from "@/components/frame";
+import {
+  BlockContainer,
+  CardInformation,
+  Container,
+  LoadingCards,
+} from "@/components/frame";
 
 async function getDetails(id: string) {
   const options = {
@@ -344,7 +349,17 @@ export default async function Movie({
       </Suspense>
 
       <Suspense fallback={<LoadingCards size={5} />}>
-        <GetRecommendations movieID={params.movieId} />
+        <GetRecommendations
+          movieID={params.movieId}
+          rootFilm={{
+            adult: data.adult,
+            popularity: data.popularity,
+            release_date: data.release_date,
+            vote_count: data.vote_count,
+            vote_average: data.vote_average,
+            genres_id: data.genres.map((value) => value.id),
+          }}
+        />
       </Suspense>
     </Container>
   );

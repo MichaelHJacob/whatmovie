@@ -94,10 +94,47 @@ export interface DiscoverType {
 
 export interface RecommendationsType {
   page: number;
-  results: MovieType[];
+  results: RecommendationsMovie[];
   total_pages: number;
   total_results: number;
 }
+
+export interface RecommendationsMovie{
+  backdrop_path: string;
+  id: number;
+  original_title: string;
+  overview: string;
+  poster_path: string;
+  media_type: string;
+  adult: boolean;
+  title: string;
+  original_language: string;
+  genre_ids: number[];
+  popularity: number;
+  release_date: string;
+  video: false;
+  vote_average: number;
+  vote_count: number;
+}
+export interface RecommendationsMovieRate {
+  recommended: number;
+  backdrop_path: string;
+  id: number;
+  original_title: string;
+  overview: string;
+  poster_path: string;
+  media_type: string;
+  adult: boolean;
+  title: string;
+  original_language: string;
+  genre_ids: number[];
+  popularity: number;
+  release_date: string;
+  video: false;
+  vote_average: number;
+  vote_count: number;
+}
+
 export interface MovieClient {
   adult?: boolean;
   id: number;

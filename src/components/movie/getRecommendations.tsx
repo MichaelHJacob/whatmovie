@@ -1,9 +1,13 @@
 import { BlockContainer } from "@/components/frame";
 import { SubTitle, ListMovie } from "@/components/comps";
 import { ListControl } from "../client/comps";
-import { RecommendationsType } from "../utils/types";
+import {
+  RecommendationsMovie,
+  RecommendationsMovieRate,
+  RecommendationsType,
+} from "../utils/types";
 
-async function getRecommendations(movieID: string) {
+async function getRecommendations(movieID: string, page: number = 1) {
   const options = {
     headers: {
       accept: "application/json",
@@ -12,7 +16,9 @@ async function getRecommendations(movieID: string) {
     next: { revalidate: 3600 },
   };
   const res = await fetch(
-    process.env.DB_API_URL + movieID + "/recommendations?language=pt-BR&page=1",
+    process.env.DB_API_URL +
+      movieID +
+      `/recommendations?language=pt-BR&page=${page.toString()}`,
     options
   );
 
@@ -22,30 +28,316 @@ async function getRecommendations(movieID: string) {
   return res.json();
 }
 
+function calcProportionalParts(X: number) {
+  let soma = 0;
+  for (let i = 1; i <= X; i++) {
+    soma += i;
+  }
+
+  const Y = [];
+  for (let i = 1; i <= X; i++) {
+    const Yi = (100 * (X - i + 1)) / soma;
+    Y.push(Yi);
+  }
+
+  return Y;
+}
+
+export function compare(
+  value: RecommendationsMovie,
+  maxP: number,
+  maxCV: number,
+  root: {
+    adult: boolean;
+    popularity: number;
+    release_date: string;
+    vote_count: number;
+    vote_average: number;
+    genres_id: number[];
+  },
+  pointRoot: number[]
+) {
+  function period(rcmDate: string) {
+    const date = new Date();
+    const year = date.getFullYear();
+    let rcmYear = rcmDate.split("-");
+    if (rcmYear.length !== 3 || typeof year !== "number") {
+      return 11;
+    } else {
+      return year - parseInt(rcmYear[0]);
+    }
+  }
+
+  function genre() {
+    const contrast =
+      root.genres_id.length > value.genre_ids.length
+        ? root.genres_id.length - value.genre_ids.length
+        : value.genre_ids.length - root.genres_id.length;
+
+    let score: number = 0;
+
+    root.genres_id.forEach((rootValue, iRoot) => {
+      value.genre_ids.forEach((rcm, iRcm) => {
+        if (rootValue == rcm) {
+          let variation = 1 + (iRcm > iRoot ? iRcm - iRoot : iRoot - iRcm);
+          score =
+            variation == 1
+              ? score + pointRoot[iRoot]
+              : score + (pointRoot[iRoot] / variation) * 1.9;
+        }
+
+        if (iRoot == 0) {
+          // if (iRcm == 0 || iRcm == 1) {
+            switch (rootValue) {
+              // 27 Horror | 28 Action | 36 History | 53 Thriller | 80 Crime | 10749 Romance for Comedy
+              case 35:
+                switch (rcm) {
+                  case 27:
+                  case 28:
+                  case 36:
+                  case 53:
+                  case 80:
+                  case 10749:
+                    let variation =
+                      1 + (iRcm > iRoot ? iRcm - iRoot : iRoot - iRcm);
+                    score =
+                      variation == 1
+                        ? score - pointRoot[iRoot]
+                        : score - (pointRoot[iRoot] / variation) * 0.5;
+                    break;
+                }
+                break;
+              // 27 Horror | 36 story | 53 Thriller | 80 Crime | 10749 Romance | 18 Drama for Animation
+              case 16:
+                switch (rcm) {
+                  case 27:
+                  case 36:
+                  case 53:
+                  case 80:
+                  case 10749:
+                  case 18:
+                  case 10752:
+                    let variation =
+                      1 + (iRcm > iRoot ? iRcm - iRoot : iRoot - iRcm);
+                    score =
+                      variation == 1
+                        ? score - pointRoot[iRoot]
+                        : score - (pointRoot[iRoot] / variation) * 0.5;
+                    break;
+                }
+                break;
+              // 27 Horror | 80 Crime | 53 Thriller for Family")
+              case 10751:
+                switch (rcm) {
+                  case 27:
+                  case 80:
+                  case 53:
+                    let variation =
+                      1 + (iRcm > iRoot ? iRcm - iRoot : iRoot - iRcm);
+                    score =
+                      variation == 1
+                        ? score - pointRoot[iRoot]
+                        : score - (pointRoot[iRoot] / variation) * 0.5;
+                    break;
+                }
+                break;
+              // Romance for Adventure
+              case 12:
+                switch (rcm) {
+                  case 10749:
+                    let variation =
+                      1 + (iRcm > iRoot ? iRcm - iRoot : iRoot - iRcm);
+                    score =
+                      variation == 1
+                        ? score - pointRoot[iRoot]
+                        : score - (pointRoot[iRoot] / variation) * 0.5;
+                    break;
+                }
+                break;
+              // Crime for Fantasy
+              case 14:
+                switch (rcm) {
+                  case 80:
+                    let variation =
+                      1 + (iRcm > iRoot ? iRcm - iRoot : iRoot - iRcm);
+                    score =
+                      variation == 1
+                        ? score - pointRoot[iRoot]
+                        : score - (pointRoot[iRoot] / variation) * 0.5;
+                    break;
+                }
+                break;
+              // Science Fiction | Action for Romance
+              case 10749:
+                switch (rcm) {
+                  case 878:
+                  case 28:
+                    let variation =
+                      1 + (iRcm > iRoot ? iRcm - iRoot : iRoot - iRcm);
+                    score =
+                      variation == 1
+                        ? score - pointRoot[iRoot]
+                        : score - (pointRoot[iRoot] / variation) * 0.5;
+                    break;
+                }
+                break;
+            }
+          // }
+        }
+      });
+    });
+
+    return score <= 0 || contrast == 0
+      ? Math.trunc(score)
+      : Math.trunc(
+          score -
+            score *
+              (root.genres_id.length > value.genre_ids.length
+                ? contrast / root.genres_id.length
+                : contrast / value.genre_ids.length)
+        );
+  }
+
+  function pop() {
+    return Math.trunc((value.popularity / maxP) * 100);
+  }
+
+  function vote() {
+    return Math.trunc((value.vote_count / maxCV) * 100);
+  }
+
+  function date() {
+    const time = period(value.release_date);
+    return time > 30 ? 50 : ((30 - time) / 30) * 0.5 * 100 + 50;
+  }
+
+  let rate = Math.trunc(value.vote_average * 10);
+
+  let result =
+    date() * 0.02 + rate * 0.01 + pop() * 0.04 + vote() * 0.43 + genre() * 0.55;
+
+  return Math.trunc(result);
+}
+
 export default async function GetRecommendations({
   movieID,
+  rootFilm,
 }: {
   movieID: string;
+  rootFilm: {
+    adult: boolean;
+    popularity: number;
+    release_date: string;
+    vote_count: number;
+    vote_average: number;
+    genres_id: number[];
+  };
 }) {
-  const DtRecommendations:RecommendationsType = await getRecommendations(movieID);
+  const DtRecommendationsP1: RecommendationsType = await getRecommendations(
+    movieID
+  );
 
-  const FilterRecommendations = DtRecommendations.results.filter((value) => value.vote_count >= 100) 
+  if (DtRecommendationsP1.results.length > 1) {
+    const maxCont1: number =
+      DtRecommendationsP1.results
+        .sort((valueA, valueB) => {
+          return valueA.vote_count - valueB.vote_count;
+        })
+        .reverse()[0].vote_count || 0;
 
-  if (FilterRecommendations.length >= 1) {
-    return (
-      <section className="bg-Surface relative  before:bg-Surface  before:w-screen before:h-full before:absolute before:bottom-0 before:left-[50%] before:translate-x-[-50%] before:z-[-1]">
-        <BlockContainer>
-          <SubTitle>Recomendações</SubTitle>
-          <ListControl
-            id={"Recomendacoes"}
-            length={FilterRecommendations.length}
-          >
-            <ListMovie data={FilterRecommendations} id={"Recomendacoes"} />
-          </ListControl>
-        </BlockContainer>
-      </section>
+    const maxPop1: number = DtRecommendationsP1.results
+      .sort((valueA, valueB) => {
+        return valueA.popularity - valueB.popularity;
+      })
+      .reverse()[0].popularity;
+
+    const DtRecommendationsP2: RecommendationsType =
+      DtRecommendationsP1.total_pages >= 2 &&
+      (await getRecommendations(movieID, 2));
+
+    const maxCont2: number = DtRecommendationsP2
+      ? DtRecommendationsP2.results
+          .sort((valueA, valueB) => {
+            return valueA.vote_count - valueB.vote_count;
+          })
+          .reverse()[0].vote_count
+      : 0;
+
+    const maxPop2: number = DtRecommendationsP2
+      ? DtRecommendationsP2.results
+          .sort((valueA, valueB) => {
+            return valueA.popularity - valueB.popularity;
+          })
+          .reverse()[0].popularity
+      : 0;
+
+    const maxCont: number = maxCont1 > maxCont2 ? maxCont1 : maxCont2;
+    const maxPop: number = maxPop1 > maxPop2 ? maxPop1 : maxPop2;
+    const arrayPoint: number[] = calcProportionalParts(
+      rootFilm.genres_id.length
     );
-  } else {
-    return <span className="hidden">Recomendações não disponível</span>;
+
+    const recommendation: RecommendationsMovieRate[] = DtRecommendationsP2
+      ? [
+          ...DtRecommendationsP1.results.map((value) => {
+            return {
+              ...value,
+              recommended: compare(
+                value,
+                maxPop,
+                maxCont,
+                rootFilm,
+                arrayPoint
+              ),
+            };
+          }),
+          ...DtRecommendationsP2.results.map((value) => {
+            return {
+              ...value,
+              recommended: compare(
+                value,
+                maxPop,
+                maxCont,
+                rootFilm,
+                arrayPoint
+              ),
+            };
+          }),
+        ]
+      : [
+          ...DtRecommendationsP1.results.map((value) => {
+            return {
+              ...value,
+              recommended: compare(
+                value,
+                maxPop,
+                maxCont,
+                rootFilm,
+                arrayPoint
+              ),
+            };
+          }),
+        ];
+
+    const relatedFilter = recommendation
+      .filter((value) => value.recommended >= 15)
+      .filter((value) => value.vote_count >= 100)
+      .sort((valueA, valueB) => {
+        return valueA.recommended - valueB.recommended;
+      })
+      .reverse();
+
+    if (relatedFilter.length >= 1) {
+      return (
+        <section className="bg-Surface relative  before:bg-Surface  before:w-screen before:h-full before:absolute before:bottom-0 before:left-[50%] before:translate-x-[-50%] before:z-[-1]">
+          <BlockContainer>
+            <SubTitle>Recomendações</SubTitle>
+            <ListControl id={"Recomendacoes"} length={relatedFilter.length}>
+              <ListMovie data={relatedFilter} id={"Recomendacoes"} />
+            </ListControl>
+          </BlockContainer>
+        </section>
+      );
+    }
   }
 }
