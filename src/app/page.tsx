@@ -25,27 +25,9 @@ async function getTheatres() {
   return res.json();
 }
 
-// async function getUpcoming() {
-//   const options = {
-//     headers: {
-//       accept: "application/json",
-//       Authorization: `${process.env.DB_TOKEN_AUTH}`,
-//     },
-//     next: { revalidate: 3600 },
-//   };
-//   const res = await fetch(
-//     `${process.env.DB_API_URL}upcoming?language=pt-BR&watch_region=BR&page=1`,
-//     options
-//   );
-//   if (!res.ok) {
-//     throw new Error("Falha ao buscar dados");
-//   }
-//   return res.json();
-// }
-
 export default async function Home() {
   const inTheatres: NowPlaying = await getTheatres();
-  // const upcoming = await getUpcoming(); 
+
   return (
     <Container>
       <div className="min-h-dvh  w-full flex flex-col justify-between ">

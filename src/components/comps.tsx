@@ -6,7 +6,7 @@ export function ListMovie({
   data,
   id,
 }: {
-  data: RecommendationsMovieRate[];
+  data: RecommendationsMovieRate[] |  MovieType[];
   id: string;
 }) {
   return (
