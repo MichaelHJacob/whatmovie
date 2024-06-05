@@ -17,6 +17,7 @@ import {
   Container,
   LoadingCards,
 } from "@/components/frame";
+import { Metadata } from "next";
 
 async function getDetails(id: string) {
   const options = {
@@ -50,6 +51,34 @@ async function getCssBlurIMG(src: string) {
 
   return css;
 }
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { movieId: string };
+}): Promise<Metadata> {
+  const data: DetailsMovieType = await getDetails(params.movieId);
+  return {
+    title: `Wm | ${data.title}`,
+    description: data.overview.substring(0, 160), 
+    openGraph : {
+      images: `https://image.tmdb.org/t/p/w780${data?.poster_path}`,
+    },
+    twitter: {
+      images: `https://image.tmdb.org/t/p/w780${data?.poster_path}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+      }
+    }
+
+  }
+}
+
 
 export default async function Movie({
   params,

@@ -4,7 +4,6 @@ import { Barlow, Open_Sans} from "next/font/google";
 import { Suspense } from "react";
 import Link from "next/link";
 import Search from "@/components/client/search";
-import next from "next";
 
 const barlow = Barlow({
   weight: ["400", "500", "600", "700"],
