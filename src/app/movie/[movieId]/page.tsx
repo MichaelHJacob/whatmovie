@@ -341,7 +341,7 @@ export default async function Movie({
             )}
           </CardInformation>
           {(data.belongs_to_collection?.name != undefined ||
-            data.homepage != undefined) && (
+            data.homepage) && (
             <CardInformation>
               {data.belongs_to_collection?.name != undefined && (
                 <>
@@ -357,15 +357,15 @@ export default async function Movie({
                     href={data.homepage}
                     target="_blank"
                     rel="noreferrer noopener"
+                    className="underline movie-backBtn"
                   >
                     Site Oficial
                   </a>
                 </dt>
-              )}
+                )} 
             </CardInformation>
-          )}
+          )} 
         </div>
-
         <CardInformation>
           <Suspense>
             <GetTranslations movieID={params.movieId} />

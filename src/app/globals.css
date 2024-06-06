@@ -256,9 +256,13 @@
     @apply text-base text-onSurface2 font-semibold px-1 antialiased;
   }
 
+  .backBtn-hover {
+    @apply hover:shadow-onBackground2/10 shadow-lg shadow-transparent transition-all duration-300 active:bg-theme/20 active:shadow-transparent  cursor-pointer
+  }
+
   .filter-BackBtn {
-    @apply h-9 bg-Surface80 px-4  inline-flex gap-2   items-center rounded-lg appearance-none cursor-pointer border-none 
-    hover:shadow-onBackground2/20 shadow-lg shadow-transparent transition-all duration-300 active:bg-theme/20;
+    @apply h-9 bg-Surface80 px-4  inline-flex gap-2   items-center rounded-lg appearance-none border-none backBtn-hover
+    ;
   }
 
   
@@ -273,6 +277,10 @@
 
   .main-backBtn {
     @apply filter-BackBtn bg-Surface80/80   backdrop-blur-xl  backdrop-saturate-150;
+  }
+
+  .movie-backBtn {
+    @apply hover:bg-Surface80/30 p-2 m-[-4px] rounded-lg backBtn-hover
   }
 
   .list-backBtn {
