@@ -113,7 +113,7 @@ export async function GetStream({ movieID }: { movieID: string }) {
         <dt className="label mb-2 text-Background font-bold">Disponível em:</dt>
        
         <dd className="flex flex-row flex-wrap w-full gap-[--gap] xs:gap-[--gapXS] md:gap-[--gapMD] lg:gap-[--gapLG]  ">
-          {wpBr.flatrate.map((value, i:number, arr ) => <span key={i} className="mb-1 inline-flex h-11 w-fit  items-center gap-[calc(var(--gap)/2)] xs:gap-[calc(var(--gapXS)/2)] md:gap-[calc(var(--gapMD)/2)] lg:gap-[calc(var(--gapLG)/2)]
+          {wpBr.flatrate.map((value, i:number, arr ) => <div key={i} className="mb-1 inline-flex h-11 w-fit  items-center gap-[calc(var(--gap)/2)] xs:gap-[calc(var(--gapXS)/2)] md:gap-[calc(var(--gapMD)/2)] lg:gap-[calc(var(--gapLG)/2)] 
           ">
          
           <img
@@ -121,13 +121,14 @@ export async function GetStream({ movieID }: { movieID: string }) {
             src={`https://image.tmdb.org/t/p/w342${value.logo_path}`}
             alt={`logo ${value.provider_name}`}
           />
-          <span className="data font-semibold  text-Background  ">{value.provider_name}</span>
-          <span className={`data text-Background select-none ${i+1 == arr.length && 'hidden'}`}>|</span> 
-          </span>)}
+          <div className={`data font-semibold text-Background ${arr.length > 2 && 'max-sm:hidden' }`}>{value.provider_name} <span className={`data text-Background select-none ${i+1 == arr.length && 'hidden'}`}>|</span>
+          </div>
+           
+          </div>)}
           </dd>
       </>
     );
-  }
+  } 
 }
 export async function GetTranslations({ movieID }: { movieID: string }) {
   const result: TranslationsType  = await getTranslations(movieID);
