@@ -202,6 +202,9 @@ export interface DetailsMovieType {
   video: boolean;
   vote_average: number;
   vote_count: number;
+  videos: {
+    results: VideosResultsType[];
+  }
 }
 
 export interface CreditsType {

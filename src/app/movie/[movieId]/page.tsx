@@ -3,7 +3,7 @@ import { SubTitle } from "@/components/comps";
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { getPlaiceholder } from "plaiceholder";
-import GetVideo from "@/components/movie/getVideos";
+import Videos from "@/components/movie/compsClient";
 import GetRecommendations from "@/components/movie/getRecommendations";
 import {
   GetPeople,
@@ -28,7 +28,7 @@ async function getDetails(id: string) {
     next: { revalidate: 3600 },
   };
   const res = await fetch(
-    process.env.DB_API_URL + id + "?language=pt-BR&watch_region=BR",
+    process.env.DB_API_URL + id + "?append_to_response=videos&language=pt-BR&watch_region=BR",
     options
   );
 
@@ -60,8 +60,8 @@ export async function generateMetadata({
   const data: DetailsMovieType = await getDetails(params.movieId);
   return {
     title: `Wm | ${data.title}`,
-    description: data.overview.substring(0, 160), 
-    openGraph : {
+    description: data.overview.substring(0, 160),
+    openGraph: {
       images: `https://image.tmdb.org/t/p/w780${data?.poster_path}`,
     },
     twitter: {
@@ -73,12 +73,10 @@ export async function generateMetadata({
       googleBot: {
         index: true,
         follow: true,
-      }
-    }
-
-  }
+      },
+    },
+  };
 }
-
 
 export default async function Movie({
   params,
@@ -87,7 +85,9 @@ export default async function Movie({
 }) {
   const data: DetailsMovieType = await getDetails(params.movieId);
   if (typeof data.poster_path == "string") {
-    var css = await getCssBlurIMG("https://image.tmdb.org/t/p/w185" + data.poster_path);
+    var css = await getCssBlurIMG(
+      "https://image.tmdb.org/t/p/w185" + data.poster_path
+    );
   } else {
     var css = {
       backgroundImage: "linear-gradient(to top right, #075985, #3e131ca8)",
@@ -173,7 +173,6 @@ export default async function Movie({
       }
     }
   }
-
   return (
     <Container>
       <div className="h-min w-full relative paddingHeader z-30">
@@ -247,13 +246,7 @@ export default async function Movie({
         </BlockContainer>
       </div>
       <div className="bg-Background/70  fixed top-0  left-0 h-11  w-full z-20 " />
-      <Suspense
-        fallback={
-          <div className="bg-Surface w-full aspect-video animate-pulse " />
-        }
-      >
-        <GetVideo movieID={params.movieId} />
-      </Suspense>
+      {data.videos.results.length >= 1  && <Videos videosArray={data.videos.results} />}
       <BlockContainer>
         <SubTitle>Mais detalhes</SubTitle>
 
@@ -340,8 +333,7 @@ export default async function Movie({
               </>
             )}
           </CardInformation>
-          {(data.belongs_to_collection?.name != undefined ||
-            data.homepage) && (
+          {(data.belongs_to_collection?.name != undefined || data.homepage) && (
             <CardInformation>
               {data.belongs_to_collection?.name != undefined && (
                 <>
@@ -362,9 +354,9 @@ export default async function Movie({
                     Site Oficial
                   </a>
                 </dt>
-                )} 
+              )}
             </CardInformation>
-          )} 
+          )}
         </div>
         <CardInformation>
           <Suspense>
