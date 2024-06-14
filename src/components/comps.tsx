@@ -10,7 +10,7 @@ export function ListMovie({
   id: string;
 }) {
   return (
-    <ul id={id} className="ListSpacing list-none no-scrollbar">
+    <ul id={id} className="ListSpacing items-end">
       {data.map((value, index) => (
         <li
           id={id + String(index)}
@@ -28,7 +28,7 @@ export function ListPeople({ data, id }: { data: CreditsType; id: string }) {
   return (
     <ul
       id={id}
-      className="ListSpacing lg:auto-cols-[calc((100%-20*var(--gapLG))/21)]  list-none no-scrollbar rounded-2xl"
+      className="ListSpacing  lg:auto-cols-[calc((100%-20*var(--gapLG))/21)] list-none no-scrollbar rounded-2xl"
     >
       {data.cast.length >= 1 &&
         data.cast.map((value, index) => (
@@ -44,7 +44,7 @@ export function ListPeople({ data, id }: { data: CreditsType; id: string }) {
                 height={200}
                 width={200}
                 sizes="150px"
-                className="rounded-full w-full  aspect-square  object-cover"
+                className="rounded-full w-full  aspect-square  object-cover light-shadow"
               />
             ) : (
               <div
@@ -113,20 +113,20 @@ export function ListPeople({ data, id }: { data: CreditsType; id: string }) {
 export function CardMovie({ data }: { data: MovieClient | MovieType}) {
   if (typeof data.poster_path == "string") {
     return (
-      <Link href={`/movie/${data.id}`} target="_top" className=" w-full   ">
+      <Link href={`/movie/${data.id}`} target="_top" >
         <img
           src={`https://image.tmdb.org/t/p/w342${data.poster_path}`}
           alt={data.title}
           height={330}
           width={220}
           sizes="150px"
-          className="rounded-lg w-full   shadow-xl shadow-black/30"
+          className="rounded-lg w-auto mid-shadow"
         />
       </Link>
     );
   } else {
     return (
-      <Link href={`/movie/${data.id}`} className=" w-full   ">
+      <Link href={`/movie/${data.id}`} className="w-full">
         <div className="rounded-lg flex flex-col justify-between items-center pb-10 pt-5  w-full h-full overflow-hidden bg-gradient-to-b from-solid-pink-950/5 to-neutral-500/15  break-words  shadow-xl shadow-black/30 aspect-[18/27]">
           <p className="filter-TextBtn text-solid-pink-950/30  text-wrap place-items-center w-min text-center ">
             imagem indisponível
@@ -142,8 +142,16 @@ export function CardMovie({ data }: { data: MovieClient | MovieType}) {
 
 export function SubTitle({ children }: { children: ReactNode }) {
   return (
-    <div className="py-2 xs:py-[1rem] lg:py-6 min-h-11  ">
-      <h3 className="subTitle  ">{children}</h3>
+    <div className="py-2 xs:py-[1rem] lg:py-6 min-h-11 blockContainer-x">
+      <h3 className="subTitle ">{children}</h3>
+    </div>
+  );
+}
+
+export function LabelH4({ children }: { children: ReactNode }) {
+  return (
+    <div className="py-2 xs:py-[1rem] lg:py-6 min-h-11 w-fit">
+      <h4 className="subTitle ">{children}</h4>
     </div>
   );
 }

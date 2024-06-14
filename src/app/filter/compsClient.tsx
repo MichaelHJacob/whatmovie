@@ -13,7 +13,7 @@ import {
 import { LoadingCards } from "@/components/frame";
 import { fetchMovies } from "./actions";
 import { MapCardMovie } from "./comps";
-import { BlockContainer, Container } from "@/components/frame";
+import { Container } from "@/components/frame";
 
 export function ScrollPages({
   initialData,
@@ -378,8 +378,9 @@ export default function FilterSideMenu({
         className="
       main-backBtn   xl:hidden  "
       >
+        <span className={`w-[12px] h-[12px] ${handle ? 'rotate-[190deg] animate-rotateToL' : 'rotate-[0deg] animate-rotateToR order-1'} bg-[url('/toRight.svg')] bg-[length:12px_12px] bg-[center_center] bg-no-repeat transition-all duration-300 `}></span>
         <span className="main-TextBtn">
-          {handle ? " < Fechar " : "Expandir filtro  >"}
+          {handle ? "Fechar" : "Expandir filtro"}
         </span>
       </button>
     );
@@ -931,14 +932,13 @@ export default function FilterSideMenu({
         id="filtersID"
         className="  h-full min-w-80 w-[80vw] max-w-sm lg:max-w-lg xl:max-w-md  inline-block overscroll-x-contain overflow-y-scroll      snap-end snap-always overscroll-y-contain    pt-[5.5rem] bg-Surface "
       >
-        <BlockContainer>
           <div
             className="flex flex-col 
             gap-[var(--gap)] 
             xs:gap-[var(--gapXS)] 
             md:gap-[var(--gapMD)] 
-            lg:gap-[var(--gapLG)]
-            "
+            lg:gap-[var(--gapLG)] 
+            blockContainer "
           >
             <BtnSortBy />
             <Break />
@@ -963,7 +963,6 @@ export default function FilterSideMenu({
               />
             )}
           </div>
-        </BlockContainer>
       </div>
 
       <div
@@ -975,8 +974,8 @@ export default function FilterSideMenu({
           <div className="bg-gradient-to-b from-Background  via-Background/50 bg-transparent  fixed top-0  left-0 h-[5.5rem] backdrop-blur-[1px] w-full   backdrop-saturate-[1.2]   z-10 " />
           <div className="paddingHeader" />
           <div className="h-min sticky z-40 top-14 w-full snap-always snap-start ">
-            <BlockContainer>
-              <div className=" w-full  flex gap-2  h-auto overflow-x-scroll no-scrollbar transition-all  duration-1000">
+           
+              <div className=" w-full  flex gap-2  h-auto overflow-x-scroll no-scrollbar transition-all  duration-1000 blockContainer">
                 <BtnScroll />
                 <BtnReset />
                 {usualP.length > 0 && (
@@ -1009,7 +1008,7 @@ export default function FilterSideMenu({
                   </ul>
                 )}
               </div>
-            </BlockContainer>
+            
           </div>
 
           {children}

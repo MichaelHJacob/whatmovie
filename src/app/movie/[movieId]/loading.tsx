@@ -1,5 +1,4 @@
 import {
-  BlockContainer,
   CardInformation,
   Container,
 } from "@/components/frame";
@@ -12,8 +11,7 @@ export default function Loading() {
         <div className="w-screen left-[50%] translate-x-[-50%]  h-full absolute top-0  z-[-1] overflow-hidden">
           <div className="  w-full h-full   bg-white animate-pulse  " />
         </div>
-        <BlockContainer>
-          <div className="md:gridTemplateSpace  ">
+          <div className="md:gridTemplateSpace items-center blockContainer">
             <div className="relative  md:col-span-4 lg:col-span-5 overflow-visible">
               <div className="rounded-lg flex flex-col justify-between items-center pb-10 pt-5  w-full h-full overflow-hidden bg-gradient-to-b from-solid-pink-950/5 to-neutral-500/15   shadow-xl shadow-black/10 aspect-[18/27]"></div>
             </div>
@@ -24,15 +22,14 @@ export default function Loading() {
               <div className="h-1/2 w-full max-md:bg-white/30 rounded-lg bg-onBackground1/20" />
             </div>
           </div>
-        </BlockContainer>
       </div>
 
-      <BlockContainer>
+      <div className="blockContainer">
         <div className="py-2 xs:py-[1rem] lg:py-6">
           <div className="h-6 w-24 rounded-lg mb-2 bg-onBackground1/40" />
         </div>
 
-        <div className="ListSpacing animate-pulse">
+        <div className="ListSpacing animate-pulse items-stretch ">
           <CardInformation>
             <div className="h-full w-full  aspect-square"></div>
           </CardInformation>
@@ -43,7 +40,7 @@ export default function Loading() {
             <div className="h-full w-full  aspect-square"></div>
           </CardInformation>
         </div>
-      </BlockContainer>
+      </div>
     </Container>
   );
 }

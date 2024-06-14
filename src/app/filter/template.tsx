@@ -1,9 +1,7 @@
-import { BlockContainer, Container } from "@/components/frame";
+import { Container } from "@/components/frame";
 import FilterSideMenu from "@/app/filter/compsClient";
 import { LoadingCards } from "@/components/frame";
 import { Suspense } from "react";
-
-
 
 export default function Template({
   children,
@@ -14,11 +12,9 @@ export default function Template({
     <Suspense
       fallback={
         <Container>
-          <BlockContainer>
-            <div className=" w-full  gridTemplateSpace  ">
+            <div className="w-full gridTemplateSpace itens-center blockContainer">
               <LoadingCards />
             </div>
-          </BlockContainer>
         </Container>
       }
     >

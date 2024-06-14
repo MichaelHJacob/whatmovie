@@ -1,8 +1,10 @@
+import { Barlow } from 'next/font/google';
 import type { Config } from 'tailwindcss'
 const colors = require('tailwindcss/colors')
 import fs from "node:fs";
 import path from "node:path";
 import plaiceholder from "@plaiceholder/tailwindcss";
+import { transform } from 'next/dist/build/swc';
 const defaultTheme = require('tailwindcss/defaultTheme')
 
 
@@ -23,9 +25,15 @@ const config: Config = {
           '60%': { transform: 'translateX(10px)' },
           '80%': { transform: 'translateX(-10px)' },
         },
-        size: {
-          '0%': { transform: 'skewX(11deg) scaleX(1)' },
-          '100%': { transform: 'skewX(12deg) scaleX(3)' },
+        showVideoV: {
+          '0%': { transform: 'translateY(-50%)', opacity: '0%' },
+          '50%': { opacity: '40%'  },
+          '100%': { transform: 'translateY(0%)', opacity: '100%' },
+        },
+        showVideoH: {
+          '0%': { transform: 'translateX(50%)', opacity: '0%' },
+          '50%': { opacity: '40%'  },
+          '100%': { transform: 'translateX(0%)', opacity: '100%' },
         },
         wiggle: {
           '0%, 100%': { transform: 'rotate(-3deg)' },
@@ -43,13 +51,29 @@ const config: Config = {
           '0%': { opacity: '100%' },
           '100%': { opacity: '0' },
         },
+        rotateToL: {
+         '0%': { transform: 'rotate(0deg)' },
+         '100%': { transform: 'rotate(190deg)' },
+        },
+        rotateToR: {
+          '0%': { transform: 'rotate(190deg)' },
+          '100%': { transform: 'rotate(0deg)' },
+         }
 
       },
+      transitionTimingFunction: {
+        'in-expo': 'cubic-bezier(0.95, 0.05, 0.795, 0.035)',
+        'out-expo': 'cubic-bezier(0.19, 1, 0.22, 1)',
+      },
       animation: {
-        wrong: 'wrong 0.5s ease-in-out   ',
-        show: 'show 0.3s ease-in-out   ',
-        mainMovie: 'mainMovie 0.3s linear  ',
-        hidden: 'hidden 1s ease-in-out   ',
+        wrong: 'wrong 0.5s ease-in-out',
+        show: 'show 0.3s ease-in-out',
+        mainMovie: 'mainMovie 0.3s linear',
+        hidden: 'hidden 1s ease-in-out',
+        showVideoV: 'showVideoV 0.1s ease-out',
+        showVideoH: 'showVideoH 0.1s ease-out',
+        rotateToL: 'rotateToL 0.3s ease-in-out',
+        rotateToR: 'rotateToR 0.3s ease-in-out',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

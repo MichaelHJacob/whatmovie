@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { SearchResult, ListGenres } from "../utils/types";
 import Link from "next/link";
-import { BlockContainer } from "../frame";
 
 
 export default function Search() {
@@ -137,8 +136,8 @@ export default function Search() {
         <div className="bg-gradient-to-b  from-Background/80  via-Background/50 bg-transparent  sticky top-0  left-0 h-[5.5rem] backdrop-blur-[1px] w-full   backdrop-saturate-[1.2]   z-10 ">
           <div className="bg-gradient-to-b from-Background/80  via-Background/70 to-transparent  absolute top-0  left-0 h-11 backdrop-blur-[2px] w-full   z-10 " />
         </div>
-        <BlockContainer>
-          <ul className="h-full w-full flex justify-start flex-col items-start gap-[var(--gap)] xs:gap-[var(--gapXS)] md:gap-[var(--gapMD)] lg:gap-[var(--gapLG)]  box-border">
+        <div>
+          <ul className="h-full w-full flex justify-start flex-col items-start gap-[var(--gap)] xs:gap-[var(--gapXS)] md:gap-[var(--gapMD)] lg:gap-[var(--gapLG)]  box-border blockContainer">
             {data !== null &&
               data?.filter((value) => value.vote_count >= 100).map((value) => {
                 return (
@@ -191,7 +190,7 @@ export default function Search() {
                 );
               })}
           </ul>
-        </BlockContainer>
+        </div>
       </div>
     </details>
   );

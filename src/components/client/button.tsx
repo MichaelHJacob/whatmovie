@@ -5,9 +5,11 @@ import { useState } from "react";
 export default function BtnScrollTo({
   id,
   length,
+  color,
 }: {
   id: string;
   length: number;
+  color: "Surface" | "Background";
 }) {
   const [left, setLeft] = useState(false);
   const [right, setRight] = useState(true);
@@ -135,7 +137,7 @@ export default function BtnScrollTo({
     <>
       <button
         onClick={toRight}
-        className={`w-[--p] xs:w-[--pXS] md:w-[--pMD] lg:w-[--pLG] h-[110%] absolute right-[-1px] top-[-5%]   bg-gradient-to-l from-Surface via-Surface/70 to-transparent backdrop-blur-sm z-50 
+        className={`w-[--p] xs:w-[--pXS] md:w-[--pMD] lg:w-[--pLG] h-full absolute right-[-1px]    bg-gradient-to-l from-${color} via-${color}/70 to-transparent backdrop-blur-sm z-50 
        flex justify-center items-center group ${
          right
            ? "group-hover:animate-show group-hover:opacity-100 animate-hidden opacity-0 "
@@ -143,21 +145,21 @@ export default function BtnScrollTo({
        }`}
       >
         <span
-          className=" w-3/4 min-h-11 h-[17%] 
-    bg-[url('/toRight.svg')] bg-[length:12px_12px] bg-[center_center] bg-no-repeat  rounded-lg  backdrop-blur-xl  backdrop-saturate-150 bg-Surface80/10  px-0 shadow-lg shadow-transparent group-hover:shadow-onBackground2/20 group-active:bg-theme/20 transition-all duration-300 "
+          className={`w-3/4 min-h-11 h-[17%] 
+    bg-[url('/toRight.svg')] bg-[length:12px_12px] bg-[center_center] bg-no-repeat  rounded-lg  backdrop-blur-xl  backdrop-saturate-150 bg-${color}80/10  px-0 shadow-lg shadow-transparent group-hover:shadow-onBackground2/20 group-active:bg-theme/20 transition-all duration-300 `}
         ></span>
       </button>
       <button
         onClick={toLeft}
-        className={`w-[--p] xs:w-[--pXS] md:w-[--pMD] lg:w-[--pLG] h-[110%] absolute left-[-1px] top-[-5%]   bg-gradient-to-r from-Surface via-Surface/70 to-transparent backdrop-blur-sm z-50  flex justify-center items-center  group  ${
+        className={`w-[--p] xs:w-[--pXS] md:w-[--pMD] lg:w-[--pLG] h-full absolute left-[-1px] bg-gradient-to-r from-${color} via-${color}/70 to-transparent backdrop-blur-sm z-50  flex justify-center items-center  group  ${
           left
-            ? "group-hover:animate-show group-hover:opacity-100 animate-hidden opacity-0 "
+            ? "group-hover:animate-show group-hover:opacity-100 animate-hidden opacity-0"
             : "opacity-0"
         }  `}
       >
         <span
-          className=" w-3/4 min-h-11 h-[17%] 
-    bg-[url('/toLeft.svg')] bg-[length:12px_12px] bg-[center_center] bg-no-repeat  rounded-lg  backdrop-blur-xl  backdrop-saturate-150 bg-Surface80/10  px-0 shadow-lg shadow-transparent group-hover:shadow-onBackground2/20 group-active:bg-theme/20 transition-all duration-300 "
+          className={`w-3/4 min-h-11 h-[17%] 
+    bg-[url('/toLeft.svg')] bg-[length:12px_12px] bg-[center_center] bg-no-repeat  rounded-lg  backdrop-blur-xl  backdrop-saturate-150 bg-${color}80/10  px-0 shadow-lg shadow-transparent group-hover:shadow-onBackground2/20 group-active:bg-theme/20 transition-all duration-300`}
         ></span>
       </button>
     </>

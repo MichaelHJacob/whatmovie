@@ -1,4 +1,4 @@
-import { BlockContainer, Break } from "@/components/frame";
+import { Break } from "@/components/frame";
 import { ListPeople, SubTitle } from "@/components/comps";
 import { CreditsType, ProviderBr, TranslationsType } from "@/components/utils/types";
 import { ListControl } from "../client/comps";
@@ -63,15 +63,16 @@ export async function GetPeople({ movieID }: { movieID: string }) {
     return (
       <>
         <Break />
-        <BlockContainer>
+        <div>
           <SubTitle>Elenco e equipe</SubTitle>
           <ListControl
             id="ElencoEquipe"
             length={Credits.cast.length + Credits.crew.length}
+            color="Background"
           >
             <ListPeople data={Credits} id="ElencoEquipe" />
           </ListControl>
-        </BlockContainer>
+        </div>
       </>
     );
   } else {

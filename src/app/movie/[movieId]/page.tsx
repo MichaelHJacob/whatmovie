@@ -12,7 +12,6 @@ import {
   GetTranslations,
 } from "@/components/movie/comps";
 import {
-  BlockContainer,
   CardInformation,
   Container,
   LoadingCards,
@@ -183,8 +182,7 @@ export default async function Movie({
           />
           <div className="  w-full h-full absolute top-0 left-0   backdrop-blur-3xl " />
         </div>
-        <BlockContainer>
-          <div className="md:gridTemplateSpace items-center  ">
+          <div className="md:gridTemplateSpace items-center blockContainer">
             <div className="relative  md:col-span-4 lg:col-span-5 overflow-visible">
               {typeof data.poster_path == "string" ? (
                 <img
@@ -243,14 +241,13 @@ export default async function Movie({
               </Suspense>
             </dl>
           </div>
-        </BlockContainer>
       </div>
       <div className="bg-Background/70  fixed top-0  left-0 h-11  w-full z-20 " />
       {data.videos.results.length >= 1  && <Videos videosArray={data.videos.results} />}
-      <BlockContainer>
+      <div>
         <SubTitle>Mais detalhes</SubTitle>
 
-        <div className="ListSpacing  py-11 mt-[-44px] ">
+        <div className="ListSpacing no-scrollbar">
           <CardInformation>
             {data.original_title && (
               <>
@@ -358,12 +355,14 @@ export default async function Movie({
             </CardInformation>
           )}
         </div>
+        <div className="blockContainer">
         <CardInformation>
           <Suspense>
             <GetTranslations movieID={params.movieId} />
           </Suspense>
         </CardInformation>
-      </BlockContainer>
+        </div>
+      </div>
 
       <Suspense>
         <GetPeople movieID={params.movieId} />

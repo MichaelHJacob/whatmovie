@@ -1,6 +1,6 @@
 import "./globals.css";
 import { NowPlaying } from "@/components/utils/types";
-import { Container, BlockContainer } from "@/components/frame";
+import { Container } from "@/components/frame";
 import { SubTitle } from "@/components/comps";
 import { ListMovie } from "@/components/comps";
 import { ListControl } from "@/components/client/comps";
@@ -43,12 +43,12 @@ export default async function Home() {
           </div>
         </div>
         <div className="bg-Surface relative before:shadow-2xl before:shadow-black before:bg-Surface  before:w-screen before:h-full before:absolute before:bottom-0 before:left-[50%] before:translate-x-[-50%] before:z-[-1]">
-          <BlockContainer>
+        
             <SubTitle>Lançamentos</SubTitle>
-            <ListControl id={"lancamentos"} length={inTheatres.results.length}>
+            <ListControl id={"lancamentos"} length={inTheatres.results.length} color="Surface" >
               <ListMovie data={inTheatres?.results} id={"lancamentos"} />
             </ListControl>
-          </BlockContainer>
+          
         </div>
       </div>
     </Container>

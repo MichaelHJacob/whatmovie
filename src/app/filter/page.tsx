@@ -1,9 +1,8 @@
-import { BlockContainer } from "@/components/frame";
-import { CardMovie, SubTitle } from "@/components/comps";
-import { CardMovieType, DiscoverType } from "@/components/utils/types";
+import { LabelH4 } from "@/components/comps";
+import { CardMovieType } from "@/components/utils/types";
 import { fetchMovies } from "./actions";
 import { ScrollPages } from "./compsClient";
-import { MapCardMovie } from "./comps";
+import { Container, LoadingCards } from "@/components/frame";
 
 export default async function Page({
   searchParams,
@@ -12,14 +11,13 @@ export default async function Page({
 }) {
   const data: CardMovieType = await fetchMovies(searchParams);
 
-
   return (
     <>
-      <BlockContainer>
+      <div>
         {data?.results.length > 0 && (
           <ul
             key={Math.random()}
-            className=" w-full  gridTemplateSpace  xl:grid-cols-12 2xl:grid-cols-[repeat(20,_minmax(0,_1fr))] xl:gap-[var(--gapMD)] 2xl:gap-[var(--gapLG)] relative"
+            className=" w-full  gridTemplateSpace items-end xl:grid-cols-12 2xl:grid-cols-[repeat(20,_minmax(0,_1fr))] xl:gap-[var(--gapMD)] 2xl:gap-[var(--gapLG)] relative blockContainer "
           >
             <ScrollPages
               initialData={data}
@@ -28,23 +26,23 @@ export default async function Page({
             />
           </ul>
         )}
-      </BlockContainer>
+      </div>
 
-      <BlockContainer>
+     
         {data?.results.length < 20 && data?.total_pages === 1 && (
-          <div className="flex justify-end">
+          <div className="flex justify-end blockContainer">
             {data?.results.length == 0 ? (
-              <SubTitle>
+              <LabelH4>
                 Considere um filtro mais amplo para exibir resultados
-              </SubTitle>
+              </LabelH4>
             ) : (
-              <SubTitle>
+              <LabelH4>
                 Considere um filtro mais amplo para exibir mais resultados
-              </SubTitle>
+              </LabelH4>
             )}
           </div>
         )}
-      </BlockContainer>
+    
     </>
   );
 }

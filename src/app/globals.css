@@ -81,8 +81,19 @@
     scrollbar-width: none; 
   }
 
-  .btnRange {
-    @apply bg-theme h-8 w-8 rounded-full cursor-pointer;
+  *,
+  ::before,
+  ::after {
+    @apply ring ring-transparent ring-offset-0 ring-offset-transparent outline outline-0 outline-transparent outline-none;
+  }
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
   }
 
   input[type="range"]::-webkit-slider-thumb {
@@ -98,6 +109,10 @@
     @apply btnRange;
   }
 
+  .btnRange {
+    @apply bg-theme h-8 w-8 rounded-full cursor-pointer;
+  }
+/*
   .videoFull {
     @apply w-[calc((100%-var(--gapMD))-(100%-var(--gapMD))/3)]    h-full absolute left-0  top-0;
   }
@@ -108,7 +123,7 @@
 
   .videoGridFull {
     @apply md:col-[1/_span_8] lg:col-[1/_span_15] row-start-1;
-  }
+  } */
   .all-unset {
     all: unset;
   }
@@ -134,12 +149,26 @@
         lg:px-[var(--pLG)];
   }
 
+  .blockContainer-b {
+    @apply pb-[var(--p)] 
+        xs:pb-[var(--pXS)] 
+        md:pb-[var(--pMD)] 
+        lg:pb-[var(--pLG)];  
+  }
+
+  .blockContainer-t {
+    @apply pt-[var(--p)] 
+        xs:pt-[var(--pXS)] 
+        md:pt-[var(--pMD)] 
+        lg:pt-[var(--pLG)];
+  }
+
+  .blockContainer-y {
+    @apply blockContainer-t blockContainer-b
+  }
+
   .blockContainer {
-    @apply blockContainer-x
-         pb-[var(--p)] 
-      xs:pb-[var(--pXS)] 
-      md:pb-[var(--pMD)] 
-      lg:pb-[var(--pLG)]
+    @apply blockContainer-x blockContainer-b
       scrollStyle;
   }
 
@@ -180,9 +209,28 @@
     @apply h-min col-span-3 xs:col-span-3 md:col-span-2 lg:col-span-3 snap-start;
   }
 
+  .spacingShrinkerBlock-t {
+    @apply mt-[calc(var(--p)*-1)] 
+        xs:mt-[calc(var(--pXS)*-1)] 
+        md:mt-[calc(var(--pMD)*-1)] 
+        lg:mt-[calc(var(--pLG)*-1)];
+  }
+
+  .spacingShrinkerBlock-y {
+    @apply spacingShrinkerBlock-b spacingShrinkerBlock-t;
+  }
+
+  .spacingShrinkerBlock-b {
+    @apply mb-[calc(var(--p)*-1)] 
+        xs:mb-[calc(var(--pXS)*-1)] 
+        md:mb-[calc(var(--pMD)*-1)] 
+        lg:mb-[calc(var(--pLG)*-1)]
+  }
+
   .spacingShrinkerBlock-x {
     @apply mx-[calc(var(--p)*-1)]      
     xs:mx-[calc(var(--pXS)*-1)]  
+    md:mx-[calc(var(--pMD)*-1)] 
     lg:mx-[calc(var(--pLG)*-1)];
   }
 
@@ -190,41 +238,37 @@
     @apply spacingShrinkerBlock-x
        mb-[calc(var(--p)*-1)] 
     xs:mb-[calc(var(--pXS)*-1)] 
-    lg:mb-[calc(var(--pLG)*-1)];
+    md:mb-[calc(var(--pMD)*-1)] 
+    lg:mb-[calc(var(--pLG)*-1)]
+    bg-mercury-950;
   }
 
+  .light-shadow {
+    @apply shadow-lg shadow-black/10;
+  }
+
+  .mid-shadow {
+    @apply shadow-xl shadow-black/20;
+  }
+
+
+
   .ListSpacing {
-    @apply scrollStyle blockContainer-x spacingShrinkerBlock-x 
+    @apply scrollStyle blockContainer-x blockContainer-y spacingShrinkerBlock-t list-none no-scrollbar z-0 relative
     grid grid-flow-col grid-rows-[min-content]
-   
-    
-    
+  
        scroll-pl-[var(--p)] 
     xs:scroll-pl-[var(--pXS)] 
     lg:scroll-pl-[var(--pLG)] 
   
     gridAutoSpace
     
-    overflow-x-auto overflow-y-hidden  snap-mandatory snap-x scroll-smooth overscroll-x-contain;
+    overflow-x-auto overflow-y-hidden  snap-mandatory snap-x scroll-smooth overscroll-x-contain ;
   }
 
-  *,
-  ::before,
-  ::after {
-    @apply ring ring-transparent ring-offset-0 ring-offset-transparent outline outline-0 outline-transparent outline-none;
-  }
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
-  input[type="number"] {
-    -moz-appearance: textfield;
-  }
-/*  */
   .subTitle {
-    @apply p-0.5  text-onBackground1 text-lg font-bold leading-4 antialiased tracking-normal whitespace-normal;
+    @apply p-0.5  text-onBackground1 text-lg font-bold leading-4 antialiased tracking-normal whitespace-normal
+    relative z-20;
   }
 
   .label {
@@ -276,7 +320,7 @@
   }
 
   .main-backBtn {
-    @apply filter-BackBtn bg-Surface80/80   backdrop-blur-xl  backdrop-saturate-150;
+    @apply filter-BackBtn bg-Surface80/80   backdrop-blur-xl  backdrop-saturate-150 w-auto whitespace-nowrap;
   }
 
   .movie-backBtn {

@@ -1,4 +1,3 @@
-import { BlockContainer } from "@/components/frame";
 import { SubTitle, ListMovie } from "@/components/comps";
 import { ListControl } from "../client/comps";
 import {
@@ -87,7 +86,6 @@ export function compare(
         }
 
         if (iRoot == 0) {
-          // if (iRcm == 0 || iRcm == 1) {
             switch (rootValue) {
               // 27 Horror | 28 Action | 36 History | 53 Thriller | 80 Crime | 10749 Romance for Comedy
               case 35:
@@ -182,7 +180,6 @@ export function compare(
                 }
                 break;
             }
-          // }
         }
       });
     });
@@ -329,13 +326,13 @@ export default async function GetRecommendations({
 
     if (relatedFilter.length >= 1) {
       return (
-        <section className="bg-Surface relative  before:bg-Surface  before:w-screen before:h-full before:absolute before:bottom-0 before:left-[50%] before:translate-x-[-50%] before:z-[-1]">
-          <BlockContainer>
+        <section className="bg-Surface relative before:shadow-2xl before:shadow-black before:bg-Surface  before:w-screen before:h-full before:absolute before:bottom-0 before:left-[50%] before:translate-x-[-50%] before:z-[-1]">
+         
             <SubTitle>Recomendações</SubTitle>
-            <ListControl id={"Recomendacoes"} length={relatedFilter.length}>
+            <ListControl id={"Recomendacoes"} length={relatedFilter.length} color="Surface">
               <ListMovie data={relatedFilter} id={"Recomendacoes"} />
             </ListControl>
-          </BlockContainer>
+          
         </section>
       );
     }
