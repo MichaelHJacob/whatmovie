@@ -329,7 +329,7 @@ export default async function GetRecommendations({
         <section className="bg-Surface relative before:shadow-2xl before:shadow-black before:bg-Surface  before:w-screen before:h-full before:absolute before:bottom-0 before:left-[50%] before:translate-x-[-50%] before:z-[-1]">
          
             <SubTitle>Recomendações</SubTitle>
-            <ListControl id={"Recomendacoes"} length={relatedFilter.length} color="Surface">
+            <ListControl id={"Recomendacoes"} length={relatedFilter.length} surface>
               <ListMovie data={relatedFilter} id={"Recomendacoes"} />
             </ListControl>
           

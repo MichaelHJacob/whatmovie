@@ -45,7 +45,7 @@ export default async function Home() {
         <div className="bg-Surface relative before:shadow-2xl before:shadow-black before:bg-Surface  before:w-screen before:h-full before:absolute before:bottom-0 before:left-[50%] before:translate-x-[-50%] before:z-[-1]">
         
             <SubTitle>Lançamentos</SubTitle>
-            <ListControl id={"lancamentos"} length={inTheatres.results.length} color="Surface" >
+            <ListControl id={"lancamentos"} length={inTheatres.results.length} surface >
               <ListMovie data={inTheatres?.results} id={"lancamentos"} />
             </ListControl>
           

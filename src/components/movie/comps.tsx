@@ -68,7 +68,6 @@ export async function GetPeople({ movieID }: { movieID: string }) {
           <ListControl
             id="ElencoEquipe"
             length={Credits.cast.length + Credits.crew.length}
-            color="Background"
           >
             <ListPeople data={Credits} id="ElencoEquipe" />
           </ListControl>

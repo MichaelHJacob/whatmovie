@@ -9,12 +9,12 @@ export function ListControl({
   id,
   length,
   children,
-  color,
+  surface,
 }: {
   id: string;
   length: number;
   children: ReactNode;
-  color: "Surface" | "Background";
+  surface?: boolean;
 }) {
   const [enabler, setEnabler] = useState(false);
 
@@ -45,7 +45,7 @@ export function ListControl({
       onMouseEnter={onMouse}
       className="relative group"
     >
-      {enabler && <BtnScrollTo id={id} length={length} color={color} />}
+      {enabler && <BtnScrollTo id={id} length={length} surface={surface} />}
       {children}
     </div>
   );

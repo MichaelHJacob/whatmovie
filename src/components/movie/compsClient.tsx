@@ -64,7 +64,7 @@ export default function Videos({
               <span className="w-[12px] h-[12px] group-open:rotate-[270deg] bg-[url('/toRight.svg')] bg-[length:12px_12px] bg-[center_center] bg-no-repeat transition-all duration-300"></span>
             </button>
           </summary>
-          <ListControl id={"videos"} length={videosArray.length} color="Background">
+          <ListControl id={"videos"} length={videosArray.length} >
             <ul
               id="videos"
               className="max-md:flex max-md:flex-col max-xs:gap-[var(--gap)] max-md:gap-[var(--gapXS)] md:ListSpacing md:spacingShrinkerBlock-b max-md:blockContainer-x list-none no-scrollbar relative max-md:animate-showVideoV md:animate-showVideoH"
