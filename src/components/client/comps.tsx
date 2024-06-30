@@ -1,7 +1,6 @@
 "use client";
 import { ReactNode, useState } from "react";
 import dynamic from "next/dynamic";
-import { MovieType } from "../utils/types";
 
 const BtnScrollTo = dynamic(() => import("./button"));
 

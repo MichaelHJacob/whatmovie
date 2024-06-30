@@ -4,6 +4,7 @@ import { Container } from "@/components/frame";
 import { SubTitle } from "@/components/comps";
 import { ListMovie } from "@/components/comps";
 import { ListControl } from "@/components/client/comps";
+import Image from "next/image";
 
 async function getTheatres() {
   const options = {
@@ -31,24 +32,38 @@ export default async function Home() {
   return (
     <Container>
       <div className="min-h-dvh  w-full flex flex-col justify-between ">
-        <div className="w-full landscape:min-h-96 flex-1 mx-auto flex justify-center items-center paddingHeader">
-          <div className="relative  before:content-[''] before:absolute before:w-[200%]  before:h-2/3 before:bg-gradient-to-r before:from-[#F66659] before:via-[#25356B] before:to-[#00CCFF] before:rounded-full before:opacity-70 before:left-1/2 before:-translate-x-[43%] before:-rotate-2 before:blur-3xl before:top-3/4  ">
-          <img
-              className="drop-shadow-[0_15px_25px_#69696954]"
-              src="/logoWM.svg"
+        <div className="w-full blockContainer-x aspect-[2.5/1]  landscape:min-h-96 flex-1 mx-auto flex justify-start items-center bg-[url('/vetorWmOpacity.svg')] bg-no-repeat bg-[center_right_calc(300px*0.3*-1)] bg-[length:300px_300px] ">
+          <div className="flex gap-[--gapLG]  h-auto relative">
+            <Image
+              className="object-contain relative "
+              src="/logoWM.png"
               alt="What Movie Logo"
-              width={180}
-              height={180}
+              width={80}
+              height={80}
+              priority
             />
+            <div className=" flex flex-col justify-center items-start  gap-1 py-[--gapLG]">
+              <h1
+                className="whitespace-nowrap text-4xl font-logo font-extrabold leading-none text-nightDew-700
+              gradient-text"
+              >
+                What Movie
+              </h1>
+              <h2 className="font-button text-xl font-extralight leading-none gradient-text">
+                O filme para sua escolha certa!
+              </h2>
+            </div>
           </div>
         </div>
-        <div className="bg-Surface relative before:shadow-2xl before:shadow-black before:bg-Surface  before:w-screen before:h-full before:absolute before:bottom-0 before:left-[50%] before:translate-x-[-50%] before:z-[-1]">
-        
-            <SubTitle>Lançamentos</SubTitle>
-            <ListControl id={"lancamentos"} length={inTheatres.results.length} surface >
-              <ListMovie data={inTheatres?.results} id={"lancamentos"} />
-            </ListControl>
-          
+        <div className="relative  before:w-screen before:h-full before:absolute before:bottom-0 before:left-[50%] before:translate-x-[-50%] before:z-[-1]">
+          <SubTitle>Lançamentos</SubTitle>
+          <ListControl
+            id={"lancamentos"}
+            length={inTheatres.results.length}
+            surface
+          >
+            <ListMovie data={inTheatres?.results} id={"lancamentos"} />
+          </ListControl>
         </div>
       </div>
     </Container>

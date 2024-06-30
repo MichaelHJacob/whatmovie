@@ -30,7 +30,7 @@ export default function Videos({
     <>
       <div className="max-md:bg-black">
         <SubTitle>
-          <span className="max-md:text-Background">
+          <span className="max-md:text-nightDew-200">
             Videos, Trailers e mais
           </span>
         </SubTitle>
@@ -54,7 +54,7 @@ export default function Videos({
                   ? dVideos.removeAttribute("open")
                   : dVideos?.setAttribute("open", "open");
               }}
-              className={`main-backBtn max-md:bg-onBackground2/30 ${
+              className={`main-backBtn max-md:bg-nightDew-300/30 ${
                 videosArray.length <= 1 && "hidden"
               }`}
             >
@@ -74,7 +74,7 @@ export default function Videos({
                   id={`videos${index}`}
                   className={`w-full max-md:flex box-content relative snap-start snap-always cursor-pointer   overflow-visible items-center  justify-start md:gridColSpanMovie transform-gpu transition-all duration-300 md:pt-[var(--gapMD)] lg:pt-[var(--gapLG)    ${
                     selected == value &&
-                    "max-md:bg-onBackground2/30  max-xs:py-[calc(var(--gap)/3)] max-xs:pl-[calc(var(--gap)/3)] max-xs:my-[calc((var(--gap)/3)*-1)] max-xs:ml-[calc((var(--gap)/3)*-1)]  max-md:py-[calc(var(--gapXS)/3)] max-md:pl-[calc(var(--gapXS)/3)] max-md:my-[calc((var(--gapXS)/3)*-1)] max-md:ml-[calc((var(--gapXS)/3)*-1)] rounded-xl md:scale-105"
+                    "max-md:bg-nightDew-300/30  max-xs:py-[calc(var(--gap)/3)] max-xs:pl-[calc(var(--gap)/3)] max-xs:my-[calc((var(--gap)/3)*-1)] max-xs:ml-[calc((var(--gap)/3)*-1)]  max-md:py-[calc(var(--gapXS)/3)] max-md:pl-[calc(var(--gapXS)/3)] max-md:my-[calc((var(--gapXS)/3)*-1)] max-md:ml-[calc((var(--gapXS)/3)*-1)] rounded-xl md:scale-105"
                   }`}
                   onClick={() => setSelected(value)}
                   key={index}
@@ -83,7 +83,7 @@ export default function Videos({
                     src={`https://i.ytimg.com/vi/${value.key}/hqdefault.jpg`}
                     className={`object-cover bg-center max-md:w-20 md:w-full aspect-[16/9]  rounded-lg transition-all duration-300  md:shadow-[0_10px_50px_-12px] ${
                       selected == value
-                        ? "md:shadow-onBackground1  "
+                        ? "md:shadow-nightDew-600  "
                         : "md:shadow-transparent"
                     }`}
                   />

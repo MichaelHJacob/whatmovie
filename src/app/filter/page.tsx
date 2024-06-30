@@ -17,7 +17,7 @@ export default async function Page({
         {data?.results.length > 0 && (
           <ul
             key={Math.random()}
-            className=" w-full  gridTemplateSpace items-end xl:grid-cols-12 2xl:grid-cols-[repeat(20,_minmax(0,_1fr))] xl:gap-[var(--gapMD)] 2xl:gap-[var(--gapLG)] relative blockContainer "
+            className=" w-full  gridTemplateSpace items-end 2xl:grid-cols-[repeat(20,_minmax(0,_1fr))] xl:gap-[var(--gapMD)] 2xl:gap-[var(--gapLG)] relative blockContainer "
           >
             <ScrollPages
               initialData={data}

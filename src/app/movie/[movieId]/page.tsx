@@ -58,12 +58,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const data: DetailsMovieType = await getDetails(params.movieId);
   return {
-    title: `Wm | ${data.title}`,
+    title: data.title.toString(),
     description: data.overview.substring(0, 160),
     openGraph: {
-      images: `https://image.tmdb.org/t/p/w780${data?.poster_path}`,
-    },
-    twitter: {
       images: `https://image.tmdb.org/t/p/w780${data?.poster_path}`,
     },
     robots: {
@@ -175,27 +172,27 @@ export default async function Movie({
   return (
     <Container>
       <div className="h-min w-full relative paddingHeader z-30">
-        <div className="w-screen left-[50%] translate-x-[-50%]  h-full absolute top-0  z-[-1] overflow-hidden bg-gray-400">
+        <div className="w-screen left-[50%] translate-x-[-50%]  h-full absolute top-0  z-[-1] overflow-hidden bg-nightDew-400 ">
           <div
             style={css}
             className="w-full h-full  bg-no-repeat  rotate-180 opacity-70   blur-3xl  animate-mainMovie"
           />
-          <div className="  w-full h-full absolute top-0 left-0   backdrop-blur-3xl " />
+          <div className="  w-full h-full absolute top-0 left-0   backdrop-blur-3xl max-md:bg-gradient-to-t max-md:from-black/90 max-md:via-black/70 max-md:to-transparent " />
         </div>
-          <div className="md:gridTemplateSpace items-center blockContainer">
-            <div className="relative  md:col-span-4 lg:col-span-5 overflow-visible">
+          <div className="md:gridTemplateSpace xl:grid-cols-[repeat(20,_minmax(0,_1fr))] items-center blockContainer max-md:flex max-md:flex-col max-md:w-fit max-md:items-start gap-0">
+            <div className="md:col-span-4 lg:col-span-5  
+            max-md:max-w-full max-md:max-h-[75vh] max-md:min-h-80  flex justify-start items-center rounded-lg">
               {typeof data.poster_path == "string" ? (
-                <img
-                  src={`https://image.tmdb.org/t/p/w780` + data.poster_path}
+                  <img
+                  src={`https://image.tmdb.org/t/p/w500` + data.poster_path}
                   alt={data.original_title}
-                  width={780}
-                  height={1170}
                   sizes="80vh"
-                  className="rounded-lg  shadow-2xl shadow-onBackground1"
+                  className="rounded-lg max-w-full object-contain shadow-2xl shadow-nightDew-600 max-md:max-w-full max-md:max-h-[75vh] max-md:min-h-80"
                 />
+           
               ) : (
-                <div className="rounded-lg flex flex-col justify-between items-center pb-10 pt-5  w-full h-full overflow-hidden bg-gradient-to-b from-solid-pink-950/5 to-neutral-500/15  break-words  shadow-xl shadow-black/30 aspect-[18/27] ">
-                  <p className="filter-TextBtn text-solid-pink-950/30  text-wrap  w-min text-center ">
+                <div className="rounded-lg flex flex-col justify-between items-center pb-10 pt-5  w-full h-full overflow-hidden unavailable  break-words  shadow-2xl shadow-nightDew-600 aspect-[18/27] ">
+                  <p className="filter-TextBtn text-opacity-30  text-wrap  w-min text-center ">
                     imagem indisponível
                   </p>
                   <p className="filter-TextBtn  font-extrabold text-2xl  text-wrap text-center ">
@@ -205,17 +202,17 @@ export default async function Movie({
               )}
             </div>
             <dl
-              className="relative z-40 md:col-span-8 lg:col-[span_15_/_span_15] max-md:bg-gray-950/50 max-md:backdrop-blur-3xl rounded-lg px-4 pb-4 
-              h-min  "
+              className="relative z-40 md:col-span-8 lg:col-[span_15_/_span_15]   md:px-4 md:pb-4 rounded-lg
+              h-auto  "
             >
               <h2
                 className="font-semibold tracking-wide text-4xl px-1 py-5 
-              md:col-span-4 lg:col-span-5
-                 mt-[calc(var(--p)*-1)] text-Surface "
+              md:col-span-4 lg:col-span-5 
+                  text-nightDew-100"
               >
                 {data.title}
               </h2>
-              <dd className="data mb-2  text-Surface font-semibold mt-[-1.25rem]">
+              <dd className="data mb-2  text-nightDew-100 font-semibold mt-[-1.25rem]">
                 {data.release_date && (
                   <>{formatDateNumber(data.release_date)}</>
                 )}
@@ -227,8 +224,8 @@ export default async function Movie({
 
               {data.overview && (
                 <>
-                  <dt className="label text-Surface  font-bold">Sinopse:</dt>
-                  <dd className="data mb-2 text-Surface  font-semibold">
+                  <dt className="label text-nightDew-100  font-bold">Sinopse:</dt>
+                  <dd className="data mb-2 text-nightDew-100  font-semibold">
                     {data.overview}
                   </dd>
                 </>
@@ -242,7 +239,7 @@ export default async function Movie({
             </dl>
           </div>
       </div>
-      <div className="bg-Background/70  fixed top-0  left-0 h-11  w-full z-20 " />
+      <div className="bg-nightDew-200/70  fixed top-0  left-0 h-11  w-full z-20 " />
       {data.videos.results.length >= 1  && <Videos videosArray={data.videos.results} />}
       <div>
         <SubTitle>Mais detalhes</SubTitle>

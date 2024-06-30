@@ -49,7 +49,7 @@ export function ListPeople({ data, id }: { data: CreditsType; id: string }) {
             ) : (
               <div
                 className="rounded-full overflow-hidden aspect-square
-            unavailable relative"
+             relative unavailable light-shadow"
               >
                 <p className="filter-TextBtn text-opacity-30 text-center text-xs  text-wrap  w-min  absolute bottom-1 left-[50%] translate-x-[-50%] top-[10%]">
                   imagem indisponível
@@ -127,8 +127,8 @@ export function CardMovie({ data }: { data: MovieClient | MovieType}) {
   } else {
     return (
       <Link href={`/movie/${data.id}`} className="w-full">
-        <div className="rounded-lg flex flex-col justify-between items-center pb-10 pt-5  w-full h-full overflow-hidden bg-gradient-to-b from-solid-pink-950/5 to-neutral-500/15  break-words  shadow-xl shadow-black/30 aspect-[18/27]">
-          <p className="filter-TextBtn text-solid-pink-950/30  text-wrap place-items-center w-min text-center ">
+        <div className="rounded-lg flex flex-col justify-between items-center pb-10 pt-5  w-full h-full overflow-hidden   break-words aspect-[18/27] unavailable mid-shadow">
+          <p className="filter-TextBtn text-opacity-30 text-wrap place-items-center w-min text-center ">
             imagem indisponível
           </p>
           <p className="filter-TextBtn  font-extrabold text-2xl  text-wrap place-items-center  ">
@@ -143,7 +143,7 @@ export function CardMovie({ data }: { data: MovieClient | MovieType}) {
 export function SubTitle({ children }: { children: ReactNode }) {
   return (
     <div className="py-2 xs:py-[1rem] lg:py-6 min-h-11 blockContainer-x">
-      <h3 className="subTitle ">{children}</h3>
+      <h3 className="subTitle">{children}</h3>
     </div>
   );
 }
@@ -151,7 +151,7 @@ export function SubTitle({ children }: { children: ReactNode }) {
 export function LabelH4({ children }: { children: ReactNode }) {
   return (
     <div className="py-2 xs:py-[1rem] lg:py-6 min-h-11 w-fit">
-      <h4 className="subTitle ">{children}</h4>
+      <h4 className="subTitle leading-normal text-base">{children}</h4>
     </div>
   );
 }

@@ -1,32 +1,40 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
-import { Barlow, Open_Sans} from "next/font/google";
+import { Caladea, Open_Sans, Source_Sans_3 } from "next/font/google";
 import { Suspense } from "react";
 import Link from "next/link";
 import Search from "@/components/client/search";
 
-const barlow = Barlow({
-  weight: ["400", "500", "600", "700"],
+const ss_pro = Source_Sans_3({
+  style: "normal",
   subsets: ["latin"],
-  display: 'swap',
-  variable: '--font-barlow',
+  variable: "--font-ss-pro",
 });
 
 const open_sans = Open_Sans({
-  subsets:['latin'],
-  display:'swap',
-  variable: '--font-open-sans',
-})
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-open-sans",
+});
 
+const caladea = Caladea({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--font-caladea",
+});
 
 export const metadata: Metadata = {
   title: "What Movie",
   description:
-    "O web site que ajuda responder a questão, que filme é esse? ou simplesmente, que filme assistir?",
+    "O filme para sua escolha certa!",
+  metadataBase: new URL('https://wm-whatmovie.vercel.app'),
+  openGraph: {
+    images: '/icon4.png'
+  }
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f5f5f7",
+  themeColor: "#F6F8F9",
 };
 
 export default function RootLayout({
@@ -35,18 +43,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-br" className={`${barlow.variable} ${open_sans.variable}`}>
-      <body className="bg-Background overflow-x-clip scrollStyle font-sans">
-        <header className=" w-full max-w-screen-2xl  top-0 fixed left-1/2 translate-x-[-50%] z-[1000] overflow-visible">
+    <html
+      lang="pt-br"
+      className={`${caladea.variable} ${open_sans.variable} ${ss_pro.variable} text-[100%]`}
+    >
+      <body className="bg-nightDew-200 overflow-x-clip scrollStyle font-sans">
+        <header className=" w-full fixed top-0 left-0 z-[1000] overflow-visible">
           <nav
             className="w-full h-11 z-[2000]   
-      px-[var(--p)] xs:px-[var(--pXS)] lg:px-[var(--pLG)] max-w-7xl 
-      mx-auto  flex justify-start items-center xl:rounded-lg   transition-all duration-700 overflow-visible  has-[:open]:bg-black  backdrop-saturate-150  backdrop-blur-xl  bg-Background/10 
-     
+      px-[var(--p)] xs:px-[var(--pXS)] lg:px-[var(--pLG)] max-w-7xl
+      mx-auto  flex justify-start items-center xl:rounded-lg   transition-all duration-700 overflow-visible bg-nightDew-100
       gap-[var(--gap)] 
     xs:gap-[var(--gapXS)] 
     md:gap-[var(--gapMD)] 
-    lg:gap-[var(--gapLG)] "
+    lg:gap-[var(--gapLG)]"
           >
             <Suspense>
               <Search />
@@ -55,18 +65,31 @@ export default function RootLayout({
             <Link
               href={`/filter`}
               target="_top"
-              className="main-backBtn bg-transparent hover:bg-Background/10 backdrop-saturate-[none]  main-TextBtn overflow-hidden  w-40 justify-center px-0
-          peer-open:w-0  order-3 uppercase "
+              className="header-backBtn overflow-hidden  min-w-fit  justify-start peer-open:w-0 
+              peer-open:px-0 peer-open:min-w-0 peer-open:opacity-0 opacity-100 order-3"
             >
+              <img
+                src="/filterIcon.svg"
+                className="w-6 h-6"
+                width={20}
+                height={20}
+              />
               <h2>Filtro</h2>
             </Link>
 
             <div className="w-full max-sm:peer-open:w-0 max-sm:peer-open:opacity-0 transition-all duration-700 overflow-hidden">
               <Link
                 href="/"
-                className="main-backBtn bg-transparent hover:bg-Background/10 backdrop-saturate-[none]  main-TextBtn whitespace-nowrap w-auto uppercase"
+                className={` w-auto flex items-center gap-2 `}
               >
-                <h1>What Movie</h1>
+                <img
+                  src="/wmIcon.svg"
+                  className="w-5 h-5 "
+                  alt="What Movie Logo"
+                  width={20}
+                  height={20}
+                />
+                <h1 className="tracking-wider whitespace-nowrap text-lg font-logo font-[700] textShadow text-nightDew-700 antialiased">What Movie</h1>
               </Link>
             </div>
           </nav>

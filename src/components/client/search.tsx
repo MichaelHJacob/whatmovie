@@ -70,7 +70,7 @@ export default function Search() {
           }
         }
       }}
-      className="relative sm:open:w-[80vw] w-[50vw] min-w-8  sm:min-w-60 sm:max-w-96 open:w-full   transition-all duration-300 peer order-2 open:mx-[calc(var(--gap)*-1)] xs:open:mx-[calc(var(--gapXS)*-1)] select-none group"
+      className="relative sm:open:w-[80vw] w-[50vw] min-w-8 sm:w-auto sm:min-w-fit open:w-full transition-all duration-300 peer order-2 open:mx-[calc(var(--gap)*-1)] xs:open:mx-[calc(var(--gapXS)*-1)] select-none group"
     >
       <summary
         onKeyUp={(e) => {
@@ -87,13 +87,14 @@ export default function Search() {
             }
           }
         }}
-        className=" cursor-pointer   sm:pl-[--pXS] lg:pl-[--pLG] flex relative z-10 group-open:gap-[var(--gap)] group-open:xs:gap-[var(--gapXS)] md:gap-[var(--gapMD)] lg:gap-[var(--gapLG)]"
+        className=" cursor-pointer sm:pl-[--pXS] lg:pl-[--pLG] flex relative z-10 group-open:gap-[var(--gap)] group-open:xs:gap-[var(--gapXS)] md:gap-[var(--gapMD)] lg:gap-[var(--gapLG)]"
       >
         <span
           className=" group-open:w-11 aspect-square w-0 h-11 inline opacity-0 group-open:opacity-100
-      sm:bg-[url('/close.svg')] bg-[url('/toLeft.svg')] bg-[length:12px_12px] bg-[center_center]  bg-no-repeat  rounded-lg main-TextBtn main-backBtn bg-Surface80/30 shadow-lg shadow-transparent px-0"
+      sm:bg-[url('/close.svg')] bg-[url('/toLeft.svg')] bg-[length:12px_12px] bg-center  bg-no-repeat  rounded-lg main-TextBtn main-backBtn  shadow-lg shadow-transparent px-0 "
         ></span>
-        <label htmlFor="search" className=" inline w-full cursor-pointer">
+       
+        <label htmlFor="search" className=" inline-flex items-center justify-start w-full cursor-pointer ">
           <input
             ref={input}
             onClick={() => {
@@ -116,7 +117,8 @@ export default function Search() {
               }
             }}
             type="search"
-            className="w-full h-11 bg-[url('/lupa.svg')] bg-[length:12px_12px] bg-[center_left_1.3rem]  bg-no-repeat pl-11  max-sm:w-full  rounded-lg main-TextBtn main-backBtn placeholder:main-TextBtn bg-Surface80/30 shadow-lg shadow-transparent peer order-2 hover:shadow-onBackground2/20 focus:bg-Surface80"
+            className="header-backBtn main-TextBtn bg-[url('/lupa.svg')] bg-[length:12px_12px] bg-[center_left_0.9rem]  bg-no-repeat pl-9  max-sm:w-full  rounded-lg    shadow-lg shadow-transparent peer order-2 
+            group-open:bg-nightDew-200  group-open:w-full focus:bg-nightDew-200/80 placeholder:main-TextBtn bg-nightDew-300"
             id="search"
             placeholder="Buscar por filme"
             onChange={(e) => {
@@ -131,10 +133,10 @@ export default function Search() {
         onTouchMove={() => {
           input.current && input.current.blur();
         }}
-        className="   max-sm:fixed absolute top-0 left-0 sm:left-1 z-0  overflow-y-auto h-dvh   overscroll-contain no-scrollbar box-content sm:w-[calc(100%+var(--pXS))] md:w-[calc(100%+var(--pMD))] lg:w-[calc(100%+var(--pLG))] xl:pr-[calc((100vw-1280px)/2)] max-sm:w-screen bg-Background/80 backdrop-contrast-100  backdrop-saturate-200 backdrop-blur-2xl animate-show  duration-300 bg-gradient-to-b from-Background "
+        className="   max-sm:fixed absolute top-0 left-0 sm:left-1 z-0  overflow-y-auto h-dvh   overscroll-contain no-scrollbar box-content sm:w-[calc(100%+var(--pXS))] md:w-[calc(100%+var(--pMD))] lg:w-[calc(100%+var(--pLG))] xl:pr-[calc((100vw-1280px)/2)] max-sm:w-screen bg-nightDew-200/80 backdrop-contrast-100  backdrop-saturate-200 backdrop-blur-2xl animate-show  duration-300 bg-gradient-to-b from-nightDew-200 "
       >
-        <div className="bg-gradient-to-b  from-Background/80  via-Background/50 bg-transparent  sticky top-0  left-0 h-[5.5rem] backdrop-blur-[1px] w-full   backdrop-saturate-[1.2]   z-10 ">
-          <div className="bg-gradient-to-b from-Background/80  via-Background/70 to-transparent  absolute top-0  left-0 h-11 backdrop-blur-[2px] w-full   z-10 " />
+        <div className="bg-gradient-to-b  from-nightDew-200/80  via-nightDew-200/50 bg-transparent  sticky top-0  left-0 h-[5.5rem] backdrop-blur-[1px] w-full   backdrop-saturate-[1.2]   z-10 ">
+          <div className="bg-gradient-to-b from-nightDew-200/80  via-nightDew-200/70 to-transparent  absolute top-0  left-0 h-11 backdrop-blur-[2px] w-full   z-10 " />
         </div>
         <div>
           <ul className="h-full w-full flex justify-start flex-col items-start gap-[var(--gap)] xs:gap-[var(--gapXS)] md:gap-[var(--gapMD)] lg:gap-[var(--gapLG)]  box-border blockContainer">
@@ -150,7 +152,7 @@ export default function Search() {
                         }
                       }
                     }}
-                    className="    list-backBtn    group/list"
+                    className="list-backBtn group/list"
                   >
                     <Link
                       href={`/movie/${value.id}`}
@@ -166,8 +168,8 @@ export default function Search() {
                           className=" aspect-[18/27] h-full transition-all duration-300 rounded-lg group-hover/list:rounded-r-none"
                         />
                       ) : (
-                        <div className=" h-full aspect-[18/27]  min-w-min transition-all duration-300 rounded-lg group-hover/list:rounded-r-none   overflow-hidden  relative  justify-between items-center    bg-gradient-to-b from-solid-pink-950/5 to-neutral-500/15  object-cover">
-                          <p className="filter-TextBtn text-solid-pink-950/30  text-wrap  w-min text-xs absolute top-1 left-[50%] translate-x-[-50%]  ">
+                        <div className=" h-full aspect-[18/27]  min-w-min transition-all duration-300 rounded-lg group-hover/list:rounded-r-none   overflow-hidden  relative  justify-between items-center unavailable  object-cover">
+                          <p className="filter-TextBtn text-opacity-30  text-wrap  w-min text-xs absolute top-1 left-[50%] translate-x-[-50%]  ">
                             imagem indisponível
                           </p>
                         </div>

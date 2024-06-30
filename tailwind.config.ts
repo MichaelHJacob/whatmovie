@@ -1,12 +1,9 @@
-import { Barlow } from 'next/font/google';
 import type { Config } from 'tailwindcss'
 const colors = require('tailwindcss/colors')
 import fs from "node:fs";
 import path from "node:path";
 import plaiceholder from "@plaiceholder/tailwindcss";
-import { transform } from 'next/dist/build/swc';
 const defaultTheme = require('tailwindcss/defaultTheme')
-
 
 
 const config: Config = {
@@ -27,12 +24,12 @@ const config: Config = {
         },
         showVideoV: {
           '0%': { transform: 'translateY(-50%)', opacity: '0%' },
-          '50%': { opacity: '40%'  },
+          '50%': { opacity: '40%' },
           '100%': { transform: 'translateY(0%)', opacity: '100%' },
         },
         showVideoH: {
           '0%': { transform: 'translateX(50%)', opacity: '0%' },
-          '50%': { opacity: '40%'  },
+          '50%': { opacity: '40%' },
           '100%': { transform: 'translateX(0%)', opacity: '100%' },
         },
         wiggle: {
@@ -44,21 +41,21 @@ const config: Config = {
           '100%': { opacity: '100%' },
         },
         mainMovie: {
-          '0%': { opacity: '50%'},
-          '100%': { opacity: '70%'},
+          '0%': { opacity: '50%' },
+          '100%': { opacity: '70%' },
         },
         hidden: {
           '0%': { opacity: '100%' },
           '100%': { opacity: '0' },
         },
         rotateToL: {
-         '0%': { transform: 'rotate(0deg)' },
-         '100%': { transform: 'rotate(190deg)' },
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(190deg)' },
         },
         rotateToR: {
           '0%': { transform: 'rotate(190deg)' },
           '100%': { transform: 'rotate(0deg)' },
-         }
+        }
 
       },
       transitionTimingFunction: {
@@ -80,59 +77,35 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      fontFamily: {
+        'logo': ['var(--font-caladea)', "Times New Roman", 'ui-serif'],
+        'button': ['var(--font-ss-pro)', "Times New Roman", 'var(--font-open-sans)', 'ui-sans-serif', 'system-ui']
+      },
+      boxShadow: {
+        'mid': '0 8px 30px 2px rgba(46, 46, 46, 0.467)',
+        'light': '0 15px 42px -10px rgba(0, 0, 0, 0.122)',
+      }
     },
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
       white: colors.white,
       black: colors.black,
-      Background: '#f5f5f7',
-      onBackground1: 'rgb(0 0 0 / 0.75)',
-      onBackground2: '#5A5B5B',
-      Surface: '#ffffff',
-      Surface80: '#E4E6E6',
-      onSurface1: '#494A4A',
-      onSurface2: '#5A5B5B',
-      btnFilter: '#E4E7E7',
-      theme: '#0A4D68',
-      themeSelected80:'#c9d7dc',
-      theme2: '#088395',
-      theme3: '#05BFDB',
-
-      'mercury': {
-        '50': '#f7f8f8',
-        '100': '#eef0f0',
-        '200': '#e4e6e6',
-        '300': '#babfbf',
-        '400': '#949c9b',
-        '500': '#778080',
-        '600': '#606969',
-        '700': '#4f5555',
-        '800': '#434949',
-        '900': '#3b3f3f',
-        '950': '#272a2a',
-      },
-      'solid-pink': {
-        '50': '#fcf4f4',
-        '100': '#fae9e9',
-        '200': '#f5d6d8',
-        '300': '#ecb5b9',
-        '400': '#e18b93',
-        '500': '#d2616e',
-        '600': '#bc4256',
-        '700': '#983144',
-        '800': '#842d40',
-        '900': '#72293c',
-        '950': '#3e131c',
-      },
-      slate: colors.slate,
-      neutral: colors.neutral,
-      blue: colors.blue,
-      stone: colors.stone,
-      gray: colors.gray,
       red: colors.red,
-      sky: colors.sky,
-     
+      blue: colors.blue,
+      'nightDew': {
+        100: '#FBFCFD',
+        200: '#F6F8F9',
+        300: '#F1F4F7',
+        400: '#6A7786',
+        500: '#484A4C',
+        600: '#323233',
+        700: '#1C1C1C'
+      },
+      'selector': {
+        100: '#1C83E6',
+        200: '#24394E',
+      }
 
     },
     screens: {
@@ -140,7 +113,8 @@ const config: Config = {
       ...defaultTheme.screens
     },
     fontFamily: {
-      'sans': ['"Helvetica Neue"', 'Helvetica','var(--font-open-sans)','var(--font-barlow)','Arial' ]
+      'sans': ['var(--font-open-sans)', 'ui-sans-serif', 'system-ui'],
+      'serif': ['var(--font-caladea)', "Times New Roman", 'ui-serif']
     }
 
   },

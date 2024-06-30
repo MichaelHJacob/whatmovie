@@ -3,10 +3,6 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-
   --p: 1rem;
   --pXS: 2.125rem;
   --pMD: var(--pXS);
@@ -18,14 +14,6 @@
   --gapLG: 1.5rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 10, 10, 10;
-    --background-end-rgb: 10, 10, 10;
-  }
-}
-
 @layer base {
   html {
     -webkit-tap-highlight-color: transparent;
@@ -35,6 +23,224 @@
     -webkit-user-drag: none;
     @apply select-none m-0 p-0;
   }
+
+  .buttonText {
+    @apply font-button text-sm max-sm:font-semibold font-[550] text-selector-200 select-none
+  }
+
+  .light-shadow {
+    @apply shadow-light;
+  }
+
+  .mid-shadow {
+    @apply max-xs:shadow-2xl max-xs:shadow-black/50 shadow-mid;
+  }
+
+}
+
+@layer components {
+  .paddingHeader {
+    @apply pt-[calc(2.75rem+var(--p))] 
+    xs:pt-[calc(2.75rem+var(--pXS))]
+    lg:pt-[calc(2.75rem+var(--pLG))];
+  }
+
+  .blockContainer-t {
+    @apply pt-[var(--p)] 
+        xs:pt-[var(--pXS)] 
+        md:pt-[var(--pMD)] 
+        lg:pt-[var(--pLG)];
+  }
+
+  .blockContainer-b {
+    @apply pb-[var(--p)] 
+        xs:pb-[var(--pXS)] 
+        md:pb-[var(--pMD)] 
+        lg:pb-[var(--pLG)];  
+  }
+
+  .blockContainer-y {
+    @apply blockContainer-t blockContainer-b
+  }
+
+  .blockContainer-x {
+    @apply px-[var(--p)]      
+        xs:px-[var(--pXS)]     
+        md:px-[var(--pMD)]     
+        lg:px-[var(--pLG)];
+        
+  }
+
+  .blockContainer {
+    @apply blockContainer-x blockContainer-b
+      scrollStyle;
+  }
+
+  .gridAutoSpace {
+    @apply 
+    gap-[var(--gap)] 
+    xs:gap-[var(--gapXS)] 
+    md:gap-[var(--gapMD)] 
+    lg:gap-[var(--gapLG)] 
+
+    auto-cols-[calc((100%-9*var(--gap))/10)] 
+    xs:auto-cols-[calc((100%-14*var(--gapXS))/15)] 
+    md:auto-cols-[calc((100%-11*var(--gapMD))/12)] 
+    lg:auto-cols-[calc((100%-19*var(--gapLG))/20)]
+    xl:auto-cols-[calc((100%-11*var(--gapLG))/12)];
+  }
+
+  .gridTemplateSpace {
+    @apply grid  
+    gap-[var(--gap)] 
+    xs:gap-[var(--gapXS)] 
+    md:gap-[var(--gapMD)] 
+    lg:gap-[var(--gapLG)] 
+    xl:gap-[var(--gapLG)] 
+   
+    grid-cols-10
+    xs:grid-cols-[repeat(15,_minmax(0,_1fr))]  
+    md:grid-cols-12 
+    lg:grid-cols-[repeat(20,_minmax(0,_1fr))]
+    xl:grid-cols-12;
+  }
+
+  .gridColSpanMovie {
+    @apply col-span-5 xs:col-span-5 md:col-span-3 lg:col-span-4  xl:col-span-2 snap-start;
+  }
+
+  .gridColSpanPeople {
+    @apply h-min col-span-3 xs:col-span-3 md:col-span-2 lg:col-span-3 snap-start;
+  }
+
+  .spacingShrinkerBlock-t {
+    @apply mt-[calc(var(--p)*-1)] 
+        xs:mt-[calc(var(--pXS)*-1)] 
+        md:mt-[calc(var(--pMD)*-1)] 
+        lg:mt-[calc(var(--pLG)*-1)];
+  }
+
+  .spacingShrinkerBlock-b {
+    @apply mb-[calc(var(--p)*-1)] 
+        xs:mb-[calc(var(--pXS)*-1)] 
+        md:mb-[calc(var(--pMD)*-1)] 
+        lg:mb-[calc(var(--pLG)*-1)]
+  }
+
+  .spacingShrinkerBlock-y {
+    @apply spacingShrinkerBlock-b spacingShrinkerBlock-t;
+  }
+
+  .spacingShrinkerBlock-x {
+    @apply mx-[calc(var(--p)*-1)]      
+    xs:mx-[calc(var(--pXS)*-1)]  
+    md:mx-[calc(var(--pMD)*-1)] 
+    lg:mx-[calc(var(--pLG)*-1)];
+  }
+
+  .spacingShrinkerBlock {
+    @apply spacingShrinkerBlock-x
+       mb-[calc(var(--p)*-1)] 
+    xs:mb-[calc(var(--pXS)*-1)] 
+    md:mb-[calc(var(--pMD)*-1)] 
+    lg:mb-[calc(var(--pLG)*-1)];
+  }
+
+  .ListSpacing {
+    @apply scrollStyle blockContainer-x blockContainer-y spacingShrinkerBlock-t list-none no-scrollbar z-0 relative
+    grid grid-flow-col grid-rows-[min-content]
+  
+       scroll-pl-[var(--p)] 
+    xs:scroll-pl-[var(--pXS)] 
+    lg:scroll-pl-[var(--pLG)] 
+  
+    gridAutoSpace
+    
+    overflow-x-auto overflow-y-hidden  snap-mandatory snap-x scroll-smooth overscroll-x-contain ;
+  }
+
+  .unavailable {
+    @apply bg-gradient-to-br from-[#a21159]/10 to-selector-100/10 object-cover;
+  }
+
+  .gradient-text {
+    background: 
+    linear-gradient(to top left, rgba(0, 0, 0, 0.54), rgba(0, 0, 0, 0.54)),
+    linear-gradient(to top left, rgb(1, 120, 253), rgba(0, 0, 0, 0)),
+    linear-gradient(to bottom, rgb(243, 3, 53) , rgb(162, 17, 89));
+    background: 
+    -moz-linear-gradient(to top left, rgba(0, 0, 0, 0.54), rgba(0, 0, 0, 0.54)),
+    -moz-linear-gradient(to top left, rgb(1, 120, 253), rgba(0, 0, 0, 0)),
+    -moz-linear-gradient(to bottom, rgb(243, 3, 53) , rgb(162, 17, 89));
+    background: 
+    -webkit-linear-gradient(to top left, rgba(0, 0, 0, 0.54), rgba(0, 0, 0, 0.54)),
+    -webkit-linear-gradient(to top left, rgb(1, 120, 253), rgba(0, 0, 0, 0)),
+    -webkit-linear-gradient(to bottom, rgb(243, 3, 53) , rgb(162, 17, 89));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+
+  .subTitle {
+    @apply p-0.5  text-nightDew-600 text-lg font-semibold leading-4 tracking-normal whitespace-normal
+    relative z-20;
+  }
+
+  .label {
+    @apply text-nightDew-500  text-base font-semibold  px-1 leading-5;
+  }
+
+  .data {
+    @apply text-nightDew-400 text-base font-normal leading-5 p-1;
+  }
+
+  .filter-label {
+    @apply label text-nightDew-400/90;
+  }
+
+  .backBtn-hover {
+    @apply hover:shadow-nightDew-400/20 shadow-lg shadow-transparent transition-all duration-300 active:bg-selector-200/10 active:shadow-transparent  cursor-pointer
+  }
+
+  .filter-BackBtn {
+    @apply bg-nightDew-300 max-sm:h-9 h-8  px-4 flex gap-2 items-center rounded-lg appearance-none border-none backBtn-hover;
+  }
+
+  .filter-TextBtn {
+    @apply tracking-wider buttonText;
+  }
+
+  .main-TextBtn {
+    @apply tracking-wider buttonText;
+  }
+
+  .main-backBtn {
+    @apply filter-BackBtn bg-nightDew-300/80  backdrop-blur-xl  backdrop-saturate-150 h-8 whitespace-nowrap w-auto flex items-center gap-2;
+  }
+
+  .header-backBtn {
+    @apply filter-BackBtn buttonText backBtn-hover bg-transparent tracking-widest  h-8 w-auto flex items-center  hover:bg-nightDew-200/85  
+  }
+
+  .movie-backBtn {
+    @apply p-2 m-[-4px] rounded-lg backBtn-hover
+  }
+
+  .list-backBtn {
+    @apply rounded-lg w-full animate-show appearance-none border-none backBtn-hover box-content
+    h-[calc(5.5rem+var(--gap))]  
+   xs:h-[calc(5.5rem+var(--gapXS))]  
+    md:h-[calc(5.5rem+var(--gapMD))]  
+    lg:h-[calc(5.5rem+var(--gapLG))];
+  }
+
+  .textShadow {
+    text-shadow: 0px 0px 5px #FFFFFF;
+    /* -webkit-text-stroke-width: 0.2px; */
+    /* -webkit-text-stroke-color: ##1c1c1c; */
+  }
+
+ 
 }
 
 @layer utilities {
@@ -61,15 +267,15 @@
   }
 
   .scrollStyle ::-webkit-scrollbar-track {
-    @apply bg-Background/0 rounded-none;
+    @apply bg-nightDew-200 rounded-none;
   }
 
   .scrollStyle ::-webkit-scrollbar-thumb {
-    @apply rounded-xl bg-onSurface2/40  shadow-Surface shadow-[inset_0_0_0_2px];
+    @apply rounded-xl bg-nightDew-400  shadow-nightDew-100 shadow-[inset_0_0_0_2px];
   }
 
   .scrollStyle ::-webkit-scrollbar-thumb:hover {
-    @apply bg-onSurface2/60;
+    @apply bg-nightDew-500 ;
   }
 
   .no-scrollbar::-webkit-scrollbar {
@@ -110,7 +316,7 @@
   }
 
   .btnRange {
-    @apply bg-theme h-8 w-8 rounded-full cursor-pointer;
+    @apply bg-selector-100 h-8 w-8 rounded-full cursor-pointer;
   }
 /*
   .videoFull {
@@ -133,209 +339,9 @@
     display: none;
     justify-items: center;
   }
-}
-
-@layer components {
-  .paddingHeader {
-    @apply pt-[calc(2.75rem+var(--p))] 
-    xs:pt-[calc(2.75rem+var(--pXS))]
-    lg:pt-[calc(2.75rem+var(--pLG))];
-  }
-
-  .blockContainer-x {
-    @apply px-[var(--p)]      
-        xs:px-[var(--pXS)]     
-        md:px-[var(--pMD)]     
-        lg:px-[var(--pLG)];
-  }
-
-  .blockContainer-b {
-    @apply pb-[var(--p)] 
-        xs:pb-[var(--pXS)] 
-        md:pb-[var(--pMD)] 
-        lg:pb-[var(--pLG)];  
-  }
-
-  .blockContainer-t {
-    @apply pt-[var(--p)] 
-        xs:pt-[var(--pXS)] 
-        md:pt-[var(--pMD)] 
-        lg:pt-[var(--pLG)];
-  }
-
-  .blockContainer-y {
-    @apply blockContainer-t blockContainer-b
-  }
-
-  .blockContainer {
-    @apply blockContainer-x blockContainer-b
-      scrollStyle;
-  }
-
-  .gridAutoSpace {
-    @apply 
-    gap-[var(--gap)] 
-    xs:gap-[var(--gapXS)] 
-    md:gap-[var(--gapMD)] 
-    lg:gap-[var(--gapLG)] 
-
-    auto-cols-[calc((100%-9*var(--gap))/10)] 
-    xs:auto-cols-[calc((100%-14*var(--gapXS))/15)] 
-    md:auto-cols-[calc((100%-11*var(--gapMD))/12)] 
-    lg:auto-cols-[calc((100%-19*var(--gapLG))/20)];
-    /* xl:auto-cols-[calc((100%-11*var(--gapLG))/12)] ; */
-  }
-
-  .gridTemplateSpace {
-    @apply grid  
-    gap-[var(--gap)] 
-    xs:gap-[var(--gapXS)] 
-    md:gap-[var(--gapMD)] 
-    lg:gap-[var(--gapLG)] 
-    xl:gap-[var(--gapLG)] 
-   
-    grid-cols-10
-    xs:grid-cols-[repeat(15,_minmax(0,_1fr))]  
-    md:grid-cols-12 
-    lg:grid-cols-[repeat(20,_minmax(0,_1fr))]
-    /* xl:grid-cols-12;  */;
-  }
-
-  .gridColSpanMovie {
-    @apply col-span-5 xs:col-span-5 md:col-span-3 lg:col-span-4 snap-start;
-  }
-
-  .gridColSpanPeople {
-    @apply h-min col-span-3 xs:col-span-3 md:col-span-2 lg:col-span-3 snap-start;
-  }
-
-  .spacingShrinkerBlock-t {
-    @apply mt-[calc(var(--p)*-1)] 
-        xs:mt-[calc(var(--pXS)*-1)] 
-        md:mt-[calc(var(--pMD)*-1)] 
-        lg:mt-[calc(var(--pLG)*-1)];
-  }
-
-  .spacingShrinkerBlock-y {
-    @apply spacingShrinkerBlock-b spacingShrinkerBlock-t;
-  }
-
-  .spacingShrinkerBlock-b {
-    @apply mb-[calc(var(--p)*-1)] 
-        xs:mb-[calc(var(--pXS)*-1)] 
-        md:mb-[calc(var(--pMD)*-1)] 
-        lg:mb-[calc(var(--pLG)*-1)]
-  }
-
-  .spacingShrinkerBlock-x {
-    @apply mx-[calc(var(--p)*-1)]      
-    xs:mx-[calc(var(--pXS)*-1)]  
-    md:mx-[calc(var(--pMD)*-1)] 
-    lg:mx-[calc(var(--pLG)*-1)];
-  }
-
-  .spacingShrinkerBlock {
-    @apply spacingShrinkerBlock-x
-       mb-[calc(var(--p)*-1)] 
-    xs:mb-[calc(var(--pXS)*-1)] 
-    md:mb-[calc(var(--pMD)*-1)] 
-    lg:mb-[calc(var(--pLG)*-1)]
-    bg-mercury-950;
-  }
-
-  .light-shadow {
-    @apply shadow-lg shadow-black/10;
-  }
-
-  .mid-shadow {
-    @apply shadow-xl shadow-black/20;
-  }
 
 
 
-  .ListSpacing {
-    @apply scrollStyle blockContainer-x blockContainer-y spacingShrinkerBlock-t list-none no-scrollbar z-0 relative
-    grid grid-flow-col grid-rows-[min-content]
-  
-       scroll-pl-[var(--p)] 
-    xs:scroll-pl-[var(--pXS)] 
-    lg:scroll-pl-[var(--pLG)] 
-  
-    gridAutoSpace
-    
-    overflow-x-auto overflow-y-hidden  snap-mandatory snap-x scroll-smooth overscroll-x-contain ;
-  }
 
-  .subTitle {
-    @apply p-0.5  text-onBackground1 text-lg font-bold leading-4 antialiased tracking-normal whitespace-normal
-    relative z-20;
-  }
 
-  .label {
-    @apply text-onSurface1 text-base  font-medium  px-1 leading-5 antialiased;
-  }
-
-  .data {
-    @apply text-onSurface2 text-base font-normal leading-5  antialiased p-1;
-  }
-
-  .btn-link {
-    @apply text-onBackground1  hover:text-black  
-    text-lg font-semibold antialiased
-    rounded-lg 
-    inline-flex   gap-2 items-center transition-all duration-300     
-       h-full 
-     p-0.5;
-  }
-
-  .button {
-    @apply h-11 px-4 backdrop-blur-xl hover:bg-onSurface2/10 transition-all duration-300 btn-link;
-  }
-
-  .filter-label {
-    @apply text-base text-onSurface2  font-semibold px-1 antialiased;
-  }
-
-  .filter-labelBtn {
-    @apply text-base text-onSurface2 font-semibold px-1 antialiased;
-  }
-
-  .backBtn-hover {
-    @apply hover:shadow-onBackground2/10 shadow-lg shadow-transparent transition-all duration-300 active:bg-theme/20 active:shadow-transparent  cursor-pointer
-  }
-
-  .filter-BackBtn {
-    @apply h-9 bg-Surface80 px-4  inline-flex gap-2   items-center rounded-lg appearance-none border-none backBtn-hover
-    ;
-  }
-
-  
-
-  .filter-TextBtn {
-    @apply text-base font-bold text-onSurface1 select-none;
-  }
-
-  .main-TextBtn {
-    @apply text-base font-semibold text-onBackground1 select-none tracking-wide ;
-  }
-
-  .main-backBtn {
-    @apply filter-BackBtn bg-Surface80/80   backdrop-blur-xl  backdrop-saturate-150 w-auto whitespace-nowrap;
-  }
-
-  .movie-backBtn {
-    @apply hover:bg-Surface80/30 p-2 m-[-4px] rounded-lg backBtn-hover
-  }
-
-  .list-backBtn {
-    @apply rounded-lg appearance-none cursor-pointer border-none hover:bg-Surface80/40 box-content  shadow-lg shadow-transparent transition-all duration-300 active:bg-theme/20 hover:shadow-onBackground2/20
-    h-[calc(5.5rem+var(--gap))]  
-   xs:h-[calc(5.5rem+var(--gapXS))]  
-    md:h-[calc(5.5rem+var(--gapMD))]  
-    lg:h-[calc(5.5rem+var(--gapLG))]  animate-show w-full;
-  }
-
-  .unavailable {
-    @apply bg-gradient-to-b from-solid-pink-950/5 to-neutral-500/15  object-cover;
-  }
 }
