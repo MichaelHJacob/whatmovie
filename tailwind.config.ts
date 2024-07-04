@@ -79,7 +79,7 @@ const config: Config = {
       },
       fontFamily: {
         'logo': ['var(--font-caladea)', "Times New Roman", 'ui-serif'],
-        'button': ['var(--font-ss-pro)', "Times New Roman", 'var(--font-open-sans)', 'ui-sans-serif', 'system-ui']
+        'button': ['var(--font-ss-pro)', 'var(--font-open-sans)', 'ui-sans-serif', 'system-ui']
       },
       boxShadow: {
         'mid': '0 8px 30px 2px rgba(46, 46, 46, 0.467)',

@@ -4,7 +4,6 @@ import { useSearchParams } from "next/navigation";
 import { SearchResult, ListGenres } from "../utils/types";
 import Link from "next/link";
 
-
 export default function Search() {
   const searchParams = useSearchParams();
   const [dataGenres, setGenres] = useState<ListGenres | null>(null);
@@ -91,10 +90,13 @@ export default function Search() {
       >
         <span
           className=" group-open:w-11 aspect-square w-0 h-11 inline opacity-0 group-open:opacity-100
-      sm:bg-[url('/close.svg')] bg-[url('/toLeft.svg')] bg-[length:12px_12px] bg-center  bg-no-repeat  rounded-lg main-TextBtn main-backBtn  shadow-lg shadow-transparent px-0 "
-        ></span>
-       
-        <label htmlFor="search" className=" inline-flex items-center justify-start w-full cursor-pointer ">
+      sm:bg-[url('/close.svg')] bg-[url('/toLeft.svg')] bg-[length:12px_12px] bg-center  bg-no-repeat  rounded-lg backBtn  shadow-lg shadow-transparent px-0"
+        />
+
+        <label
+          htmlFor="search"
+          className=" inline-flex items-center justify-start w-full cursor-pointer "
+        >
           <input
             ref={input}
             onClick={() => {
@@ -117,8 +119,8 @@ export default function Search() {
               }
             }}
             type="search"
-            className="header-backBtn main-TextBtn bg-[url('/lupa.svg')] bg-[length:12px_12px] bg-[center_left_0.9rem]  bg-no-repeat pl-9  max-sm:w-full  rounded-lg    shadow-lg shadow-transparent peer order-2 
-            group-open:bg-nightDew-200  group-open:w-full focus:bg-nightDew-200/80 placeholder:main-TextBtn bg-nightDew-300"
+            className="header-backBtn textBtn text-base bg-[url('/lupa.svg')] bg-[length:12px_12px] bg-[center_left_0.9rem]  bg-no-repeat pl-9  max-sm:w-full  rounded-lg    shadow-lg shadow-transparent peer order-2 
+            group-open:bg-nightDew-200  group-open:w-full focus:bg-nightDew-200/80 placeholder:textBtn max-sm:placeholder:text-opacity-0 bg-nightDew-300"
             id="search"
             placeholder="Buscar por filme"
             onChange={(e) => {
@@ -141,56 +143,58 @@ export default function Search() {
         <div>
           <ul className="h-full w-full flex justify-start flex-col items-start gap-[var(--gap)] xs:gap-[var(--gapXS)] md:gap-[var(--gapMD)] lg:gap-[var(--gapLG)]  box-border blockContainer">
             {data !== null &&
-              data?.filter((value) => value.vote_count >= 100).map((value) => {
-                return (
-                  <li
-                    key={value.id}
-                    onClick={() => {
-                      if (details.current !== null) {
-                        if (details.current.hasAttribute("open")) {
-                          details.current.toggleAttribute("open");
-                        }
-                      }
-                    }}
-                    className="list-backBtn group/list"
-                  >
-                    <Link
-                      href={`/movie/${value.id}`}
-                      className=" flex h-full w-full group "
-                    >
-                      {value.poster_path ? (
-                        <img
-                          src={
-                            `https://image.tmdb.org/t/p/w185` +
-                            value.poster_path
+              data
+                ?.filter((value) => value.vote_count >= 100)
+                .map((value) => {
+                  return (
+                    <li
+                      key={value.id}
+                      onClick={() => {
+                        if (details.current !== null) {
+                          if (details.current.hasAttribute("open")) {
+                            details.current.toggleAttribute("open");
                           }
-                          alt={value.title}
-                          className=" aspect-[18/27] h-full transition-all duration-300 rounded-lg group-hover/list:rounded-r-none"
-                        />
-                      ) : (
-                        <div className=" h-full aspect-[18/27]  min-w-min transition-all duration-300 rounded-lg group-hover/list:rounded-r-none   overflow-hidden  relative  justify-between items-center unavailable  object-cover">
-                          <p className="filter-TextBtn text-opacity-30  text-wrap  w-min text-xs absolute top-1 left-[50%] translate-x-[-50%]  ">
-                            imagem indisponível
-                          </p>
-                        </div>
-                      )}
-                      <dl className="flex flex-col justify-center items-start px-4 pt-4 pb-2 w-full ">
-                        <dt className="label line-clamp-1">{value.title}</dt>
-                        {value.release_date && (
-                          <dd className="data ">
-                            {formatDate(value.release_date)}
-                          </dd>
+                        }
+                      }}
+                      className="list-backBtn group/list"
+                    >
+                      <Link
+                        href={`/movie/${value.id}`}
+                        className=" flex h-full w-full group "
+                      >
+                        {value.poster_path ? (
+                          <img
+                            src={
+                              `https://image.tmdb.org/t/p/w185` +
+                              value.poster_path
+                            }
+                            alt={value.title}
+                            className=" aspect-[18/27] h-full transition-all duration-300 rounded-lg group-hover/list:rounded-r-none"
+                          />
+                        ) : (
+                          <div className=" h-full aspect-[18/27]  min-w-min transition-all duration-300 rounded-lg group-hover/list:rounded-r-none   overflow-hidden  relative  justify-between items-center unavailable  object-cover">
+                            <p className="textBtn text-opacity-30  text-wrap  w-min text-xs absolute top-1 left-[50%] translate-x-[-50%]  ">
+                              imagem indisponível
+                            </p>
+                          </div>
                         )}
-                        {value.genre_ids && (
-                          <dd className="data line-clamp-1">
-                            {dataGenres && formatGenres(value.genre_ids)}
-                          </dd>
-                        )}
-                      </dl>
-                    </Link>
-                  </li>
-                );
-              })}
+                        <dl className="flex flex-col justify-center items-start px-4  w-full ">
+                          <dt className="label line-clamp-1 pb-1 ">{value.title}</dt>
+                          {value.release_date && (
+                            <dd className="data ">
+                              {formatDate(value.release_date)}
+                            </dd>
+                          )}
+                          {value.genre_ids && (
+                            <dd className="data line-clamp-1">
+                              {dataGenres && formatGenres(value.genre_ids)}
+                            </dd>
+                          )}
+                        </dl>
+                      </Link>
+                    </li>
+                  );
+                })}
           </ul>
         </div>
       </div>

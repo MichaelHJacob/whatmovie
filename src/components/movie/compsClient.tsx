@@ -14,15 +14,15 @@ export default function Videos({
 
   function VideoDisplay({ video }: { video: VideosResultsType }) {
     return (
-        <div className="md:blockContainer-x">
-          <iframe
-            className="w-full aspect-video bg-black md:rounded-2xl overflow-hidden mid-shadow"
-            allow="fullscreen; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            src={`https://www.youtube.com/embed/${video.key}`}
-            title="YouTube video player"
-            frameBorder="0"
-          ></iframe>
-        </div>
+      <div className="md:blockContainer-x">
+        <iframe
+          className="w-full aspect-video bg-black md:rounded-2xl overflow-hidden mid-shadow"
+          allow="fullscreen; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          src={`https://www.youtube.com/embed/${video.key}`}
+          title="YouTube video player"
+          frameBorder="0"
+        ></iframe>
+      </div>
     );
   }
 
@@ -37,7 +37,7 @@ export default function Videos({
         <VideoDisplay video={selected} />
         <details
           id="detailsVideos"
-          className="w-full relative h-min blockContainer-b group"
+          className="w-full relative h-min blockContainer-b group "
         >
           <summary
             id="summary"
@@ -54,17 +54,36 @@ export default function Videos({
                   ? dVideos.removeAttribute("open")
                   : dVideos?.setAttribute("open", "open");
               }}
-              className={`main-backBtn max-md:bg-nightDew-300/30 ${
+              className={`backBtn max-md:bg-opacity-10 max-md:shadow-none ${
                 videosArray.length <= 1 && "hidden"
               }`}
             >
-              <span className="main-TextBtn max-md:text-white">
+              <span className="textBtn max-md:text-white">
                 Mais videos
               </span>
-              <span className="w-[12px] h-[12px] group-open:rotate-[270deg] bg-[url('/toRight.svg')] bg-[length:12px_12px] bg-[center_center] bg-no-repeat transition-all duration-300"></span>
+              <svg
+                className="w-3 h-3 group-open:rotate-[270deg] transition-all duration-300"
+                viewBox="0 0 12 12"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  x="12"
+                  width="12"
+                  height="12"
+                  rx="3"
+                  transform="rotate(90 12 0)"
+                  className="max-md:fill-nightDew-100 fill-selector-200 "
+                  fill-opacity="0.1"
+                />
+                <path
+                  d="M7.29451 6.00091L4.6459 8.64743C4.45002 8.84332 4.45002 9.16007 4.6459 9.35387C4.84179 9.54975 5.15854 9.54767 5.35442 9.35387L8.3552 6.35517C8.54483 6.16554 8.549 5.86129 8.36979 5.66541L5.3565 2.64587C5.25856 2.54793 5.12936 2.5 5.00225 2.5C4.87513 2.5 4.74593 2.54793 4.64799 2.64587C4.4521 2.84176 4.4521 3.1585 4.64799 3.35231L7.29451 6.00091Z"
+                  className="fill-selector-200 stroke-selector-200 max-md:fill-nightDew-100 max-md:stroke-nightDew-100"
+                />
+              </svg>
             </button>
           </summary>
-          <ListControl id={"videos"} length={videosArray.length} >
+          <ListControl id={"videos"} length={videosArray.length}>
             <ul
               id="videos"
               className="max-md:flex max-md:flex-col max-xs:gap-[var(--gap)] max-md:gap-[var(--gapXS)] md:ListSpacing md:spacingShrinkerBlock-b max-md:blockContainer-x list-none no-scrollbar relative max-md:animate-showVideoV md:animate-showVideoH"

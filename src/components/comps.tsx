@@ -51,11 +51,11 @@ export function ListPeople({ data, id }: { data: CreditsType; id: string }) {
                 className="rounded-full overflow-hidden aspect-square
              relative unavailable light-shadow"
               >
-                <p className="filter-TextBtn text-opacity-30 text-center text-xs  text-wrap  w-min  absolute bottom-1 left-[50%] translate-x-[-50%] top-[10%]">
+                <p className="textBtn text-opacity-30 text-center text-xs  text-wrap  w-min  absolute bottom-1 left-[50%] translate-x-[-50%] top-[10%]">
                   imagem indisponível
                 </p>
                 <span className="overflow-hidden h-min w-[50%]  absolute left-[50%] translate-x-[-50%] bottom-[15%]">
-                  <p className="filter-TextBtn text-opacity-90 line-clamp-1 h-auto   overflow-hidden text-center  text-wrap    ">
+                  <p className="textBtn text-opacity-90 line-clamp-1 h-auto   overflow-hidden text-center  text-wrap    ">
                     {value.name}
                   </p>
                 </span>
@@ -90,11 +90,11 @@ export function ListPeople({ data, id }: { data: CreditsType; id: string }) {
                 className="rounded-full overflow-hidden aspect-square
             unavailable relative"
               >
-                <p className="filter-TextBtn text-opacity-30 text-center text-xs  text-wrap  w-min  absolute bottom-1 left-[50%] translate-x-[-50%] top-[10%]">
+                <p className="textBtn text-opacity-30 text-center text-xs  text-wrap  w-min  absolute bottom-1 left-[50%] translate-x-[-50%] top-[10%]">
                   imagem indisponível
                 </p>
                 <span className="overflow-hidden h-min w-[50%]  absolute left-[50%] translate-x-[-50%] bottom-[15%]">
-                  <p className="filter-TextBtn text-opacity-90 line-clamp-1 h-auto   overflow-hidden text-center  text-wrap    ">
+                  <p className="textBtn text-opacity-90 line-clamp-1 h-auto   overflow-hidden text-center  text-wrap    ">
                     {value.name}
                   </p>
                 </span>
@@ -128,10 +128,10 @@ export function CardMovie({ data }: { data: MovieClient | MovieType}) {
     return (
       <Link href={`/movie/${data.id}`} className="w-full">
         <div className="rounded-lg flex flex-col justify-between items-center pb-10 pt-5  w-full h-full overflow-hidden   break-words aspect-[18/27] unavailable mid-shadow">
-          <p className="filter-TextBtn text-opacity-30 text-wrap place-items-center w-min text-center ">
+          <p className="textBtn text-opacity-30 text-wrap place-items-center w-min text-center ">
             imagem indisponível
           </p>
-          <p className="filter-TextBtn  font-extrabold text-2xl  text-wrap place-items-center  ">
+          <p className="textBtn  font-extrabold text-2xl  text-wrap place-items-center  ">
             {data.title}
           </p>
         </div>

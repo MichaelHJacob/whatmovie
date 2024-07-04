@@ -181,7 +181,7 @@ export default async function Movie({
         </div>
           <div className="md:gridTemplateSpace xl:grid-cols-[repeat(20,_minmax(0,_1fr))] items-center blockContainer max-md:flex max-md:flex-col max-md:w-fit max-md:items-start gap-0">
             <div className="md:col-span-4 lg:col-span-5  
-            max-md:max-w-full max-md:max-h-[75vh] max-md:min-h-80  flex justify-start items-center rounded-lg">
+             flex justify-start items-center rounded-lg">
               {typeof data.poster_path == "string" ? (
                   <img
                   src={`https://image.tmdb.org/t/p/w500` + data.poster_path}
@@ -192,10 +192,10 @@ export default async function Movie({
            
               ) : (
                 <div className="rounded-lg flex flex-col justify-between items-center pb-10 pt-5  w-full h-full overflow-hidden unavailable  break-words  shadow-2xl shadow-nightDew-600 aspect-[18/27] ">
-                  <p className="filter-TextBtn text-opacity-30  text-wrap  w-min text-center ">
+                  <p className="textBtn text-opacity-30  text-wrap  w-min text-center ">
                     imagem indisponível
                   </p>
-                  <p className="filter-TextBtn  font-extrabold text-2xl  text-wrap text-center ">
+                  <p className="textBtn  font-extrabold text-2xl  text-wrap text-center ">
                     {data.title}
                   </p>
                 </div>
@@ -343,7 +343,7 @@ export default async function Movie({
                     href={data.homepage}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="underline movie-backBtn"
+                    className="underline p-2 m-[-4px] rounded-lg backBtn-hover"
                   >
                     Site Oficial
                   </a>

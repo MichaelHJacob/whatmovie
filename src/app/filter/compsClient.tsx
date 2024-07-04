@@ -69,8 +69,8 @@ export function ScrollPages({
 
 function ClearSelected({ onClear }: { onClear: () => void }) {
   return (
-    <button className="filter-BackBtn  " type="button" onClick={onClear}>
-      <span className="filter-TextBtn">Limpar</span>
+    <button className="backBtn" type="button" onClick={onClear}>
+      <span className="textBtn">Limpar</span>
     </button>
   );
 }
@@ -85,16 +85,16 @@ function ProviderButton({
   remove: (picked: TypeBtnProvider) => void;
 }) {
   return (
-    <label className="box-content relative cursor-pointer">
+    <label className="box-content relative backBtn bg-opacity-30  px-0 overflow-hidden block aspect-square">
       <input
-        className="  bg-transparent  appearance-none absolute opacity-100 peer"
+        className="  bg-transparent  appearance-none absolute opacity-0 peer"
         type="checkbox"
         value={provider.provider_id}
         checked={provider.state}
         onChange={() => (provider.state ? remove(provider) : add(provider))}
       />
       <img
-        className="rounded-lg opacity-40 grayscale-[95%] w-8 aspect-square peer-checked:grayscale-0 peer-checked:opacity-100 transition-all duration-700"
+        className="   w-full object-contain aspect-square opacity-50 hover:opacity-100 grayscale-[90%] hover:grayscale-0 peer-checked:grayscale-0 peer-checked:opacity-100 transition-all duration-500"
         src={`https://image.tmdb.org/t/p/w342/${provider.logo_path}`}
         width={44}
         height={44}
@@ -118,18 +118,18 @@ function ProviderSelector({
   return (
     <li>
       <fieldset>
-      <legend className="flex w-full justify-between items-center blockContainer-x pb-[--gap] xs:pb-[--gapXS] md:pb-[--gapMD] lg:pb-[--gapLG]">
-        <span className="filter-label">Onde assistir:</span>
-        <ClearSelected onClear={() => clear("p")} />
-      </legend>
+        <legend className="flex w-full justify-between items-center blockContainer-x pb-[--gap] xs:pb-[--gapXS] md:pb-[--gapMD] lg:pb-[--gapLG]">
+          <span className="filter-label">Onde assistir:</span>
+          <ClearSelected onClear={() => clear("p")} />
+        </legend>
 
-      <ul className="h-auto w-full rounded-lg flex flex-wrap justify-left gap-2 select-none blockContainer-x  ">
-        {providers.map((value) => (
-          <li key={value.provider_id}>
-            <ProviderButton provider={value} add={add} remove={remove} />
-          </li>
-        ))}
-      </ul>
+        <ul className="h-auto w-full rounded-lg flex flex-wrap justify-left gap-2 select-none blockContainer-x  ">
+          {providers.map((value) => (
+            <li key={value.provider_id}>
+              <ProviderButton provider={value} add={add} remove={remove} />
+            </li>
+          ))}
+        </ul>
       </fieldset>
     </li>
   );
@@ -147,7 +147,7 @@ function GenreButton({
   return (
     <label
       htmlFor={`option${genre.id}`}
-      className={`filter-BackBtn backdrop-blur-xl transition-all duration-300 has-[:checked]:bg-selector-100 bg-nightDew-300/85 `}
+      className={`backBtn backdrop-blur-xl w-auto has-[:checked]:bg-selector-100 `}
     >
       <input
         id={`option${genre.id}`}
@@ -158,10 +158,10 @@ function GenreButton({
           e.target.checked ? add(genre) : remove(genre);
         }}
         name={`option${genre.id}`}
-        className="w-3 h-3 peer  border-transparent checked:order-2 order-1 "
+        className="peer bg-transparent absolute appearance-none opacity-0 "
       />
 
-      <span className="filter-TextBtn peer-checked:order-1 peer-checked:text-nightDew-100 order-2 text-nightDew-500 ">
+      <span className="textBtn peer-checked:text-nightDew-100 text-nightDew-500 ">
         {genre.name}
       </span>
     </label>
@@ -182,18 +182,18 @@ function GenreSelector({
   return (
     <li>
       <fieldset>
-      <legend className="flex w-full justify-between items-center blockContainer-x pb-[--gap] xs:pb-[--gapXS] md:pb-[--gapMD] lg:pb-[--gapLG]">
-        <span className="filter-label">Gênero:</span>
-        <ClearSelected onClear={() => clear("g")} />
-      </legend>
+        <legend className="flex w-full justify-between items-center blockContainer-x pb-[--gap] xs:pb-[--gapXS] md:pb-[--gapMD] lg:pb-[--gapLG]">
+          <span className="filter-label">Gênero:</span>
+          <ClearSelected onClear={() => clear("g")} />
+        </legend>
 
-      <ul className="h-auto  flex flex-wrap justify-start gap-2 select-none transition duration-150 ease-out hover:ease-in blockContainer-x">
-        {genres.map((value, index) => (
-          <li key={value.id}>
-          <GenreButton genre={value} add={add} remove={remove}/>
-          </li>
-        ))}
-      </ul>
+        <ul className="h-auto  flex flex-wrap justify-start gap-2 select-none transition duration-150 ease-out hover:ease-in blockContainer-x">
+          {genres.map((value, index) => (
+            <li key={value.id}>
+              <GenreButton genre={value} add={add} remove={remove} />
+            </li>
+          ))}
+        </ul>
       </fieldset>
     </li>
   );
@@ -318,7 +318,7 @@ export default function FilterSideMenu({
       <button
         onClick={open}
         className="
-      main-backBtn   xl:hidden  "
+      main-backBtn backBtn  xl:hidden  "
       >
         <span
           className={`w-[12px] h-[12px] ${
@@ -327,9 +327,7 @@ export default function FilterSideMenu({
               : "rotate-[0deg] animate-rotateToR order-1"
           } bg-[url('/toRight.svg')] bg-[length:12px_12px] bg-[center_center] bg-no-repeat transition-all duration-300 `}
         ></span>
-        <span className="main-TextBtn">
-          {handle ? "Fechar" : "Expandir filtro"}
-        </span>
+        <span className="textBtn">{handle ? "Fechar" : "Expandir filtro"}</span>
       </button>
     );
   }
@@ -479,87 +477,85 @@ export default function FilterSideMenu({
     return (
       <li>
         <fieldset className="flex flex-col gap-[--gap] xs:gap-[--gapXS] md:gap-[--gapMD] lg:gap-[--gapLG] max-h-fit ">
-        <legend className="blockContainer-x 
-        pb-[--gap] xs:pb-[--gapXS] md:pb-[--gapMD] lg:pb-[--gapLG]">
-          <span className="filter-label">Pontuação:</span>
-        </legend>
-        <div className="w-full flex justify-between blockContainer-x ">
-          <label className="filter-BackBtn flex items-center">
-            <span className="filter-TextBtn uppercase text-xs opacity-65">
-              Min
-            </span>
-            <input
-              type="number"
-              value={minNumber}
-              className="text-center filter-TextBtn    rounded-lg  bg-transparent w-[44px] h-11 mx-[-10px] "
-              onChange={(e) => numberMin(e)}
-              onTouchStartCapture={() => {
-                setMinNumber("");
-              }}
-              pattern="[0-9]*"
-              inputMode="decimal"
-              name="minNumber"
-              min={0}
-              max={10}
-            />
-          </label>
+          <legend
+            className="blockContainer-x 
+        pb-[--gap] xs:pb-[--gapXS] md:pb-[--gapMD] lg:pb-[--gapLG]"
+          >
+            <span className="filter-label">Pontuação:</span>
+          </legend>
+          <div className="w-full flex justify-between blockContainer-x ">
+            <label className="backBtn flex items-center">
+              <span className="textBtn uppercase text-xs opacity-65">Min</span>
+              <input
+                type="number"
+                value={minNumber}
+                className="text-center textBtn    rounded-lg  bg-transparent w-[44px] h-11 mx-[-10px] "
+                onChange={(e) => numberMin(e)}
+                onTouchStartCapture={() => {
+                  setMinNumber("");
+                }}
+                pattern="[0-9]*"
+                inputMode="decimal"
+                name="minNumber"
+                min={0}
+                max={10}
+              />
+            </label>
 
-          <label className="filter-BackBtn flex items-center">
-            <span className="filter-TextBtn uppercase text-xs opacity-65">
-              Max
-            </span>
-            <input
-              type="number"
-              className=" text-center filter-TextBtn    rounded-lg  bg-transparent w-[44px] h-11 mx-[-10px]"
-              value={maxNumber}
-              onChange={(e) => numberMax(e)}
-              onTouchStartCapture={() => {
-                setMaxNumber("");
-              }}
-              pattern="[0-9]*"
-              inputMode="decimal"
-              min={0}
-              max={10}
-            />
-          </label>
-        </div>
-
-        <div className=" w-full h-11  pt-[20px] blockContainer-x ">
-          <div className="h-1 bg-nightDew-300 relative rounded-lg">
-            <div
-              className="h-full absolute rounded-lg bg-selector-100  "
-              style={{
-                right: rightSide,
-                left: leftSide,
-              }}
-            ></div>
+            <label className="backBtn flex items-center">
+              <span className="textBtn uppercase text-xs opacity-65">Max</span>
+              <input
+                type="number"
+                className=" text-center textBtn    rounded-lg  bg-transparent w-[44px] h-11 mx-[-10px]"
+                value={maxNumber}
+                onChange={(e) => numberMax(e)}
+                onTouchStartCapture={() => {
+                  setMaxNumber("");
+                }}
+                pattern="[0-9]*"
+                inputMode="decimal"
+                min={0}
+                max={10}
+              />
+            </label>
           </div>
 
-          <div className="relative">
-            <input
-              type="range"
-              className="absolute w-full h-0 top-[-2px] pointer-events-none appearance-none  "
-              min={0}
-              max={10}
-              step={0.1}
-              value={minRange}
-              onChange={(e) => handleMinRange(Number(e.target.value))}
-              onMouseUp={(e) => toParams(String(minRange), maxNumber)}
-              onTouchEnd={(e) => toParams(String(minRange), maxNumber)}
-            />
-            <input
-              type="range"
-              className="absolute w-full h-0 top-[-2px] pointer-events-none appearance-none"
-              min={0}
-              max={10}
-              step={0.1}
-              value={maxRange}
-              onChange={(e) => handleMaxRange(Number(e.target.value))}
-              onMouseUp={(e) => toParams(minNumber, String(maxRange))}
-              onTouchEnd={(e) => toParams(minNumber, String(maxRange))}
-            />
+          <div className=" w-full h-11  pt-[20px] blockContainer-x ">
+            <div className="h-1 bg-nightDew-300 relative rounded-lg">
+              <div
+                className="h-full absolute rounded-lg bg-selector-100  "
+                style={{
+                  right: rightSide,
+                  left: leftSide,
+                }}
+              ></div>
+            </div>
+
+            <div className="relative">
+              <input
+                type="range"
+                className="absolute w-full h-0 top-[-2px] pointer-events-none appearance-none  "
+                min={0}
+                max={10}
+                step={0.1}
+                value={minRange}
+                onChange={(e) => handleMinRange(Number(e.target.value))}
+                onMouseUp={(e) => toParams(String(minRange), maxNumber)}
+                onTouchEnd={(e) => toParams(String(minRange), maxNumber)}
+              />
+              <input
+                type="range"
+                className="absolute w-full h-0 top-[-2px] pointer-events-none appearance-none"
+                min={0}
+                max={10}
+                step={0.1}
+                value={maxRange}
+                onChange={(e) => handleMaxRange(Number(e.target.value))}
+                onMouseUp={(e) => toParams(minNumber, String(maxRange))}
+                onTouchEnd={(e) => toParams(minNumber, String(maxRange))}
+              />
+            </div>
           </div>
-        </div>
         </fieldset>
       </li>
     );
@@ -581,7 +577,7 @@ export default function FilterSideMenu({
         <label className="rounded-lg flex justify-between items-center h-min w-full blockContainer-x">
           <span className="filter-label">Ordenar por:</span>
           <select
-            className="filter-BackBtn filter-TextBtn"
+            className="backBtn textBtn"
             name="sortBy"
             onChange={(e) => {
               handleSelect(e.target.value);
@@ -624,19 +620,13 @@ export default function FilterSideMenu({
     if (dataProviders && dataGenres && resetProviders) {
       return (
         <button
-          className="main-backBtn"
+          className="backBtn main-backBtn"
           onClick={() => {
             reset();
           }}
         >
-          <span className="main-TextBtn ">Reset</span>
+          <span className="textBtn ">Reset</span>
         </button>
-      );
-    } else {
-      return (
-        <span className="main-backBtn main-TextBtn transition animate-pulse">
-          Reset
-        </span>
       );
     }
   }
@@ -874,12 +864,12 @@ export default function FilterSideMenu({
   return (
     <div
       onScroll={handleOpen}
-      className="overflow-x-auto  w-auto h-dvh  snap-x  z-10  snap-mandatory whitespace-nowrap  overscroll-x-contain xl:mx-auto xl:w-auto   no-scrollbar scrollStyle "
+      className="overflow-x-auto w-auto h-dvh snap-x z-10 snap-mandatory whitespace-nowrap overscroll-x-contain xl:mx-auto xl:w-auto no-scrollbar scrollStyle"
     >
       <div
         ref={divFilters}
         id="filtersID"
-        className="  h-full min-w-80 w-[80vw] max-w-sm lg:max-w-lg xl:max-w-md  inline-block overscroll-x-contain overflow-y-scroll      snap-end snap-always overscroll-y-contain    pt-[5.5rem] bg-nightDew-100 "
+        className="  h-full min-w-80 w-[80vw] max-w-sm lg:max-w-lg xl:max-w-md  inline-block overscroll-x-contain overflow-y-scroll snap-end snap-always overscroll-y-contain    paddingHeader bg-nightDew-100"
       >
         <menu
           className="flex flex-col 
@@ -890,9 +880,9 @@ export default function FilterSideMenu({
             list-none"
         >
           <BtnSortBy />
-          <Break color={'border-nightDew-300'} />
+          <Break color={"border-nightDew-300"} />
           <RangeVote />
-          <Break color={'border-nightDew-300'}  />
+          <Break color={"border-nightDew-300"} />
 
           {dataGenres && (
             <GenreSelector
@@ -902,7 +892,7 @@ export default function FilterSideMenu({
               clear={reset}
             />
           )}
-          <Break color={'border-nightDew-300'}  />
+          <Break color={"border-nightDew-300"} />
           {dataProviders && (
             <ProviderSelector
               providers={dataProviders}
@@ -922,17 +912,14 @@ export default function FilterSideMenu({
           <div className="bg-gradient-to-b from-nightDew-200  via-nightDew-200/80 to-transparent  fixed top-0  left-0 h-11 backdrop-blur-[2px] w-full   z-10 " />
           <div className="bg-gradient-to-b from-nightDew-200  via-nightDew-200/50 bg-transparent  fixed top-0  left-0 h-[5.5rem] backdrop-blur-[1px] w-full   backdrop-saturate-[1.2]   z-10 " />
           <div className="paddingHeader" />
-          <div className="h-min sticky z-40 top-14 w-full snap-always snap-start ">
-            <div className=" w-full  flex gap-2  h-auto overflow-x-scroll no-scrollbar transition-all  duration-1000 blockContainer">
+          <div className="h-min sticky top-12  z-40 w-full snap-always snap-start">
+            <div className=" w-full flex gap-2 overflow-x-scroll no-scrollbar transition-all  duration-1000 blockContainer">
               <BtnScroll />
               <BtnReset />
               {usualP.length > 0 && (
-                <ul className="h-11 w-auto  flex   justify-start gap-2 select-none  ">
+                <ul className="h-full w-auto  flex   justify-start gap-2 select-none  ">
                   {usualP.map((value) => (
-                    <li
-                      key={value.provider_id}
-                      className="h-min overflow-hidden backdrop-blur-xl rounded-lg "
-                    >
+                    <li key={value.provider_id} className="*:main-backBtn">
                       <ProviderButton
                         provider={value}
                         add={addProvider}
@@ -943,9 +930,9 @@ export default function FilterSideMenu({
                 </ul>
               )}
               {usualG.length > 0 && (
-                <ul className="h-11 w-auto  flex  justify-start gap-2 select-none  ">
+                <ul className="h-full w-auto  flex  gap-2 select-none  ">
                   {usualG.map((value) => (
-                    <li key={value.id} className="w-min">
+                    <li key={value.id} className="*:main-backBtn">
                       <GenreButton
                         genre={value}
                         add={addGenre}
