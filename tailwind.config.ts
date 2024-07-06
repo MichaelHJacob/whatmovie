@@ -83,7 +83,7 @@ const config: Config = {
       },
       boxShadow: {
         'mid': '0 8px 30px 2px rgba(46, 46, 46, 0.467)',
-        'light': '0 15px 42px -10px rgba(0, 0, 0, 0.122)',
+        'light': '0 5px 35px -10px rgba(0, 0, 0, 0.150)',
       }
     },
     colors: {

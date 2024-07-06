@@ -119,7 +119,7 @@ export default function Search() {
               }
             }}
             type="search"
-            className="header-backBtn textBtn text-base bg-[url('/lupa.svg')] bg-[length:12px_12px] bg-[center_left_0.9rem]  bg-no-repeat pl-9  max-sm:w-full  rounded-lg    shadow-lg shadow-transparent peer order-2 
+            className="header-backBtn textBtn text-base   pl-9 bg-[url('/lupa.svg')] bg-[length:12px_12px] bg-[center_left_0.9rem]  bg-no-repeat   max-sm:w-full  rounded-lg    shadow-lg shadow-transparent peer order-2 
             group-open:bg-nightDew-200  group-open:w-full focus:bg-nightDew-200/80 placeholder:textBtn max-sm:placeholder:text-opacity-0 bg-nightDew-300"
             id="search"
             placeholder="Buscar por filme"
@@ -179,14 +179,14 @@ export default function Search() {
                           </div>
                         )}
                         <dl className="flex flex-col justify-center items-start px-4  w-full ">
-                          <dt className="label line-clamp-1 pb-1 ">{value.title}</dt>
+                          <dt className="label line-clamp-1 leading-normal py-0">{value.title}</dt>
                           {value.release_date && (
-                            <dd className="data ">
+                            <dd className="data leading-normal py-0">
                               {formatDate(value.release_date)}
                             </dd>
                           )}
                           {value.genre_ids && (
-                            <dd className="data line-clamp-1">
+                            <dd className="data line-clamp-1 leading-normal py-0">
                               {dataGenres && formatGenres(value.genre_ids)}
                             </dd>
                           )}

@@ -94,7 +94,7 @@ function ProviderButton({
         onChange={() => (provider.state ? remove(provider) : add(provider))}
       />
       <img
-        className="   w-full object-contain aspect-square opacity-50 hover:opacity-100 grayscale-[90%] hover:grayscale-0 peer-checked:grayscale-0 peer-checked:opacity-100 transition-all duration-500"
+        className="   w-full object-contain aspect-square opacity-50 grayscale-[90%] hover:grayscale-0 peer-checked:grayscale-0 peer-checked:opacity-100 transition-all duration-500"
         src={`https://image.tmdb.org/t/p/w342/${provider.logo_path}`}
         width={44}
         height={44}
@@ -574,7 +574,7 @@ export default function FilterSideMenu({
     }
     return (
       <li>
-        <label className="rounded-lg flex justify-between items-center h-min w-full blockContainer-x">
+        <label className="rounded-lg flex justify-between items-center min-h-11 w-full blockContainer-x">
           <span className="filter-label">Ordenar por:</span>
           <select
             className="backBtn textBtn"
@@ -869,7 +869,7 @@ export default function FilterSideMenu({
       <div
         ref={divFilters}
         id="filtersID"
-        className="  h-full min-w-80 w-[80vw] max-w-sm lg:max-w-lg xl:max-w-md  inline-block overscroll-x-contain overflow-y-scroll snap-end snap-always overscroll-y-contain    paddingHeader bg-nightDew-100"
+        className="  h-full min-w-80 w-[80vw] max-w-sm lg:max-w-lg xl:max-w-md  inline-block overscroll-x-contain overflow-y-scroll snap-end snap-always overscroll-y-contain"
       >
         <menu
           className="flex flex-col 
@@ -877,7 +877,10 @@ export default function FilterSideMenu({
             xs:gap-[--gapXS] 
             md:gap-[--gapMD] 
             lg:gap-[--gapLG] 
-            list-none"
+            list-none
+            paddingHeader
+            blockContainer-b
+            "
         >
           <BtnSortBy />
           <Break color={"border-nightDew-300"} />
@@ -909,15 +912,14 @@ export default function FilterSideMenu({
         className="snap-start snap-always h-full w-screen  xl:w-[calc(100%-448px)] inline-block overscroll-y-contain  overflow-auto  "
       >
         <Container>
-          <div className="bg-gradient-to-b from-nightDew-200  via-nightDew-200/80 to-transparent  fixed top-0  left-0 h-11 backdrop-blur-[2px] w-full   z-10 " />
-          <div className="bg-gradient-to-b from-nightDew-200  via-nightDew-200/50 bg-transparent  fixed top-0  left-0 h-[5.5rem] backdrop-blur-[1px] w-full   backdrop-saturate-[1.2]   z-10 " />
+          <div className="bg-gradient-to-b from-nightDew-100  via-nightDew-100/70 to-transparent fixed top-0  left-0 max-lg:paddingHeader lg:h-[5.5rem] backdrop-blur-[1px] w-full  z-10 " />
           <div className="paddingHeader" />
-          <div className="h-min sticky top-12  z-40 w-full snap-always snap-start">
-            <div className=" w-full flex gap-2 overflow-x-scroll no-scrollbar transition-all  duration-1000 blockContainer">
+          <div className="h-min sticky top-11 z-40 w-full snap-always snap-start blockContainer-b ">
+            <div className="w-full h-11 flex items-center  gap-2 overflow-x-scroll no-scrollbar transition-all  duration-1000 blockContainer-x">
               <BtnScroll />
               <BtnReset />
               {usualP.length > 0 && (
-                <ul className="h-full w-auto  flex   justify-start gap-2 select-none  ">
+                <ul className="h-fit w-auto flex justify-start gap-2 select-none">
                   {usualP.map((value) => (
                     <li key={value.provider_id} className="*:main-backBtn">
                       <ProviderButton
@@ -930,7 +932,7 @@ export default function FilterSideMenu({
                 </ul>
               )}
               {usualG.length > 0 && (
-                <ul className="h-full w-auto  flex  gap-2 select-none  ">
+                <ul className="h-fit w-auto  flex  gap-2 select-none  ">
                   {usualG.map((value) => (
                     <li key={value.id} className="*:main-backBtn">
                       <GenreButton

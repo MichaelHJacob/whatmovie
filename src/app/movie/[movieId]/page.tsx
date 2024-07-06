@@ -175,9 +175,9 @@ export default async function Movie({
         <div className="w-screen left-[50%] translate-x-[-50%]  h-full absolute top-0  z-[-1] overflow-hidden bg-nightDew-400 ">
           <div
             style={css}
-            className="w-full h-full  bg-no-repeat  rotate-180 opacity-70   blur-3xl  animate-mainMovie"
+            className="w-full h-full  bg-no-repeat opacity-70   blur-3xl  animate-mainMovie"
           />
-          <div className="  w-full h-full absolute top-0 left-0   backdrop-blur-3xl max-md:bg-gradient-to-t max-md:from-black/90 max-md:via-black/70 max-md:to-transparent " />
+          <div className="  w-full h-full absolute top-0 left-0   backdrop-blur-3xl max-md:bg-gradient-to-t max-md:from-black/80 max-md:to-transparent " />
         </div>
           <div className="md:gridTemplateSpace xl:grid-cols-[repeat(20,_minmax(0,_1fr))] items-center blockContainer max-md:flex max-md:flex-col max-md:w-fit max-md:items-start gap-0">
             <div className="md:col-span-4 lg:col-span-5  
@@ -187,7 +187,7 @@ export default async function Movie({
                   src={`https://image.tmdb.org/t/p/w500` + data.poster_path}
                   alt={data.original_title}
                   sizes="80vh"
-                  className="rounded-lg max-w-full object-contain shadow-2xl shadow-nightDew-600 max-md:max-w-full max-md:max-h-[75vh] max-md:min-h-80"
+                  className="rounded-lg max-w-full object-contain mid-shadow  max-md:max-w-full max-md:max-h-[75vh] max-md:min-h-80"
                 />
            
               ) : (
@@ -244,7 +244,7 @@ export default async function Movie({
       <div>
         <SubTitle>Mais detalhes</SubTitle>
 
-        <div className="ListSpacing no-scrollbar">
+        <div className="ListSpacing no-scrollbar ">
           <CardInformation>
             {data.original_title && (
               <>

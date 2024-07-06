@@ -29,7 +29,7 @@
   }
 
   .light-shadow {
-    @apply shadow-light;
+    @apply shadow-light max-sm:shadow-black/10;
   }
 
   .mid-shadow {
@@ -42,6 +42,7 @@
   .paddingHeader {
     @apply pt-[calc(2.75rem+var(--p))] 
     xs:pt-[calc(2.75rem+var(--pXS))]
+    md:pt-[calc(2.75rem+var(--pMD))]     
     lg:pt-[calc(2.75rem+var(--pLG))];
   }
 

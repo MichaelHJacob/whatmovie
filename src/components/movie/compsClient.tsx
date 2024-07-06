@@ -16,7 +16,7 @@ export default function Videos({
     return (
       <div className="md:blockContainer-x">
         <iframe
-          className="w-full aspect-video bg-black md:rounded-2xl overflow-hidden mid-shadow"
+          className="w-full aspect-video bg-black md:rounded-2xl md:shadow-light   md:shadow-nightDew-500/50"
           allow="fullscreen; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           src={`https://www.youtube.com/embed/${video.key}`}
           title="YouTube video player"
@@ -86,7 +86,7 @@ export default function Videos({
           <ListControl id={"videos"} length={videosArray.length}>
             <ul
               id="videos"
-              className="max-md:flex max-md:flex-col max-xs:gap-[var(--gap)] max-md:gap-[var(--gapXS)] md:ListSpacing md:spacingShrinkerBlock-b max-md:blockContainer-x list-none no-scrollbar relative max-md:animate-showVideoV md:animate-showVideoH"
+              className="max-md:flex max-md:flex-col max-xs:gap-[--gap] max-md:gap-[--gapXS] md:ListSpacing md:spacingShrinkerBlock-b max-md:blockContainer-x list-none no-scrollbar relative max-md:animate-showVideoV md:animate-showVideoH"
             >
               {videosArray.map((value, index) => (
                 <li
@@ -108,7 +108,7 @@ export default function Videos({
                   />
                   <div className="w-full  px-[calc(var(--p)/2)] xs:px-[calc(var(--pXS)/2)] md:px-0">
                     <h4
-                      className={`data max-md:text-white/70 line-clamp-2 antialiased   ${
+                      className={`data max-md:text-white/70 line-clamp-2 antialiased py-0  ${
                         selected == value && "text-black  max-md:font-semibold"
                       }`}
                     >

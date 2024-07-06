@@ -150,7 +150,7 @@ export function SubTitle({ children }: { children: ReactNode }) {
 
 export function LabelH4({ children }: { children: ReactNode }) {
   return (
-    <div className="py-2 xs:py-[1rem] lg:py-6 min-h-11 w-fit">
+    <div className=" flex items-center min-h-11 w-fit">
       <h4 className="subTitle leading-normal text-base">{children}</h4>
     </div>
   );
