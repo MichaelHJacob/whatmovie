@@ -1,1 +1,3 @@
-<a  align="center" href="https://wm-whatmovie.vercel.app"><h1> WM - What Movie</h1></a>
+![What Movie](public/logoExtended.png)
+
+[wm-whatmovie.vercel.app](https://wm-whatmovie.vercel.app)
