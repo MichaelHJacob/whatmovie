@@ -59,6 +59,19 @@
         md:pb-[var(--pMD)] 
         lg:pb-[var(--pLG)];  
   }
+  .blockContainer-mb {
+    @apply mb-[var(--p)] 
+        xs:mb-[var(--pXS)] 
+        md:mb-[var(--pMD)] 
+        lg:mb-[var(--pLG)];  
+  }
+
+  .blockContainer-mt {
+    @apply mt-[var(--p)] 
+        xs:mt-[var(--pXS)] 
+        md:mt-[var(--pMD)] 
+        lg:mt-[var(--pLG)];  
+  }
 
   .blockContainer-y {
     @apply blockContainer-t blockContainer-b
@@ -114,33 +127,33 @@
     @apply h-min col-span-3 xs:col-span-3 md:col-span-2 lg:col-span-3 snap-start;
   }
 
-  .spacingShrinkerBlock-t {
+  .reducerBlock-t {
     @apply mt-[calc(var(--p)*-1)] 
         xs:mt-[calc(var(--pXS)*-1)] 
         md:mt-[calc(var(--pMD)*-1)] 
         lg:mt-[calc(var(--pLG)*-1)];
   }
 
-  .spacingShrinkerBlock-b {
+  .reducerBlock-b {
     @apply mb-[calc(var(--p)*-1)] 
         xs:mb-[calc(var(--pXS)*-1)] 
         md:mb-[calc(var(--pMD)*-1)] 
         lg:mb-[calc(var(--pLG)*-1)]
   }
 
-  .spacingShrinkerBlock-y {
-    @apply spacingShrinkerBlock-b spacingShrinkerBlock-t;
+  .reducerBlock-y {
+    @apply reducerBlock-b reducerBlock-t;
   }
 
-  .spacingShrinkerBlock-x {
+  .reducerBlock-x {
     @apply mx-[calc(var(--p)*-1)]      
     xs:mx-[calc(var(--pXS)*-1)]  
     md:mx-[calc(var(--pMD)*-1)] 
     lg:mx-[calc(var(--pLG)*-1)];
   }
 
-  .spacingShrinkerBlock {
-    @apply spacingShrinkerBlock-x
+  .reducerBlock {
+    @apply reducerBlock-x
        mb-[calc(var(--p)*-1)] 
     xs:mb-[calc(var(--pXS)*-1)] 
     md:mb-[calc(var(--pMD)*-1)] 
@@ -148,7 +161,7 @@
   }
 
   .ListSpacing {
-    @apply scrollStyle blockContainer-x blockContainer-y spacingShrinkerBlock-t list-none no-scrollbar z-0 relative
+    @apply scrollStyle blockContainer-x blockContainer-y reducerBlock-t list-none no-scrollbar z-0 relative
     grid grid-flow-col grid-rows-[min-content]
   
        scroll-pl-[var(--p)] 

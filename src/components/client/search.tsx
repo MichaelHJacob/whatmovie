@@ -119,6 +119,7 @@ export default function Search() {
               }
             }}
             type="search"
+            autoComplete="off"
             className="header-backBtn textBtn text-base   pl-9 bg-[url('/lupa.svg')] bg-[length:12px_12px] bg-[center_left_0.9rem]  bg-no-repeat   max-sm:w-full  rounded-lg    shadow-lg shadow-transparent peer order-2 
             group-open:bg-nightDew-200  group-open:w-full focus:bg-nightDew-200/80 placeholder:textBtn max-sm:placeholder:text-opacity-0 bg-nightDew-300"
             id="search"

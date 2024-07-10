@@ -1,12 +1,11 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ChangeEvent, Fragment, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import {
   CardMovieType,
   ArrayMoviesType,
   ListGenres,
   MovieProviders,
-  MovieType,
   TypeBtnGenres,
   TypeBtnProvider,
 } from "@/components/utils/types";
@@ -911,42 +910,37 @@ export default function FilterSideMenu({
         id="Movies"
         className="snap-start snap-always h-full w-screen  xl:w-[calc(100%-448px)] inline-block overscroll-y-contain  overflow-auto  "
       >
-        <Container>
-          <div className="bg-gradient-to-b from-nightDew-100  via-nightDew-100/70 to-transparent fixed top-0  left-0 max-lg:paddingHeader lg:h-[5.5rem] backdrop-blur-[1px] w-full  z-10 " />
-          <div className="paddingHeader" />
-          <div className="h-min sticky top-11 z-40 w-full snap-always snap-start blockContainer-b ">
-            <div className="w-full h-11 flex items-center  gap-2 overflow-x-scroll no-scrollbar transition-all  duration-1000 blockContainer-x">
-              <BtnScroll />
-              <BtnReset />
-              {usualP.length > 0 && (
-                <ul className="h-fit w-auto flex justify-start gap-2 select-none">
-                  {usualP.map((value) => (
-                    <li key={value.provider_id} className="*:main-backBtn">
-                      <ProviderButton
-                        provider={value}
-                        add={addProvider}
-                        remove={removeProvider}
-                      />
-                    </li>
-                  ))}
-                </ul>
-              )}
-              {usualG.length > 0 && (
-                <ul className="h-fit w-auto  flex  gap-2 select-none  ">
-                  {usualG.map((value) => (
-                    <li key={value.id} className="*:main-backBtn">
-                      <GenreButton
-                        genre={value}
-                        add={addGenre}
-                        remove={removeGenre}
-                      />
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
+        <Container paddingTop>
+          <div className="w-full h-11 max-xl:bg-nightDew-200/70 max-xl:backdrop-blur-md sticky top-11 z-50 flex items-center  gap-2 overflow-x-scroll no-scrollbar  blockContainer-x blockContainer-mb">
+            <BtnScroll />
+            <BtnReset />
+            {usualP.length > 0 && (
+              <ul className="h-fit w-auto flex justify-start gap-2 select-none">
+                {usualP.map((value) => (
+                  <li key={value.provider_id} className="*:main-backBtn">
+                    <ProviderButton
+                      provider={value}
+                      add={addProvider}
+                      remove={removeProvider}
+                    />
+                  </li>
+                ))}
+              </ul>
+            )}
+            {usualG.length > 0 && (
+              <ul className="h-fit w-auto  flex  gap-2 select-none  ">
+                {usualG.map((value) => (
+                  <li key={value.id} className="*:main-backBtn">
+                    <GenreButton
+                      genre={value}
+                      add={addGenre}
+                      remove={removeGenre}
+                    />
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
-
           {children}
         </Container>
       </div>

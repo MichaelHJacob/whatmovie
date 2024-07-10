@@ -86,7 +86,7 @@ export default function Videos({
           <ListControl id={"videos"} length={videosArray.length}>
             <ul
               id="videos"
-              className="max-md:flex max-md:flex-col max-xs:gap-[--gap] max-md:gap-[--gapXS] md:ListSpacing md:spacingShrinkerBlock-b max-md:blockContainer-x list-none no-scrollbar relative max-md:animate-showVideoV md:animate-showVideoH"
+              className="max-md:flex max-md:flex-col max-xs:gap-[--gap] max-md:gap-[--gapXS] md:ListSpacing md:reducerBlock-b max-md:blockContainer-x list-none no-scrollbar relative max-md:animate-showVideoV md:animate-showVideoH"
             >
               {videosArray.map((value, index) => (
                 <li

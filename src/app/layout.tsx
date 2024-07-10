@@ -71,8 +71,8 @@ export default function RootLayout({
               <img
                 src="/filterIcon.svg"
                 className="w-6 h-6"
-                width={20}
-                height={20}
+                width={24}
+                height={24}
               />
               <h2>Filtro</h2>
             </Link>

@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
-export function Container({ children }: { children: ReactNode }) {
-  return <div className="max-w-7xl w-full h-auto mx-auto">{children}</div>;
+export function Container({ children, paddingTop = false   }: { children: ReactNode, paddingTop?: boolean }) {
+  return <div className={`max-w-7xl w-full h-auto mx-auto  ${paddingTop && "paddingHeader"}`}>{children}</div>;
 }
 
 export function CardInformation({ children }: { children: ReactNode }) {
