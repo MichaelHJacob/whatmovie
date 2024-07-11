@@ -1,7 +1,6 @@
 "use client";
 import { ReactNode, useState } from "react";
 import dynamic from "next/dynamic";
-
 const BtnScrollTo = dynamic(() => import("./button"));
 
 export function ListControl({
@@ -49,4 +48,3 @@ export function ListControl({
     </div>
   );
 }
-

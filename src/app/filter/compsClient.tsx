@@ -868,7 +868,7 @@ export default function FilterSideMenu({
       <div
         ref={divFilters}
         id="filtersID"
-        className="  h-full min-w-80 w-[80vw] max-w-sm lg:max-w-lg xl:max-w-md  inline-block overscroll-x-contain overflow-y-scroll snap-end snap-always overscroll-y-contain"
+        className="  h-full min-w-80 w-[80vw] max-w-sm lg:max-w-lg xl:max-w-md  inline-block overscroll-x-contain overflow-y-scroll snap-end snap-always overscroll-y-contain bg-nightDew-100"
       >
         <menu
           className="flex flex-col 
@@ -911,7 +911,7 @@ export default function FilterSideMenu({
         className="snap-start snap-always h-full w-screen  xl:w-[calc(100%-448px)] inline-block overscroll-y-contain  overflow-auto  "
       >
         <Container paddingTop>
-          <div className="w-full h-11 max-xl:bg-nightDew-200/70 max-xl:backdrop-blur-md sticky top-11 z-50 flex items-center  gap-2 overflow-x-scroll no-scrollbar  blockContainer-x blockContainer-mb">
+          <div className="w-full h-11 bg-nightDew-200/30 backdrop-blur-md sticky top-11 z-50 flex items-center  gap-2 overflow-x-scroll no-scrollbar  blockContainer-x blockContainer-mb">
             <BtnScroll />
             <BtnReset />
             {usualP.length > 0 && (

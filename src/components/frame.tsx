@@ -1,7 +1,21 @@
 import { ReactNode } from "react";
 
-export function Container({ children, paddingTop = false   }: { children: ReactNode, paddingTop?: boolean }) {
-  return <div className={`max-w-7xl w-full h-auto mx-auto  ${paddingTop && "paddingHeader"}`}>{children}</div>;
+export function Container({
+  children,
+  paddingTop,
+}: {
+  children: ReactNode;
+  paddingTop?: boolean;
+}) {
+  return (
+    <div
+      className={`max-w-7xl w-full h-auto mx-auto ${
+        paddingTop && "paddingHeader"
+      }`}
+    >
+      {children}
+    </div>
+  );
 }
 
 export function CardInformation({ children }: { children: ReactNode }) {
@@ -12,20 +26,32 @@ export function CardInformation({ children }: { children: ReactNode }) {
   );
 }
 
-export function Break({color = 'border-nightDew-600/10' }:{color?: String}) {
+export function Break({
+  color = "border-nightDew-600/10",
+}: {
+  color?: String;
+}) {
   return (
-    <hr className={`border-[1px] border-solid ${color} mx-[--p] xs:mx-[--pXS] lg:mx-[--pLG] rounded-lg`}/>
+    <hr
+      className={`border-[1px] border-solid ${color} mx-[--p] xs:mx-[--pXS] lg:mx-[--pLG] rounded-lg`}
+    />
   );
 }
 
-export function LoadingCards({size = 20}: {size?: number}) {
+export function LoadingCards({ size = 20 }: { size?: number }) {
   const skeleton = [];
 
-  for (let i = 0; i < size ; i++) {
+  for (let i = 0; i < size; i++) {
     skeleton.push(
-      <div  key={i} id={`loadC${i}`} className={`gridColSpanMovie ${size <= 5 && i >= 2 && 'max-xs:hidden' } 
-      ${size <= 5 && i >= 4 && 'max-lg:hidden' } ${size <= 5 && i >= 4 && 'xl:hidden' }`} >
-        <div className="w-full aspect-[18/27] unavailable  animate-pulse rounded-lg mid-shadow"/>
+      <div
+        key={i}
+        id={`loadC${i}`}
+        className={`gridColSpanMovie ${size <= 5 && i >= 2 && "max-xs:hidden"} 
+      ${size <= 5 && i >= 4 && "max-lg:hidden"} ${
+          size <= 5 && i >= 4 && "xl:hidden"
+        }`}
+      >
+        <div className="w-full aspect-[18/27] unavailable  animate-pulse rounded-lg mid-shadow" />
       </div>
     );
   }

@@ -2,7 +2,6 @@ import { LabelH4 } from "@/components/comps";
 import { CardMovieType } from "@/components/utils/types";
 import { fetchMovies } from "./actions";
 import { ScrollPages } from "./compsClient";
-import { Container, LoadingCards } from "@/components/frame";
 
 export default async function Page({
   searchParams,

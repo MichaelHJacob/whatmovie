@@ -225,7 +225,7 @@
   }
 
   .header-backBtn {
-    @apply backBtn buttonText backBtn-hover bg-transparent tracking-widest  h-8 w-auto flex items-center  hover:bg-nightDew-200/85  
+    @apply backBtn buttonText backBtn-hover bg-transparent tracking-widest  h-8 w-auto flex items-center  hover:bg-nightDew-100 hover:bg-opacity-85 
   }
 
   .main-backBtn {
@@ -233,7 +233,7 @@
   }
 
   .list-backBtn {
-    @apply rounded-lg w-full animate-show appearance-none border-none backBtn-hover box-content
+    @apply rounded-lg w-full animate-show appearance-none border-none backBtn-hover hover:bg-nightDew-100 hover:bg-opacity-85 box-content
     h-[calc(5.5rem+var(--gap))]  
    xs:h-[calc(5.5rem+var(--gapXS))]  
     md:h-[calc(5.5rem+var(--gapMD))]  

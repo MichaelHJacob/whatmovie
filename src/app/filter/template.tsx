@@ -2,6 +2,7 @@ import { Container } from "@/components/frame";
 import FilterSideMenu from "@/app/filter/compsClient";
 import { LoadingCards } from "@/components/frame";
 import { Suspense } from "react";
+import { NavBar } from "@/components/comps";
 
 export default function Template({
   children,
@@ -9,6 +10,9 @@ export default function Template({
   children: React.ReactNode;
 }) {
   return (
+    <>
+    <NavBar fixed/>
+    <FilterSideMenu>
     <Suspense
       fallback={
         <Container>
@@ -18,7 +22,9 @@ export default function Template({
         </Container>
       }
     >
-      <FilterSideMenu>{children}</FilterSideMenu>
+      {children}
     </Suspense>
+    </FilterSideMenu>
+    </>
   );
 }
