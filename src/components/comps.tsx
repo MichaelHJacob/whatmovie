@@ -49,7 +49,7 @@ export function ListPeople({ data, id }: { data: CreditsType; id: string }) {
                 alt={value.name}
                 height={200}
                 width={200}
-                sizes="150px"
+                loading="lazy"
                 className="rounded-full w-full  aspect-square  object-cover light-shadow"
               />
             ) : (

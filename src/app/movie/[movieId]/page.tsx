@@ -80,7 +80,7 @@ export default async function Movie({
   const data: DetailsMovieType = await getDetails(params.movieId);
   if (typeof data.poster_path == "string") {
     var css = await getCssBlurIMG(
-      "https://image.tmdb.org/t/p/w185" + data.poster_path
+      "https://image.tmdb.org/t/p/w92" + data.poster_path
     );
   } else {
     var css = {
@@ -167,6 +167,7 @@ export default async function Movie({
       }
     }
   }
+
   return (
     <Container>
       <div className="h-min w-full relative paddingHeader z-30">
@@ -178,24 +179,28 @@ export default async function Movie({
           <div className="w-full h-full absolute top-0 left-0 backdrop-blur-3xl bg-black/50" />
         </div>
         <div className="md:gridTemplateSpace xl:grid-cols-[repeat(20,_minmax(0,_1fr))] items-center blockContainer max-md:flex max-md:flex-col max-md:w-fit max-md:items-start gap-0">
-          <div className="md:col-span-4 lg:col-span-5 flex justify-start items-center rounded-lg">
-            {typeof data.poster_path == "string" ? (
-              <img
-                src={`https://image.tmdb.org/t/p/w500` + data.poster_path}
-                alt={data.original_title}
-                sizes="80vh"
-                className="rounded-lg max-w-full object-contain mid-shadow  max-md:max-w-full max-md:max-h-[75vh] max-md:min-h-80"
-              />
-            ) : (
-              <div className="rounded-lg flex flex-col justify-between items-center pb-10 pt-5  w-full h-full overflow-hidden unavailable  break-words  shadow-2xl shadow-nightDew-600 aspect-[18/27] ">
-                <p className="textBtn text-opacity-30  text-wrap  w-min text-center ">
-                  imagem indisponível
-                </p>
-                <p className="textBtn  font-extrabold text-2xl  text-wrap text-center ">
-                  {data.title}
-                </p>
-              </div>
-            )}
+          <div className="md:col-span-4 lg:col-span-5 max-md:w-full">
+            <div className="aspect-[2/3]  flex justify-start items-center max-md:max-h-[75vh] max-md:min-h-80  relative before:block before:absolute before:w-full before:aspect-[2/3] before:bg-nightDew-600 before:scale-75 before:rounded-xl before:blur-md before:z-20">
+              {typeof data.poster_path == "string" ? (
+                <img
+                  srcSet={`https://image.tmdb.org/t/p/w342${data.poster_path} 342w, https://image.tmdb.org/t/p/w500${data.poster_path} 500w, https://image.tmdb.org/t/p/w780${data.poster_path} 780w`}
+                  sizes="(max-width: 342px) 342px, (max-width: 500px) 500px, (max-width: 767px) 780px, (min-width: 768px) 300px, 500px"
+                  src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
+                  alt={data.original_title}
+                  className="rounded-lg object-contain mid-shadow z-30 contrast-[1.1]
+                "
+                />
+              ) : (
+                <div className="rounded-lg flex flex-col justify-center gap-5 items-center pb-10 pt-10  w-full h-full overflow-hidden unavailable  break-words  mid-shadow z-30 contrast-[1.1] aspect-[2/3] backdrop-blur-xl">
+                  <p className="textBtn text-opacity-30 w-full text-wrap text-center text-nightDew-300">
+                    imagem indisponível
+                  </p>
+                  <p className=" w-full px-3 text-lg text-wrap text-center text-nightDew-300 textBtn text-opacity-20">
+                    {data.title}
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
           <dl
             className="relative z-40 md:col-span-8 lg:col-[span_15_/_span_15]   md:px-4 md:pb-4 rounded-lg
