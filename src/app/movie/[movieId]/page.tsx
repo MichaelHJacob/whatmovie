@@ -6,10 +6,10 @@ import { getPlaiceholder } from "plaiceholder";
 import Videos from "@/components/movie/compsClient";
 import GetRecommendations from "@/components/movie/getRecommendations";
 import {
-  GetPeople,
-  GetDirector,
-  GetStream,
   GetTranslations,
+  Director,
+  Stream,
+  People,
 } from "@/components/movie/comps";
 import { CardInformation, Container, LoadingCards } from "@/components/frame";
 import { Metadata } from "next";
@@ -25,7 +25,7 @@ async function getDetails(id: string) {
   const res = await fetch(
     process.env.DB_API_URL +
       id +
-      "?append_to_response=videos&language=pt-BR&watch_region=BR",
+      "?append_to_response=videos%2Cwatch%2Fproviders%2Ccredits&language=pt-BR",
     options
   );
 
@@ -229,18 +229,12 @@ export default async function Movie({
                 </dd>
               </>
             )}
-            <Suspense>
-              <GetDirector movieID={params.movieId} />
-            </Suspense>
-            <Suspense>
-              <GetStream movieID={params.movieId} />
-            </Suspense>
+            <Director credits={data.credits.crew} />
+            <Stream WMBR={data["watch/providers"].results.BR} />
           </dl>
         </div>
       </div>
-      {data.videos.results.length >= 1 && (
-        <Videos videosArray={data.videos.results} />
-      )}
+      <Videos videosArray={data.videos.results} />
       <div>
         <SubTitle>Mais detalhes</SubTitle>
 
@@ -360,10 +354,8 @@ export default async function Movie({
           </CardInformation>
         </div>
       </div>
+      <People cast={data.credits.cast} crew={data.credits.crew} />
 
-      <Suspense>
-        <GetPeople movieID={params.movieId} />
-      </Suspense>
 
       <Suspense fallback={<LoadingCards size={5} />}>
         <GetRecommendations

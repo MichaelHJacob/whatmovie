@@ -15,9 +15,29 @@ export interface TranslationsType {
   }[];
 }
 
-export interface ProviderBr {
+export interface WMProviderType {
+  id: number;
+  results: {
+    BR?: Provider;
+    string?: Provider;
+  };
+}
+
+export interface Provider {
   link: string;
   flatrate: {
+    logo_path: string;
+    provider_id: number;
+    provider_name: string;
+    display_priority: number;
+  }[];
+  rent?: {
+    logo_path: string;
+    provider_id: number;
+    provider_name: string;
+    display_priority: number;
+  }[];
+  buy?: {
     logo_path: string;
     provider_id: number;
     provider_name: string;
@@ -99,7 +119,7 @@ export interface RecommendationsType {
   total_results: number;
 }
 
-export interface RecommendationsMovie{
+export interface RecommendationsMovie {
   backdrop_path: string;
   id: number;
   original_title: string;
@@ -204,26 +224,39 @@ export interface DetailsMovieType {
   vote_count: number;
   videos: {
     results: VideosResultsType[];
-  }
+  };
+  credits: {
+    cast: CastType[];
+    crew: CrewType[];
+  };
+  "watch/providers": {
+    results: {
+      BR?: Provider;
+      string?: Provider;
+    };
+  };
 }
+export type PropsPeople = {cast?: CastType[]; crew?: CrewType[]} 
 
 export interface CreditsType {
   id: number;
-  cast: {
-    adult: boolean;
-    gender: number;
-    id: number;
-    known_for_department: string;
-    name: string;
-    original_name: string;
-    popularity: number;
-    profile_path: string;
-    cast_id: number;
-    character: string;
-    credit_id: string;
-    order: number;
-  }[];
+  cast: CastType[];
   crew: CrewType[];
+}
+
+export interface CastType {
+  adult: boolean;
+  gender: number;
+  id: number;
+  known_for_department: string;
+  name: string;
+  original_name: string;
+  popularity: number;
+  profile_path: string;
+  cast_id: number;
+  character: string;
+  credit_id: string;
+  order: number;
 }
 
 export interface CrewType {

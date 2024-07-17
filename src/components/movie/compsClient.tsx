@@ -8,8 +8,9 @@ import { ListControl } from "../client/comps";
 export default function Videos({
   videosArray,
 }: {
-  videosArray: VideosResultsType[];
+  videosArray?: VideosResultsType[];
 }) {
+  if (videosArray == undefined || videosArray.length == 0) return;
   const [selected, setSelected] = useState(videosArray[0]);
 
   function VideoDisplay({ video }: { video: VideosResultsType }) {

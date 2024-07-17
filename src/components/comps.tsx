@@ -1,8 +1,8 @@
 import Link from "next/link";
 import {
-  CreditsType,
   MovieClient,
   MovieType,
+  PropsPeople,
   RecommendationsMovieRate,
 } from "./utils/types";
 import { ReactNode, Suspense } from "react";
@@ -30,42 +30,49 @@ export function ListMovie({
   );
 }
 
-export function ListPeople({ data, id }: { data: CreditsType; id: string }) {
+export function ListPeople({
+  cast = [],
+  crew = [],
+  id,
+}: PropsPeople & { id: string }) {
+  function ImageProfile({ path, alt }: { path: string; alt: string }) {
+    return (
+      <img
+        srcSet={`https://image.tmdb.org/t/p/w185${path}, https://image.tmdb.org/t/p/h632${path} 2x`}
+        src={`https://image.tmdb.org/t/p/w185${path}`}
+        alt={alt}
+        loading="lazy"
+        className="rounded-full w-full aspect-square object-cover light-shadow contrast-[1.1]"
+      />
+    );
+  }
+
+  function ImageProfileUnavailable({ alt }: { alt: string }) {
+    return (
+      <div className="rounded-full overflow-hidden aspect-square relative unavailable light-shadow">
+        <p className="textBtn text-opacity-30 text-center text-xs  text-wrap  w-min  absolute bottom-1 left-[50%] translate-x-[-50%] top-[10%]">
+          imagem indisponível
+        </p>
+        <span className="overflow-hidden h-min w-[50%]  absolute left-[50%] translate-x-[-50%] bottom-[15%]">
+          <p className="textBtn text-opacity-90 line-clamp-1 h-auto   overflow-hidden text-center  text-wrap    ">
+            {alt}
+          </p>
+        </span>
+      </div>
+    );
+  }
   return (
     <ul
       id={id}
-      className="ListSpacing  lg:auto-cols-[calc((100%-20*var(--gapLG))/21)] list-none no-scrollbar rounded-2xl"
+      className="ListSpacing lg:auto-cols-[calc((100%-20*var(--gapLG))/21)] list-none no-scrollbar rounded-2xl"
     >
-      {data.cast.length >= 1 &&
-        data.cast.map((value, index) => (
-          <li
-            id={id + String(index)}
-            key={index}
-            className="gridColSpanPeople "
-          >
+      {cast.length >= 1 &&
+        cast.map((value, index) => (
+          <li id={id + String(index)} key={index} className="gridColSpanPeople">
             {typeof value.profile_path == "string" ? (
-              <img
-                src={`https://image.tmdb.org/t/p/w500${value.profile_path}`}
-                alt={value.name}
-                height={200}
-                width={200}
-                loading="lazy"
-                className="rounded-full w-full  aspect-square  object-cover light-shadow"
-              />
+              <ImageProfile path={value.profile_path} alt={value.name} />
             ) : (
-              <div
-                className="rounded-full overflow-hidden aspect-square
-             relative unavailable light-shadow"
-              >
-                <p className="textBtn text-opacity-30 text-center text-xs  text-wrap  w-min  absolute bottom-1 left-[50%] translate-x-[-50%] top-[10%]">
-                  imagem indisponível
-                </p>
-                <span className="overflow-hidden h-min w-[50%]  absolute left-[50%] translate-x-[-50%] bottom-[15%]">
-                  <p className="textBtn text-opacity-90 line-clamp-1 h-auto   overflow-hidden text-center  text-wrap    ">
-                    {value.name}
-                  </p>
-                </span>
-              </div>
+              <ImageProfileUnavailable alt={value.name} />
             )}
 
             <div className="w-full mt-2 text-center h-fit ">
@@ -75,36 +82,17 @@ export function ListPeople({ data, id }: { data: CreditsType; id: string }) {
           </li>
         ))}
 
-      {data.crew.length >= 1 &&
-        data.crew.map((value, index) => (
+      {crew.length >= 1 &&
+        crew.map((value, index) => (
           <li
-            id={id + String(index + data.cast.length)}
+            id={id + String(index + cast.length)}
             key={index}
             className="gridColSpanPeople"
           >
             {typeof value.profile_path == "string" ? (
-              <img
-                src={`https://image.tmdb.org/t/p/w500${value.profile_path}`}
-                alt={value.name}
-                height={200}
-                width={200}
-                sizes="150px"
-                className="rounded-full w-full  aspect-square  object-cover"
-              />
+              <ImageProfile path={value.profile_path} alt={value.name} />
             ) : (
-              <div
-                className="rounded-full overflow-hidden aspect-square
-            unavailable relative"
-              >
-                <p className="textBtn text-opacity-30 text-center text-xs  text-wrap  w-min  absolute bottom-1 left-[50%] translate-x-[-50%] top-[10%]">
-                  imagem indisponível
-                </p>
-                <span className="overflow-hidden h-min w-[50%]  absolute left-[50%] translate-x-[-50%] bottom-[15%]">
-                  <p className="textBtn text-opacity-90 line-clamp-1 h-auto   overflow-hidden text-center  text-wrap    ">
-                    {value.name}
-                  </p>
-                </span>
-              </div>
+              <ImageProfileUnavailable alt={value.name} />
             )}
             <div className="w-full mt-2 text-center h-fit">
               <p className="label line-clamp-2">{value.name}</p>
@@ -123,9 +111,6 @@ export function CardMovie({ data }: { data: MovieClient | MovieType }) {
         <img
           src={`https://image.tmdb.org/t/p/w342${data.poster_path}`}
           alt={data.title}
-          height={330}
-          width={220}
-          sizes="150px"
           className="rounded-lg w-auto mid-shadow"
         />
       </Link>
@@ -133,11 +118,11 @@ export function CardMovie({ data }: { data: MovieClient | MovieType }) {
   } else {
     return (
       <Link href={`/movie/${data.id}`} className="w-full">
-        <div className="rounded-lg flex flex-col justify-between items-center pb-10 pt-5  w-full h-full overflow-hidden   break-words aspect-[18/27] unavailable mid-shadow">
-          <p className="textBtn text-opacity-30 text-wrap place-items-center w-min text-center ">
+        <div className="rounded-lg flex flex-col justify-between items-center pb-10 pt-5  w-full h-full overflow-hidden break-words aspect-[2/3] unavailable mid-shadow">
+          <p className="textBtn text-opacity-30 text-wrap w-min text-center">
             imagem indisponível
           </p>
-          <p className="textBtn  font-extrabold text-2xl  text-wrap place-items-center  ">
+          <p className="textBtn font-extrabold text-2xl text-wrap">
             {data.title}
           </p>
         </div>
