@@ -234,7 +234,11 @@ export default async function Movie({
           </dl>
         </div>
       </div>
-      <Videos videosArray={data.videos.results} />
+      
+      {data.videos.results.length >= 1 && (
+        <Videos videosArray={data.videos.results} />
+      )}
+
       <div>
         <SubTitle>Mais detalhes</SubTitle>
 
