@@ -9,7 +9,7 @@ import {
   TypeBtnGenres,
   TypeBtnProvider,
 } from "@/components/utils/types";
-import { Break, LoadingCards } from "@/components/frame";
+import { Break, MovieCards } from "@/components/frame";
 import { fetchMovies } from "./actions";
 import { MapCardMovie } from "./comps";
 import { Container } from "@/components/frame";
@@ -60,7 +60,7 @@ export function ScrollPages({
     <>
       <MapCardMovie data={movies.results} />
       {movies.current_page < 400 && movies.current_page < totalPages && (
-        <LoadingCards size={5} />
+        <MovieCards id={"loadC"} size={5} style="xl:col-span-3 2xl:col-span-4" xs={4} xl={4} />
       )}
     </>
   );

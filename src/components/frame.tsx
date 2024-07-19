@@ -38,23 +38,57 @@ export function Break({
   );
 }
 
-export function LoadingCards({ size = 20 }: { size?: number }) {
+export function MovieCards({
+  id,
+  size = 6,
+  base = 2,
+  xs = 3,
+  md = 4,
+  lg = 5,
+  xl = 6,
+  style,
+}: {
+  id: string;
+  size?: number;
+  base?: number;
+  xs?: number;
+  md?: number;
+  lg?: number;
+  xl?: number;
+  style?: string;
+}) {
   const skeleton = [];
 
   for (let i = 0; i < size; i++) {
     skeleton.push(
-      <div
+      <li
         key={i}
-        id={`loadC${i}`}
-        className={`gridColSpanMovie ${size <= 5 && i >= 2 && "max-xs:hidden"} 
-      ${size <= 5 && i >= 4 && "max-lg:hidden"} ${
-          size <= 5 && i >= 4 && "xl:hidden"
-        }`}
+        id={id + i}
+        className={`gridColSpanMovie ${style} 
+        ${size <= 6 && i >= base && "max-xs:hidden"} 
+        ${size <= 6 && i >= xs && "xs:max-md:hidden"} 
+        ${size <= 6 && i >= md && "md:max-lg:hidden"} 
+        ${size <= 6 && i >= lg && "lg:max-xl:hidden"} 
+        ${size <= 6 && i >= xl && "xl:max-2xl:hidden"}`}
       >
-        <div className="w-full aspect-[18/27] unavailable  animate-pulse rounded-lg mid-shadow" />
-      </div>
+        <div className="w-full aspect-[2/3] unavailable  animate-pulse rounded-lg mid-shadow" />
+      </li>
     );
   }
 
   return skeleton;
+}
+
+export function SkeletonListMovie() {
+  return (
+    <section className="bg-nightDew-100 relative before:bg-nightDew-100  before:w-screen before:h-full before:absolute before:bottom-0 before:left-[50%] before:translate-x-[-50%] before:z-[-1]">
+      <div className="py-2 xs:py-[1rem] lg:py-6 blockContainer-x">
+        <div className="h-6 w-24 rounded-lg mb-2 bg-nightDew-600/20" />
+      </div>
+
+      <ul className="ListSpacing items-end">
+        <MovieCards id="Recommendations" />
+      </ul>
+    </section>
+  );
 }

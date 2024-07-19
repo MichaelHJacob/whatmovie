@@ -1,6 +1,6 @@
 import { Container } from "@/components/frame";
 import FilterSideMenu from "@/app/filter/compsClient";
-import { LoadingCards } from "@/components/frame";
+import { MovieCards } from "@/components/frame";
 import { Suspense } from "react";
 import { NavBar } from "@/components/comps";
 
@@ -12,7 +12,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
         fallback={
           <Container>
             <div className="w-full gridTemplateSpace itens-center blockContainer">
-              <LoadingCards />
+              <MovieCards id="filter" size={20} />
             </div>
           </Container>
         }

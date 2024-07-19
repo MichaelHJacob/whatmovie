@@ -11,7 +11,7 @@ import {
   Stream,
   People,
 } from "@/components/movie/comps";
-import { CardInformation, Container, LoadingCards } from "@/components/frame";
+import { CardInformation, Container, SkeletonListMovie } from "@/components/frame";
 import { Metadata } from "next";
 
 async function getDetails(id: string) {
@@ -362,6 +362,16 @@ export default async function Movie({
 
 
       <Suspense fallback={<LoadingCards size={5} />}>
+      <p> pontuação : {data.vote_average.toFixed(1)} </p>
+      <p> votos : {data.vote_count} </p>
+      {data.genres && <>{data.genres.map((value) => value.id).join(", ")}</>}
+      {data.genres && <>{data.genres.map((value) => value.name).join(", ")}</>} */}
+   
+      <Suspense
+        fallback={
+          <SkeletonListMovie />
+        }
+      >
         <GetRecommendations
           movieID={params.movieId}
           rootFilm={{
