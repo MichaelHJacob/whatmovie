@@ -234,7 +234,7 @@ export default async function Movie({
           </dl>
         </div>
       </div>
-      
+
       {data.videos.results.length >= 1 && (
         <Videos videosArray={data.videos.results} />
       )}
@@ -359,13 +359,6 @@ export default async function Movie({
         </div>
       </div>
       <People cast={data.credits.cast} crew={data.credits.crew} />
-
-
-      <Suspense fallback={<LoadingCards size={5} />}>
-      <p> pontuação : {data.vote_average.toFixed(1)} </p>
-      <p> votos : {data.vote_count} </p>
-      {data.genres && <>{data.genres.map((value) => value.id).join(", ")}</>}
-      {data.genres && <>{data.genres.map((value) => value.name).join(", ")}</>} */}
    
       <Suspense
         fallback={
