@@ -5,7 +5,7 @@ export function MapCardMovie({data}:{data: MovieClient[] | MovieType[]}) {
   return (
     <>
       {data.map((value) => (
-        <li className="gridColSpanMovie xl:col-span-3 2xl:col-span-4 h-min" key={value.id}>
+        <li className="gridColSpanMovie xl:col-span-3 2xl:col-span-4 h-auto " key={value.id}>
           <CardMovie data={value} />
         </li>
       ))}
