@@ -114,7 +114,7 @@ export async function GetDirector({ movieID }: { movieID: string }) {
 }
 
 export function Stream({ WMBR }: { WMBR?: Provider }) {
-  if(WMBR !== undefined && WMBR.flatrate.length >= 1 ){
+  if(WMBR.flatrate !== undefined && WMBR.flatrate.length >= 1 ){
   return (
     <>
       <dt className="label mb-2 text-nightDew-200 font-bold">Disponível em:</dt>
