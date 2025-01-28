@@ -5,6 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-    }
+    },
+    sitemap: 'https://whatmovie.com.br/sitemap.xml',
   }
 }
