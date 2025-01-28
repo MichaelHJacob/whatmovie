@@ -20,7 +20,7 @@ async function getTheatres() {
   );
 
   if (!res.ok) {
-    throw new Error("Falha ao dados get theatres");
+    throw new Error("Falha ao buscar dados");
   }
   return res.json();
 }
