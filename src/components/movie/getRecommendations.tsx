@@ -1,11 +1,11 @@
 import { SubTitle, ListMovie } from "@/components/comps";
-import { ListControl } from "../client/comps";
+import { ListControl } from "@/components/client/comps";
 import {
   RecommendationsMovie,
   RecommendationsMovieRate,
   RecommendationsType,
-} from "../utils/types";
-import config from "../utils/config";
+} from "@/components/utils/types";
+import config from "@/components/utils/config";
 
 async function getRecommendations(movieID: string, page: number = 1) {
   const options = {

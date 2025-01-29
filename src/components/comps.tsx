@@ -4,9 +4,9 @@ import {
   MovieType,
   PropsPeople,
   RecommendationsMovieRate,
-} from "./utils/types";
+} from "@/components/utils/types";
 import { ReactNode, Suspense } from "react";
-import Search from "./client/search";
+import Search from "@/components/client/search";
 import config from "@/components/utils/config";
 
 export function ListMovie({

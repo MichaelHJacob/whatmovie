@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Break } from "@/components/frame";
 import { LabelH4, SubTitle } from "@/components/comps";
 import { VideosResultsType } from "@/components/utils/types";
-import { ListControl } from "../client/comps";
+import { ListControl } from "@/components/client/comps";
 
 export default function Videos({
   videosArray,

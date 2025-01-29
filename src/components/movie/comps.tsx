@@ -8,8 +8,8 @@ import {
   TranslationsType,
   PropsPeople,
 } from "@/components/utils/types";
-import { ListControl } from "../client/comps";
-import config from "../utils/config";
+import { ListControl } from "@/components/client/comps";
+import config from "@/components/utils/config";
 
 async function getCredits(movieID: string) {
   const options = {

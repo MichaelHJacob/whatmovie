@@ -1,4 +1,4 @@
-import "./globals.css";
+import "@/app/globals.css";
 import type { Metadata, Viewport } from "next";
 import { Caladea, Open_Sans, Source_Sans_3 } from "next/font/google";
 

@@ -1,7 +1,7 @@
 "use client";
 import { ReactNode, useState } from "react";
 import dynamic from "next/dynamic";
-const BtnScrollTo = dynamic(() => import("./button"));
+const BtnScrollTo = dynamic(() => import("@/components/client/button"));
 
 export function ListControl({
   id,

@@ -10,10 +10,12 @@ import {
   TypeBtnProvider,
 } from "@/components/utils/types";
 import { Break, MovieCards } from "@/components/frame";
-import { fetchMovies } from "./actions";
-import { MapCardMovie } from "./comps";
+import { fetchMovies } from "@/app/filter/actions";
+import { MapCardMovie } from "@/app/filter/comps";
 import { Container } from "@/components/frame";
 import config from "@/components/utils/config";
+
+
 
 export function ScrollPages({
   initialData,

@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import Loading from "./loading";
+import Loading from "@/app/movie/[movieId]/loading";
 import { NavBar } from "@/components/comps";
 
 export default function MovieLayout({
