@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { SearchResult, ListGenres } from "../utils/types";
 import Link from "next/link";
+import config from "@/components/utils/config";
 
 export default function Search() {
   const searchParams = useSearchParams();
@@ -166,7 +167,7 @@ export default function Search() {
                         {value.poster_path ? (
                           <img
                             src={
-                              `https://image.tmdb.org/t/p/w185` +
+                              config.imgUrlS02 +
                               value.poster_path
                             }
                             alt={value.title}

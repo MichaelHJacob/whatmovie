@@ -13,6 +13,7 @@ import {
 } from "@/components/movie/comps";
 import { CardInformation, Container, SkeletonListMovie } from "@/components/frame";
 import { Metadata } from "next";
+import config from "@/components/utils/config";
 
 async function getDetails(id: string) {
   const options = {
@@ -23,7 +24,7 @@ async function getDetails(id: string) {
     next: { revalidate: 3600 },
   };
   const res = await fetch(
-    process.env.DB_API_URL +
+    config.apiUrlM +
       id +
       "?append_to_response=videos%2Cwatch%2Fproviders%2Ccredits&language=pt-BR",
     options
@@ -59,7 +60,7 @@ export async function generateMetadata({
     title: data.title.toString(),
     description: data.overview.substring(0, 160),
     openGraph: {
-      images: `https://image.tmdb.org/t/p/w780${data?.poster_path}`,
+      images: `${config.imgUrlL}${data?.poster_path}`,
     },
     robots: {
       index: true,
@@ -80,7 +81,7 @@ export default async function Movie({
   const data: DetailsMovieType = await getDetails(params.movieId);
   if (typeof data.poster_path == "string") {
     var css = await getCssBlurIMG(
-      "https://image.tmdb.org/t/p/w92" + data.poster_path
+      config.imgUrlS01 + data.poster_path
     );
   } else {
     var css = {
@@ -183,9 +184,9 @@ export default async function Movie({
             <div className="aspect-[2/3]  flex justify-start items-center max-md:max-h-[75vh] max-md:min-h-80  relative before:block before:absolute before:w-full before:aspect-[2/3] before:bg-nightDew-600 before:scale-75 before:rounded-xl before:blur-md before:z-20">
               {typeof data.poster_path == "string" ? (
                 <img
-                  srcSet={`https://image.tmdb.org/t/p/w342${data.poster_path} 342w, https://image.tmdb.org/t/p/w500${data.poster_path} 500w, https://image.tmdb.org/t/p/w780${data.poster_path} 780w`}
+                  srcSet={`${config.imgUrlS}${data.poster_path} 342w, ${config.imgUrlM}${data.poster_path} 500w, ${config.imgUrlL}${data.poster_path} 780w`}
                   sizes="(max-width: 342px) 342px, (max-width: 500px) 500px, (max-width: 767px) 780px, (min-width: 768px) 300px, 500px"
-                  src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
+                  src={`${config.imgUrlM}${data.poster_path}`}
                   alt={data.original_title}
                   className="rounded-lg object-contain mid-shadow z-30 contrast-[1.1]
                 "

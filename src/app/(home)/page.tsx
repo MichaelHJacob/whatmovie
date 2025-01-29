@@ -4,6 +4,7 @@ import { SubTitle } from "@/components/comps";
 import { ListMovie } from "@/components/comps";
 import { ListControl } from "@/components/client/comps";
 import Image from "next/image";
+import config from "@/components/utils/config";
 
 async function getTheatres() {
   const options = {
@@ -15,7 +16,7 @@ async function getTheatres() {
   };
 
   const res = await fetch(
-    `${process.env.DB_API_URL}now_playing?language=pt-BR&watch_region=BR&page=1`,
+    `${config.apiUrlM}now_playing?language=pt-BR&watch_region=BR&page=1`,
     options
   );
 

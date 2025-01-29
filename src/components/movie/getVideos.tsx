@@ -1,6 +1,6 @@
+import Videos from "@/components/movie/compsClient";
+import config from "@/components/utils/config";
 import { VideosType } from "@/components/utils/types";
-import Videos from "./compsClient";
-
 
 async function getVideos(movieID: string) {
     const options = {
@@ -10,7 +10,7 @@ async function getVideos(movieID: string) {
       },
     };
     const res = await fetch(
-      process.env.DB_API_URL + movieID + "/videos?language=pt-BR",
+      config.apiUrlM + movieID + "/videos?language=pt-BR",
       options
     );
   

@@ -6,10 +6,10 @@ import {
   Provider,
   WMProviderType,
   TranslationsType,
-  CastType,
   PropsPeople,
 } from "@/components/utils/types";
 import { ListControl } from "../client/comps";
+import config from "../utils/config";
 
 async function getCredits(movieID: string) {
   const options = {
@@ -19,7 +19,7 @@ async function getCredits(movieID: string) {
     },
   };
   const res = await fetch(
-    process.env.DB_API_URL + movieID + "/credits?language=pt-BR",
+    config.apiUrlM + movieID + "/credits?language=pt-BR",
     options
   );
 
@@ -37,7 +37,7 @@ async function getProvider(movieID: string) {
     },
   };
   const res = await fetch(
-    process.env.DB_API_URL + movieID + "/watch/providers",
+    config.apiUrlM + movieID + "/watch/providers",
     options
   );
 
@@ -54,7 +54,7 @@ async function getTranslations(movieID: string) {
     },
   };
   const res = await fetch(
-    process.env.DB_API_URL + movieID + "/translations",
+    config.apiUrlM + movieID + "/translations",
     options
   );
 
@@ -128,8 +128,8 @@ export function Stream({ WMBR }: { WMBR?: Provider }) {
           >
             <img
               className="rounded-xl h-10 w-10 select-none contrast-[1.1]"
-              srcSet={`https://image.tmdb.org/t/p/w92${value.logo_path}, https://image.tmdb.org/t/p/w154${value.logo_path} 2x`}
-              src={`https://image.tmdb.org/t/p/w92${value.logo_path}`}
+              srcSet={`${config.imgUrlS01}${value.logo_path}, ${config.imgUrlS03}${value.logo_path} 2x`}
+              src={`${config.imgUrlS01}${value.logo_path}`}
               alt={`logo ${value.provider_name}`}
             />
             <div

@@ -13,6 +13,7 @@ import { Break, MovieCards } from "@/components/frame";
 import { fetchMovies } from "./actions";
 import { MapCardMovie } from "./comps";
 import { Container } from "@/components/frame";
+import config from "@/components/utils/config";
 
 export function ScrollPages({
   initialData,
@@ -94,7 +95,7 @@ function ProviderButton({
       />
       <img
         className="   w-full object-contain aspect-square opacity-50 grayscale-[90%] hover:grayscale-0 peer-checked:grayscale-0 peer-checked:opacity-100 transition-all duration-500"
-        src={`https://image.tmdb.org/t/p/w342/${provider.logo_path}`}
+        src={`${config.imgUrlS}/${provider.logo_path}`}
         width={44}
         height={44}
         alt={provider.provider_name}

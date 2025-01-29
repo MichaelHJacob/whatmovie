@@ -7,6 +7,7 @@ import {
 } from "./utils/types";
 import { ReactNode, Suspense } from "react";
 import Search from "./client/search";
+import config from "@/components/utils/config";
 
 export function ListMovie({
   data,
@@ -38,8 +39,8 @@ export function ListPeople({
   function ImageProfile({ path, alt }: { path: string; alt: string }) {
     return (
       <img
-        srcSet={`https://image.tmdb.org/t/p/w185${path}, https://image.tmdb.org/t/p/h632${path} 2x`}
-        src={`https://image.tmdb.org/t/p/w185${path}`}
+        srcSet={`${config.imgUrlS02}${path}, https://image.tmdb.org/t/p/h632${path} 2x`}
+        src={`${config.imgUrlS02}${path}`}
         alt={alt}
         loading="lazy"
         className="rounded-full w-full aspect-square object-cover light-shadow contrast-[1.1]"
@@ -109,7 +110,7 @@ export function CardMovie({ data }: { data: MovieClient | MovieType }) {
       <Link href={`/movie/${data.id}`} target="_top">
         {typeof data.poster_path == "string" ? (
           <img
-            src={`https://image.tmdb.org/t/p/w342${data.poster_path}`}
+            src={`${config.imgUrlS}${data.poster_path}`}
             alt={data.title}
             className="rounded-lg mid-shadow w-full aspect-[2/3_auto] block bg-nightDew-300"
           />

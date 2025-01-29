@@ -1,5 +1,6 @@
 import { NowPlaying } from '@/components/utils/types';
 import { MetadataRoute } from 'next'
+import config from "@/components/utils/config";
 
 async function getTheatres() {
   const options = {
@@ -11,7 +12,7 @@ async function getTheatres() {
   };
 
   const res = await fetch(
-    `${process.env.DB_API_URL}now_playing?language=pt-BR&watch_region=BR&page=1`,
+    `${config.apiUrlM}now_playing?language=pt-BR&watch_region=BR&page=1`,
     options
   );
 

@@ -1,5 +1,6 @@
 "use server"
 import { CardMovieType, DiscoverType } from "@/components/utils/types";
+import config from "@/components/utils/config";
 
 async function getFilter(parameters: { [key: string]: string | string[] | undefined }) {
   let certification = "certification.lte=16&certification_country=BR";
@@ -74,7 +75,7 @@ async function getFilter(parameters: { [key: string]: string | string[] | undefi
     }
   };
 
-  let url = `${process.env.DB_API_URL_F}discover/movie?${certification}&include_adult=false&include_video=false&language=pt-BR&page=${page()}${releaseDate()}&region=BR&sort_by=${sortBy()}${vote()}${voteCount}&watch_region=BR${genres()}&with_watch_monetization_types=flatrate%7Cfree%7Cads%7Crent%7Cbuy${providers()}`;
+  let url = `${config.apiUrl}discover/movie?${certification}&include_adult=false&include_video=false&language=pt-BR&page=${page()}${releaseDate()}&region=BR&sort_by=${sortBy()}${vote()}${voteCount}&watch_region=BR${genres()}&with_watch_monetization_types=flatrate%7Cfree%7Cads%7Crent%7Cbuy${providers()}`;
 
   const res = await fetch(url, {
     next: { revalidate: 3600 },

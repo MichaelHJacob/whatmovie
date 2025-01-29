@@ -5,6 +5,7 @@ import {
   RecommendationsMovieRate,
   RecommendationsType,
 } from "../utils/types";
+import config from "../utils/config";
 
 async function getRecommendations(movieID: string, page: number = 1) {
   const options = {
@@ -15,7 +16,7 @@ async function getRecommendations(movieID: string, page: number = 1) {
     next: { revalidate: 3600 },
   };
   const res = await fetch(
-    process.env.DB_API_URL +
+    config.apiUrlM +
       movieID +
       `/recommendations?language=pt-BR&page=${page.toString()}`,
     options
