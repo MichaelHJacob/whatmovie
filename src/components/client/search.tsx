@@ -91,7 +91,7 @@ export default function Search() {
       >
         <span
           className=" group-open:w-11 aspect-square w-0 h-11 inline opacity-0 group-open:opacity-100
-      sm:bg-[url('/close.svg')] bg-[url('/toLeft.svg')] bg-[length:12px_12px] bg-center  bg-no-repeat  rounded-lg backBtn  shadow-lg shadow-transparent px-0"
+      sm:bg-[url('/icons/close.svg')] bg-[url('/icons/toLeft.svg')] bg-[length:12px_12px] bg-center  bg-no-repeat  rounded-lg backBtn  shadow-lg shadow-transparent px-0"
         />
 
         <label
@@ -121,7 +121,7 @@ export default function Search() {
             }}
             type="search"
             autoComplete="off"
-            className="header-backBtn textBtn text-base   pl-9 bg-[url('/lupa.svg')] bg-[length:12px_12px] bg-[center_left_0.9rem]  bg-no-repeat   max-sm:w-full  rounded-lg    shadow-lg shadow-transparent peer order-2 
+            className="header-backBtn textBtn text-base   pl-9 bg-[url('/icons/lupa.svg')] bg-[length:12px_12px] bg-[center_left_0.9rem]  bg-no-repeat   max-sm:w-full  rounded-lg    shadow-lg shadow-transparent peer order-2 
             group-open:bg-nightDew-200  group-open:w-full focus:bg-nightDew-200/80 placeholder:textBtn max-sm:placeholder:text-opacity-0 bg-nightDew-300"
             id="search"
             placeholder="Buscar por filme"

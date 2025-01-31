@@ -327,7 +327,7 @@ export default function FilterSideMenu({
             handle
               ? "rotate-[190deg] animate-rotateToL"
               : "rotate-[0deg] animate-rotateToR order-1"
-          } bg-[url('/toRight.svg')] bg-[length:12px_12px] bg-[center_center] bg-no-repeat transition-all duration-300 `}
+          } bg-[url('/icons/toRight.svg')] bg-[length:12px_12px] bg-[center_center] bg-no-repeat transition-all duration-300 `}
         ></span>
         <span className="textBtn">{handle ? "Fechar" : "Expandir filtro"}</span>
       </button>

@@ -148,7 +148,7 @@ export default function BtnScrollTo({
       >
         <span
           className={`w-3/4 min-h-11 h-[17%] 
-    bg-[url('/toRight.svg')] bg-[length:12px_12px] bg-[center_center] bg-no-repeat  rounded-lg  backdrop-blur-xl  backdrop-saturate-150 bg-white/10 px-0 shadow-lg shadow-transparent group-hover:shadow-nightDew-400/20 group-active/right:bg-selector-200/10 transition-all duration-300`}
+    bg-[url('/icons/toRight.svg')] bg-[length:12px_12px] bg-[center_center] bg-no-repeat  rounded-lg  backdrop-blur-xl  backdrop-saturate-150 bg-white/10 px-0 shadow-lg shadow-transparent group-hover:shadow-nightDew-400/20 group-active/right:bg-selector-200/10 transition-all duration-300`}
         ></span>
       </button>
       <button
@@ -161,7 +161,7 @@ export default function BtnScrollTo({
       >
         <span
           className={`w-3/4 min-h-11 h-[17%] 
-    bg-[url('/toLeft.svg')] bg-[length:12px_12px] bg-[center_center] bg-no-repeat  rounded-lg  backdrop-blur-xl  backdrop-saturate-150 bg-white/10  px-0 shadow-lg shadow-transparent group-hover:shadow-nightDew-400/20 group-active/left:bg-selector-200/20 transition-all duration-300`}
+    bg-[url('/icons/toLeft.svg')] bg-[length:12px_12px] bg-[center_center] bg-no-repeat  rounded-lg  backdrop-blur-xl  backdrop-saturate-150 bg-white/10  px-0 shadow-lg shadow-transparent group-hover:shadow-nightDew-400/20 group-active/left:bg-selector-200/20 transition-all duration-300`}
         ></span>
       </button>
     </>

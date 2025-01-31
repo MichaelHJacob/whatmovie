@@ -32,11 +32,11 @@ export default async function Home() {
   return (
     <Container>
       <div className="min-h-dvh  w-full flex flex-col justify-between">
-        <div className="w-full blockContainer-x aspect-[2.5/1]  landscape:min-h-96 flex-1 mx-auto flex justify-start items-center bg-[url('/vetorWmOpacity.svg')] bg-no-repeat bg-[center_right_calc(300px*0.3*-1)] bg-[length:300px_300px] ">
+        <div className="w-full blockContainer-x aspect-[2.5/1]  landscape:min-h-96 flex-1 mx-auto flex justify-start items-center bg-[url('/logo/vetorWmOpacity.svg')] bg-no-repeat bg-[center_right_calc(300px*0.3*-1)] bg-[length:300px_300px] ">
           <div className="flex gap-[--gapLG] items-center h-auto relative">
             <Image
               className="object-contain relative h-20 drop-shadow-2xl"
-              src="/logoWM.png"
+              src="/logo/logoWM.png"
               alt="What Movie Logo"
               width={80}
               height={80}

@@ -164,7 +164,7 @@ export function NavBar({ fixed, dark }: { fixed?: boolean; dark?: boolean }) {
           }`}
         >
           <img
-            src="/filterIcon.svg"
+            src="/icons/filterIcon.svg"
             className={`w-6 h-6 ${dark && "invert"}`}
             width={24}
             height={24}
@@ -185,7 +185,7 @@ export function NavBar({ fixed, dark }: { fixed?: boolean; dark?: boolean }) {
          `}
           >
             <img
-              src="/wmIcon.svg"
+              src="/logo/wmIcon.svg"
               className={`w-5 h-5 ${dark && "invert"}`}
               alt="What Movie Logo"
               width={20}

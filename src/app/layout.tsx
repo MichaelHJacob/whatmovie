@@ -23,7 +23,7 @@ const caladea = Caladea({
 export const metadata: Metadata = {
   title: "What Movie",
   description: "O filme para sua escolha certa!",
-  metadataBase: new URL("https://wm-whatmovie.vercel.app"),
+  metadataBase: new URL("https://whatmovie.com.br"),
   openGraph: {
     images: "/icon4.png",
   },
