@@ -31,7 +31,7 @@ async function getFilter(parameters: { [key: string]: string | string[] | undefi
     if (typeof parameters?.g === "string") {
       let genres = parameters?.g.split(",");
       if (
-        genres.includes("27" || "36" || "9648" || "10749" || "53" || "10752")
+        ["27", "36", "9648", "10749", "53", "10752"].some(value => genres.includes(value))
       ) {
         certification = "";
         return `&with_genres=${encodeURIComponent(parameters?.g)}`;
