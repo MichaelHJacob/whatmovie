@@ -29,7 +29,7 @@ async function getFilter(parameters: { [key: string]: string | string[] | undefi
 
   const genres = () => {
     if (typeof parameters?.g === "string") {
-      let genres = parameters?.g.split(",");
+      const genres = parameters?.g.split(",");
       if (
         ["27", "36", "9648", "10749", "53", "10752"].some(value => genres.includes(value))
       ) {
@@ -44,7 +44,7 @@ async function getFilter(parameters: { [key: string]: string | string[] | undefi
   };
 
   const releaseDate = () => {
-    let date: Date = new Date();
+    const date: Date = new Date();
     return `&primary_release_date.lte=${date.getFullYear()}-${date.getMonth() < 9 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
       }-${date.getDate() <= 9 ? `0${date.getDate()}` : date.getDate()}`;
   };
@@ -75,7 +75,7 @@ async function getFilter(parameters: { [key: string]: string | string[] | undefi
     }
   };
 
-  let url = `${config.apiUrl}discover/movie?${certification}&include_adult=false&include_video=false&language=pt-BR&page=${page()}${releaseDate()}&region=BR&sort_by=${sortBy()}${vote()}${voteCount}&watch_region=BR${genres()}&with_watch_monetization_types=flatrate%7Cfree%7Cads%7Crent%7Cbuy${providers()}`;
+  const url = `${config.apiUrl}discover/movie?${certification}&include_adult=false&include_video=false&language=pt-BR&page=${page()}${releaseDate()}&region=BR&sort_by=${sortBy()}${vote()}${voteCount}&watch_region=BR${genres()}&with_watch_monetization_types=flatrate%7Cfree%7Cads%7Crent%7Cbuy${providers()}`;
 
   const res = await fetch(url, {
     next: { revalidate: 3600 },

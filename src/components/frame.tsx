@@ -29,7 +29,7 @@ export function CardInformation({ children }: { children: ReactNode }) {
 export function Break({
   color = "border-nightDew-600/10",
 }: {
-  color?: String;
+  color?: string;
 }) {
   return (
     <hr

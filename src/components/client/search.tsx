@@ -10,9 +10,9 @@ export default function Search() {
   const [dataGenres, setGenres] = useState<ListGenres | null>(null);
   const [data, setData] = useState<SearchResult[] | null>(null);
   const [term, setTerm] = useState("");
-  let timeGet = useRef<ReturnType<typeof setInterval> | null>(null);
-  let details = useRef<HTMLDetailsElement | null>(null);
-  let input = useRef<HTMLInputElement | null>(null);
+  const timeGet = useRef<ReturnType<typeof setInterval> | null>(null);
+  const details = useRef<HTMLDetailsElement | null>(null);
+  const input = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     fetch("/api/genres")
@@ -24,7 +24,7 @@ export default function Search() {
 
   function handleSearch(term: string) {
     setTerm(term);
-    timeGet.current && clearTimeout(timeGet.current);
+    if (timeGet.current) { clearTimeout(timeGet.current) };
     if (term.length > 1 && term !== " ") {
       timeGet.current = setTimeout(() => {
         getData(term);
@@ -42,7 +42,7 @@ export default function Search() {
   }
 
   function formatGenres(genres: number[]) {
-    let result = genres.map((value) =>
+    const result = genres.map((value) =>
       dataGenres?.genres.find((element) => element.id == value)
     );
     return result.map((term) => term?.name).join(", ");
@@ -66,7 +66,7 @@ export default function Search() {
         if (details.current !== null) {
           if (details.current.hasAttribute("open")) {
             details.current.toggleAttribute("open");
-            input.current && input.current.blur();
+            if(input.current) {input.current.blur()};
           }
         }
       }}
@@ -135,7 +135,7 @@ export default function Search() {
 
       <div
         onTouchMove={() => {
-          input.current && input.current.blur();
+          if (input.current) {input.current.blur()};
         }}
         className="   max-sm:fixed absolute top-0 left-0 sm:left-1 z-0  overflow-y-auto h-dvh   overscroll-contain no-scrollbar box-content sm:w-[calc(100%+var(--pXS))] md:w-[calc(100%+var(--pMD))] lg:w-[calc(100%+var(--pLG))] xl:pr-[calc((100vw-1280px)/2)] max-sm:w-screen bg-nightDew-200/80 backdrop-contrast-100  backdrop-saturate-200 backdrop-blur-2xl animate-show  duration-300 bg-gradient-to-b from-nightDew-200 "
       >

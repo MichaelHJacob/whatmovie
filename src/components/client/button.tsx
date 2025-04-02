@@ -23,7 +23,7 @@ export default function BtnScrollTo({
     typeof parentSdR == "number"
   ) {
     parent.addEventListener("scroll", () => {
-      let left = document.getElementById(id + String(0));
+      const left = document.getElementById(id + String(0));
       if (left !== null) {
         if (left.getBoundingClientRect().left < parentSdL) {
           setLeft(true);
@@ -31,9 +31,9 @@ export default function BtnScrollTo({
           setLeft(false);
         }
       }
-      let right = document.getElementById(id + String(length - 1));
+      const right = document.getElementById(id + String(length - 1));
       if (right !== null && typeof parentSdR == "number") {
-        let rightP = right.getBoundingClientRect().right;
+        const rightP = right.getBoundingClientRect().right;
         if (rightP !== null && rightP < parentSdR) {
           setRight(false);
         } else {
@@ -42,6 +42,17 @@ export default function BtnScrollTo({
       }
     });
   }
+
+  function scroll(element: HTMLElement | null) {
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "nearest",
+      })
+    }
+  }
+
 
   function toRight() {
     if (
@@ -53,7 +64,7 @@ export default function BtnScrollTo({
       let visible = 0;
 
       do {
-        let atual = document.getElementById(id + String(i));
+        const atual = document.getElementById(id + String(i));
         if (
           atual !== null &&
           atual.getBoundingClientRect().right < parentSdR &&
@@ -65,21 +76,12 @@ export default function BtnScrollTo({
           atual.getBoundingClientRect().right > parentSdR
         ) {
           if (i == length - 1 || i - 1 + visible >= length - 1) {
-            let last = document.getElementById(id + String(length - 1));
-            last !== null &&
-              last.scrollIntoView({
-                behavior: "smooth",
-                block: "nearest",
-                inline: "nearest",
-              });
+            const last = document.getElementById(id + String(length - 1));
+           scroll(last) 
+
           } else {
-            let last = document.getElementById(id + String(i - 1 + visible));
-            last !== null &&
-              last.scrollIntoView({
-                behavior: "smooth",
-                block: "nearest",
-                inline: "nearest",
-              });
+            const last = document.getElementById(id + String(i - 1 + visible));
+            scroll(last)
             i = length;
           }
         }
@@ -98,7 +100,7 @@ export default function BtnScrollTo({
       let visible = 0;
       let i = length - 1;
       do {
-        let atual = document.getElementById(id + String(i));
+        const atual = document.getElementById(id + String(i));
         if (
           atual !== null &&
           atual.getBoundingClientRect().right < parentSdR &&
@@ -110,21 +112,11 @@ export default function BtnScrollTo({
           atual.getBoundingClientRect().left < parentSdL
         ) {
           if (i == 0 || i + 1 - visible <= 0) {
-            let last = document.getElementById(id + "0");
-            last !== null &&
-              last.scrollIntoView({
-                behavior: "smooth",
-                block: "nearest",
-                inline: "nearest",
-              });
+            const last = document.getElementById(id + "0");
+            scroll(last)
           } else {
-            let last = document.getElementById(id + String(i + 1 - visible));
-            last !== null &&
-              last.scrollIntoView({
-                behavior: "smooth",
-                block: "nearest",
-                inline: "nearest",
-              });
+            const last = document.getElementById(id + String(i + 1 - visible));
+            scroll(last)
             i = 0;
           }
         }
@@ -140,11 +132,10 @@ export default function BtnScrollTo({
         className={`w-[--p] xs:w-[--pXS] md:w-[--pMD] lg:w-[--pLG] h-full absolute right-[-1px] bg-gradient-to-l
           bg-inherit ${surface ? 'from-nightDew-100 via-nightDew-100/70' : 'from-nightDew-200 via-nightDew-200/70'}
            to-transparent z-50 
-       flex justify-center items-center group/right ${
-         right
-           ? "group-hover:animate-show group-hover:opacity-100 animate-hidden opacity-0 "
-           : "opacity-0"
-       }`}
+       flex justify-center items-center group/right ${right
+            ? "group-hover:animate-show group-hover:opacity-100 animate-hidden opacity-0 "
+            : "opacity-0"
+          }`}
       >
         <span
           className={`w-3/4 min-h-11 h-[17%] 
@@ -153,11 +144,10 @@ export default function BtnScrollTo({
       </button>
       <button
         onClick={toLeft}
-        className={`w-[--p] xs:w-[--pXS] md:w-[--pMD] lg:w-[--pLG] h-full absolute left-[-1px] bg-gradient-to-r ${surface ? 'from-nightDew-100 via-nightDew-100/70' : 'from-nightDew-200 via-nightDew-200/70'} to-transparent backdrop-blur-sm z-50  flex justify-center items-center  group/left ${
-          left
-            ? "group-hover:animate-show group-hover:opacity-100 animate-hidden opacity-0"
-            : "opacity-0"
-        }  `}
+        className={`w-[--p] xs:w-[--pXS] md:w-[--pMD] lg:w-[--pLG] h-full absolute left-[-1px] bg-gradient-to-r ${surface ? 'from-nightDew-100 via-nightDew-100/70' : 'from-nightDew-200 via-nightDew-200/70'} to-transparent backdrop-blur-sm z-50  flex justify-center items-center  group/left ${left
+          ? "group-hover:animate-show group-hover:opacity-100 animate-hidden opacity-0"
+          : "opacity-0"
+          }  `}
       >
         <span
           className={`w-3/4 min-h-11 h-[17%] 

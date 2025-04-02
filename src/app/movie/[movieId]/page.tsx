@@ -25,8 +25,8 @@ async function getDetails(id: string) {
   };
   const res = await fetch(
     config.apiUrlM +
-      id +
-      "?append_to_response=videos%2Cwatch%2Fproviders%2Ccredits&language=pt-BR",
+    id +
+    "?append_to_response=videos%2Cwatch%2Fproviders%2Ccredits&language=pt-BR",
     options
   );
 
@@ -79,17 +79,16 @@ export default async function Movie({
   params: { movieId: string };
 }) {
   const data: DetailsMovieType = await getDetails(params.movieId);
+  let css = {
+    backgroundImage: "linear-gradient(to top right, #075985, #3e131ca8)",
+    backgroundPosition: "center",
+    backgroundSize: "contain",
+    backgroundRepeat: "no-repeat",
+  };
   if (typeof data.poster_path == "string") {
-    var css = await getCssBlurIMG(
+    css = await getCssBlurIMG(
       config.imgUrlS01 + data.poster_path
-    );
-  } else {
-    var css = {
-      backgroundImage: "linear-gradient(to top right, #075985, #3e131ca8)",
-      backgroundPosition: "center",
-      backgroundSize: "contain",
-      backgroundRepeat: "no-repeat",
-    };
+    )
   }
 
   if (!data || !params.movieId) {
@@ -122,8 +121,8 @@ export default async function Movie({
   }
 
   function formatNumber(n: number) {
-    let int = Math.trunc(n);
-    let length = `${int}`.length;
+    const int = Math.trunc(n);
+    const length = `${int}`.length;
 
     if (length <= 6) {
       return (
@@ -277,7 +276,7 @@ export default async function Movie({
               <>
                 <dt className="label">Gêneros:</dt>
                 <dd className="data mb-2">
-                  {data.genres.map((value, i, a) => value.name).join(", ")}
+                  {data.genres.map((value) => value.name).join(", ")}
                 </dd>
               </>
             )}
@@ -360,7 +359,7 @@ export default async function Movie({
         </div>
       </div>
       <People cast={data.credits.cast} crew={data.credits.crew} />
-   
+
       <Suspense
         fallback={
           <SkeletonListMovie />

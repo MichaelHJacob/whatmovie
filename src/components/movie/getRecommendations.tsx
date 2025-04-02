@@ -60,7 +60,7 @@ export function compare(
   function period(rcmDate: string) {
     const date = new Date();
     const year = date.getFullYear();
-    let rcmYear = rcmDate.split("-");
+    const rcmYear = rcmDate.split("-");
     if (rcmYear.length !== 3 || typeof year !== "number") {
       return 11;
     } else {
@@ -79,7 +79,7 @@ export function compare(
     root.genres_id.forEach((rootValue, iRoot) => {
       value.genre_ids.forEach((rcm, iRcm) => {
         if (rootValue == rcm) {
-          let variation = 1 + (iRcm > iRoot ? iRcm - iRoot : iRoot - iRcm);
+          const variation = 1 + (iRcm > iRoot ? iRcm - iRoot : iRoot - iRcm);
           score =
             variation == 1
               ? score + pointRoot[iRoot]
@@ -97,7 +97,7 @@ export function compare(
                   case 53:
                   case 80:
                   case 10749:
-                    let variation =
+                    const variation =
                       1 + (iRcm > iRoot ? iRcm - iRoot : iRoot - iRcm);
                     score =
                       variation == 1
@@ -116,7 +116,7 @@ export function compare(
                   case 10749:
                   case 18:
                   case 10752:
-                    let variation =
+                    const variation =
                       1 + (iRcm > iRoot ? iRcm - iRoot : iRoot - iRcm);
                     score =
                       variation == 1
@@ -131,7 +131,7 @@ export function compare(
                   case 27:
                   case 80:
                   case 53:
-                    let variation =
+                    const variation =
                       1 + (iRcm > iRoot ? iRcm - iRoot : iRoot - iRcm);
                     score =
                       variation == 1
@@ -144,7 +144,7 @@ export function compare(
               case 12:
                 switch (rcm) {
                   case 10749:
-                    let variation =
+                    const variation =
                       1 + (iRcm > iRoot ? iRcm - iRoot : iRoot - iRcm);
                     score =
                       variation == 1
@@ -157,7 +157,7 @@ export function compare(
               case 14:
                 switch (rcm) {
                   case 80:
-                    let variation =
+                    const variation =
                       1 + (iRcm > iRoot ? iRcm - iRoot : iRoot - iRcm);
                     score =
                       variation == 1
@@ -171,7 +171,7 @@ export function compare(
                 switch (rcm) {
                   case 878:
                   case 28:
-                    let variation =
+                    const variation =
                       1 + (iRcm > iRoot ? iRcm - iRoot : iRoot - iRcm);
                     score =
                       variation == 1
@@ -209,9 +209,9 @@ export function compare(
     return time > 30 ? 50 : ((30 - time) / 30) * 0.5 * 100 + 50;
   }
 
-  let rate = Math.trunc(value.vote_average * 10);
+  const rate = Math.trunc(value.vote_average * 10);
 
-  let result =
+  const result =
     date() * 0.02 + rate * 0.01 + pop() * 0.04 + vote() * 0.43 + genre() * 0.55;
 
   return Math.trunc(result);

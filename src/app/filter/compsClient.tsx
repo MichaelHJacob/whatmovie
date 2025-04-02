@@ -1,6 +1,6 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
 import {
   CardMovieType,
   ArrayMoviesType,
@@ -32,18 +32,7 @@ export function ScrollPages({
   });
   const npRef = useRef<number>(initialData.page || 1);
 
-  async function getData(nPage: number) {
-    parameters.page = nPage.toString();
 
-    const moviesData: CardMovieType = await fetchMovies(parameters);
-
-    setMovies((prev) => {
-      return {
-        current_page: moviesData.page,
-        results: [...prev.results, ...moviesData.results],
-      };
-    });
-  }
 
   useEffect(() => {
     const observerCard = document.getElementById("loadC0");
@@ -55,9 +44,23 @@ export function ScrollPages({
           getData(npRef.current);
         }
       });
-      document !== null && observer.observe(observerCard);
+      observer.observe(observerCard);
     }
-  }, []);
+
+    async function getData(nPage: number) {
+      parameters.page = nPage.toString();
+
+      const moviesData: CardMovieType = await fetchMovies(parameters);
+
+      setMovies((prev) => {
+        return {
+          current_page: moviesData.page,
+          results: [...prev.results, ...moviesData.results],
+        };
+      });
+    }
+
+  }, [parameters]);
 
   return (
     <>
@@ -146,6 +149,15 @@ function GenreButton({
   add: (picked: TypeBtnGenres) => void;
   remove: (picked: TypeBtnGenres) => void;
 }) {
+
+  function handleCheckbox(e: ChangeEvent<HTMLInputElement>) {
+    if (e.target.checked) {
+      add(genre)
+    } else {
+      remove(genre)
+    }
+  }
+
   return (
     <label
       htmlFor={`option${genre.id}`}
@@ -156,9 +168,7 @@ function GenreButton({
         type="checkbox"
         value={genre.name}
         checked={genre.state}
-        onChange={(e) => {
-          e.target.checked ? add(genre) : remove(genre);
-        }}
+        onChange={handleCheckbox}
         name={`option${genre.id}`}
         className="peer bg-transparent absolute appearance-none opacity-0 "
       />
@@ -190,7 +200,7 @@ function GenreSelector({
         </legend>
 
         <ul className="h-auto  flex flex-wrap justify-start gap-2 select-none transition duration-150 ease-out hover:ease-in blockContainer-x">
-          {genres.map((value, index) => (
+          {genres.map((value) => (
             <li key={value.id}>
               <GenreButton genre={value} add={add} remove={remove} />
             </li>
@@ -206,11 +216,11 @@ export default function FilterSideMenu({
 }: {
   children: React.ReactNode;
 }) {
-  const { replace, push } = useRouter();
+  const { replace } = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const params = new URLSearchParams(searchParams);
-  let timeId = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
+  const params = useMemo(() => new URLSearchParams(searchParams), [searchParams])
+  const timeId = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
   const divFilters = useRef<HTMLDivElement>(null);
 
   const [handle, setHandle] = useState(false);
@@ -290,22 +300,21 @@ export default function FilterSideMenu({
               state: activeGenres.includes(`${value.provider_id}`),
             };
           })
-        ),
-          setRProviders(
-            data.results.map((value) => {
-              return {
-                logo_path: value.logo_path,
-                provider_name: value.provider_name,
-                provider_id: value.provider_id,
-                state: false,
-              };
-            })
-          );
+        );
+
+        setRProviders(
+          data.results.map((value) => {
+            return {
+              logo_path: value.logo_path,
+              provider_name: value.provider_name,
+              provider_id: value.provider_id,
+              state: false,
+            };
+          })
+        );
       });
 
-    const element = document.getElementById("Movies");
-    if (element) element.scrollIntoView();
-  }, []);
+  }, [params]);
 
   function BtnScroll() {
     function open() {
@@ -323,11 +332,10 @@ export default function FilterSideMenu({
       main-backBtn backBtn  xl:hidden  "
       >
         <span
-          className={`w-[12px] h-[12px] ${
-            handle
-              ? "rotate-[190deg] animate-rotateToL"
-              : "rotate-[0deg] animate-rotateToR order-1"
-          } bg-[url('/icons/toRight.svg')] bg-[length:12px_12px] bg-[center_center] bg-no-repeat transition-all duration-300 `}
+          className={`w-[12px] h-[12px] ${handle
+            ? "rotate-[190deg] animate-rotateToL"
+            : "rotate-[0deg] animate-rotateToR order-1"
+            } bg-[url('/icons/toRight.svg')] bg-[length:12px_12px] bg-[center_center] bg-no-repeat transition-all duration-300 `}
         ></span>
         <span className="textBtn">{handle ? "Fechar" : "Expandir filtro"}</span>
       </button>
@@ -366,10 +374,10 @@ export default function FilterSideMenu({
       searchParams?.get("vote_lte") || "10"
     );
 
-    let leftSide = `${Math.floor((minRange / 10) * 100)}%`;
-    let rightSide = `${Math.floor((1 - maxRange / 10) * 100)}%`;
-    let timeIdMin = useRef<ReturnType<typeof setInterval> | null>(null);
-    let timeIdMax = useRef<ReturnType<typeof setInterval> | null>(null);
+    const leftSide = `${Math.floor((minRange / 10) * 100)}%`;
+    const rightSide = `${Math.floor((1 - maxRange / 10) * 100)}%`;
+    const timeIdMin = useRef<ReturnType<typeof setInterval> | null>(null);
+    const timeIdMax = useRef<ReturnType<typeof setInterval> | null>(null);
 
     function toParams(min: string, max: string) {
       params.set("vote_gte", `${min}`);
@@ -392,7 +400,7 @@ export default function FilterSideMenu({
     }
 
     function numberMin(e: ChangeEvent<HTMLInputElement>) {
-      let valor = Number(e.target.value);
+      const valor = Number(e.target.value);
       if (timeIdMin.current) {
         clearTimeout(timeIdMin.current);
       }
@@ -435,7 +443,7 @@ export default function FilterSideMenu({
     }
 
     function numberMax(e: ChangeEvent<HTMLInputElement>) {
-      let valor = Number(e.target.value);
+      const valor = Number(e.target.value);
       if (timeIdMax.current) {
         clearTimeout(timeIdMax.current);
       }
@@ -542,8 +550,8 @@ export default function FilterSideMenu({
                 step={0.1}
                 value={minRange}
                 onChange={(e) => handleMinRange(Number(e.target.value))}
-                onMouseUp={(e) => toParams(String(minRange), maxNumber)}
-                onTouchEnd={(e) => toParams(String(minRange), maxNumber)}
+                onMouseUp={() => toParams(String(minRange), maxNumber)}
+                onTouchEnd={() => toParams(String(minRange), maxNumber)}
               />
               <input
                 type="range"
@@ -553,8 +561,8 @@ export default function FilterSideMenu({
                 step={0.1}
                 value={maxRange}
                 onChange={(e) => handleMaxRange(Number(e.target.value))}
-                onMouseUp={(e) => toParams(minNumber, String(maxRange))}
-                onTouchEnd={(e) => toParams(minNumber, String(maxRange))}
+                onMouseUp={() => toParams(minNumber, String(maxRange))}
+                onTouchEnd={() => toParams(minNumber, String(maxRange))}
               />
             </div>
           </div>
@@ -689,7 +697,7 @@ export default function FilterSideMenu({
       ]);
     }
 
-    let getTrue = usualG
+    const getTrue = usualG
       .filter((value) => value.state == true)
       .map((value) => value.id);
     getTrue.push(picked.id);
@@ -730,7 +738,7 @@ export default function FilterSideMenu({
       })
     );
 
-    let getTrue = usualG
+    const getTrue = usualG
       .filter((value) => value.state == true)
       .map((value) => value.id)
       .filter((value) => value !== picked.id);
@@ -804,7 +812,7 @@ export default function FilterSideMenu({
       ]);
     }
 
-    let getTrue = usualP
+    const getTrue = usualP
       .filter((value) => value.state == true)
       .map((value) => value.provider_id);
 
@@ -848,7 +856,7 @@ export default function FilterSideMenu({
       })
     );
 
-    let getTrue = usualP
+    const getTrue = usualP
       .filter((value) => value.state == true)
       .map((value) => value.provider_id)
       .filter((value) => value !== picked.provider_id);

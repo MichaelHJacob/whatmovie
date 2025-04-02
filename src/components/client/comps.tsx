@@ -20,10 +20,10 @@ export function ListControl({
     const element = document.getElementById(id);
     
     if (element !== null) {
-      let width = element.getBoundingClientRect().right;
+      const width = element.getBoundingClientRect().right;
       let i = 0;
       do {
-        let atual = document.getElementById(id + String(i));
+        const atual = document.getElementById(id + String(i));
         if (atual !== null) {
          
           if (atual.getBoundingClientRect().right > width || atual.getBoundingClientRect().left < 0) {
