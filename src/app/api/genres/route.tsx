@@ -12,7 +12,7 @@ export async function GET() {
   );
 
   if (!res.ok) {
-    throw new Error("Falha ao buscar dados de gêneros");
+    throw new Error("Falha ao buscar dados");
   }
 
   const data = await res.json();

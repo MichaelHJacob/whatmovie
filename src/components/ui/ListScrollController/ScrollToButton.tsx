@@ -2,15 +2,14 @@
 
 import { useState } from "react";
 
-export default function BtnScrollTo({
-  id,
-  length,
-  surface,
-}: {
-  id: string;
+type ScrollToButtonProps = { id: string;
   length: number;
   surface?: boolean;
-}) {
+ };
+
+export default function ScrollToButton({ id,
+  length,
+  surface, } : ScrollToButtonProps ){
   const [left, setLeft] = useState(false);
   const [right, setRight] = useState(true);
   const parent = document.getElementById(id);

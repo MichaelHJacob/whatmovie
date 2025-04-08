@@ -1,4 +1,4 @@
-export interface TranslationsType {
+export type TranslationsType = {
   id: number;
   translations: {
     iso_3166_1: string;
@@ -15,7 +15,7 @@ export interface TranslationsType {
   }[];
 }
 
-export interface WMProviderType {
+export type WMProviderType = {
   id: number;
   results: {
     BR?: Provider;
@@ -23,7 +23,7 @@ export interface WMProviderType {
   };
 }
 
-export interface Provider {
+export type Provider = {
   link: string;
   flatrate: {
     logo_path: string;
@@ -45,7 +45,7 @@ export interface Provider {
   }[];
 }
 
-export interface MovieProviders {
+export type MovieProviders = {
   results: {
     display_priorities: object;
     display_priority: number;
@@ -55,20 +55,20 @@ export interface MovieProviders {
   }[];
 }
 
-export interface TypeBtnProvider {
+export type TypeBtnProvider = {
   logo_path: string;
   provider_name: string;
   provider_id: number;
   state: boolean;
 }
 
-export interface TypeBtnGenres {
+export type TypeBtnGenres = {
   id: number;
   name: string;
   state: boolean;
 }
 
-export interface VideosResultsType {
+export type VideosResultsType = {
   iso_639_1: string;
   iso_3166_1: string;
   name: string;
@@ -81,12 +81,12 @@ export interface VideosResultsType {
   id: string;
 }
 
-export interface VideosType {
+export type VideosType = {
   id: number;
   results: VideosResultsType[];
 }
 
-export interface NowPlaying {
+export type NowPlaying = {
   dates: { maximum: string; minimum: string };
   page: number;
   results: MovieType[];
@@ -94,32 +94,32 @@ export interface NowPlaying {
   total_results: number;
 }
 
-export interface ArrayMoviesType {
+export type ArrayMoviesType = {
   current_page: number;
   results: MovieClient[];
 }
 
-export interface CardMovieType {
+export type CardMovieType = {
   page: number;
   total_pages: number;
   results: MovieClient[];
 }
 
-export interface DiscoverType {
+export type DiscoverType = {
   page: number;
   results: MovieType[];
   total_pages: number;
   total_results: number;
 }
 
-export interface RecommendationsType {
+export type RecommendationsType = {
   page: number;
   results: RecommendationsMovie[];
   total_pages: number;
   total_results: number;
 }
 
-export interface RecommendationsMovie {
+export type RecommendationsMovie = {
   backdrop_path: string;
   id: number;
   original_title: string;
@@ -136,7 +136,7 @@ export interface RecommendationsMovie {
   vote_average: number;
   vote_count: number;
 }
-export interface RecommendationsMovieRate {
+export type RecommendationsMovieRate = {
   recommended: number;
   backdrop_path: string;
   id: number;
@@ -155,14 +155,14 @@ export interface RecommendationsMovieRate {
   vote_count: number;
 }
 
-export interface MovieClient {
+export type MovieClient = {
   adult?: boolean;
   id: number;
   title?: string;
   poster_path: string;
 }
 
-export interface MovieType {
+export type MovieType = {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
@@ -179,7 +179,7 @@ export interface MovieType {
   vote_count: number;
 }
 
-export interface DetailsMovieType {
+export type DetailsMovieType = {
   adult: boolean;
   backdrop_path: string;
   belongs_to_collection: null | {
@@ -238,13 +238,13 @@ export interface DetailsMovieType {
 }
 export type PropsPeople = {cast?: CastType[]; crew?: CrewType[]} 
 
-export interface CreditsType {
+export type CreditsType = {
   id: number;
   cast: CastType[];
   crew: CrewType[];
 }
 
-export interface CastType {
+export type CastType = {
   adult: boolean;
   gender: number;
   id: number;
@@ -259,7 +259,7 @@ export interface CastType {
   order: number;
 }
 
-export interface CrewType {
+export type CrewType = {
   adult: boolean;
   gender: number;
   id: number;
@@ -273,14 +273,14 @@ export interface CrewType {
   job: string;
 }
 
-export interface ListGenres {
+export type ListGenres = {
   genres: {
     id: number;
     name: string;
   }[];
 }
 
-export interface SearchResult {
+export type SearchResult = {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];

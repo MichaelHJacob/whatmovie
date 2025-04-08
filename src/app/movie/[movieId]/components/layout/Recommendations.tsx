@@ -1,5 +1,6 @@
-import { SubTitle, ListMovie } from "@/components/comps";
-import { ListControl } from "@/components/client/comps";
+import SubTitle from "@/components/ui/SubTitle";
+import ListMovie from "@/components/ui/ListMovie";
+import ListScrollController from "@/components/ui/ListScrollController/index";
 import {
   RecommendationsMovie,
   RecommendationsMovieRate,
@@ -43,7 +44,7 @@ function calcProportionalParts(X: number) {
   return Y;
 }
 
-export function compare(
+function compare(
   value: RecommendationsMovie,
   maxP: number,
   maxCV: number,
@@ -217,11 +218,7 @@ export function compare(
   return Math.trunc(result);
 }
 
-export default async function GetRecommendations({
-  movieID,
-  rootFilm,
-}: {
-  movieID: string;
+type RecommendationsProps = { movieID: string;
   rootFilm: {
     adult: boolean;
     popularity: number;
@@ -230,7 +227,10 @@ export default async function GetRecommendations({
     vote_average: number;
     genres_id: number[];
   };
-}) {
+ };
+
+export default async function Recommendations({ movieID,
+  rootFilm, } : RecommendationsProps ){
   const DtRecommendationsP1: RecommendationsType = await getRecommendations(
     movieID
   );
@@ -330,9 +330,9 @@ export default async function GetRecommendations({
         <section className="bg-nightDew-100 relative before:bg-nightDew-100  before:w-screen before:h-full before:absolute before:bottom-0 before:left-[50%] before:translate-x-[-50%] before:z-[-1]">
          
             <SubTitle>Recomendações</SubTitle>
-            <ListControl id={"Recomendacoes"} length={relatedFilter.length} surface>
+            <ListScrollController id={"Recomendacoes"} length={relatedFilter.length} surface>
               <ListMovie data={relatedFilter} id={"Recomendacoes"} />
-            </ListControl>
+            </ListScrollController>
           
         </section>
       );

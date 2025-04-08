@@ -1,19 +1,18 @@
 "use client";
 import { ReactNode, useState } from "react";
 import dynamic from "next/dynamic";
-const BtnScrollTo = dynamic(() => import("@/components/client/button"));
+const ScrollToButton = dynamic(() => import("@/components/ui/ListScrollController/ScrollToButton"));
 
-export function ListControl({
-  id,
-  length,
-  children,
-  surface,
-}: {
-  id: string;
+type ListScrollControllerProps = { id: string;
   length: number;
   children: ReactNode;
   surface?: boolean;
-}) {
+ };
+
+export default function ListScrollController({ id,
+  length,
+  children,
+  surface, } : ListScrollControllerProps ){
   const [enabler, setEnabler] = useState(false);
 
   function onMouse() {
@@ -43,7 +42,7 @@ export function ListControl({
       onMouseEnter={onMouse}
       className="relative group"
     >
-      {enabler && <BtnScrollTo id={id} length={length} surface={surface} />}
+      {enabler && <ScrollToButton id={id} length={length} surface={surface} />}
       {children}
     </div>
   );

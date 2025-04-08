@@ -1,10 +1,12 @@
-import { Container } from "@/components/frame";
-import FilterSideMenu from "@/app/filter/compsClient";
-import { MovieCards } from "@/components/frame";
+import Container from "@/components/layout/Container";
+import FilterSideMenu from "@/app/filter/components/FilterMenu";
+import MovieCards from "@/components/skeleton/MovieCards";
 import { Suspense } from "react";
-import { NavBar } from "@/components/comps";
+import NavBar from "@/components/layout/NavBar";
 
-export default function Template({ children }: { children: React.ReactNode }) {
+type TemplateProps = {  children: React.ReactNode  };
+
+export default function Template({ children  }: TemplateProps) {
   return (
     <>
       <NavBar fixed />

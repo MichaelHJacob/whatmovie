@@ -1,8 +1,8 @@
 import { NowPlaying } from "@/components/utils/types";
-import { Container } from "@/components/frame";
-import { SubTitle } from "@/components/comps";
-import { ListMovie } from "@/components/comps";
-import { ListControl } from "@/components/client/comps";
+import Container from "@/components/layout/Container";
+import SubTitle from "@/components/ui/SubTitle";
+import ListMovie from "@/components/ui/ListMovie";
+import ListScrollController from "@/components/ui/ListScrollController";
 import Image from "next/image";
 import config from "@/components/utils/config";
 
@@ -57,13 +57,13 @@ export default async function Home() {
         </div>
         <div className="relative  before:w-screen before:h-full before:absolute before:bottom-0 before:left-[50%] before:translate-x-[-50%] before:z-[-1]">
           <SubTitle>Lançamentos</SubTitle>
-          <ListControl
+          <ListScrollController
             id={"lancamentos"}
             length={inTheatres.results.length}
             surface
           >
             <ListMovie data={inTheatres?.results} id={"lancamentos"} />
-          </ListControl>
+          </ListScrollController>
         </div>
       </div>
     </Container>

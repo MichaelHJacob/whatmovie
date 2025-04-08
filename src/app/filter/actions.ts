@@ -90,7 +90,7 @@ async function getFilter(parameters: { [key: string]: string | string[] | undefi
   }
   return res.json();
 }
-export async function fetchMovies(parameters: { [key: string]: string | undefined | string[] }) {
+export default async function fetchMovies(parameters: { [key: string]: string | undefined | string[] }) {
   const data: DiscoverType = await getFilter(parameters);
   const dataCard: CardMovieType = {
     page: data.page, total_pages: data.total_pages, results: data.results.map((value) => {

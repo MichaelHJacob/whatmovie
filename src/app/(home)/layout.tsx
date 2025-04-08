@@ -1,5 +1,7 @@
-import { NavBar } from "@/components/comps";
+import NavBar from "@/components/layout/NavBar";
 
-export default function HomeLayout({ children }: { children: React.ReactNode }) {
+type HomeLayoutProps = {    children: React.ReactNode  };
+
+export default function HomeLayout({ children  }: HomeLayoutProps) {
     return <><NavBar fixed/> {children}</>
   }

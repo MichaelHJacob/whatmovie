@@ -1,19 +1,19 @@
 import { DetailsMovieType } from "@/components/utils/types";
-import { SubTitle } from "@/components/comps";
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { getPlaiceholder } from "plaiceholder";
-import Videos from "@/components/movie/compsClient";
-import GetRecommendations from "@/components/movie/getRecommendations";
-import {
-  GetTranslations,
-  Director,
-  Stream,
-  People,
-} from "@/components/movie/comps";
-import { CardInformation, Container, SkeletonListMovie } from "@/components/frame";
 import { Metadata } from "next";
 import config from "@/components/utils/config";
+import Container from "@/components/layout/Container";
+import SkeletonListMovie from "@/components/skeleton/SkeletonListMovie";
+import SubTitle from "@/components/ui/SubTitle";
+import CardInformation from "@/app/movie/[movieId]/components/ui/CardInformation";
+import Videos from "@/app/movie/[movieId]/components/layout/Videos";
+import Recommendations from "@/app/movie/[movieId]/components/layout/Recommendations";
+import Translations from "@/app/movie/[movieId]/components/ui/Translations";
+import Stream from "@/app/movie/[movieId]/components/ui/Stream";
+import Director from "@/app/movie/[movieId]/components/ui/Director";
+import People  from "@/app/movie/[movieId]/components/ui/People";
 
 async function getDetails(id: string) {
   const options = {
@@ -50,11 +50,9 @@ async function getCssBlurIMG(src: string) {
   return css;
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { movieId: string };
-}): Promise<Metadata> {
+type generateMetadataProps = {  params: { movieId: string };}
+
+export async function generateMetadata({  params}: generateMetadataProps ): Promise<Metadata> {
   const data: DetailsMovieType = await getDetails(params.movieId);
   return {
     title: data.title.toString(),
@@ -73,12 +71,12 @@ export async function generateMetadata({
   };
 }
 
-export default async function Movie({
-  params,
-}: {
-  params: { movieId: string };
-}) {
+type MovieProps = { params: { movieId: string };
+ };
+
+export default async function Movie({ params } : MovieProps ){
   const data: DetailsMovieType = await getDetails(params.movieId);
+  
   let css = {
     backgroundImage: "linear-gradient(to top right, #075985, #3e131ca8)",
     backgroundPosition: "center",
@@ -230,7 +228,7 @@ export default async function Movie({
               </>
             )}
             <Director credits={data.credits.crew} />
-            <Stream WMBR={data["watch/providers"].results.BR} />
+            <Stream provider={data["watch/providers"].results.BR} />
           </dl>
         </div>
       </div>
@@ -353,11 +351,11 @@ export default async function Movie({
         <div className="blockContainer">
           <CardInformation>
             <Suspense>
-              <GetTranslations movieID={params.movieId} />
-            </Suspense>
+              <Translations movieId={params.movieId} /> 
+            </Suspense> 
           </CardInformation>
-        </div>
-      </div>
+     </div>
+       </div> 
       <People cast={data.credits.cast} crew={data.credits.crew} />
 
       <Suspense
@@ -365,7 +363,7 @@ export default async function Movie({
           <SkeletonListMovie />
         }
       >
-        <GetRecommendations
+        <Recommendations
           movieID={params.movieId}
           rootFilm={{
             adult: data.adult,

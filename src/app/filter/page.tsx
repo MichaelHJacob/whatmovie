@@ -1,13 +1,12 @@
-import { LabelH4 } from "@/components/comps";
+import LabelH4 from "@/components/ui/LabelH4";
 import { CardMovieType } from "@/components/utils/types";
-import { fetchMovies } from "@/app/filter/actions";
-import { ScrollPages } from "@/app/filter/compsClient";
+import fetchMovies from "@/app/filter/actions";
+import MovieCardsScroll from "@/app/filter/components/MovieCardsScroll";
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
+type PageProps = { searchParams: { [key: string]: string | string[] | undefined };
+ };
+
+export default async function Page({ searchParams } : PageProps ){
   const data: CardMovieType = await fetchMovies(searchParams);
 
   return (
@@ -18,7 +17,7 @@ export default async function Page({
             key={Math.random()}
             className=" w-full  gridTemplateSpace items-end 2xl:grid-cols-[repeat(20,_minmax(0,_1fr))] xl:gap-[var(--gapMD)] 2xl:gap-[var(--gapLG)] relative blockContainer"
           >
-            <ScrollPages
+            <MovieCardsScroll
               initialData={data}
               totalPages={data.total_pages}
               parameters={searchParams}

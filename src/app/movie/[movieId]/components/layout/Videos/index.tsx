@@ -1,30 +1,16 @@
 "use client";
 import { useState } from "react";
-import { Break } from "@/components/frame";
-import { LabelH4, SubTitle } from "@/components/comps";
+import BreakHr from "@/components/ui/BreakHr";
+import  LabelH4 from "@/components/ui/LabelH4";
+import  SubTitle  from "@/components/ui/SubTitle";
 import { VideosResultsType } from "@/components/utils/types";
-import { ListControl } from "@/components/client/comps";
+import ListScrollController from "@/components/ui/ListScrollController/index";
+import VideoDisplay from "@/app/movie/[movieId]/components/layout/Videos/VideoDisplay";
 
-export default function Videos({
-  videosArray,
-}: {
-  videosArray: VideosResultsType[];
-}) {
+type VideosProps = { videosArray: VideosResultsType[] };
+
+export default function Videos({ videosArray }: VideosProps) {
   const [selected, setSelected] = useState(videosArray[0]);
-
-  function VideoDisplay({ video }: { video: VideosResultsType }) {
-    return (
-      <div className="md:blockContainer-x">
-        <iframe
-          className="w-full aspect-video bg-black md:rounded-2xl md:shadow-light   md:shadow-nightDew-500/50"
-          allow="fullscreen; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          src={`https://www.youtube.com/embed/${video.key}`}
-          title="YouTube video player"
-          frameBorder="0"
-        ></iframe>
-      </div>
-    );
-  }
 
   return (
     <>
@@ -82,7 +68,7 @@ export default function Videos({
               </svg>
             </button>
           </summary>
-          <ListControl id={"videos"} length={videosArray.length}>
+          <ListScrollController id={"videos"} length={videosArray.length}>
             <ul
               id="videos"
               className="max-md:flex max-md:flex-col max-xs:gap-[--gap] max-md:gap-[--gapXS] md:ListSpacing md:reducerBlock-b max-md:blockContainer-x list-none no-scrollbar relative max-md:animate-showVideoV md:animate-showVideoH"
@@ -116,10 +102,10 @@ export default function Videos({
                 </li>
               ))}
             </ul>
-          </ListControl>
+          </ListScrollController>
         </details>
       </div>
-      <Break />
+      <BreakHr />
     </>
   );
 }

@@ -1,8 +1,5 @@
-import {
-  CardInformation,
-  Container,
-} from "@/components/frame";
-
+import  CardInformation from "@/app/movie/[movieId]/components/ui/CardInformation";
+import Container from "@/components/layout/Container";
 
 export default function Loading() {
   return (

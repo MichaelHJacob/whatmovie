@@ -1,7 +1,9 @@
-import { CardMovie } from "@/components/comps";
+import  CardMovie from "@/components/ui/CardMovie";
 import { MovieClient, MovieType} from "@/components/utils/types";
 
-export function MapCardMovie({data}:{data: MovieClient[] | MovieType[]}) {
+type MapCardMovieProps = { data: MovieClient[] | MovieType[] };
+
+export default function MapCardMovie({ data } : MapCardMovieProps ){
   return (
     <>
       {data.map((value) => (
