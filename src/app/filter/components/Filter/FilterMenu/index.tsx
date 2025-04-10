@@ -1,6 +1,6 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import {
   ListGenres,
   MovieProviders,
@@ -9,23 +9,25 @@ import {
 } from "@/components/utils/types";
 import BreakHr from "@/components/ui/BreakHr";
 import Container from "@/components/layout/Container";
-import GenreSelector  from "@/app/filter/components/FilterMenu/GenreSelector";
-import ProviderSelector  from "@/app/filter/components/FilterMenu/ProviderSelector";
-import RangeVoteSelector  from "@/app/filter/components/FilterMenu/RangeVoteSelector";
-import SortBySelector  from "@/app/filter/components/FilterMenu/SortBySelector";
+import GenreSelector  from "@/app/filter/components/Filter/FilterMenu/GenreSelector";
+import ProviderSelector  from "@/app/filter/components/Filter/FilterMenu/ProviderSelector";
+import RangeVoteSelector  from "@/app/filter/components/Filter/FilterMenu/RangeVoteSelector";
+import SortBySelector  from "@/app/filter/components/Filter/FilterMenu/SortBySelector";
 import ProviderButton from "@/app/filter/components/ui/ProviderButton";
 import GenreButton from "@/app/filter/components/ui/GenreButton";
 
-type FilterSideMenuProps = { children: React.ReactNode };
+type FilterMenuProps = { 
+  children: ReactNode;
+  filters: { listGenres: ListGenres; listProviders: MovieProviders; }; 
+}
 
-export default function FilterSideMenu({ children }: FilterSideMenuProps) {
-  const { replace } = useRouter();
-  const searchParams = useSearchParams();
+export default function FilterMenu({ children, filters }: FilterMenuProps) {
+  const { replace } = useRouter(); 
+  const inicialParams = useRef(useSearchParams())
   const pathname = usePathname();
-  const params = useMemo(() => new URLSearchParams(searchParams), [searchParams])
+  const params = new URLSearchParams(inicialParams.current)
   const timeId = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
   const divFilters = useRef<HTMLDivElement>(null);
-
 
   const [dataGenres, setGenres] = useState<TypeBtnGenres[] | null>(null);
   const [usualG, setUsualG] = useState<TypeBtnGenres[]>([]);
@@ -39,14 +41,11 @@ export default function FilterSideMenu({ children }: FilterSideMenuProps) {
     null
   );
 
-  useEffect(() => {
-    const activeGenres = params.get("g")?.split(",") || [];
-    const activeProviders = params.get("p")?.split(",") || [];
-    fetch("/api/genres")
-      .then((res) => res.json())
-      .then((data: ListGenres) => {
+  const inicialValues = useCallback(() => {
+    const activeGenres = inicialParams.current.get("g")?.split(",") || [];
+    const activeProviders = inicialParams.current.get("p")?.split(",") || [];
         setUsualG(
-          data.genres
+          filters.listGenres.genres
             .filter((value) => activeGenres.includes(`${value.id}`))
             .map((value) => {
               return {
@@ -58,7 +57,7 @@ export default function FilterSideMenu({ children }: FilterSideMenuProps) {
         );
 
         setGenres(
-          data.genres.map((value) => {
+          filters.listGenres.genres.map((value) => {
             return {
               id: value.id,
               name: value.name,
@@ -68,7 +67,7 @@ export default function FilterSideMenu({ children }: FilterSideMenuProps) {
         );
 
         setRGenres(
-          data.genres.map((value) => {
+          filters.listGenres.genres.map((value) => {
             return {
               id: value.id,
               name: value.name,
@@ -76,13 +75,9 @@ export default function FilterSideMenu({ children }: FilterSideMenuProps) {
             };
           })
         );
-      });
-
-    fetch("api/providers")
-      .then((res) => res.json())
-      .then((data: MovieProviders) => {
+      
         setUsualP(
-          data.results
+          filters.listProviders.results
             .filter((value) => activeProviders.includes(`${value.provider_id}`))
             .map((value) => {
               return {
@@ -95,7 +90,7 @@ export default function FilterSideMenu({ children }: FilterSideMenuProps) {
         );
 
         setProviders(
-          data.results.map((value) => {
+          filters.listProviders.results.map((value) => {
             return {
               logo_path: value.logo_path,
               provider_name: value.provider_name,
@@ -106,7 +101,7 @@ export default function FilterSideMenu({ children }: FilterSideMenuProps) {
         );
 
         setRProviders(
-          data.results.map((value) => {
+          filters.listProviders.results.map((value) => {
             return {
               logo_path: value.logo_path,
               provider_name: value.provider_name,
@@ -115,9 +110,12 @@ export default function FilterSideMenu({ children }: FilterSideMenuProps) {
             };
           })
         );
-      });
+      
+  } , [filters] )
 
-  }, []);
+  useEffect(() => {    
+    inicialValues()
+  }, [inicialValues]);
 
   function FilterMenuButton() {
     function open() {
@@ -424,8 +422,6 @@ export default function FilterSideMenu({ children }: FilterSideMenuProps) {
     params.set("page", "1");
     replace(`${pathname}?${params.toString()}`, { scroll: false });
   }
-
- 
 
   return (
     <div

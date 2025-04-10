@@ -20,11 +20,9 @@ export default function GenreButton({ genre,
 
   return (
     <label
-      htmlFor={`option${genre.id}`}
       className={`backBtn backdrop-blur-xl w-auto has-[:checked]:bg-selector-100 `}
     >
       <input
-        id={`option${genre.id}`}
         type="checkbox"
         value={genre.name}
         checked={genre.state}
