@@ -1,11 +1,13 @@
 "use client";
+
 import { useState } from "react";
-import BreakHr from "@/components/ui/BreakHr";
-import  LabelH4 from "@/components/ui/LabelH4";
-import  SubTitle  from "@/components/ui/SubTitle";
-import { VideosResultsType } from "@/components/utils/types";
-import ListScrollController from "@/components/ui/ListScrollController/index";
+
 import VideoDisplay from "@/app/movie/[movieId]/components/layout/Videos/VideoDisplay";
+import BreakHr from "@/components/ui/BreakHr";
+import LabelH4 from "@/components/ui/LabelH4";
+import ListScrollController from "@/components/ui/ListScrollController/index";
+import SubTitle from "@/components/ui/SubTitle";
+import { VideosResultsType } from "@/components/utils/types";
 
 type VideosProps = { videosArray: VideosResultsType[] };
 
@@ -23,11 +25,11 @@ export default function Videos({ videosArray }: VideosProps) {
         <VideoDisplay video={selected} />
         <details
           id="detailsVideos"
-          className="w-full relative h-min blockContainer-b group "
+          className="blockContainer-b group relative h-min w-full"
         >
           <summary
             id="summary"
-            className="w-full h-min justify-between items-center flex relative z-30 blockContainer-x"
+            className="blockContainer-x relative z-30 flex h-min w-full items-center justify-between"
             onClick={(e) => e.preventDefault()}
           >
             <LabelH4>
@@ -37,17 +39,19 @@ export default function Videos({ videosArray }: VideosProps) {
               onClick={() => {
                 const dVideos = document.getElementById("detailsVideos");
 
-                if (dVideos?.hasAttribute("open")) { dVideos.removeAttribute("open") }
-                else { dVideos?.setAttribute("open", "open") };
+                if (dVideos?.hasAttribute("open")) {
+                  dVideos.removeAttribute("open");
+                } else {
+                  dVideos?.setAttribute("open", "open");
+                }
               }}
-              className={`backBtn max-md:bg-opacity-10 max-md:shadow-none ${videosArray.length <= 1 && "hidden"
-                }`}
+              className={`backBtn max-md:bg-opacity-10 max-md:shadow-none ${
+                videosArray.length <= 1 && "hidden"
+              }`}
             >
-              <span className="textBtn max-md:text-white">
-                Mais videos
-              </span>
+              <span className="textBtn max-md:text-white">Mais videos</span>
               <svg
-                className="w-3 h-3 group-open:rotate-[270deg] transition-all duration-300"
+                className="h-3 w-3 transition-all duration-300 group-open:rotate-[270deg]"
                 viewBox="0 0 12 12"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -58,7 +62,7 @@ export default function Videos({ videosArray }: VideosProps) {
                   height="12"
                   rx="3"
                   transform="rotate(90 12 0)"
-                  className="max-md:fill-nightDew-100 fill-selector-200 "
+                  className="fill-selector-200 max-md:fill-nightDew-100"
                   fill-opacity="0.1"
                 />
                 <path
@@ -71,30 +75,32 @@ export default function Videos({ videosArray }: VideosProps) {
           <ListScrollController id={"videos"} length={videosArray.length}>
             <ul
               id="videos"
-              className="max-md:flex max-md:flex-col max-xs:gap-[--gap] max-md:gap-[--gapXS] md:ListSpacing md:reducerBlock-b max-md:blockContainer-x list-none no-scrollbar relative max-md:animate-showVideoV md:animate-showVideoH"
+              className="md:ListSpacing md:reducerBlock-b max-md:blockContainer-x no-scrollbar relative list-none max-md:flex max-md:animate-showVideoV max-md:flex-col max-md:gap-[--gapXS] max-xs:gap-[--gap] md:animate-showVideoH"
             >
               {videosArray.map((value, index) => (
                 <li
                   id={`videos${index}`}
-                  className={`w-full max-md:flex box-content relative snap-start snap-always cursor-pointer   overflow-visible items-center  justify-start md:gridColSpanMovie transform-gpu transition-all duration-300 md:pt-[var(--gapMD)] lg:pt-[var(--gapLG)    ${selected == value &&
-                    "max-md:bg-nightDew-300/30  max-xs:py-[calc(var(--gap)/3)] max-xs:pl-[calc(var(--gap)/3)] max-xs:my-[calc((var(--gap)/3)*-1)] max-xs:ml-[calc((var(--gap)/3)*-1)]  max-md:py-[calc(var(--gapXS)/3)] max-md:pl-[calc(var(--gapXS)/3)] max-md:my-[calc((var(--gapXS)/3)*-1)] max-md:ml-[calc((var(--gapXS)/3)*-1)] rounded-xl md:scale-105"
-                    }`}
+                  className={`md:gridColSpanMovie lg:pt-[var(--gapLG) relative box-content w-full transform-gpu cursor-pointer snap-start snap-always items-center justify-start overflow-visible transition-all duration-300 max-md:flex md:pt-[var(--gapMD)] ${
+                    selected == value &&
+                    "rounded-xl max-md:my-[calc((var(--gapXS)/3)*-1)] max-md:ml-[calc((var(--gapXS)/3)*-1)] max-md:bg-nightDew-300/30 max-md:py-[calc(var(--gapXS)/3)] max-md:pl-[calc(var(--gapXS)/3)] max-xs:my-[calc((var(--gap)/3)*-1)] max-xs:ml-[calc((var(--gap)/3)*-1)] max-xs:py-[calc(var(--gap)/3)] max-xs:pl-[calc(var(--gap)/3)] md:scale-105"
+                  }`}
                   onClick={() => setSelected(value)}
                   key={index}
                 >
                   <img
                     src={`https://i.ytimg.com/vi/${value.key}/hqdefault.jpg`}
-                    className={`object-cover bg-center max-md:w-20 md:w-full aspect-[16/9]  rounded-lg transition-all duration-300  md:shadow-[0_10px_50px_-12px] ${selected == value
-                        ? "md:shadow-nightDew-600  "
+                    className={`aspect-[16/9] rounded-lg bg-center object-cover transition-all duration-300 max-md:w-20 md:w-full md:shadow-[0_10px_50px_-12px] ${
+                      selected == value
+                        ? "md:shadow-nightDew-600"
                         : "md:shadow-transparent"
-                      }`}
-                      alt={value.name}
-
+                    }`}
+                    alt={value.name}
                   />
-                  <div className="w-full  px-[calc(var(--p)/2)] xs:px-[calc(var(--pXS)/2)] md:px-0">
+                  <div className="w-full px-[calc(var(--p)/2)] xs:px-[calc(var(--pXS)/2)] md:px-0">
                     <h4
-                      className={`data max-md:text-white/70 line-clamp-2 antialiased py-0  ${selected == value && "text-black  max-md:font-semibold"
-                        }`}
+                      className={`data line-clamp-2 py-0 antialiased max-md:text-white/70 ${
+                        selected == value && "text-black max-md:font-semibold"
+                      }`}
                     >
                       {value.name}
                     </h4>

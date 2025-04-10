@@ -1,4 +1,4 @@
-import { usePathname, useRouter , useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function SortBySelector() {
   const { replace } = useRouter();
@@ -13,7 +13,7 @@ export default function SortBySelector() {
   }
   return (
     <li>
-      <label className="rounded-lg flex justify-between items-center min-h-11 w-full blockContainer-x">
+      <label className="blockContainer-x flex min-h-11 w-full items-center justify-between rounded-lg">
         <span className="filter-label">Ordenar por:</span>
         <select
           className="backBtn textBtn"

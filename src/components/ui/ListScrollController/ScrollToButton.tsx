@@ -2,14 +2,13 @@
 
 import { useState } from "react";
 
-type ScrollToButtonProps = { id: string;
-  length: number;
-  surface?: boolean;
- };
+type ScrollToButtonProps = { id: string; length: number; surface?: boolean };
 
-export default function ScrollToButton({ id,
+export default function ScrollToButton({
+  id,
   length,
-  surface, } : ScrollToButtonProps ){
+  surface,
+}: ScrollToButtonProps) {
   const [left, setLeft] = useState(false);
   const [right, setRight] = useState(true);
   const parent = document.getElementById(id);
@@ -48,10 +47,9 @@ export default function ScrollToButton({ id,
         behavior: "smooth",
         block: "nearest",
         inline: "nearest",
-      })
+      });
     }
   }
-
 
   function toRight() {
     if (
@@ -76,11 +74,10 @@ export default function ScrollToButton({ id,
         ) {
           if (i == length - 1 || i - 1 + visible >= length - 1) {
             const last = document.getElementById(id + String(length - 1));
-           scroll(last) 
-
+            scroll(last);
           } else {
             const last = document.getElementById(id + String(i - 1 + visible));
-            scroll(last)
+            scroll(last);
             i = length;
           }
         }
@@ -112,10 +109,10 @@ export default function ScrollToButton({ id,
         ) {
           if (i == 0 || i + 1 - visible <= 0) {
             const last = document.getElementById(id + "0");
-            scroll(last)
+            scroll(last);
           } else {
             const last = document.getElementById(id + String(i + 1 - visible));
-            scroll(last)
+            scroll(last);
             i = 0;
           }
         }
@@ -128,29 +125,26 @@ export default function ScrollToButton({ id,
     <>
       <button
         onClick={toRight}
-        className={`w-[--p] xs:w-[--pXS] md:w-[--pMD] lg:w-[--pLG] h-full absolute right-[-1px] bg-gradient-to-l
-          bg-inherit ${surface ? 'from-nightDew-100 via-nightDew-100/70' : 'from-nightDew-200 via-nightDew-200/70'}
-           to-transparent z-50 
-       flex justify-center items-center group/right ${right
-            ? "group-hover:animate-show group-hover:opacity-100 animate-hidden opacity-0 "
+        className={`bg-inherit absolute right-[-1px] h-full w-[--p] bg-gradient-to-l xs:w-[--pXS] md:w-[--pMD] lg:w-[--pLG] ${surface ? "from-nightDew-100 via-nightDew-100/70" : "from-nightDew-200 via-nightDew-200/70"} group/right z-50 flex items-center justify-center to-transparent ${
+          right
+            ? "animate-hidden opacity-0 group-hover:animate-show group-hover:opacity-100"
             : "opacity-0"
-          }`}
+        }`}
       >
         <span
-          className={`w-3/4 min-h-11 h-[17%] 
-    bg-[url('/icons/toRight.svg')] bg-[length:12px_12px] bg-[center_center] bg-no-repeat  rounded-lg  backdrop-blur-xl  backdrop-saturate-150 bg-white/10 px-0 shadow-lg shadow-transparent group-hover:shadow-nightDew-400/20 group-active/right:bg-selector-200/10 transition-all duration-300`}
+          className={`h-[17%] min-h-11 w-3/4 rounded-lg bg-white/10 bg-[url('/icons/toRight.svg')] bg-[length:12px_12px] bg-[center_center] bg-no-repeat px-0 shadow-lg shadow-transparent backdrop-blur-xl backdrop-saturate-150 transition-all duration-300 group-hover:shadow-nightDew-400/20 group-active/right:bg-selector-200/10`}
         ></span>
       </button>
       <button
         onClick={toLeft}
-        className={`w-[--p] xs:w-[--pXS] md:w-[--pMD] lg:w-[--pLG] h-full absolute left-[-1px] bg-gradient-to-r ${surface ? 'from-nightDew-100 via-nightDew-100/70' : 'from-nightDew-200 via-nightDew-200/70'} to-transparent backdrop-blur-sm z-50  flex justify-center items-center  group/left ${left
-          ? "group-hover:animate-show group-hover:opacity-100 animate-hidden opacity-0"
-          : "opacity-0"
-          }  `}
+        className={`absolute left-[-1px] h-full w-[--p] bg-gradient-to-r xs:w-[--pXS] md:w-[--pMD] lg:w-[--pLG] ${surface ? "from-nightDew-100 via-nightDew-100/70" : "from-nightDew-200 via-nightDew-200/70"} group/left z-50 flex items-center justify-center to-transparent backdrop-blur-sm ${
+          left
+            ? "animate-hidden opacity-0 group-hover:animate-show group-hover:opacity-100"
+            : "opacity-0"
+        } `}
       >
         <span
-          className={`w-3/4 min-h-11 h-[17%] 
-    bg-[url('/icons/toLeft.svg')] bg-[length:12px_12px] bg-[center_center] bg-no-repeat  rounded-lg  backdrop-blur-xl  backdrop-saturate-150 bg-white/10  px-0 shadow-lg shadow-transparent group-hover:shadow-nightDew-400/20 group-active/left:bg-selector-200/20 transition-all duration-300`}
+          className={`h-[17%] min-h-11 w-3/4 rounded-lg bg-white/10 bg-[url('/icons/toLeft.svg')] bg-[length:12px_12px] bg-[center_center] bg-no-repeat px-0 shadow-lg shadow-transparent backdrop-blur-xl backdrop-saturate-150 transition-all duration-300 group-hover:shadow-nightDew-400/20 group-active/left:bg-selector-200/20`}
         ></span>
       </button>
     </>

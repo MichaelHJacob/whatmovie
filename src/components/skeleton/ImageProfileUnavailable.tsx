@@ -1,16 +1,18 @@
- type ImageProfileUnavailableProps =  { alt: string } 
+type ImageProfileUnavailableProps = { alt: string };
 
-  export default function ImageProfileUnavailable({ alt }: ImageProfileUnavailableProps) {
-    return (
-      <div className="rounded-full overflow-hidden aspect-square relative unavailable light-shadow">
-        <p className="textBtn text-opacity-30 text-center text-xs  text-wrap  w-min  absolute bottom-1 left-[50%] translate-x-[-50%] top-[10%]">
-          imagem indisponível
+export default function ImageProfileUnavailable({
+  alt,
+}: ImageProfileUnavailableProps) {
+  return (
+    <div className="unavailable light-shadow relative aspect-square overflow-hidden rounded-full">
+      <p className="textBtn absolute bottom-1 left-[50%] top-[10%] w-min translate-x-[-50%] text-wrap text-center text-xs text-opacity-30">
+        imagem indisponível
+      </p>
+      <span className="absolute bottom-[15%] left-[50%] h-min w-[50%] translate-x-[-50%] overflow-hidden">
+        <p className="textBtn line-clamp-1 h-auto overflow-hidden text-wrap text-center text-opacity-90">
+          {alt}
         </p>
-        <span className="overflow-hidden h-min w-[50%]  absolute left-[50%] translate-x-[-50%] bottom-[15%]">
-          <p className="textBtn text-opacity-90 line-clamp-1 h-auto   overflow-hidden text-center  text-wrap    ">
-            {alt}
-          </p>
-        </span>
-      </div>
-    );
-  }
+      </span>
+    </div>
+  );
+}

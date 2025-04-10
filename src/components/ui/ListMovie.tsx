@@ -1,12 +1,12 @@
-import { MovieType, RecommendationsMovieRate } from "@/components/utils/types";
 import CardMovie from "@/components/ui/CardMovie";
+import { MovieType, RecommendationsMovieRate } from "@/components/utils/types";
 
-type ListMovieProps = { data: RecommendationsMovieRate[] | MovieType[];
+type ListMovieProps = {
+  data: RecommendationsMovieRate[] | MovieType[];
   id: string;
- };
+};
 
-export default function ListMovie({ data,
-  id, } : ListMovieProps ){
+export default function ListMovie({ data, id }: ListMovieProps) {
   return (
     <ul id={id} className="ListSpacing items-end">
       {data.map((value, index) => (

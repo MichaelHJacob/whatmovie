@@ -1,25 +1,28 @@
-import { TypeBtnProvider } from "@/components/utils/types";
 import config from "@/components/utils/config";
+import { TypeBtnProvider } from "@/components/utils/types";
 
-type ProviderButtonProps = { provider: TypeBtnProvider;
+type ProviderButtonProps = {
+  provider: TypeBtnProvider;
   add: (picked: TypeBtnProvider) => void;
   remove: (picked: TypeBtnProvider) => void;
- };
+};
 
-export default function ProviderButton({ provider,
+export default function ProviderButton({
+  provider,
   add,
-  remove, } : ProviderButtonProps ){
+  remove,
+}: ProviderButtonProps) {
   return (
-    <label className="box-content relative backBtn bg-opacity-30  px-0 overflow-hidden block aspect-square">
+    <label className="backBtn relative box-content block aspect-square overflow-hidden bg-opacity-30 px-0">
       <input
-        className="  bg-transparent  appearance-none absolute opacity-0 peer"
+        className="peer absolute appearance-none bg-transparent opacity-0"
         type="checkbox"
         value={provider.provider_id}
         checked={provider.state}
         onChange={() => (provider.state ? remove(provider) : add(provider))}
       />
       <img
-        className="   w-full object-contain aspect-square opacity-50 grayscale-[90%] hover:grayscale-0 peer-checked:grayscale-0 peer-checked:opacity-100 transition-all duration-500"
+        className="aspect-square w-full object-contain opacity-50 grayscale-[90%] transition-all duration-500 hover:grayscale-0 peer-checked:opacity-100 peer-checked:grayscale-0"
         src={`${config.imgUrlS}/${provider.logo_path}`}
         width={44}
         height={44}

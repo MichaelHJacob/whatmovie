@@ -1,17 +1,23 @@
 "use client";
-import { ArrayMoviesType, CardMovieType } from "@/components/utils/types";
+
 import { useEffect, useRef, useState } from "react";
-import  MovieCards from "@/components/skeleton/MovieCards";
+
 import fetchMovies from "@/app/filter/actions";
 import MapCardMovie from "@/app/filter/components/MovieCardsScroll/MapCardMovie";
+import MovieCards from "@/components/skeleton/MovieCards";
+import { ArrayMoviesType, CardMovieType } from "@/components/utils/types";
 
-
-type MovieCardsScrollProps = { parameters: { [key: string]: string | string[] | undefined };
+type MovieCardsScrollProps = {
+  parameters: { [key: string]: string | string[] | undefined };
   totalPages: number;
   initialData: CardMovieType;
- };
+};
 
-export default function MovieCardsScroll({ initialData, parameters, totalPages } : MovieCardsScrollProps ){
+export default function MovieCardsScroll({
+  initialData,
+  parameters,
+  totalPages,
+}: MovieCardsScrollProps) {
   const [movies, setMovies] = useState<ArrayMoviesType>({
     current_page: initialData.page,
     results: initialData.results,
@@ -43,14 +49,19 @@ export default function MovieCardsScroll({ initialData, parameters, totalPages }
         };
       });
     }
-
   }, []);
 
   return (
     <>
       <MapCardMovie data={movies.results} />
       {movies.current_page < 400 && movies.current_page < totalPages && (
-        <MovieCards id={"loadC"} size={5} style="xl:col-span-3 2xl:col-span-4" xs={4} xl={4} />
+        <MovieCards
+          id={"loadC"}
+          size={5}
+          style="xl:col-span-3 2xl:col-span-4"
+          xs={4}
+          xl={4}
+        />
       )}
     </>
   );

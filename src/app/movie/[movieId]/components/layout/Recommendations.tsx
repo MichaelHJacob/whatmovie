@@ -1,12 +1,12 @@
-import SubTitle from "@/components/ui/SubTitle";
 import ListMovie from "@/components/ui/ListMovie";
 import ListScrollController from "@/components/ui/ListScrollController/index";
+import SubTitle from "@/components/ui/SubTitle";
+import config from "@/components/utils/config";
 import {
   RecommendationsMovie,
   RecommendationsMovieRate,
   RecommendationsType,
 } from "@/components/utils/types";
-import config from "@/components/utils/config";
 
 async function getRecommendations(movieID: string, page: number = 1) {
   const options = {
@@ -20,7 +20,7 @@ async function getRecommendations(movieID: string, page: number = 1) {
     config.apiUrlM +
       movieID +
       `/recommendations?language=pt-BR&page=${page.toString()}`,
-    options
+    options,
   );
 
   if (!res.ok) {
@@ -56,7 +56,7 @@ function compare(
     vote_average: number;
     genres_id: number[];
   },
-  pointRoot: number[]
+  pointRoot: number[],
 ) {
   function period(rcmDate: string) {
     const date = new Date();
@@ -88,100 +88,100 @@ function compare(
         }
 
         if (iRoot == 0) {
-            switch (rootValue) {
-              // 27 Horror | 28 Action | 36 History | 53 Thriller | 80 Crime | 10749 Romance for Comedy
-              case 35:
-                switch (rcm) {
-                  case 27:
-                  case 28:
-                  case 36:
-                  case 53:
-                  case 80:
-                  case 10749:
-                    const variation =
-                      1 + (iRcm > iRoot ? iRcm - iRoot : iRoot - iRcm);
-                    score =
-                      variation == 1
-                        ? score - pointRoot[iRoot]
-                        : score - (pointRoot[iRoot] / variation) * 0.5;
-                    break;
-                }
-                break;
-              // 27 Horror | 36 story | 53 Thriller | 80 Crime | 10749 Romance | 18 Drama for Animation
-              case 16:
-                switch (rcm) {
-                  case 27:
-                  case 36:
-                  case 53:
-                  case 80:
-                  case 10749:
-                  case 18:
-                  case 10752:
-                    const variation =
-                      1 + (iRcm > iRoot ? iRcm - iRoot : iRoot - iRcm);
-                    score =
-                      variation == 1
-                        ? score - pointRoot[iRoot]
-                        : score - (pointRoot[iRoot] / variation) * 0.5;
-                    break;
-                }
-                break;
-              // 27 Horror | 80 Crime | 53 Thriller for Family")
-              case 10751:
-                switch (rcm) {
-                  case 27:
-                  case 80:
-                  case 53:
-                    const variation =
-                      1 + (iRcm > iRoot ? iRcm - iRoot : iRoot - iRcm);
-                    score =
-                      variation == 1
-                        ? score - pointRoot[iRoot]
-                        : score - (pointRoot[iRoot] / variation) * 0.5;
-                    break;
-                }
-                break;
-              // Romance for Adventure
-              case 12:
-                switch (rcm) {
-                  case 10749:
-                    const variation =
-                      1 + (iRcm > iRoot ? iRcm - iRoot : iRoot - iRcm);
-                    score =
-                      variation == 1
-                        ? score - pointRoot[iRoot]
-                        : score - (pointRoot[iRoot] / variation) * 0.5;
-                    break;
-                }
-                break;
-              // Crime for Fantasy
-              case 14:
-                switch (rcm) {
-                  case 80:
-                    const variation =
-                      1 + (iRcm > iRoot ? iRcm - iRoot : iRoot - iRcm);
-                    score =
-                      variation == 1
-                        ? score - pointRoot[iRoot]
-                        : score - (pointRoot[iRoot] / variation) * 0.5;
-                    break;
-                }
-                break;
-              // Science Fiction | Action for Romance
-              case 10749:
-                switch (rcm) {
-                  case 878:
-                  case 28:
-                    const variation =
-                      1 + (iRcm > iRoot ? iRcm - iRoot : iRoot - iRcm);
-                    score =
-                      variation == 1
-                        ? score - pointRoot[iRoot]
-                        : score - (pointRoot[iRoot] / variation) * 0.5;
-                    break;
-                }
-                break;
-            }
+          switch (rootValue) {
+            // 27 Horror | 28 Action | 36 History | 53 Thriller | 80 Crime | 10749 Romance for Comedy
+            case 35:
+              switch (rcm) {
+                case 27:
+                case 28:
+                case 36:
+                case 53:
+                case 80:
+                case 10749:
+                  const variation =
+                    1 + (iRcm > iRoot ? iRcm - iRoot : iRoot - iRcm);
+                  score =
+                    variation == 1
+                      ? score - pointRoot[iRoot]
+                      : score - (pointRoot[iRoot] / variation) * 0.5;
+                  break;
+              }
+              break;
+            // 27 Horror | 36 story | 53 Thriller | 80 Crime | 10749 Romance | 18 Drama for Animation
+            case 16:
+              switch (rcm) {
+                case 27:
+                case 36:
+                case 53:
+                case 80:
+                case 10749:
+                case 18:
+                case 10752:
+                  const variation =
+                    1 + (iRcm > iRoot ? iRcm - iRoot : iRoot - iRcm);
+                  score =
+                    variation == 1
+                      ? score - pointRoot[iRoot]
+                      : score - (pointRoot[iRoot] / variation) * 0.5;
+                  break;
+              }
+              break;
+            // 27 Horror | 80 Crime | 53 Thriller for Family")
+            case 10751:
+              switch (rcm) {
+                case 27:
+                case 80:
+                case 53:
+                  const variation =
+                    1 + (iRcm > iRoot ? iRcm - iRoot : iRoot - iRcm);
+                  score =
+                    variation == 1
+                      ? score - pointRoot[iRoot]
+                      : score - (pointRoot[iRoot] / variation) * 0.5;
+                  break;
+              }
+              break;
+            // Romance for Adventure
+            case 12:
+              switch (rcm) {
+                case 10749:
+                  const variation =
+                    1 + (iRcm > iRoot ? iRcm - iRoot : iRoot - iRcm);
+                  score =
+                    variation == 1
+                      ? score - pointRoot[iRoot]
+                      : score - (pointRoot[iRoot] / variation) * 0.5;
+                  break;
+              }
+              break;
+            // Crime for Fantasy
+            case 14:
+              switch (rcm) {
+                case 80:
+                  const variation =
+                    1 + (iRcm > iRoot ? iRcm - iRoot : iRoot - iRcm);
+                  score =
+                    variation == 1
+                      ? score - pointRoot[iRoot]
+                      : score - (pointRoot[iRoot] / variation) * 0.5;
+                  break;
+              }
+              break;
+            // Science Fiction | Action for Romance
+            case 10749:
+              switch (rcm) {
+                case 878:
+                case 28:
+                  const variation =
+                    1 + (iRcm > iRoot ? iRcm - iRoot : iRoot - iRcm);
+                  score =
+                    variation == 1
+                      ? score - pointRoot[iRoot]
+                      : score - (pointRoot[iRoot] / variation) * 0.5;
+                  break;
+              }
+              break;
+          }
         }
       });
     });
@@ -193,7 +193,7 @@ function compare(
             score *
               (root.genres_id.length > value.genre_ids.length
                 ? contrast / root.genres_id.length
-                : contrast / value.genre_ids.length)
+                : contrast / value.genre_ids.length),
         );
   }
 
@@ -218,7 +218,8 @@ function compare(
   return Math.trunc(result);
 }
 
-type RecommendationsProps = { movieID: string;
+type RecommendationsProps = {
+  movieID: string;
   rootFilm: {
     adult: boolean;
     popularity: number;
@@ -227,13 +228,14 @@ type RecommendationsProps = { movieID: string;
     vote_average: number;
     genres_id: number[];
   };
- };
+};
 
-export default async function Recommendations({ movieID,
-  rootFilm, } : RecommendationsProps ){
-  const DtRecommendationsP1: RecommendationsType = await getRecommendations(
-    movieID
-  );
+export default async function Recommendations({
+  movieID,
+  rootFilm,
+}: RecommendationsProps) {
+  const DtRecommendationsP1: RecommendationsType =
+    await getRecommendations(movieID);
 
   if (DtRecommendationsP1.results.length > 1) {
     const maxCont1: number =
@@ -272,7 +274,7 @@ export default async function Recommendations({ movieID,
     const maxCont: number = maxCont1 > maxCont2 ? maxCont1 : maxCont2;
     const maxPop: number = maxPop1 > maxPop2 ? maxPop1 : maxPop2;
     const arrayPoint: number[] = calcProportionalParts(
-      rootFilm.genres_id.length
+      rootFilm.genres_id.length,
     );
 
     const recommendation: RecommendationsMovieRate[] = DtRecommendationsP2
@@ -285,7 +287,7 @@ export default async function Recommendations({ movieID,
                 maxPop,
                 maxCont,
                 rootFilm,
-                arrayPoint
+                arrayPoint,
               ),
             };
           }),
@@ -297,7 +299,7 @@ export default async function Recommendations({ movieID,
                 maxPop,
                 maxCont,
                 rootFilm,
-                arrayPoint
+                arrayPoint,
               ),
             };
           }),
@@ -311,7 +313,7 @@ export default async function Recommendations({ movieID,
                 maxPop,
                 maxCont,
                 rootFilm,
-                arrayPoint
+                arrayPoint,
               ),
             };
           }),
@@ -327,13 +329,15 @@ export default async function Recommendations({ movieID,
 
     if (relatedFilter.length >= 1) {
       return (
-        <section className="bg-nightDew-100 relative before:bg-nightDew-100  before:w-screen before:h-full before:absolute before:bottom-0 before:left-[50%] before:translate-x-[-50%] before:z-[-1]">
-         
-            <SubTitle>Recomendações</SubTitle>
-            <ListScrollController id={"Recomendacoes"} length={relatedFilter.length} surface>
-              <ListMovie data={relatedFilter} id={"Recomendacoes"} />
-            </ListScrollController>
-          
+        <section className="relative bg-nightDew-100 before:absolute before:bottom-0 before:left-[50%] before:z-[-1] before:h-full before:w-screen before:translate-x-[-50%] before:bg-nightDew-100">
+          <SubTitle>Recomendações</SubTitle>
+          <ListScrollController
+            id={"Recomendacoes"}
+            length={relatedFilter.length}
+            surface
+          >
+            <ListMovie data={relatedFilter} id={"Recomendacoes"} />
+          </ListScrollController>
         </section>
       );
     }

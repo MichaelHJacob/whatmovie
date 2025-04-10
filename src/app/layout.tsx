@@ -1,6 +1,7 @@
-import "@/app/globals.css";
 import type { Metadata, Viewport } from "next";
 import { Caladea, Open_Sans, Source_Sans_3 } from "next/font/google";
+
+import "@/app/globals.css";
 
 const ss_pro = Source_Sans_3({
   style: "normal",
@@ -33,7 +34,7 @@ export const viewport: Viewport = {
   themeColor: "#F6F8F9",
 };
 
-type RootLayoutProps = {   children: React.ReactNode; };
+type RootLayoutProps = { children: React.ReactNode };
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
@@ -41,7 +42,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       lang="pt-br"
       className={`${caladea.variable} ${open_sans.variable} ${ss_pro.variable} text-[100%]`}
     >
-      <body className="bg-nightDew-200  overflow-x-clip scrollStyle font-sans">
+      <body className="scrollStyle overflow-x-clip bg-nightDew-200 font-sans">
         {children}
       </body>
     </html>

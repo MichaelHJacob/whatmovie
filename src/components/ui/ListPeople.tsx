@@ -1,7 +1,5 @@
-import {
-  PropsPeople,
-} from "@/components/utils/types";
 import config from "@/components/utils/config";
+import { PropsPeople } from "@/components/utils/types";
 
 export default function ListPeople({
   cast = [],
@@ -15,19 +13,19 @@ export default function ListPeople({
         src={`${config.imgUrlS02}${path}`}
         alt={alt}
         loading="lazy"
-        className="rounded-full w-full aspect-square object-cover light-shadow contrast-[1.1]"
+        className="light-shadow aspect-square w-full rounded-full object-cover contrast-[1.1]"
       />
     );
   }
 
   function ImageProfileUnavailable({ alt }: { alt: string }) {
     return (
-      <div className="rounded-full overflow-hidden aspect-square relative unavailable light-shadow">
-        <p className="textBtn text-opacity-30 text-center text-xs  text-wrap  w-min  absolute bottom-1 left-[50%] translate-x-[-50%] top-[10%]">
+      <div className="unavailable light-shadow relative aspect-square overflow-hidden rounded-full">
+        <p className="textBtn absolute bottom-1 left-[50%] top-[10%] w-min translate-x-[-50%] text-wrap text-center text-xs text-opacity-30">
           imagem indisponível
         </p>
-        <span className="overflow-hidden h-min w-[50%]  absolute left-[50%] translate-x-[-50%] bottom-[15%]">
-          <p className="textBtn text-opacity-90 line-clamp-1 h-auto   overflow-hidden text-center  text-wrap    ">
+        <span className="absolute bottom-[15%] left-[50%] h-min w-[50%] translate-x-[-50%] overflow-hidden">
+          <p className="textBtn line-clamp-1 h-auto overflow-hidden text-wrap text-center text-opacity-90">
             {alt}
           </p>
         </span>
@@ -37,7 +35,7 @@ export default function ListPeople({
   return (
     <ul
       id={id}
-      className="ListSpacing lg:auto-cols-[calc((100%-20*var(--gapLG))/21)] list-none no-scrollbar rounded-2xl"
+      className="ListSpacing no-scrollbar list-none rounded-2xl lg:auto-cols-[calc((100%-20*var(--gapLG))/21)]"
     >
       {cast.length >= 1 &&
         cast.map((value, index) => (
@@ -48,7 +46,7 @@ export default function ListPeople({
               <ImageProfileUnavailable alt={value.name} />
             )}
 
-            <div className="w-full mt-2 text-center h-fit ">
+            <div className="mt-2 h-fit w-full text-center">
               <p className="label line-clamp-2">{value.name}</p>
               <p className="data line-clamp-2">{value.character}</p>
             </div>
@@ -67,9 +65,9 @@ export default function ListPeople({
             ) : (
               <ImageProfileUnavailable alt={value.name} />
             )}
-            <div className="w-full mt-2 text-center h-fit">
+            <div className="mt-2 h-fit w-full text-center">
               <p className="label line-clamp-2">{value.name}</p>
-              <p className="data line-clamp-2 ">{value.job}</p>
+              <p className="data line-clamp-2">{value.job}</p>
             </div>
           </li>
         ))}

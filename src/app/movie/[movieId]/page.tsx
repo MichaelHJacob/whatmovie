@@ -1,19 +1,21 @@
-import { DetailsMovieType } from "@/components/utils/types";
 import { Suspense } from "react";
-import { redirect } from "next/navigation";
-import { getPlaiceholder } from "plaiceholder";
+
 import { Metadata } from "next";
-import config from "@/components/utils/config";
+import { redirect } from "next/navigation";
+
+import Recommendations from "@/app/movie/[movieId]/components/layout/Recommendations";
+import Videos from "@/app/movie/[movieId]/components/layout/Videos";
+import CardInformation from "@/app/movie/[movieId]/components/ui/CardInformation";
+import Director from "@/app/movie/[movieId]/components/ui/Director";
+import People from "@/app/movie/[movieId]/components/ui/People";
+import Stream from "@/app/movie/[movieId]/components/ui/Stream";
+import Translations from "@/app/movie/[movieId]/components/ui/Translations";
 import Container from "@/components/layout/Container";
 import SkeletonListMovie from "@/components/skeleton/SkeletonListMovie";
 import SubTitle from "@/components/ui/SubTitle";
-import CardInformation from "@/app/movie/[movieId]/components/ui/CardInformation";
-import Videos from "@/app/movie/[movieId]/components/layout/Videos";
-import Recommendations from "@/app/movie/[movieId]/components/layout/Recommendations";
-import Translations from "@/app/movie/[movieId]/components/ui/Translations";
-import Stream from "@/app/movie/[movieId]/components/ui/Stream";
-import Director from "@/app/movie/[movieId]/components/ui/Director";
-import People  from "@/app/movie/[movieId]/components/ui/People";
+import config from "@/components/utils/config";
+import { DetailsMovieType } from "@/components/utils/types";
+import { getPlaiceholder } from "plaiceholder";
 
 async function getDetails(id: string) {
   const options = {
@@ -25,9 +27,9 @@ async function getDetails(id: string) {
   };
   const res = await fetch(
     config.apiUrlM +
-    id +
-    "?append_to_response=videos%2Cwatch%2Fproviders%2Ccredits&language=pt-BR",
-    options
+      id +
+      "?append_to_response=videos%2Cwatch%2Fproviders%2Ccredits&language=pt-BR",
+    options,
   );
 
   if (!res.ok) {
@@ -38,7 +40,7 @@ async function getDetails(id: string) {
 
 async function getCssBlurIMG(src: string) {
   const buffer = await fetch(src).then(async (res) =>
-    Buffer.from(await res.arrayBuffer())
+    Buffer.from(await res.arrayBuffer()),
   );
 
   const { css } = await getPlaiceholder(buffer);
@@ -50,9 +52,11 @@ async function getCssBlurIMG(src: string) {
   return css;
 }
 
-type generateMetadataProps = {  params: { movieId: string };}
+type generateMetadataProps = { params: { movieId: string } };
 
-export async function generateMetadata({  params}: generateMetadataProps ): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: generateMetadataProps): Promise<Metadata> {
   const data: DetailsMovieType = await getDetails(params.movieId);
   return {
     title: data.title.toString(),
@@ -71,12 +75,11 @@ export async function generateMetadata({  params}: generateMetadataProps ): Prom
   };
 }
 
-type MovieProps = { params: { movieId: string };
- };
+type MovieProps = { params: { movieId: string } };
 
-export default async function Movie({ params } : MovieProps ){
+export default async function Movie({ params }: MovieProps) {
   const data: DetailsMovieType = await getDetails(params.movieId);
-  
+
   let css = {
     backgroundImage: "linear-gradient(to top right, #075985, #3e131ca8)",
     backgroundPosition: "center",
@@ -84,9 +87,7 @@ export default async function Movie({ params } : MovieProps ){
     backgroundRepeat: "no-repeat",
   };
   if (typeof data.poster_path == "string") {
-    css = await getCssBlurIMG(
-      config.imgUrlS01 + data.poster_path
-    )
+    css = await getCssBlurIMG(config.imgUrlS01 + data.poster_path);
   }
 
   if (!data || !params.movieId) {
@@ -168,50 +169,42 @@ export default async function Movie({ params } : MovieProps ){
 
   return (
     <Container>
-      <div className="h-min w-full relative paddingHeader z-30">
-        <div className="w-screen left-[50%] translate-x-[-50%]  h-full absolute top-0  z-[-1] overflow-hidden bg-nightDew-400 ">
+      <div className="paddingHeader relative z-30 h-min w-full">
+        <div className="absolute left-[50%] top-0 z-[-1] h-full w-screen translate-x-[-50%] overflow-hidden bg-nightDew-400">
           <div
             style={css}
-            className="w-full h-full  bg-no-repeat opacity-70 blur-3xl animate-mainMovie"
+            className="h-full w-full animate-mainMovie bg-no-repeat opacity-70 blur-3xl"
           />
-          <div className="w-full h-full absolute top-0 left-0 backdrop-blur-3xl bg-black/50" />
+          <div className="absolute left-0 top-0 h-full w-full bg-black/50 backdrop-blur-3xl" />
         </div>
-        <div className="md:gridTemplateSpace xl:grid-cols-[repeat(20,_minmax(0,_1fr))] items-center blockContainer max-md:flex max-md:flex-col max-md:w-fit max-md:items-start gap-0">
-          <div className="md:col-span-4 lg:col-span-5 max-md:w-full">
-            <div className="aspect-[2/3]  flex justify-start items-center max-md:max-h-[75vh] max-md:min-h-80  relative before:block before:absolute before:w-full before:aspect-[2/3] before:bg-nightDew-600 before:scale-75 before:rounded-xl before:blur-md before:z-20">
+        <div className="md:gridTemplateSpace blockContainer items-center gap-0 max-md:flex max-md:w-fit max-md:flex-col max-md:items-start xl:grid-cols-[repeat(20,_minmax(0,_1fr))]">
+          <div className="max-md:w-full md:col-span-4 lg:col-span-5">
+            <div className="relative flex aspect-[2/3] items-center justify-start before:absolute before:z-20 before:block before:aspect-[2/3] before:w-full before:scale-75 before:rounded-xl before:bg-nightDew-600 before:blur-md max-md:max-h-[75vh] max-md:min-h-80">
               {typeof data.poster_path == "string" ? (
                 <img
                   srcSet={`${config.imgUrlS}${data.poster_path} 342w, ${config.imgUrlM}${data.poster_path} 500w, ${config.imgUrlL}${data.poster_path} 780w`}
                   sizes="(max-width: 342px) 342px, (max-width: 500px) 500px, (max-width: 767px) 780px, (min-width: 768px) 300px, 500px"
                   src={`${config.imgUrlM}${data.poster_path}`}
                   alt={data.original_title}
-                  className="rounded-lg object-contain mid-shadow z-30 contrast-[1.1]
-                "
+                  className="mid-shadow z-30 rounded-lg object-contain contrast-[1.1]"
                 />
               ) : (
-                <div className="rounded-lg flex flex-col justify-center gap-5 items-center pb-10 pt-10  w-full h-full overflow-hidden unavailable  break-words  mid-shadow z-30 contrast-[1.1] aspect-[2/3] backdrop-blur-xl">
-                  <p className="textBtn text-opacity-30 w-full text-wrap text-center text-nightDew-300">
+                <div className="unavailable mid-shadow z-30 flex aspect-[2/3] h-full w-full flex-col items-center justify-center gap-5 overflow-hidden break-words rounded-lg pb-10 pt-10 contrast-[1.1] backdrop-blur-xl">
+                  <p className="textBtn w-full text-wrap text-center text-nightDew-300 text-opacity-30">
                     imagem indisponível
                   </p>
-                  <p className=" w-full px-3 text-lg text-wrap text-center text-nightDew-300 textBtn text-opacity-20">
+                  <p className="textBtn w-full text-wrap px-3 text-center text-lg text-nightDew-300 text-opacity-20">
                     {data.title}
                   </p>
                 </div>
               )}
             </div>
           </div>
-          <dl
-            className="relative z-40 md:col-span-8 lg:col-[span_15_/_span_15]   md:px-4 md:pb-4 rounded-lg
-              h-auto  "
-          >
-            <h2
-              className="font-semibold tracking-wide text-4xl px-1 py-5 
-              md:col-span-4 lg:col-span-5 
-                  text-nightDew-100"
-            >
+          <dl className="relative z-40 h-auto rounded-lg md:col-span-8 md:px-4 md:pb-4 lg:col-[span_15_/_span_15]">
+            <h2 className="px-1 py-5 text-4xl font-semibold tracking-wide text-nightDew-100 md:col-span-4 lg:col-span-5">
               {data.title}
             </h2>
-            <dd className="data mb-2  text-nightDew-100 font-semibold mt-[-1.25rem]">
+            <dd className="data mb-2 mt-[-1.25rem] font-semibold text-nightDew-100">
               {data.release_date && <>{formatDateNumber(data.release_date)}</>}
               {" - "}
               {data.genres && (
@@ -221,8 +214,8 @@ export default async function Movie({ params } : MovieProps ){
 
             {data.overview && (
               <>
-                <dt className="label text-nightDew-100  font-bold">Sinopse:</dt>
-                <dd className="data mb-2 text-nightDew-100  font-semibold">
+                <dt className="label font-bold text-nightDew-100">Sinopse:</dt>
+                <dd className="data mb-2 font-semibold text-nightDew-100">
                   {data.overview}
                 </dd>
               </>
@@ -240,7 +233,7 @@ export default async function Movie({ params } : MovieProps ){
       <div>
         <SubTitle>Mais detalhes</SubTitle>
 
-        <div className="ListSpacing no-scrollbar ">
+        <div className="ListSpacing no-scrollbar">
           <CardInformation>
             {data.original_title && (
               <>
@@ -296,7 +289,7 @@ export default async function Movie({ params } : MovieProps ){
               <>
                 <dt className="label">Produzido por:</dt>
                 <dd className="data mb-2">
-                  <ul className="list-none ">
+                  <ul className="list-none">
                     {data.production_companies.map((value, i, a) => (
                       <li key={i} className="mr-1">
                         {value.name}
@@ -311,7 +304,7 @@ export default async function Movie({ params } : MovieProps ){
               <>
                 <dt className="label">Pais de produção:</dt>
                 <dd className="data mb-2">
-                  <ul className="list-none ">
+                  <ul className="list-none">
                     {data.production_countries.map((value, i, a) => (
                       <li key={i} className="mr-1">
                         {value.name}
@@ -339,7 +332,7 @@ export default async function Movie({ params } : MovieProps ){
                     href={data.homepage}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="underline p-2 m-[-4px] rounded-lg backBtn-hover"
+                    className="backBtn-hover m-[-4px] rounded-lg p-2 underline"
                   >
                     Site Oficial
                   </a>
@@ -351,18 +344,14 @@ export default async function Movie({ params } : MovieProps ){
         <div className="blockContainer">
           <CardInformation>
             <Suspense>
-              <Translations movieId={params.movieId} /> 
-            </Suspense> 
+              <Translations movieId={params.movieId} />
+            </Suspense>
           </CardInformation>
-     </div>
-       </div> 
+        </div>
+      </div>
       <People cast={data.credits.cast} crew={data.credits.crew} />
 
-      <Suspense
-        fallback={
-          <SkeletonListMovie />
-        }
-      >
+      <Suspense fallback={<SkeletonListMovie />}>
         <Recommendations
           movieID={params.movieId}
           rootFilm={{

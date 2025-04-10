@@ -1,6 +1,7 @@
-import { NowPlaying } from '@/components/utils/types';
-import { MetadataRoute } from 'next'
+import { MetadataRoute } from "next";
+
 import config from "@/components/utils/config";
+import { NowPlaying } from "@/components/utils/types";
 
 async function getTheatres() {
   const options = {
@@ -13,7 +14,7 @@ async function getTheatres() {
 
   const res = await fetch(
     `${config.apiUrlM}now_playing?language=pt-BR&watch_region=BR&page=1`,
-    options
+    options,
   );
 
   if (!res.ok) {
@@ -22,34 +23,33 @@ async function getTheatres() {
 
   const data: NowPlaying = await res.json();
 
-
   return data.results.map((movie) => ({
     slug: movie.id,
   }));
 }
- 
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const movies = await getTheatres(); 
+  const movies = await getTheatres();
 
   const moviesUrls = movies.map((movie) => ({
-    url:`https://whatmovie.com.br/movie/${movie.slug}`,
+    url: `https://whatmovie.com.br/movie/${movie.slug}`,
     lastModified: new Date(),
     priority: 0.8,
-  }))
+  }));
 
   return [
     {
-      url: 'https://whatmovie.com.br',
+      url: "https://whatmovie.com.br",
       lastModified: new Date(),
-      changeFrequency: 'daily',
+      changeFrequency: "daily",
       priority: 1,
     },
     {
-      url: 'https://whatmovie.com.br/filter',
+      url: "https://whatmovie.com.br/filter",
       lastModified: new Date(),
-      changeFrequency: 'daily',
+      changeFrequency: "daily",
       priority: 0.5,
     },
     ...moviesUrls,
-  ]
+  ];
 }

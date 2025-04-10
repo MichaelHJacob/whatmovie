@@ -13,7 +13,7 @@ export type TranslationsType = {
       title: string;
     };
   }[];
-}
+};
 
 export type WMProviderType = {
   id: number;
@@ -21,7 +21,7 @@ export type WMProviderType = {
     BR?: Provider;
     string?: Provider;
   };
-}
+};
 
 export type Provider = {
   link: string;
@@ -43,7 +43,7 @@ export type Provider = {
     provider_name: string;
     display_priority: number;
   }[];
-}
+};
 
 export type MovieProviders = {
   results: {
@@ -53,20 +53,20 @@ export type MovieProviders = {
     provider_name: string;
     provider_id: number;
   }[];
-}
+};
 
 export type TypeBtnProvider = {
   logo_path: string;
   provider_name: string;
   provider_id: number;
   state: boolean;
-}
+};
 
 export type TypeBtnGenres = {
   id: number;
   name: string;
   state: boolean;
-}
+};
 
 export type VideosResultsType = {
   iso_639_1: string;
@@ -79,12 +79,12 @@ export type VideosResultsType = {
   official: boolean;
   published_at: string;
   id: string;
-}
+};
 
 export type VideosType = {
   id: number;
   results: VideosResultsType[];
-}
+};
 
 export type NowPlaying = {
   dates: { maximum: string; minimum: string };
@@ -92,32 +92,32 @@ export type NowPlaying = {
   results: MovieType[];
   total_pages: number;
   total_results: number;
-}
+};
 
 export type ArrayMoviesType = {
   current_page: number;
   results: MovieClient[];
-}
+};
 
 export type CardMovieType = {
   page: number;
   total_pages: number;
   results: MovieClient[];
-}
+};
 
 export type DiscoverType = {
   page: number;
   results: MovieType[];
   total_pages: number;
   total_results: number;
-}
+};
 
 export type RecommendationsType = {
   page: number;
   results: RecommendationsMovie[];
   total_pages: number;
   total_results: number;
-}
+};
 
 export type RecommendationsMovie = {
   backdrop_path: string;
@@ -135,7 +135,7 @@ export type RecommendationsMovie = {
   video: false;
   vote_average: number;
   vote_count: number;
-}
+};
 export type RecommendationsMovieRate = {
   recommended: number;
   backdrop_path: string;
@@ -153,14 +153,14 @@ export type RecommendationsMovieRate = {
   video: false;
   vote_average: number;
   vote_count: number;
-}
+};
 
 export type MovieClient = {
   adult?: boolean;
   id: number;
   title?: string;
   poster_path: string;
-}
+};
 
 export type MovieType = {
   adult: boolean;
@@ -177,7 +177,7 @@ export type MovieType = {
   video: boolean;
   vote_average: number;
   vote_count: number;
-}
+};
 
 export type DetailsMovieType = {
   adult: boolean;
@@ -235,14 +235,14 @@ export type DetailsMovieType = {
       string?: Provider;
     };
   };
-}
-export type PropsPeople = {cast?: CastType[]; crew?: CrewType[]} 
+};
+export type PropsPeople = { cast?: CastType[]; crew?: CrewType[] };
 
 export type CreditsType = {
   id: number;
   cast: CastType[];
   crew: CrewType[];
-}
+};
 
 export type CastType = {
   adult: boolean;
@@ -257,7 +257,7 @@ export type CastType = {
   character: string;
   credit_id: string;
   order: number;
-}
+};
 
 export type CrewType = {
   adult: boolean;
@@ -271,14 +271,14 @@ export type CrewType = {
   credit_id: string;
   department: string;
   job: string;
-}
+};
 
 export type ListGenres = {
   genres: {
     id: number;
     name: string;
   }[];
-}
+};
 
 export type SearchResult = {
   adult: boolean;
@@ -295,4 +295,4 @@ export type SearchResult = {
   video: boolean;
   vote_average: number;
   vote_count: number;
-}
+};

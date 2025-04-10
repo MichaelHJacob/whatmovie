@@ -1,31 +1,34 @@
 "use client";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
+
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+
+import GenreSelector from "@/app/filter/components/Filter/FilterMenu/GenreSelector";
+import ProviderSelector from "@/app/filter/components/Filter/FilterMenu/ProviderSelector";
+import RangeVoteSelector from "@/app/filter/components/Filter/FilterMenu/RangeVoteSelector";
+import SortBySelector from "@/app/filter/components/Filter/FilterMenu/SortBySelector";
+import GenreButton from "@/app/filter/components/ui/GenreButton";
+import ProviderButton from "@/app/filter/components/ui/ProviderButton";
+import Container from "@/components/layout/Container";
+import BreakHr from "@/components/ui/BreakHr";
 import {
   ListGenres,
   MovieProviders,
   TypeBtnGenres,
   TypeBtnProvider,
 } from "@/components/utils/types";
-import BreakHr from "@/components/ui/BreakHr";
-import Container from "@/components/layout/Container";
-import GenreSelector  from "@/app/filter/components/Filter/FilterMenu/GenreSelector";
-import ProviderSelector  from "@/app/filter/components/Filter/FilterMenu/ProviderSelector";
-import RangeVoteSelector  from "@/app/filter/components/Filter/FilterMenu/RangeVoteSelector";
-import SortBySelector  from "@/app/filter/components/Filter/FilterMenu/SortBySelector";
-import ProviderButton from "@/app/filter/components/ui/ProviderButton";
-import GenreButton from "@/app/filter/components/ui/GenreButton";
 
-type FilterMenuProps = { 
+type FilterMenuProps = {
   children: ReactNode;
-  filters: { listGenres: ListGenres; listProviders: MovieProviders; }; 
-}
+  filters: { listGenres: ListGenres; listProviders: MovieProviders };
+};
 
 export default function FilterMenu({ children, filters }: FilterMenuProps) {
-  const { replace } = useRouter(); 
-  const inicialParams = useRef(useSearchParams())
+  const { replace } = useRouter();
+  const inicialParams = useRef(useSearchParams());
   const pathname = usePathname();
-  const params = new URLSearchParams(inicialParams.current)
+  const params = new URLSearchParams(inicialParams.current);
   const timeId = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
   const divFilters = useRef<HTMLDivElement>(null);
 
@@ -34,111 +37,109 @@ export default function FilterMenu({ children, filters }: FilterMenuProps) {
   const [resetGenres, setRGenres] = useState<TypeBtnGenres[] | null>(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [dataProviders, setProviders] = useState<TypeBtnProvider[] | null>(
-    null
+    null,
   );
   const [usualP, setUsualP] = useState<TypeBtnProvider[]>([]);
   const [resetProviders, setRProviders] = useState<TypeBtnProvider[] | null>(
-    null
+    null,
   );
 
   const inicialValues = useCallback(() => {
     const activeGenres = inicialParams.current.get("g")?.split(",") || [];
     const activeProviders = inicialParams.current.get("p")?.split(",") || [];
-        setUsualG(
-          filters.listGenres.genres
-            .filter((value) => activeGenres.includes(`${value.id}`))
-            .map((value) => {
-              return {
-                id: value.id,
-                name: value.name,
-                state: true,
-              };
-            })
-        );
+    setUsualG(
+      filters.listGenres.genres
+        .filter((value) => activeGenres.includes(`${value.id}`))
+        .map((value) => {
+          return {
+            id: value.id,
+            name: value.name,
+            state: true,
+          };
+        }),
+    );
 
-        setGenres(
-          filters.listGenres.genres.map((value) => {
-            return {
-              id: value.id,
-              name: value.name,
-              state: activeGenres.includes(`${value.id}`),
-            };
-          })
-        );
+    setGenres(
+      filters.listGenres.genres.map((value) => {
+        return {
+          id: value.id,
+          name: value.name,
+          state: activeGenres.includes(`${value.id}`),
+        };
+      }),
+    );
 
-        setRGenres(
-          filters.listGenres.genres.map((value) => {
-            return {
-              id: value.id,
-              name: value.name,
-              state: false,
-            };
-          })
-        );
-      
-        setUsualP(
-          filters.listProviders.results
-            .filter((value) => activeProviders.includes(`${value.provider_id}`))
-            .map((value) => {
-              return {
-                logo_path: value.logo_path,
-                provider_name: value.provider_name,
-                provider_id: value.provider_id,
-                state: true,
-              };
-            })
-        );
+    setRGenres(
+      filters.listGenres.genres.map((value) => {
+        return {
+          id: value.id,
+          name: value.name,
+          state: false,
+        };
+      }),
+    );
 
-        setProviders(
-          filters.listProviders.results.map((value) => {
-            return {
-              logo_path: value.logo_path,
-              provider_name: value.provider_name,
-              provider_id: value.provider_id,
-              state: activeGenres.includes(`${value.provider_id}`),
-            };
-          })
-        );
+    setUsualP(
+      filters.listProviders.results
+        .filter((value) => activeProviders.includes(`${value.provider_id}`))
+        .map((value) => {
+          return {
+            logo_path: value.logo_path,
+            provider_name: value.provider_name,
+            provider_id: value.provider_id,
+            state: true,
+          };
+        }),
+    );
 
-        setRProviders(
-          filters.listProviders.results.map((value) => {
-            return {
-              logo_path: value.logo_path,
-              provider_name: value.provider_name,
-              provider_id: value.provider_id,
-              state: false,
-            };
-          })
-        );
-      
-  } , [filters] )
+    setProviders(
+      filters.listProviders.results.map((value) => {
+        return {
+          logo_path: value.logo_path,
+          provider_name: value.provider_name,
+          provider_id: value.provider_id,
+          state: activeGenres.includes(`${value.provider_id}`),
+        };
+      }),
+    );
 
-  useEffect(() => {    
-    inicialValues()
+    setRProviders(
+      filters.listProviders.results.map((value) => {
+        return {
+          logo_path: value.logo_path,
+          provider_name: value.provider_name,
+          provider_id: value.provider_id,
+          state: false,
+        };
+      }),
+    );
+  }, [filters]);
+
+  useEffect(() => {
+    inicialValues();
   }, [inicialValues]);
 
   function FilterMenuButton() {
     function open() {
       const element = document.getElementById(
-        isFilterOpen == true ? "Movies" : "filtersID"
+        isFilterOpen == true ? "Movies" : "filtersID",
       );
       setIsFilterOpen(!isFilterOpen);
       if (element) element.scrollIntoView({ behavior: "smooth" });
     }
 
     return (
-      <button
-        onClick={open}
-        className="
-      main-backBtn backBtn  xl:hidden  "
-      >
+      <button onClick={open} className="main-backBtn backBtn xl:hidden">
         <span
-          className={`w-[12px] h-[12px] ${isFilterOpen
-            ? "rotate-[190deg] animate-rotateToL"
-            : "rotate-[0deg] animate-rotateToR order-1"
-            } bg-[url('/icons/toRight.svg')] bg-[length:12px_12px] bg-[center_center] bg-no-repeat transition-all duration-300 `}
+          className={`h-[12px] w-[12px] ${
+            isFilterOpen
+              ? "rotate-[190deg] animate-rotateToL"
+              : "order-1 rotate-[0deg] animate-rotateToR"
+          } bg-[url('/icons/toRight.svg')] bg-[length:12px_12px] bg-[center_center] bg-no-repeat transition-all duration-300`}
         ></span>
-        <span className="textBtn">{isFilterOpen ? "Fechar" : "Expandir filtro"}</span>
+        <span className="textBtn">
+          {isFilterOpen ? "Fechar" : "Expandir filtro"}
+        </span>
       </button>
     );
   }
@@ -211,7 +212,7 @@ export default function FilterMenu({ children, filters }: FilterMenuProps) {
             state: value.state,
           };
         }
-      })
+      }),
     );
 
     if (usualG.length > 0) {
@@ -227,7 +228,7 @@ export default function FilterMenu({ children, filters }: FilterMenuProps) {
             } else {
               return value;
             }
-          })
+          }),
         );
       } else {
         setUsualG([
@@ -273,7 +274,7 @@ export default function FilterMenu({ children, filters }: FilterMenuProps) {
         } else {
           return value;
         }
-      })
+      }),
     );
 
     setUsualG(
@@ -287,7 +288,7 @@ export default function FilterMenu({ children, filters }: FilterMenuProps) {
         } else {
           return value;
         }
-      })
+      }),
     );
 
     const getTrue = usualG
@@ -320,7 +321,7 @@ export default function FilterMenu({ children, filters }: FilterMenuProps) {
         } else {
           return value;
         }
-      })
+      }),
     );
 
     if (usualP.length > 0) {
@@ -340,7 +341,7 @@ export default function FilterMenu({ children, filters }: FilterMenuProps) {
             } else {
               return value;
             }
-          })
+          }),
         );
       } else {
         setUsualP([
@@ -390,7 +391,7 @@ export default function FilterMenu({ children, filters }: FilterMenuProps) {
         } else {
           return value;
         }
-      })
+      }),
     );
 
     setUsualP(
@@ -405,7 +406,7 @@ export default function FilterMenu({ children, filters }: FilterMenuProps) {
         } else {
           return value;
         }
-      })
+      }),
     );
 
     const getTrue = usualP
@@ -426,24 +427,14 @@ export default function FilterMenu({ children, filters }: FilterMenuProps) {
   return (
     <div
       onScroll={handleFilterMenu}
-      className="overflow-x-auto w-auto h-dvh snap-x z-10 snap-mandatory whitespace-nowrap overscroll-x-contain xl:mx-auto xl:w-auto no-scrollbar scrollStyle"
+      className="no-scrollbar scrollStyle z-10 h-dvh w-auto snap-x snap-mandatory overflow-x-auto overscroll-x-contain whitespace-nowrap xl:mx-auto xl:w-auto"
     >
       <div
         ref={divFilters}
         id="filtersID"
-        className="  h-full min-w-80 w-[80vw] max-w-sm lg:max-w-lg xl:max-w-md  inline-block overscroll-x-contain overflow-y-scroll snap-end snap-always overscroll-y-contain bg-nightDew-100"
+        className="inline-block h-full w-[80vw] min-w-80 max-w-sm snap-end snap-always overflow-y-scroll overscroll-y-contain overscroll-x-contain bg-nightDew-100 lg:max-w-lg xl:max-w-md"
       >
-        <menu
-          className="flex flex-col 
-            gap-[--gap] 
-            xs:gap-[--gapXS] 
-            md:gap-[--gapMD] 
-            lg:gap-[--gapLG] 
-            list-none
-            paddingHeader
-            blockContainer-b
-            "
-        >
+        <menu className="paddingHeader blockContainer-b flex list-none flex-col gap-[--gap] xs:gap-[--gapXS] md:gap-[--gapMD] lg:gap-[--gapLG]">
           <SortBySelector />
           <BreakHr color={"border-nightDew-300"} />
           <RangeVoteSelector />
@@ -471,14 +462,14 @@ export default function FilterMenu({ children, filters }: FilterMenuProps) {
 
       <div
         id="Movies"
-        className="snap-start snap-always h-full w-screen  xl:w-[calc(100%-448px)] inline-block overscroll-y-contain  overflow-auto  "
+        className="inline-block h-full w-screen snap-start snap-always overflow-auto overscroll-y-contain xl:w-[calc(100%-448px)]"
       >
         <Container paddingTop>
-          <div className="w-full h-11 bg-nightDew-200/30 backdrop-blur-md sticky top-11 z-50 flex items-center  gap-2 overflow-x-scroll no-scrollbar  blockContainer-x blockContainer-mb">
+          <div className="no-scrollbar blockContainer-x blockContainer-mb sticky top-11 z-50 flex h-11 w-full items-center gap-2 overflow-x-scroll bg-nightDew-200/30 backdrop-blur-md">
             <FilterMenuButton />
             <ResetButton />
             {usualP.length > 0 && (
-              <ul className="h-fit w-auto flex justify-start gap-2 select-none">
+              <ul className="flex h-fit w-auto select-none justify-start gap-2">
                 {usualP.map((value) => (
                   <li key={value.provider_id} className="*:main-backBtn">
                     <ProviderButton
@@ -491,7 +482,7 @@ export default function FilterMenu({ children, filters }: FilterMenuProps) {
               </ul>
             )}
             {usualG.length > 0 && (
-              <ul className="h-fit w-auto  flex  gap-2 select-none  ">
+              <ul className="flex h-fit w-auto select-none gap-2">
                 {usualG.map((value) => (
                   <li key={value.id} className="*:main-backBtn">
                     <GenreButton

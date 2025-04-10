@@ -1,9 +1,12 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
-import { useSearchParams } from "next/navigation";
-import { SearchResult, ListGenres } from "@/components/utils/types";
+
+import { useEffect, useRef, useState } from "react";
+
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+
 import config from "@/components/utils/config";
+import { ListGenres, SearchResult } from "@/components/utils/types";
 
 export default function Search() {
   const searchParams = useSearchParams();
@@ -24,7 +27,9 @@ export default function Search() {
 
   function handleSearch(term: string) {
     setTerm(term);
-    if (timeGet.current) { clearTimeout(timeGet.current) };
+    if (timeGet.current) {
+      clearTimeout(timeGet.current);
+    }
     if (term.length > 1 && term !== " ") {
       timeGet.current = setTimeout(() => {
         getData(term);
@@ -43,7 +48,7 @@ export default function Search() {
 
   function formatGenres(genres: number[]) {
     const result = genres.map((value) =>
-      dataGenres?.genres.find((element) => element.id == value)
+      dataGenres?.genres.find((element) => element.id == value),
     );
     return result.map((term) => term?.name).join(", ");
   }
@@ -66,11 +71,13 @@ export default function Search() {
         if (details.current !== null) {
           if (details.current.hasAttribute("open")) {
             details.current.toggleAttribute("open");
-            if(input.current) {input.current.blur()};
+            if (input.current) {
+              input.current.blur();
+            }
           }
         }
       }}
-      className="relative sm:open:w-[80vw] w-[50vw] min-w-8 sm:w-auto sm:min-w-fit open:w-full transition-all duration-300 peer order-2 open:mx-[calc(var(--gap)*-1)] xs:open:mx-[calc(var(--gapXS)*-1)] select-none group"
+      className="group peer relative order-2 w-[50vw] min-w-8 select-none transition-all duration-300 open:mx-[calc(var(--gap)*-1)] open:w-full xs:open:mx-[calc(var(--gapXS)*-1)] sm:w-auto sm:min-w-fit sm:open:w-[80vw]"
     >
       <summary
         onKeyUp={(e) => {
@@ -87,16 +94,13 @@ export default function Search() {
             }
           }
         }}
-        className=" cursor-pointer sm:pl-[--pXS] lg:pl-[--pLG] flex relative z-10 group-open:gap-[var(--gap)] group-open:xs:gap-[var(--gapXS)] md:gap-[var(--gapMD)] lg:gap-[var(--gapLG)]"
+        className="relative z-10 flex cursor-pointer group-open:gap-[var(--gap)] group-open:xs:gap-[var(--gapXS)] sm:pl-[--pXS] md:gap-[var(--gapMD)] lg:gap-[var(--gapLG)] lg:pl-[--pLG]"
       >
-        <span
-          className=" group-open:w-11 aspect-square w-0 h-11 inline opacity-0 group-open:opacity-100
-      sm:bg-[url('/icons/close.svg')] bg-[url('/icons/toLeft.svg')] bg-[length:12px_12px] bg-center  bg-no-repeat  rounded-lg backBtn  shadow-lg shadow-transparent px-0"
-        />
+        <span className="backBtn inline aspect-square h-11 w-0 rounded-lg bg-[url('/icons/toLeft.svg')] bg-[length:12px_12px] bg-center bg-no-repeat px-0 opacity-0 shadow-lg shadow-transparent group-open:w-11 group-open:opacity-100 sm:bg-[url('/icons/close.svg')]" />
 
         <label
           htmlFor="search"
-          className=" inline-flex items-center justify-start w-full cursor-pointer "
+          className="inline-flex w-full cursor-pointer items-center justify-start"
         >
           <input
             ref={input}
@@ -121,8 +125,7 @@ export default function Search() {
             }}
             type="search"
             autoComplete="off"
-            className="header-backBtn textBtn text-base   pl-9 bg-[url('/icons/lupa.svg')] bg-[length:12px_12px] bg-[center_left_0.9rem]  bg-no-repeat   max-sm:w-full  rounded-lg    shadow-lg shadow-transparent peer order-2 
-            group-open:bg-nightDew-200  group-open:w-full focus:bg-nightDew-200/80 placeholder:textBtn max-sm:placeholder:text-opacity-0 bg-nightDew-300"
+            className="header-backBtn textBtn placeholder:textBtn peer order-2 rounded-lg bg-nightDew-300 bg-[url('/icons/lupa.svg')] bg-[length:12px_12px] bg-[center_left_0.9rem] bg-no-repeat pl-9 text-base shadow-lg shadow-transparent focus:bg-nightDew-200/80 group-open:w-full group-open:bg-nightDew-200 max-sm:w-full max-sm:placeholder:text-opacity-0"
             id="search"
             placeholder="Buscar por filme"
             onChange={(e) => {
@@ -135,15 +138,17 @@ export default function Search() {
 
       <div
         onTouchMove={() => {
-          if (input.current) {input.current.blur()};
+          if (input.current) {
+            input.current.blur();
+          }
         }}
-        className="   max-sm:fixed absolute top-0 left-0 sm:left-1 z-0  overflow-y-auto h-dvh   overscroll-contain no-scrollbar box-content sm:w-[calc(100%+var(--pXS))] md:w-[calc(100%+var(--pMD))] lg:w-[calc(100%+var(--pLG))] xl:pr-[calc((100vw-1280px)/2)] max-sm:w-screen bg-nightDew-200/80 backdrop-contrast-100  backdrop-saturate-200 backdrop-blur-2xl animate-show  duration-300 bg-gradient-to-b from-nightDew-200 "
+        className="no-scrollbar absolute left-0 top-0 z-0 box-content h-dvh animate-show overflow-y-auto overscroll-contain bg-nightDew-200/80 bg-gradient-to-b from-nightDew-200 backdrop-blur-2xl backdrop-contrast-100 backdrop-saturate-200 duration-300 max-sm:fixed max-sm:w-screen sm:left-1 sm:w-[calc(100%+var(--pXS))] md:w-[calc(100%+var(--pMD))] lg:w-[calc(100%+var(--pLG))] xl:pr-[calc((100vw-1280px)/2)]"
       >
-        <div className="bg-gradient-to-b  from-nightDew-200/80  via-nightDew-200/50 bg-transparent  sticky top-0  left-0 h-[5.5rem] backdrop-blur-[1px] w-full   backdrop-saturate-[1.2]   z-10 ">
-          <div className="bg-gradient-to-b from-nightDew-200/80  via-nightDew-200/70 to-transparent  absolute top-0  left-0 h-11 backdrop-blur-[2px] w-full   z-10 " />
+        <div className="sticky left-0 top-0 z-10 h-[5.5rem] w-full bg-transparent bg-gradient-to-b from-nightDew-200/80 via-nightDew-200/50 backdrop-blur-[1px] backdrop-saturate-[1.2]">
+          <div className="absolute left-0 top-0 z-10 h-11 w-full bg-gradient-to-b from-nightDew-200/80 via-nightDew-200/70 to-transparent backdrop-blur-[2px]" />
         </div>
         <div>
-          <ul className="h-full w-full flex justify-start flex-col items-start gap-[var(--gap)] xs:gap-[var(--gapXS)] md:gap-[var(--gapMD)] lg:gap-[var(--gapLG)]  box-border blockContainer">
+          <ul className="blockContainer box-border flex h-full w-full flex-col items-start justify-start gap-[var(--gap)] xs:gap-[var(--gapXS)] md:gap-[var(--gapMD)] lg:gap-[var(--gapLG)]">
             {data !== null &&
               data
                 ?.filter((value) => value.vote_count >= 100)
@@ -162,33 +167,32 @@ export default function Search() {
                     >
                       <Link
                         href={`/movie/${value.id}`}
-                        className=" flex h-full w-full group "
+                        className="group flex h-full w-full"
                       >
                         {value.poster_path ? (
                           <img
-                            src={
-                              config.imgUrlS02 +
-                              value.poster_path
-                            }
+                            src={config.imgUrlS02 + value.poster_path}
                             alt={value.title}
-                            className=" aspect-[18/27] h-full transition-all duration-300 rounded-lg group-hover/list:rounded-r-none"
+                            className="aspect-[18/27] h-full rounded-lg transition-all duration-300 group-hover/list:rounded-r-none"
                           />
                         ) : (
-                          <div className=" h-full aspect-[18/27]  min-w-min transition-all duration-300 rounded-lg group-hover/list:rounded-r-none   overflow-hidden  relative  justify-between items-center unavailable  object-cover">
-                            <p className="textBtn text-opacity-30  text-wrap  w-min text-xs absolute top-1 left-[50%] translate-x-[-50%]  ">
+                          <div className="unavailable relative aspect-[18/27] h-full min-w-min items-center justify-between overflow-hidden rounded-lg object-cover transition-all duration-300 group-hover/list:rounded-r-none">
+                            <p className="textBtn absolute left-[50%] top-1 w-min translate-x-[-50%] text-wrap text-xs text-opacity-30">
                               imagem indisponível
                             </p>
                           </div>
                         )}
-                        <dl className="flex flex-col justify-center items-start px-4  w-full ">
-                          <dt className="label line-clamp-1 leading-normal py-0">{value.title}</dt>
+                        <dl className="flex w-full flex-col items-start justify-center px-4">
+                          <dt className="label line-clamp-1 py-0 leading-normal">
+                            {value.title}
+                          </dt>
                           {value.release_date && (
-                            <dd className="data leading-normal py-0">
+                            <dd className="data py-0 leading-normal">
                               {formatDate(value.release_date)}
                             </dd>
                           )}
                           {value.genre_ids && (
-                            <dd className="data line-clamp-1 leading-normal py-0">
+                            <dd className="data line-clamp-1 py-0 leading-normal">
                               {dataGenres && formatGenres(value.genre_ids)}
                             </dd>
                           )}

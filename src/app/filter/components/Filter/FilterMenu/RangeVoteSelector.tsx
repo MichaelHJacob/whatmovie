@@ -1,5 +1,6 @@
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, useRef, useState } from "react";
+
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function RangeVoteSelector() {
   const { replace } = useRouter();
@@ -8,16 +9,16 @@ export default function RangeVoteSelector() {
   const params = new URLSearchParams(searchParams);
 
   const [minRange, setMinRange] = useState(
-    Number(searchParams?.get("vote_gte")) || 0
+    Number(searchParams?.get("vote_gte")) || 0,
   );
   const [maxRange, setMaxRange] = useState(
-    Number(searchParams?.get("vote_lte")) || 10
+    Number(searchParams?.get("vote_lte")) || 10,
   );
   const [minNumber, setMinNumber] = useState(
-    searchParams?.get("vote_gte") || "0"
+    searchParams?.get("vote_gte") || "0",
   );
   const [maxNumber, setMaxNumber] = useState(
-    searchParams?.get("vote_lte") || "10"
+    searchParams?.get("vote_lte") || "10",
   );
 
   const leftSide = `${Math.floor((minRange / 10) * 100)}%`;
@@ -132,20 +133,17 @@ export default function RangeVoteSelector() {
 
   return (
     <li>
-      <fieldset className="flex flex-col gap-[--gap] xs:gap-[--gapXS] md:gap-[--gapMD] lg:gap-[--gapLG] max-h-fit ">
-        <legend
-          className="blockContainer-x 
-      pb-[--gap] xs:pb-[--gapXS] md:pb-[--gapMD] lg:pb-[--gapLG]"
-        >
+      <fieldset className="flex max-h-fit flex-col gap-[--gap] xs:gap-[--gapXS] md:gap-[--gapMD] lg:gap-[--gapLG]">
+        <legend className="blockContainer-x pb-[--gap] xs:pb-[--gapXS] md:pb-[--gapMD] lg:pb-[--gapLG]">
           <span className="filter-label">Pontuação:</span>
         </legend>
-        <div className="w-full flex justify-between blockContainer-x ">
+        <div className="blockContainer-x flex w-full justify-between">
           <label className="backBtn flex items-center">
-            <span className="textBtn uppercase text-xs opacity-65">Min</span>
+            <span className="textBtn text-xs uppercase opacity-65">Min</span>
             <input
               type="number"
               value={minNumber}
-              className="text-center textBtn    rounded-lg  bg-transparent w-[44px] h-11 mx-[-10px] "
+              className="textBtn mx-[-10px] h-11 w-[44px] rounded-lg bg-transparent text-center"
               onChange={(e) => numberMin(e)}
               onTouchStartCapture={() => {
                 setMinNumber("");
@@ -159,10 +157,10 @@ export default function RangeVoteSelector() {
           </label>
 
           <label className="backBtn flex items-center">
-            <span className="textBtn uppercase text-xs opacity-65">Max</span>
+            <span className="textBtn text-xs uppercase opacity-65">Max</span>
             <input
               type="number"
-              className=" text-center textBtn    rounded-lg  bg-transparent w-[44px] h-11 mx-[-10px]"
+              className="textBtn mx-[-10px] h-11 w-[44px] rounded-lg bg-transparent text-center"
               value={maxNumber}
               onChange={(e) => numberMax(e)}
               onTouchStartCapture={() => {
@@ -176,10 +174,10 @@ export default function RangeVoteSelector() {
           </label>
         </div>
 
-        <div className=" w-full h-11  pt-[20px] blockContainer-x ">
-          <div className="h-1 bg-nightDew-300 relative rounded-lg">
+        <div className="blockContainer-x h-11 w-full pt-[20px]">
+          <div className="relative h-1 rounded-lg bg-nightDew-300">
             <div
-              className="h-full absolute rounded-lg bg-selector-100  "
+              className="absolute h-full rounded-lg bg-selector-100"
               style={{
                 right: rightSide,
                 left: leftSide,
@@ -190,7 +188,7 @@ export default function RangeVoteSelector() {
           <div className="relative">
             <input
               type="range"
-              className="absolute w-full h-0 top-[-2px] pointer-events-none appearance-none  "
+              className="pointer-events-none absolute top-[-2px] h-0 w-full appearance-none"
               min={0}
               max={10}
               step={0.1}
@@ -201,7 +199,7 @@ export default function RangeVoteSelector() {
             />
             <input
               type="range"
-              className="absolute w-full h-0 top-[-2px] pointer-events-none appearance-none"
+              className="pointer-events-none absolute top-[-2px] h-0 w-full appearance-none"
               min={0}
               max={10}
               step={0.1}

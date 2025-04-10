@@ -1,14 +1,11 @@
 import { ReactNode } from "react";
 
-type ContainerProps = { children: ReactNode;
-  paddingTop?: boolean;
- };
+type ContainerProps = { children: ReactNode; paddingTop?: boolean };
 
-export default function Container({ children,
-  paddingTop, } : ContainerProps ){
+export default function Container({ children, paddingTop }: ContainerProps) {
   return (
     <div
-      className={`max-w-7xl w-full h-auto mx-auto ${
+      className={`mx-auto h-auto w-full max-w-7xl ${
         paddingTop && "paddingHeader"
       }`}
     >

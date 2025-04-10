@@ -1,26 +1,25 @@
-import { TypeBtnGenres } from "@/components/utils/types";
 import { ChangeEvent } from "react";
 
-type GenreButtonProps = { genre: TypeBtnGenres;
+import { TypeBtnGenres } from "@/components/utils/types";
+
+type GenreButtonProps = {
+  genre: TypeBtnGenres;
   add: (picked: TypeBtnGenres) => void;
   remove: (picked: TypeBtnGenres) => void;
- };
+};
 
-export default function GenreButton({ genre,
-  add,
-  remove, } : GenreButtonProps ){
-
+export default function GenreButton({ genre, add, remove }: GenreButtonProps) {
   function handleCheckbox(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.checked) {
-      add(genre)
+      add(genre);
     } else {
-      remove(genre)
+      remove(genre);
     }
   }
 
   return (
     <label
-      className={`backBtn backdrop-blur-xl w-auto has-[:checked]:bg-selector-100 `}
+      className={`backBtn w-auto backdrop-blur-xl has-[:checked]:bg-selector-100`}
     >
       <input
         type="checkbox"
@@ -28,10 +27,10 @@ export default function GenreButton({ genre,
         checked={genre.state}
         onChange={handleCheckbox}
         name={`option${genre.id}`}
-        className="peer bg-transparent absolute appearance-none opacity-0 "
+        className="peer absolute appearance-none bg-transparent opacity-0"
       />
 
-      <span className="textBtn peer-checked:text-nightDew-100 text-nightDew-500 ">
+      <span className="textBtn text-nightDew-500 peer-checked:text-nightDew-100">
         {genre.name}
       </span>
     </label>

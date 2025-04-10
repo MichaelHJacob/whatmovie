@@ -1,8 +1,11 @@
-"use server"
-import { CardMovieType, DiscoverType } from "@/components/utils/types";
-import config from "@/components/utils/config";
+"use server";
 
-async function getFilter(parameters: { [key: string]: string | string[] | undefined }) {
+import config from "@/components/utils/config";
+import { CardMovieType, DiscoverType } from "@/components/utils/types";
+
+async function getFilter(parameters: {
+  [key: string]: string | string[] | undefined;
+}) {
   let certification = "certification.lte=16&certification_country=BR";
   let voteCount = "";
 
@@ -18,20 +21,24 @@ async function getFilter(parameters: { [key: string]: string | string[] | undefi
   };
 
   const vote = () => {
-    return `${parameters?.vote_gte !== undefined
+    return `${
+      parameters?.vote_gte !== undefined
         ? "&vote_average.gte=" + parameters?.vote_gte
         : ""
-      }${parameters?.vote_lte !== undefined
+    }${
+      parameters?.vote_lte !== undefined
         ? "&vote_average.lte=" + parameters?.vote_lte
         : ""
-      }`;
+    }`;
   };
 
   const genres = () => {
     if (typeof parameters?.g === "string") {
       const genres = parameters?.g.split(",");
       if (
-        ["27", "36", "9648", "10749", "53", "10752"].some(value => genres.includes(value))
+        ["27", "36", "9648", "10749", "53", "10752"].some((value) =>
+          genres.includes(value),
+        )
       ) {
         certification = "";
         return `&with_genres=${encodeURIComponent(parameters?.g)}`;
@@ -45,8 +52,9 @@ async function getFilter(parameters: { [key: string]: string | string[] | undefi
 
   const releaseDate = () => {
     const date: Date = new Date();
-    return `&primary_release_date.lte=${date.getFullYear()}-${date.getMonth() < 9 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
-      }-${date.getDate() <= 9 ? `0${date.getDate()}` : date.getDate()}`;
+    return `&primary_release_date.lte=${date.getFullYear()}-${
+      date.getMonth() < 9 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
+    }-${date.getDate() <= 9 ? `0${date.getDate()}` : date.getDate()}`;
   };
 
   const providers = () => {
@@ -90,15 +98,21 @@ async function getFilter(parameters: { [key: string]: string | string[] | undefi
   }
   return res.json();
 }
-export default async function fetchMovies(parameters: { [key: string]: string | undefined | string[] }) {
+export default async function fetchMovies(parameters: {
+  [key: string]: string | undefined | string[];
+}) {
   const data: DiscoverType = await getFilter(parameters);
   const dataCard: CardMovieType = {
-    page: data.page, total_pages: data.total_pages, results: data.results.map((value) => {
-      return ({
-        adult: value.adult, id: value.id, title: value.title, poster_path: value.poster_path
-      })
-    })
-  }
-  return dataCard
+    page: data.page,
+    total_pages: data.total_pages,
+    results: data.results.map((value) => {
+      return {
+        adult: value.adult,
+        id: value.id,
+        title: value.title,
+        poster_path: value.poster_path,
+      };
+    }),
+  };
+  return dataCard;
 }
-

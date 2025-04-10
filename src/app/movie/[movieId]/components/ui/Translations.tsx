@@ -8,10 +8,7 @@ async function getTranslations(movieID: string) {
       Authorization: `${process.env.DB_TOKEN_AUTH}`,
     },
   };
-  const res = await fetch(
-    config.apiUrlM + movieID + "/translations",
-    options
-  );
+  const res = await fetch(config.apiUrlM + movieID + "/translations", options);
 
   if (!res.ok) {
     throw new Error("Falha ao buscar dados");
@@ -21,9 +18,9 @@ async function getTranslations(movieID: string) {
 
 type TranslationsProps = {
   movieId: string;
-}
+};
 
-export default async function Translations({movieId} : TranslationsProps  ) {
+export default async function Translations({ movieId }: TranslationsProps) {
   const result: TranslationsType = await getTranslations(movieId);
 
   if (typeof result.translations == "object") {
