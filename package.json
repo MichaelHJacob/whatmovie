@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "generate-data": "ts-node scripts/createMetadata.ts",
+    "prebuild":  "npm run generate-data",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -12,6 +14,7 @@
     "@plaiceholder/next": "^3.0.0",
     "@plaiceholder/tailwindcss": "^3.0.0",
     "@vercel/analytics": "^1.1.1",
+    "dotenv": "^16.5.0",
     "next": "^14.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -32,6 +35,7 @@
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
     "typescript": "latest"
   }
 }

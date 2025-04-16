@@ -4,8 +4,8 @@ import Container from "@/components/layout/Container";
 import ListMovie from "@/components/ui/ListMovie";
 import ListScrollController from "@/components/ui/ListScrollController";
 import SubTitle from "@/components/ui/SubTitle";
-import config from "@/components/utils/config";
-import { NowPlaying } from "@/components/utils/types";
+import config from "@/config/apiConfig";
+import { NowPlaying } from "@/types/globalTypes";
 
 async function getTheatres() {
   const options = {
@@ -15,7 +15,6 @@ async function getTheatres() {
     },
     next: { revalidate: 3600 },
   };
-
   const res = await fetch(
     `${config.apiUrlM}now_playing?language=pt-BR&watch_region=BR&page=1`,
     options,

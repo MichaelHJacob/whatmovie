@@ -1,5 +1,5 @@
-import config from "@/components/utils/config";
-import { TranslationsType } from "@/components/utils/types";
+import config from "@/config/apiConfig";
+import { TranslationsType } from "@/types/globalTypes";
 
 async function getTranslations(movieID: string) {
   const options = {

@@ -1,7 +1,7 @@
 "use server";
 
-import config from "@/components/utils/config";
-import { CardMovieType, DiscoverType } from "@/components/utils/types";
+import config from "@/config/apiConfig";
+import { CardMovieType, DiscoverType } from "@/types/globalTypes";
 
 async function getFilter(parameters: {
   [key: string]: string | string[] | undefined;

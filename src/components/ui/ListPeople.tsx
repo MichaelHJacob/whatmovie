@@ -1,5 +1,5 @@
-import config from "@/components/utils/config";
-import { PropsPeople } from "@/components/utils/types";
+import config from "@/config/apiConfig";
+import { PropsPeople } from "@/types/globalTypes";
 
 export default function ListPeople({
   cast = [],

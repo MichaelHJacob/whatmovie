@@ -1,6 +1,6 @@
 import { type NextRequest } from "next/server";
 
-import config from "@/components/utils/config";
+import config from "@/config/apiConfig";
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;

@@ -1,6 +1,6 @@
 import ImageProfile from "@/app/movie/[movieId]/components/ui/People/ImageProfile";
 import ImageProfileUnavailable from "@/components/skeleton/ImageProfileUnavailable";
-import { PropsPeople } from "@/components/utils/types";
+import { PropsPeople } from "@/types/globalTypes";
 
 type ListPeopleProps = { id: string } & PropsPeople;
 

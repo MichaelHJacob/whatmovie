@@ -1,4 +1,4 @@
-import { CrewType } from "@/components/utils/types";
+import { CrewType } from "@/types/globalTypes";
 
 type DirectorProps = { credits?: CrewType[] };
 

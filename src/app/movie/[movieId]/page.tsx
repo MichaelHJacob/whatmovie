@@ -13,8 +13,8 @@ import Translations from "@/app/movie/[movieId]/components/ui/Translations";
 import Container from "@/components/layout/Container";
 import SkeletonListMovie from "@/components/skeleton/SkeletonListMovie";
 import SubTitle from "@/components/ui/SubTitle";
-import config from "@/components/utils/config";
-import { DetailsMovieType } from "@/components/utils/types";
+import config from "@/config/apiConfig";
+import { DetailsMovieType } from "@/types/globalTypes";
 import { getPlaiceholder } from "plaiceholder";
 
 async function getDetails(id: string) {

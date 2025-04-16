@@ -1,5 +1,5 @@
-import config from "@/components/utils/config";
-import { TypeBtnProvider } from "@/components/utils/types";
+import config from "@/config/apiConfig";
+import { TypeBtnProvider } from "@/types/globalTypes";
 
 type ProviderButtonProps = {
   provider: TypeBtnProvider;

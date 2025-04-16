@@ -1,29 +1,21 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
-import config from "@/components/utils/config";
-import { ListGenres, SearchResult } from "@/components/utils/types";
+import config from "@/config/apiConfig";
+import { listGenres } from "@/data/movieMetadata";
+import { SearchResult } from "@/types/globalTypes";
 
 export default function Search() {
   const searchParams = useSearchParams();
-  const [dataGenres, setGenres] = useState<ListGenres | null>(null);
   const [data, setData] = useState<SearchResult[] | null>(null);
   const [term, setTerm] = useState("");
   const timeGet = useRef<ReturnType<typeof setInterval> | null>(null);
   const details = useRef<HTMLDetailsElement | null>(null);
   const input = useRef<HTMLInputElement | null>(null);
-
-  useEffect(() => {
-    fetch("/api/genres")
-      .then((res) => res.json())
-      .then((data) => {
-        setGenres(data);
-      });
-  }, []);
 
   function handleSearch(term: string) {
     setTerm(term);
@@ -48,7 +40,7 @@ export default function Search() {
 
   function formatGenres(genres: number[]) {
     const result = genres.map((value) =>
-      dataGenres?.genres.find((element) => element.id == value),
+      listGenres.genres.find((element) => element.id == value),
     );
     return result.map((term) => term?.name).join(", ");
   }
@@ -193,7 +185,7 @@ export default function Search() {
                           )}
                           {value.genre_ids && (
                             <dd className="data line-clamp-1 py-0 leading-normal">
-                              {dataGenres && formatGenres(value.genre_ids)}
+                              {formatGenres(value.genre_ids)}
                             </dd>
                           )}
                         </dl>

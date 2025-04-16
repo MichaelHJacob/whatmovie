@@ -1,6 +1,6 @@
 import { ChangeEvent } from "react";
 
-import { TypeBtnGenres } from "@/components/utils/types";
+import { TypeBtnGenres } from "@/types/globalTypes";
 
 type GenreButtonProps = {
   genre: TypeBtnGenres;

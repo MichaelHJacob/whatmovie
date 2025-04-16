@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 
-import config from "@/components/utils/config";
-import { NowPlaying } from "@/components/utils/types";
+import config from "@/config/apiConfig";
+import { NowPlaying } from "@/types/globalTypes";
 
 async function getTheatres() {
   const options = {

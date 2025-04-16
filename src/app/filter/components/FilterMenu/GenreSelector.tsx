@@ -1,6 +1,6 @@
 import ClearSelected from "@/app/filter/components/ui/ClearSelected";
 import GenreButton from "@/app/filter/components/ui/GenreButton";
-import { TypeBtnGenres } from "@/components/utils/types";
+import { TypeBtnGenres } from "@/types/globalTypes";
 
 type GenreSelectorProps = {
   genres: TypeBtnGenres[];

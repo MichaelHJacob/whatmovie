@@ -2,7 +2,7 @@ import BreakHr from "@/components/ui/BreakHr";
 import ListPeople from "@/components/ui/ListPeople";
 import ListScrollController from "@/components/ui/ListScrollController";
 import SubTitle from "@/components/ui/SubTitle";
-import { PropsPeople } from "@/components/utils/types";
+import { PropsPeople } from "@/types/globalTypes";
 
 export default function People({ cast = [], crew = [] }: PropsPeople) {
   if (cast.length >= 1 || crew.length >= 1) {

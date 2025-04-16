@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 
-import Filter from "@/app/filter/components/Filter";
+import FilterMenu from "@/app/filter/components/FilterMenu";
 import Container from "@/components/layout/Container";
 import NavBar from "@/components/layout/NavBar";
 import MovieCards from "@/components/skeleton/MovieCards";
@@ -20,7 +20,7 @@ export default function Template({ children }: TemplateProps) {
           </Container>
         }
       >
-        <Filter>{children}</Filter>
+        <FilterMenu>{children}</FilterMenu>
       </Suspense>
     </>
   );

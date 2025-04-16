@@ -1,7 +1,7 @@
 import Link from "next/link";
 
-import config from "@/components/utils/config";
-import { MovieClient, MovieType } from "@/components/utils/types";
+import config from "@/config/apiConfig";
+import { MovieClient, MovieType } from "@/types/globalTypes";
 
 type CardMovieProps = { data: MovieClient | MovieType };
 

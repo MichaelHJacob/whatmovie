@@ -4,27 +4,22 @@ import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-import GenreSelector from "@/app/filter/components/Filter/FilterMenu/GenreSelector";
-import ProviderSelector from "@/app/filter/components/Filter/FilterMenu/ProviderSelector";
-import RangeVoteSelector from "@/app/filter/components/Filter/FilterMenu/RangeVoteSelector";
-import SortBySelector from "@/app/filter/components/Filter/FilterMenu/SortBySelector";
+import GenreSelector from "@/app/filter/components/FilterMenu/GenreSelector";
+import ProviderSelector from "@/app/filter/components/FilterMenu/ProviderSelector";
+import RangeVoteSelector from "@/app/filter/components/FilterMenu/RangeVoteSelector";
+import SortBySelector from "@/app/filter/components/FilterMenu/SortBySelector";
 import GenreButton from "@/app/filter/components/ui/GenreButton";
 import ProviderButton from "@/app/filter/components/ui/ProviderButton";
 import Container from "@/components/layout/Container";
 import BreakHr from "@/components/ui/BreakHr";
-import {
-  ListGenres,
-  MovieProviders,
-  TypeBtnGenres,
-  TypeBtnProvider,
-} from "@/components/utils/types";
+import { listGenres, listMovieProvider } from "@/data/movieMetadata";
+import { TypeBtnGenres, TypeBtnProvider } from "@/types/globalTypes";
 
 type FilterMenuProps = {
   children: ReactNode;
-  filters: { listGenres: ListGenres; listProviders: MovieProviders };
 };
 
-export default function FilterMenu({ children, filters }: FilterMenuProps) {
+export default function FilterMenu({ children }: FilterMenuProps) {
   const { replace } = useRouter();
   const inicialParams = useRef(useSearchParams());
   const pathname = usePathname();
@@ -48,7 +43,7 @@ export default function FilterMenu({ children, filters }: FilterMenuProps) {
     const activeGenres = inicialParams.current.get("g")?.split(",") || [];
     const activeProviders = inicialParams.current.get("p")?.split(",") || [];
     setUsualG(
-      filters.listGenres.genres
+      listGenres.genres
         .filter((value) => activeGenres.includes(`${value.id}`))
         .map((value) => {
           return {
@@ -60,7 +55,7 @@ export default function FilterMenu({ children, filters }: FilterMenuProps) {
     );
 
     setGenres(
-      filters.listGenres.genres.map((value) => {
+      listGenres.genres.map((value) => {
         return {
           id: value.id,
           name: value.name,
@@ -70,7 +65,7 @@ export default function FilterMenu({ children, filters }: FilterMenuProps) {
     );
 
     setRGenres(
-      filters.listGenres.genres.map((value) => {
+      listGenres.genres.map((value) => {
         return {
           id: value.id,
           name: value.name,
@@ -80,7 +75,7 @@ export default function FilterMenu({ children, filters }: FilterMenuProps) {
     );
 
     setUsualP(
-      filters.listProviders.results
+      listMovieProvider.results
         .filter((value) => activeProviders.includes(`${value.provider_id}`))
         .map((value) => {
           return {
@@ -93,7 +88,7 @@ export default function FilterMenu({ children, filters }: FilterMenuProps) {
     );
 
     setProviders(
-      filters.listProviders.results.map((value) => {
+      listMovieProvider.results.map((value) => {
         return {
           logo_path: value.logo_path,
           provider_name: value.provider_name,
@@ -104,7 +99,7 @@ export default function FilterMenu({ children, filters }: FilterMenuProps) {
     );
 
     setRProviders(
-      filters.listProviders.results.map((value) => {
+      listMovieProvider.results.map((value) => {
         return {
           logo_path: value.logo_path,
           provider_name: value.provider_name,
@@ -113,7 +108,7 @@ export default function FilterMenu({ children, filters }: FilterMenuProps) {
         };
       }),
     );
-  }, [filters]);
+  }, []);
 
   useEffect(() => {
     inicialValues();

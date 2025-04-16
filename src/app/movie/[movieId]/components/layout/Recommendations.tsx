@@ -1,12 +1,12 @@
 import ListMovie from "@/components/ui/ListMovie";
 import ListScrollController from "@/components/ui/ListScrollController/index";
 import SubTitle from "@/components/ui/SubTitle";
-import config from "@/components/utils/config";
+import config from "@/config/apiConfig";
 import {
   RecommendationsMovie,
   RecommendationsMovieRate,
   RecommendationsType,
-} from "@/components/utils/types";
+} from "@/types/globalTypes";
 
 async function getRecommendations(movieID: string, page: number = 1) {
   const options = {

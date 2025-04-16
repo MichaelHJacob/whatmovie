@@ -1,4 +1,4 @@
-import config from "@/components/utils/config";
+import config from "@/config/apiConfig";
 
 type ImageProfileProps = { path: string; alt: string };
 

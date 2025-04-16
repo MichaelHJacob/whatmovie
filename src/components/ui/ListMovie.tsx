@@ -1,5 +1,5 @@
 import CardMovie from "@/components/ui/CardMovie";
-import { MovieType, RecommendationsMovieRate } from "@/components/utils/types";
+import { MovieType, RecommendationsMovieRate } from "@/types/globalTypes";
 
 type ListMovieProps = {
   data: RecommendationsMovieRate[] | MovieType[];

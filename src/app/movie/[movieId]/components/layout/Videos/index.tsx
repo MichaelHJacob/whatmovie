@@ -7,7 +7,7 @@ import BreakHr from "@/components/ui/BreakHr";
 import LabelH4 from "@/components/ui/LabelH4";
 import ListScrollController from "@/components/ui/ListScrollController/index";
 import SubTitle from "@/components/ui/SubTitle";
-import { VideosResultsType } from "@/components/utils/types";
+import { VideosResultsType } from "@/types/globalTypes";
 
 type VideosProps = { videosArray: VideosResultsType[] };
 

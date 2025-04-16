@@ -1,5 +1,5 @@
-import config from "@/components/utils/config";
-import { Provider } from "@/components/utils/types";
+import config from "@/config/apiConfig";
+import { Provider } from "@/types/globalTypes";
 
 type StreamProps = { provider?: Provider };
 

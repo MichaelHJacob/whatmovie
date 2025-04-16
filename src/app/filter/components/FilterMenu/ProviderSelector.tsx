@@ -1,6 +1,6 @@
 import ClearSelected from "@/app/filter/components/ui/ClearSelected";
 import ProviderButton from "@/app/filter/components/ui/ProviderButton";
-import { TypeBtnProvider } from "@/components/utils/types";
+import { TypeBtnProvider } from "@/types/globalTypes";
 
 type ProviderSelectorProps = {
   providers: TypeBtnProvider[];

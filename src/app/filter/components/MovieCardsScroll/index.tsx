@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import fetchMovies from "@/app/filter/actions";
 import MapCardMovie from "@/app/filter/components/MovieCardsScroll/MapCardMovie";
 import MovieCards from "@/components/skeleton/MovieCards";
-import { ArrayMoviesType, CardMovieType } from "@/components/utils/types";
+import { ArrayMoviesType, CardMovieType } from "@/types/globalTypes";
 
 type MovieCardsScrollProps = {
   parameters: { [key: string]: string | string[] | undefined };

@@ -1,7 +1,7 @@
 import fetchMovies from "@/app/filter/actions";
 import MovieCardsScroll from "@/app/filter/components/MovieCardsScroll";
 import LabelH4 from "@/components/ui/LabelH4";
-import { CardMovieType } from "@/components/utils/types";
+import { CardMovieType } from "@/types/globalTypes";
 
 type PageProps = {
   searchParams: { [key: string]: string | string[] | undefined };

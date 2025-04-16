@@ -1,5 +1,5 @@
 import CardMovie from "@/components/ui/CardMovie";
-import { MovieClient, MovieType } from "@/components/utils/types";
+import { MovieClient, MovieType } from "@/types/globalTypes";
 
 type MapCardMovieProps = { data: MovieClient[] | MovieType[] };
 

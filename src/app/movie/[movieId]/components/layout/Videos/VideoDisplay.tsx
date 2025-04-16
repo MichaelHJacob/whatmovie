@@ -1,4 +1,4 @@
-import { VideosResultsType } from "@/components/utils/types";
+import { VideosResultsType } from "@/types/globalTypes";
 
 type VideoDisplayProps = { video: VideosResultsType };
 
