@@ -1,6 +1,6 @@
 "use server";
 
-import config from "@/config/apiConfig";
+import { API_BASE_URL } from "@/config/config";
 import { CardMovieType, DiscoverType } from "@/types/globalTypes";
 
 async function getFilter(parameters: {
@@ -83,7 +83,7 @@ async function getFilter(parameters: {
     }
   };
 
-  const url = `${config.apiUrl}discover/movie?${certification}&include_adult=false&include_video=false&language=pt-BR&page=${page()}${releaseDate()}&region=BR&sort_by=${sortBy()}${vote()}${voteCount}&watch_region=BR${genres()}&with_watch_monetization_types=flatrate%7Cfree%7Cads%7Crent%7Cbuy${providers()}`;
+  const url = `${API_BASE_URL}discover/movie?${certification}&include_adult=false&include_video=false&language=pt-BR&page=${page()}${releaseDate()}&region=BR&sort_by=${sortBy()}${vote()}${voteCount}&watch_region=BR${genres()}&with_watch_monetization_types=flatrate%7Cfree%7Cads%7Crent%7Cbuy${providers()}`;
 
   const res = await fetch(url, {
     next: { revalidate: 3600 },

@@ -13,7 +13,8 @@ import Translations from "@/app/movie/[movieId]/components/ui/Translations";
 import Container from "@/components/layout/Container";
 import SkeletonListMovie from "@/components/skeleton/SkeletonListMovie";
 import SubTitle from "@/components/ui/SubTitle";
-import config from "@/config/apiConfig";
+import { API_ENDPOINTS } from "@/config/config";
+import { POSTER } from "@/config/imageConfig";
 import { DetailsMovieType } from "@/types/globalTypes";
 import { getPlaiceholder } from "plaiceholder";
 
@@ -26,8 +27,7 @@ async function getDetails(id: string) {
     next: { revalidate: 3600 },
   };
   const res = await fetch(
-    config.apiUrlM +
-      id +
+    API_ENDPOINTS.finding.byId(id) +
       "?append_to_response=videos%2Cwatch%2Fproviders%2Ccredits&language=pt-BR",
     options,
   );
@@ -62,7 +62,7 @@ export async function generateMetadata({
     title: data.title.toString(),
     description: data.overview.substring(0, 160),
     openGraph: {
-      images: `${config.imgUrlL}${data?.poster_path}`,
+      images: `${POSTER.w780}${data?.poster_path}`,
     },
     robots: {
       index: true,
@@ -87,7 +87,7 @@ export default async function Movie({ params }: MovieProps) {
     backgroundRepeat: "no-repeat",
   };
   if (typeof data.poster_path == "string") {
-    css = await getCssBlurIMG(config.imgUrlS01 + data.poster_path);
+    css = await getCssBlurIMG(POSTER.w92 + data.poster_path);
   }
 
   if (!data || !params.movieId) {
@@ -182,9 +182,9 @@ export default async function Movie({ params }: MovieProps) {
             <div className="relative flex aspect-[2/3] items-center justify-start before:absolute before:z-20 before:block before:aspect-[2/3] before:w-full before:scale-75 before:rounded-xl before:bg-nightDew-600 before:blur-md max-md:max-h-[75vh] max-md:min-h-80">
               {typeof data.poster_path == "string" ? (
                 <img
-                  srcSet={`${config.imgUrlS}${data.poster_path} 342w, ${config.imgUrlM}${data.poster_path} 500w, ${config.imgUrlL}${data.poster_path} 780w`}
+                  srcSet={`${POSTER.w342}${data.poster_path} 342w, ${POSTER.w500}${data.poster_path} 500w, ${POSTER.w780}${data.poster_path} 780w`}
                   sizes="(max-width: 342px) 342px, (max-width: 500px) 500px, (max-width: 767px) 780px, (min-width: 768px) 300px, 500px"
-                  src={`${config.imgUrlM}${data.poster_path}`}
+                  src={`${POSTER.w780}${data.poster_path}`}
                   alt={data.original_title}
                   className="mid-shadow z-30 rounded-lg object-contain contrast-[1.1]"
                 />

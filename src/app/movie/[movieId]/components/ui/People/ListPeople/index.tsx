@@ -1,4 +1,4 @@
-import ImageProfile from "@/app/movie/[movieId]/components/ui/People/ImageProfile";
+import ImageProfile from "@/app/movie/[movieId]/components/ui/People/ListPeople/ImageProfile";
 import ImageProfileUnavailable from "@/components/skeleton/ImageProfileUnavailable";
 import { PropsPeople } from "@/types/globalTypes";
 

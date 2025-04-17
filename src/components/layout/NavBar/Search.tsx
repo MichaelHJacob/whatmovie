@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
-import config from "@/config/apiConfig";
+import { POSTER } from "@/config/imageConfig";
 import { listGenres } from "@/data/movieMetadata";
 import { SearchResult } from "@/types/globalTypes";
 
@@ -163,7 +163,8 @@ export default function Search() {
                       >
                         {value.poster_path ? (
                           <img
-                            src={config.imgUrlS02 + value.poster_path}
+                            srcSet={`${POSTER.w92 + value.poster_path} 1x, ${POSTER.w185 + value.poster_path} 2x`}
+                            src={POSTER.w92 + value.poster_path}
                             alt={value.title}
                             className="aspect-[18/27] h-full rounded-lg transition-all duration-300 group-hover/list:rounded-r-none"
                           />

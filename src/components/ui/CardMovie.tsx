@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import config from "@/config/apiConfig";
+import { POSTER } from "@/config/imageConfig";
 import { MovieClient, MovieType } from "@/types/globalTypes";
 
 type CardMovieProps = { data: MovieClient | MovieType };
@@ -10,7 +10,8 @@ export default function CardMovie({ data }: CardMovieProps) {
     <Link href={`/movie/${data.id}`} target="_top">
       {typeof data.poster_path == "string" ? (
         <img
-          src={`${config.imgUrlS}${data.poster_path}`}
+          srcSet={`${POSTER.w185 + data.poster_path} 1x, ${POSTER.w342 + data.poster_path} 1.5x`}
+          src={`${POSTER.w185 + data.poster_path}`}
           alt={data.title}
           className="mid-shadow block aspect-[2/3_auto] w-full rounded-lg bg-nightDew-300"
         />

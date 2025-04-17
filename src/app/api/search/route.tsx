@@ -1,6 +1,6 @@
 import { type NextRequest } from "next/server";
 
-import config from "@/config/apiConfig";
+import { API_BASE_URL } from "@/config/config";
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
 
   if (query) {
     const res = await fetch(
-      `${config.apiUrl}search/movie?query=${encodeURIComponent(query)}&include_adult=false&language=pt-BR&page=1&region=BR`,
+      `${API_BASE_URL}search/movie?query=${encodeURIComponent(query)}&include_adult=false&language=pt-BR&page=1&region=BR`,
       {
         headers: {
           accept: "application/json",

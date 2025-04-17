@@ -1,7 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-#data 
+#data at build time
 /src/data/movieMetadata.ts
+/src/data/tmdbConfig.ts
 
 # dependencies
 /node_modules

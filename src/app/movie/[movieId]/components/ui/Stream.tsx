@@ -1,4 +1,4 @@
-import config from "@/config/apiConfig";
+import { LOGO } from "@/config/imageConfig";
 import { Provider } from "@/types/globalTypes";
 
 type StreamProps = { provider?: Provider };
@@ -23,8 +23,8 @@ export default function Stream({ provider }: StreamProps) {
             >
               <img
                 className="h-10 w-10 select-none rounded-xl contrast-[1.1]"
-                srcSet={`${config.imgUrlS01}${value.logo_path}, ${config.imgUrlS03}${value.logo_path} 2x`}
-                src={`${config.imgUrlS01}${value.logo_path}`}
+                srcSet={`${LOGO.w92}${value.logo_path} 1x, ${LOGO.w154}${value.logo_path} 2x`}
+                src={`${LOGO.w154}${value.logo_path}`}
                 alt={`logo ${value.provider_name}`}
               />
               <div

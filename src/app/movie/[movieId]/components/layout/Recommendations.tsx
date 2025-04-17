@@ -1,7 +1,7 @@
 import ListMovie from "@/components/ui/ListMovie";
 import ListScrollController from "@/components/ui/ListScrollController/index";
 import SubTitle from "@/components/ui/SubTitle";
-import config from "@/config/apiConfig";
+import { API_ENDPOINTS } from "@/config/config";
 import {
   RecommendationsMovie,
   RecommendationsMovieRate,
@@ -17,8 +17,7 @@ async function getRecommendations(movieID: string, page: number = 1) {
     next: { revalidate: 3600 },
   };
   const res = await fetch(
-    config.apiUrlM +
-      movieID +
+    API_ENDPOINTS.finding.byId(movieID) +
       `/recommendations?language=pt-BR&page=${page.toString()}`,
     options,
   );

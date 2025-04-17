@@ -1,4 +1,4 @@
-import config from "@/config/apiConfig";
+import { API_ENDPOINTS } from "@/config/config";
 import { TranslationsType } from "@/types/globalTypes";
 
 async function getTranslations(movieID: string) {
@@ -8,7 +8,10 @@ async function getTranslations(movieID: string) {
       Authorization: `${process.env.DB_TOKEN_AUTH}`,
     },
   };
-  const res = await fetch(config.apiUrlM + movieID + "/translations", options);
+  const res = await fetch(
+    API_ENDPOINTS.finding.byId(movieID) + "/translations",
+    options,
+  );
 
   if (!res.ok) {
     throw new Error("Falha ao buscar dados");

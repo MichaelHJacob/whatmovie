@@ -1,6 +1,6 @@
 import { MetadataRoute } from "next";
 
-import config from "@/config/apiConfig";
+import { API_ENDPOINTS } from "@/config/config";
 import { NowPlaying } from "@/types/globalTypes";
 
 async function getTheatres() {
@@ -13,7 +13,7 @@ async function getTheatres() {
   };
 
   const res = await fetch(
-    `${config.apiUrlM}now_playing?language=pt-BR&watch_region=BR&page=1`,
+    `${API_ENDPOINTS.moviesList.nowPlaying}?language=pt-BR&watch_region=BR&page=1`,
     options,
   );
 

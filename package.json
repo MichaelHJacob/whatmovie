@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "generate-config": "ts-node scripts/createApiConfig.ts",
     "generate-data": "ts-node scripts/createMetadata.ts",
-    "prebuild":  "npm run generate-data",
+    "prebuild": "npm run generate-data && npm run generate-config",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

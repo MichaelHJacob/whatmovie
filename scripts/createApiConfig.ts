@@ -8,38 +8,16 @@ import { API_ENDPOINTS } from "../src/config/config";
 
 dotenv.config({ path: [".env.local"] });
 
-const OUTPUT_PATH = path.join(__dirname, "../src/data/movieMetadata.ts");
+const OUTPUT_PATH = path.join(__dirname, "../src/data/tmdbConfig.ts");
 
-async function getMovieProviders() {
+async function getApiConfig() {
   const options = {
     headers: {
       accept: "application/json",
       Authorization: `${process.env.DB_TOKEN_AUTH}`,
     },
   };
-  const res = await fetch(
-    `${API_ENDPOINTS.metadata.movieProviders}?language=pt-BR&watch_region=BR`,
-    options,
-  );
-
-  if (!res.ok) {
-    throw new Error("Falha ao buscar dados");
-  }
-
-  return res.json();
-}
-
-async function getGenres() {
-  const options = {
-    headers: {
-      accept: "application/json",
-      Authorization: `${process.env.DB_TOKEN_AUTH}`,
-    },
-  };
-  const res = await fetch(
-    `${API_ENDPOINTS.metadata.movieGenres}?language=pt-BR`,
-    options,
-  );
+  const res = await fetch(API_ENDPOINTS.configuration, options);
 
   if (!res.ok) {
     throw new Error("Falha ao buscar dados");
@@ -49,18 +27,10 @@ async function getGenres() {
 }
 
 async function run() {
-  const listGenres = await getGenres();
-  const listMovieProvider = await getMovieProviders();
+  const config = await getApiConfig();
 
   const fileContent = `
-  export const listGenres = ${inspect(listGenres, {
-    depth: null,
-    compact: true,
-    sorted: false,
-    breakLength: 80,
-  })} as const;
-  
-  export const listMovieProvider = ${inspect(listMovieProvider, {
+  export const tmdbConfig = ${inspect(config, {
     depth: null,
     compact: true,
     sorted: false,
