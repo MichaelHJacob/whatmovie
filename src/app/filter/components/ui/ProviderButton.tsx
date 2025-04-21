@@ -23,7 +23,7 @@ export default function ProviderButton({
       />
       <img
         className="aspect-square w-full object-contain opacity-50 grayscale-[90%] transition-all duration-500 hover:grayscale-0 peer-checked:opacity-100 peer-checked:grayscale-0"
-        src={`${LOGO.w92}/${provider.logo_path}`}
+        src={LOGO.w92 + provider.logo_path}
         width={44}
         height={44}
         alt={provider.provider_name}

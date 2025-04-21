@@ -24,7 +24,7 @@ export default function Stream({ provider }: StreamProps) {
               <img
                 className="h-10 w-10 select-none rounded-xl contrast-[1.1]"
                 srcSet={`${LOGO.w92}${value.logo_path} 1x, ${LOGO.w154}${value.logo_path} 2x`}
-                src={`${LOGO.w154}${value.logo_path}`}
+                src={LOGO.w154 + value.logo_path}
                 alt={`logo ${value.provider_name}`}
               />
               <div

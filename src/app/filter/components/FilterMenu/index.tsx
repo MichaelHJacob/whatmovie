@@ -1,13 +1,13 @@
 "use client";
 
-import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import { ReactNode, useRef, useState } from "react";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
+import FastAccess from "@/app/filter/components/FilterMenu/FastAccess";
 import GenreSelector from "@/app/filter/components/FilterMenu/GenreSelector";
+import Menu from "@/app/filter/components/FilterMenu/Menu";
 import ProviderSelector from "@/app/filter/components/FilterMenu/ProviderSelector";
-import RangeVoteSelector from "@/app/filter/components/FilterMenu/RangeVoteSelector";
-import SortBySelector from "@/app/filter/components/FilterMenu/SortBySelector";
 import GenreButton from "@/app/filter/components/ui/GenreButton";
 import ProviderButton from "@/app/filter/components/ui/ProviderButton";
 import Container from "@/components/layout/Container";
@@ -21,98 +21,44 @@ type FilterMenuProps = {
 
 export default function FilterMenu({ children }: FilterMenuProps) {
   const { replace } = useRouter();
-  const inicialParams = useRef(useSearchParams());
+  const searchParams = useSearchParams();
   const pathname = usePathname();
-  const params = new URLSearchParams(inicialParams.current);
+  const params = new URLSearchParams(searchParams);
   const timeId = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
   const divFilters = useRef<HTMLDivElement>(null);
 
-  const [dataGenres, setGenres] = useState<TypeBtnGenres[] | null>(null);
-  const [usualG, setUsualG] = useState<TypeBtnGenres[]>([]);
-  const [resetGenres, setRGenres] = useState<TypeBtnGenres[] | null>(null);
+  const [dataGenres, setGenres] = useState<TypeBtnGenres[]>(() =>
+    handleGenres(searchParams.get("g")?.split(",")),
+  );
+
+  const [dataProviders, setProviders] = useState<TypeBtnProvider[]>(() =>
+    handleProviders(searchParams.get("p")?.split("|")),
+  );
+
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [dataProviders, setProviders] = useState<TypeBtnProvider[] | null>(
-    null,
-  );
-  const [usualP, setUsualP] = useState<TypeBtnProvider[]>([]);
-  const [resetProviders, setRProviders] = useState<TypeBtnProvider[] | null>(
-    null,
-  );
 
-  const inicialValues = useCallback(() => {
-    const activeGenres = inicialParams.current.get("g")?.split(",") || [];
-    const activeProviders = inicialParams.current.get("p")?.split(",") || [];
-    setUsualG(
-      listGenres.genres
-        .filter((value) => activeGenres.includes(`${value.id}`))
-        .map((value) => {
-          return {
-            id: value.id,
-            name: value.name,
-            state: true,
-          };
-        }),
-    );
+  function handleGenres(inicial?: string[]): TypeBtnGenres[] {
+    return listGenres.genres.map((value) => {
+      return {
+        id: value.id,
+        name: value.name,
+        state: inicial ? inicial.includes(`${value.id}`) : false,
+        fastAccess: inicial ? inicial.includes(`${value.id}`) : false,
+      };
+    });
+  }
 
-    setGenres(
-      listGenres.genres.map((value) => {
-        return {
-          id: value.id,
-          name: value.name,
-          state: activeGenres.includes(`${value.id}`),
-        };
-      }),
-    );
-
-    setRGenres(
-      listGenres.genres.map((value) => {
-        return {
-          id: value.id,
-          name: value.name,
-          state: false,
-        };
-      }),
-    );
-
-    setUsualP(
-      listMovieProvider.results
-        .filter((value) => activeProviders.includes(`${value.provider_id}`))
-        .map((value) => {
-          return {
-            logo_path: value.logo_path,
-            provider_name: value.provider_name,
-            provider_id: value.provider_id,
-            state: true,
-          };
-        }),
-    );
-
-    setProviders(
-      listMovieProvider.results.map((value) => {
-        return {
-          logo_path: value.logo_path,
-          provider_name: value.provider_name,
-          provider_id: value.provider_id,
-          state: activeGenres.includes(`${value.provider_id}`),
-        };
-      }),
-    );
-
-    setRProviders(
-      listMovieProvider.results.map((value) => {
-        return {
-          logo_path: value.logo_path,
-          provider_name: value.provider_name,
-          provider_id: value.provider_id,
-          state: false,
-        };
-      }),
-    );
-  }, []);
-
-  useEffect(() => {
-    inicialValues();
-  }, [inicialValues]);
+  function handleProviders(inicial?: string[]): TypeBtnProvider[] {
+    return listMovieProvider.results.map((value) => {
+      return {
+        logo_path: value.logo_path,
+        provider_name: value.provider_name,
+        provider_id: value.provider_id,
+        state: inicial ? inicial.includes(`${value.provider_id}`) : false,
+        fastAccess: inicial ? inicial.includes(`${value.provider_id}`) : false,
+      };
+    });
+  }
 
   function FilterMenuButton() {
     function open() {
@@ -155,18 +101,14 @@ export default function FilterMenu({ children }: FilterMenuProps) {
   function reset(filter?: string) {
     switch (filter) {
       case "p":
-        setProviders(JSON.parse(JSON.stringify(resetProviders)));
-        setUsualP([]);
+        setProviders(handleProviders());
         break;
       case "g":
-        setGenres(JSON.parse(JSON.stringify(resetGenres)));
-        setUsualG([]);
+        setGenres(handleGenres());
         break;
       default:
-        setProviders(JSON.parse(JSON.stringify(resetProviders)));
-        setGenres(JSON.parse(JSON.stringify(resetGenres)));
-        setUsualP([]);
-        setUsualG([]);
+        setProviders(handleProviders());
+        setGenres(handleGenres());
         replace(`${pathname}`);
         return;
     }
@@ -175,7 +117,7 @@ export default function FilterMenu({ children }: FilterMenuProps) {
   }
 
   function ResetButton() {
-    if (dataProviders && dataGenres && resetProviders) {
+    if (dataProviders && dataGenres) {
       return (
         <button
           className="backBtn main-backBtn"
@@ -190,8 +132,6 @@ export default function FilterMenu({ children }: FilterMenuProps) {
   }
 
   function addGenre(picked: TypeBtnGenres) {
-    if (dataGenres == null) return;
-
     setGenres(
       dataGenres.map((value) => {
         if (value.id == picked.id) {
@@ -199,65 +139,25 @@ export default function FilterMenu({ children }: FilterMenuProps) {
             id: value.id,
             name: value.name,
             state: true,
+            fastAccess: true,
           };
         } else {
-          return {
-            id: value.id,
-            name: value.name,
-            state: value.state,
-          };
+          return value;
         }
       }),
     );
 
-    if (usualG.length > 0) {
-      if (usualG.filter((value) => value.id == picked.id).length == 1) {
-        setUsualG(
-          usualG.map((value) => {
-            if (value.id == picked.id) {
-              return {
-                id: value.id,
-                name: value.name,
-                state: true,
-              };
-            } else {
-              return value;
-            }
-          }),
-        );
-      } else {
-        setUsualG([
-          ...JSON.parse(JSON.stringify(usualG)),
-          {
-            id: picked.id,
-            name: picked.name,
-            state: true,
-          },
-        ]);
-      }
-    } else {
-      setUsualG([
-        {
-          id: picked.id,
-          name: picked.name,
-          state: true,
-        },
-      ]);
-    }
-
-    const getTrue = usualG
+    const getTrue = dataGenres
       .filter((value) => value.state == true)
       .map((value) => value.id);
-    getTrue.push(picked.id);
 
+    getTrue.push(picked.id);
     params.set("g", getTrue.join(","));
     params.set("page", "1");
     replace(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
   function removeGenre(picked: TypeBtnGenres) {
-    if (dataGenres == null) return;
-
     setGenres(
       dataGenres.map((value) => {
         if (value.id == picked.id) {
@@ -265,6 +165,7 @@ export default function FilterMenu({ children }: FilterMenuProps) {
             id: value.id,
             name: value.name,
             state: false,
+            fastAccess: value.fastAccess,
           };
         } else {
           return value;
@@ -272,21 +173,7 @@ export default function FilterMenu({ children }: FilterMenuProps) {
       }),
     );
 
-    setUsualG(
-      usualG.map((value) => {
-        if (value.id == picked.id) {
-          return {
-            id: value.id,
-            name: value.name,
-            state: false,
-          };
-        } else {
-          return value;
-        }
-      }),
-    );
-
-    const getTrue = usualG
+    const getTrue = dataGenres
       .filter((value) => value.state == true)
       .map((value) => value.id)
       .filter((value) => value !== picked.id);
@@ -302,8 +189,6 @@ export default function FilterMenu({ children }: FilterMenuProps) {
   }
 
   function addProvider(picked: TypeBtnProvider) {
-    if (dataProviders == null) return;
-
     setProviders(
       dataProviders.map((value) => {
         if (value.provider_id == picked.provider_id) {
@@ -312,6 +197,7 @@ export default function FilterMenu({ children }: FilterMenuProps) {
             provider_name: value.provider_name,
             provider_id: value.provider_id,
             state: true,
+            fastAccess: true,
           };
         } else {
           return value;
@@ -319,48 +205,7 @@ export default function FilterMenu({ children }: FilterMenuProps) {
       }),
     );
 
-    if (usualP.length > 0) {
-      if (
-        usualP.filter((value) => value.provider_id == picked.provider_id)
-          .length == 1
-      ) {
-        setUsualP(
-          usualP.map((value) => {
-            if (value.provider_id == picked.provider_id) {
-              return {
-                logo_path: value.logo_path,
-                provider_name: value.provider_name,
-                provider_id: value.provider_id,
-                state: true,
-              };
-            } else {
-              return value;
-            }
-          }),
-        );
-      } else {
-        setUsualP([
-          ...JSON.parse(JSON.stringify(usualP)),
-          {
-            logo_path: picked.logo_path,
-            provider_name: picked.provider_name,
-            provider_id: picked.provider_id,
-            state: true,
-          },
-        ]);
-      }
-    } else {
-      setUsualP([
-        {
-          logo_path: picked.logo_path,
-          provider_name: picked.provider_name,
-          provider_id: picked.provider_id,
-          state: true,
-        },
-      ]);
-    }
-
-    const getTrue = usualP
+    const getTrue = dataProviders
       .filter((value) => value.state == true)
       .map((value) => value.provider_id);
 
@@ -382,6 +227,7 @@ export default function FilterMenu({ children }: FilterMenuProps) {
             provider_name: value.provider_name,
             provider_id: value.provider_id,
             state: false,
+            fastAccess: value.fastAccess,
           };
         } else {
           return value;
@@ -389,22 +235,7 @@ export default function FilterMenu({ children }: FilterMenuProps) {
       }),
     );
 
-    setUsualP(
-      usualP.map((value) => {
-        if (value.provider_id == picked.provider_id) {
-          return {
-            logo_path: value.logo_path,
-            provider_name: value.provider_name,
-            provider_id: value.provider_id,
-            state: false,
-          };
-        } else {
-          return value;
-        }
-      }),
-    );
-
-    const getTrue = usualP
+    const getTrue = dataProviders
       .filter((value) => value.state == true)
       .map((value) => value.provider_id)
       .filter((value) => value !== picked.provider_id);
@@ -429,30 +260,21 @@ export default function FilterMenu({ children }: FilterMenuProps) {
         id="filtersID"
         className="inline-block h-full w-[80vw] min-w-80 max-w-sm snap-end snap-always overflow-y-scroll overscroll-y-contain overscroll-x-contain bg-nightDew-100 lg:max-w-lg xl:max-w-md"
       >
-        <menu className="paddingHeader blockContainer-b flex list-none flex-col gap-[--gap] xs:gap-[--gapXS] md:gap-[--gapMD] lg:gap-[--gapLG]">
-          <SortBySelector />
+        <Menu>
+          <GenreSelector
+            genres={dataGenres}
+            add={addGenre}
+            remove={removeGenre}
+            clear={reset}
+          />
           <BreakHr color={"border-nightDew-300"} />
-          <RangeVoteSelector />
-          <BreakHr color={"border-nightDew-300"} />
-
-          {dataGenres && (
-            <GenreSelector
-              genres={dataGenres}
-              add={addGenre}
-              remove={removeGenre}
-              clear={reset}
-            />
-          )}
-          <BreakHr color={"border-nightDew-300"} />
-          {dataProviders && (
-            <ProviderSelector
-              providers={dataProviders}
-              add={addProvider}
-              remove={removeProvider}
-              clear={reset}
-            />
-          )}
-        </menu>
+          <ProviderSelector
+            providers={dataProviders}
+            add={addProvider}
+            remove={removeProvider}
+            clear={reset}
+          />
+        </Menu>
       </div>
 
       <div
@@ -460,36 +282,40 @@ export default function FilterMenu({ children }: FilterMenuProps) {
         className="inline-block h-full w-screen snap-start snap-always overflow-auto overscroll-y-contain xl:w-[calc(100%-448px)]"
       >
         <Container paddingTop>
-          <div className="no-scrollbar blockContainer-x blockContainer-mb sticky top-11 z-50 flex h-11 w-full items-center gap-2 overflow-x-scroll bg-nightDew-200/30 backdrop-blur-md">
+          <FastAccess>
             <FilterMenuButton />
             <ResetButton />
-            {usualP.length > 0 && (
+            {dataProviders.filter((value) => value.fastAccess).length > 0 && (
               <ul className="flex h-fit w-auto select-none justify-start gap-2">
-                {usualP.map((value) => (
-                  <li key={value.provider_id} className="*:main-backBtn">
-                    <ProviderButton
-                      provider={value}
-                      add={addProvider}
-                      remove={removeProvider}
-                    />
-                  </li>
-                ))}
+                {dataProviders
+                  .filter((value) => value.fastAccess)
+                  .map((value) => (
+                    <li key={value.provider_id} className="*:main-backBtn">
+                      <ProviderButton
+                        provider={value}
+                        add={addProvider}
+                        remove={removeProvider}
+                      />
+                    </li>
+                  ))}
               </ul>
             )}
-            {usualG.length > 0 && (
+            {dataGenres.filter((value) => value.fastAccess).length > 0 && (
               <ul className="flex h-fit w-auto select-none gap-2">
-                {usualG.map((value) => (
-                  <li key={value.id} className="*:main-backBtn">
-                    <GenreButton
-                      genre={value}
-                      add={addGenre}
-                      remove={removeGenre}
-                    />
-                  </li>
-                ))}
+                {dataGenres
+                  .filter((value) => value.fastAccess)
+                  .map((value) => (
+                    <li key={value.id} className="*:main-backBtn">
+                      <GenreButton
+                        genre={value}
+                        add={addGenre}
+                        remove={removeGenre}
+                      />
+                    </li>
+                  ))}
               </ul>
             )}
-          </div>
+          </FastAccess>
           {children}
         </Container>
       </div>

@@ -60,12 +60,14 @@ export type TypeBtnProvider = {
   provider_name: string;
   provider_id: number;
   state: boolean;
+  fastAccess: boolean;
 };
 
 export type TypeBtnGenres = {
   id: number;
   name: string;
   state: boolean;
+  fastAccess: boolean;
 };
 
 export type VideosResultsType = {

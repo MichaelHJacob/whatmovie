@@ -184,7 +184,7 @@ export default async function Movie({ params }: MovieProps) {
                 <img
                   srcSet={`${POSTER.w342}${data.poster_path} 342w, ${POSTER.w500}${data.poster_path} 500w, ${POSTER.w780}${data.poster_path} 780w`}
                   sizes="(max-width: 342px) 342px, (max-width: 500px) 500px, (max-width: 767px) 780px, (min-width: 768px) 300px, 500px"
-                  src={`${POSTER.w780}${data.poster_path}`}
+                  src={POSTER.w780 + data.poster_path}
                   alt={data.original_title}
                   className="mid-shadow z-30 rounded-lg object-contain contrast-[1.1]"
                 />
