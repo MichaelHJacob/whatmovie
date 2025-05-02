@@ -14,6 +14,7 @@
   "dependencies": {
     "@plaiceholder/next": "^3.0.0",
     "@plaiceholder/tailwindcss": "^3.0.0",
+    "@tanstack/react-query": "^5.74.4",
     "@vercel/analytics": "^1.1.1",
     "dotenv": "^16.5.0",
     "next": "^14.1.0",
@@ -22,6 +23,7 @@
     "sharp": "^0.32.6"
   },
   "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^5.73.3",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@types/node": "latest",
     "@types/react": "^18.2.48",

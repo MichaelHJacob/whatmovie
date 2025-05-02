@@ -6,7 +6,7 @@ type GenreSelectorProps = {
   genres: TypeBtnGenres[];
   add: (picked: TypeBtnGenres) => void;
   remove: (picked: TypeBtnGenres) => void;
-  clear: (filter?: string) => void;
+  clear: () => void;
 };
 
 export default function GenreSelector({
@@ -20,7 +20,7 @@ export default function GenreSelector({
       <fieldset>
         <legend className="blockContainer-x flex w-full items-center justify-between pb-[--gap] xs:pb-[--gapXS] md:pb-[--gapMD] lg:pb-[--gapLG]">
           <span className="filter-label">Gênero:</span>
-          <ClearSelected onClear={() => clear("g")} />
+          <ClearSelected onClear={clear} />
         </legend>
 
         <ul className="blockContainer-x flex h-auto select-none flex-wrap justify-start gap-2 transition duration-150 ease-out hover:ease-in">

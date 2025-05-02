@@ -6,7 +6,7 @@ type ProviderSelectorProps = {
   providers: TypeBtnProvider[];
   add: (picked: TypeBtnProvider) => void;
   remove: (picked: TypeBtnProvider) => void;
-  clear: (filter?: string) => void;
+  clear: () => void;
 };
 
 export default function ProviderSelector({
@@ -20,7 +20,7 @@ export default function ProviderSelector({
       <fieldset>
         <legend className="blockContainer-x flex w-full items-center justify-between pb-[--gap] xs:pb-[--gapXS] md:pb-[--gapMD] lg:pb-[--gapLG]">
           <span className="filter-label">Onde assistir:</span>
-          <ClearSelected onClear={() => clear("p")} />
+          <ClearSelected onClear={clear} />
         </legend>
 
         <ul className="justify-left blockContainer-x flex h-auto w-full select-none flex-wrap gap-2 rounded-lg">

@@ -10,10 +10,11 @@ export const API_ENDPOINTS = {
   finding: {
     byId: (id: number | string) => `${API_BASE_URL}movie/${id}`,
     search: `${API_BASE_URL}search/movie`,
+    filter: `${API_BASE_URL}discover/movie`,
   },
   metadata: {
     movieProviders: `${API_BASE_URL}watch/providers/movie`,
     movieGenres: `${API_BASE_URL}genre/movie/list`,
   },
   configuration: `${API_BASE_URL}configuration`,
-};
+} as const;

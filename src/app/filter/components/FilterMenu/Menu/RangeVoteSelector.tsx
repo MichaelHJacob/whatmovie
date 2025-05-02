@@ -2,33 +2,37 @@ import { ChangeEvent, useRef, useState } from "react";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-export default function RangeVoteSelector() {
+import { filtersMapTypes } from "@/types/filtersTypes";
+
+type RangeVoteSelectorProps = { props: filtersMapTypes["voteAverage"] };
+
+export default function RangeVoteSelector({ props }: RangeVoteSelectorProps) {
   const { replace } = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const params = new URLSearchParams(searchParams);
 
   const [minRange, setMinRange] = useState(
-    Number(searchParams?.get("vote_gte")) || 0,
+    Number(searchParams?.get(props.keys[0])) || props.allowedValues.min,
   );
   const [maxRange, setMaxRange] = useState(
-    Number(searchParams?.get("vote_lte")) || 10,
+    Number(searchParams?.get(props.keys[1])) || props.allowedValues.max,
   );
   const [minNumber, setMinNumber] = useState(
-    searchParams?.get("vote_gte") || "0",
+    searchParams?.get(props.keys[0]) || props.allowedValues.min.toString(),
   );
   const [maxNumber, setMaxNumber] = useState(
-    searchParams?.get("vote_lte") || "10",
+    searchParams?.get(props.keys[1]) || props.allowedValues.max.toString(),
   );
 
-  const leftSide = `${Math.floor((minRange / 10) * 100)}%`;
-  const rightSide = `${Math.floor((1 - maxRange / 10) * 100)}%`;
+  const leftSide = `${Math.floor((minRange / props.allowedValues.max) * 100)}%`;
+  const rightSide = `${Math.floor((1 - maxRange / props.allowedValues.max) * 100)}%`;
   const timeIdMin = useRef<ReturnType<typeof setInterval> | null>(null);
   const timeIdMax = useRef<ReturnType<typeof setInterval> | null>(null);
 
   function toParams(min: string, max: string) {
-    params.set("vote_gte", `${min}`);
-    params.set("vote_lte", `${max}`);
+    params.set(props.keys[0], `${min}`);
+    params.set(props.keys[1], `${max}`);
     replace(`${pathname}?${params.toString()}`);
   }
 
@@ -151,8 +155,8 @@ export default function RangeVoteSelector() {
               pattern="[0-9]*"
               inputMode="decimal"
               name="minNumber"
-              min={0}
-              max={10}
+              min={props.allowedValues.min}
+              max={props.allowedValues.max}
             />
           </label>
 
@@ -168,8 +172,8 @@ export default function RangeVoteSelector() {
               }}
               pattern="[0-9]*"
               inputMode="decimal"
-              min={0}
-              max={10}
+              min={props.allowedValues.min}
+              max={props.allowedValues.max}
             />
           </label>
         </div>
@@ -189,9 +193,9 @@ export default function RangeVoteSelector() {
             <input
               type="range"
               className="pointer-events-none absolute top-[-2px] h-0 w-full appearance-none"
-              min={0}
-              max={10}
-              step={0.1}
+              step={props.allowedValues.step}
+              min={props.allowedValues.min}
+              max={props.allowedValues.max}
               value={minRange}
               onChange={(e) => handleMinRange(Number(e.target.value))}
               onMouseUp={() => toParams(String(minRange), maxNumber)}
@@ -200,9 +204,9 @@ export default function RangeVoteSelector() {
             <input
               type="range"
               className="pointer-events-none absolute top-[-2px] h-0 w-full appearance-none"
-              min={0}
-              max={10}
-              step={0.1}
+              step={props.allowedValues.step}
+              min={props.allowedValues.min}
+              max={props.allowedValues.max}
               value={maxRange}
               onChange={(e) => handleMaxRange(Number(e.target.value))}
               onMouseUp={() => toParams(minNumber, String(maxRange))}

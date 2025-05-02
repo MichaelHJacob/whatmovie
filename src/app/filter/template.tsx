@@ -1,13 +1,18 @@
-import { Suspense } from "react";
+"use client";
+
+import { Suspense, useState } from "react";
 
 import FilterMenu from "@/app/filter/components/FilterMenu";
 import Container from "@/components/layout/Container";
 import NavBar from "@/components/layout/NavBar";
 import MovieCards from "@/components/skeleton/MovieCards";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 type TemplateProps = { children: React.ReactNode };
 
 export default function Template({ children }: TemplateProps) {
+  const [queryClient] = useState(() => new QueryClient());
+
   return (
     <>
       <NavBar fixed />
@@ -20,7 +25,11 @@ export default function Template({ children }: TemplateProps) {
           </Container>
         }
       >
-        <FilterMenu>{children}</FilterMenu>
+        <FilterMenu>
+          <QueryClientProvider client={queryClient}>
+            {children}
+          </QueryClientProvider>
+        </FilterMenu>
       </Suspense>
     </>
   );

@@ -1,68 +1,65 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useRef } from "react";
 
-import fetchMovies from "@/app/filter/actions";
+import { useSearchParams } from "next/navigation";
+
 import MapCardMovie from "@/app/filter/components/MovieCardsScroll/MapCardMovie";
 import MovieCards from "@/components/skeleton/MovieCards";
-import { ArrayMoviesType, CardMovieType } from "@/types/globalTypes";
+import LabelH4 from "@/components/ui/LabelH4";
+import { useFilterMovies } from "@/hooks/useFilterMovies";
+import useIntersectionObserver from "@/hooks/useIntersectionObserver";
+import { toObject } from "@/lib/utils/params";
 
-type MovieCardsScrollProps = {
-  parameters: { [key: string]: string | string[] | undefined };
-  totalPages: number;
-  initialData: CardMovieType;
-};
+export default function MovieCardsScroll() {
+  const observerRef = useRef<HTMLLIElement | null>(null);
+  const searchParams = useSearchParams();
+  const paramsObject = toObject(searchParams);
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useFilterMovies(paramsObject);
 
-export default function MovieCardsScroll({
-  initialData,
-  parameters,
-  totalPages,
-}: MovieCardsScrollProps) {
-  const [movies, setMovies] = useState<ArrayMoviesType>({
-    current_page: initialData.page,
-    results: initialData.results,
+  useIntersectionObserver({
+    enabled: hasNextPage && !isFetchingNextPage,
+    targetRef: observerRef,
+    onIntersect: () => {
+      if (hasNextPage) {
+        fetchNextPage();
+      }
+    },
   });
-  const npRef = useRef<number>(initialData.page || 1);
-
-  useEffect(() => {
-    const observerCard = document.getElementById("loadC0");
-
-    if (observerCard !== null) {
-      const observer = new IntersectionObserver((entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          npRef.current = npRef.current + 1;
-          getData(npRef.current);
-        }
-      });
-      observer.observe(observerCard);
-    }
-
-    async function getData(nPage: number) {
-      parameters.page = nPage.toString();
-
-      const moviesData: CardMovieType = await fetchMovies(parameters);
-
-      setMovies((prev) => {
-        return {
-          current_page: moviesData.page,
-          results: [...prev.results, ...moviesData.results],
-        };
-      });
-    }
-  }, []);
 
   return (
     <>
-      <MapCardMovie data={movies.results} />
-      {movies.current_page < 400 && movies.current_page < totalPages && (
-        <MovieCards
-          id={"loadC"}
-          size={5}
-          style="xl:col-span-3 2xl:col-span-4"
-          xs={4}
-          xl={4}
-        />
-      )}
+      <div>
+        <ul className="gridTemplateSpace blockContainer relative w-full items-end xl:gap-[var(--gapMD)] 2xl:grid-cols-[repeat(20,_minmax(0,_1fr))] 2xl:gap-[var(--gapLG)]">
+          {data?.pages.map((page, i) => {
+            return (
+              <Fragment key={i}>
+                <MapCardMovie data={page.results} />
+              </Fragment>
+            );
+          })}
+          {hasNextPage ? (
+            <MovieCards
+              size={5}
+              style="xl:col-span-3 2xl:col-span-4"
+              xs={4}
+              xl={4}
+              ref={observerRef}
+            />
+          ) : (
+            data?.pages[0].page.results < 20 && (
+              <div className="blockContainer flex justify-end">
+                <LabelH4>
+                  {data?.pages[0].page.results.length == 0
+                    ? "Considere um filtro mais amplo para exibir resultados"
+                    : "Considere um filtro mais amplo para exibir mais resultados"}
+                </LabelH4>
+              </div>
+            )
+          )}
+        </ul>
+      </div>
     </>
   );
 }

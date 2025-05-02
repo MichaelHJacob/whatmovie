@@ -12,7 +12,7 @@ import GenreButton from "@/app/filter/components/ui/GenreButton";
 import ProviderButton from "@/app/filter/components/ui/ProviderButton";
 import Container from "@/components/layout/Container";
 import BreakHr from "@/components/ui/BreakHr";
-import { listGenres, listMovieProvider } from "@/data/movieMetadata";
+import { filtersMap } from "@/data/filtersMap";
 import { TypeBtnGenres, TypeBtnProvider } from "@/types/globalTypes";
 
 type FilterMenuProps = {
@@ -26,19 +26,18 @@ export default function FilterMenu({ children }: FilterMenuProps) {
   const params = new URLSearchParams(searchParams);
   const timeId = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
   const divFilters = useRef<HTMLDivElement>(null);
-
   const [dataGenres, setGenres] = useState<TypeBtnGenres[]>(() =>
-    handleGenres(searchParams.get("g")?.split(",")),
+    handleGenres(searchParams.get(filtersMap.withGenres.keys)?.split(",")),
   );
-
   const [dataProviders, setProviders] = useState<TypeBtnProvider[]>(() =>
-    handleProviders(searchParams.get("p")?.split("|")),
+    handleProviders(
+      searchParams.get(filtersMap.withWatchProviders.keys)?.split("|"),
+    ),
   );
-
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   function handleGenres(inicial?: string[]): TypeBtnGenres[] {
-    return listGenres.genres.map((value) => {
+    return filtersMap.withGenres.allowedValues.genres.map((value) => {
       return {
         id: value.id,
         name: value.name,
@@ -49,7 +48,7 @@ export default function FilterMenu({ children }: FilterMenuProps) {
   }
 
   function handleProviders(inicial?: string[]): TypeBtnProvider[] {
-    return listMovieProvider.results.map((value) => {
+    return filtersMap.withWatchProviders.allowedValues.results.map((value) => {
       return {
         logo_path: value.logo_path,
         provider_name: value.provider_name,
@@ -100,10 +99,10 @@ export default function FilterMenu({ children }: FilterMenuProps) {
 
   function reset(filter?: string) {
     switch (filter) {
-      case "p":
+      case filtersMap.withWatchProviders.keys:
         setProviders(handleProviders());
         break;
-      case "g":
+      case filtersMap.withGenres.keys:
         setGenres(handleGenres());
         break;
       default:
@@ -152,8 +151,7 @@ export default function FilterMenu({ children }: FilterMenuProps) {
       .map((value) => value.id);
 
     getTrue.push(picked.id);
-    params.set("g", getTrue.join(","));
-    params.set("page", "1");
+    params.set(filtersMap.withGenres.keys, getTrue.join(","));
     replace(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
@@ -179,12 +177,11 @@ export default function FilterMenu({ children }: FilterMenuProps) {
       .filter((value) => value !== picked.id);
 
     if (getTrue.length == 0) {
-      params.delete("g");
+      params.delete(filtersMap.withGenres.keys);
     } else {
-      params.set("g", getTrue.join(","));
+      params.set(filtersMap.withGenres.keys, getTrue.join(","));
     }
 
-    params.set("page", "1");
     replace(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
@@ -211,8 +208,7 @@ export default function FilterMenu({ children }: FilterMenuProps) {
 
     getTrue.push(picked.provider_id);
 
-    params.set("p", getTrue.join("|"));
-    params.set("page", "1");
+    params.set(filtersMap.withWatchProviders.keys, getTrue.join("|"));
     replace(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
@@ -241,12 +237,11 @@ export default function FilterMenu({ children }: FilterMenuProps) {
       .filter((value) => value !== picked.provider_id);
 
     if (getTrue.length == 0) {
-      params.delete("p");
+      params.delete(filtersMap.withWatchProviders.keys);
     } else {
-      params.set("p", getTrue.join("|"));
+      params.set(filtersMap.withWatchProviders.keys, getTrue.join("|"));
     }
 
-    params.set("page", "1");
     replace(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
@@ -265,14 +260,14 @@ export default function FilterMenu({ children }: FilterMenuProps) {
             genres={dataGenres}
             add={addGenre}
             remove={removeGenre}
-            clear={reset}
+            clear={() => reset(filtersMap.withGenres.keys)}
           />
           <BreakHr color={"border-nightDew-300"} />
           <ProviderSelector
             providers={dataProviders}
             add={addProvider}
             remove={removeProvider}
-            clear={reset}
+            clear={() => reset(filtersMap.withWatchProviders.keys)}
           />
         </Menu>
       </div>
