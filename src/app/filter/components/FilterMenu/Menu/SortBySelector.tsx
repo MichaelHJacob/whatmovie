@@ -1,8 +1,8 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-import { filtersMapTypes } from "@/types/filtersTypes";
+import { FiltersMap } from "@/types/filtersTypes";
 
-type SortBySelectorProps = { props: filtersMapTypes["sortBy"] };
+type SortBySelectorProps = { props: FiltersMap["sortBy"] };
 
 export default function SortBySelector({ props }: SortBySelectorProps) {
   const { replace } = useRouter();
@@ -11,7 +11,7 @@ export default function SortBySelector({ props }: SortBySelectorProps) {
   const params = new URLSearchParams(searchParams);
 
   function handleSelect(selected: string) {
-    params.set(props.keys, selected);
+    params.set(props.keys[0], selected);
     replace(`${pathname}?${params.toString()}`);
   }
   return (
@@ -24,7 +24,7 @@ export default function SortBySelector({ props }: SortBySelectorProps) {
           onChange={(e) => {
             handleSelect(e.target.value);
           }}
-          defaultValue={searchParams.get(props.keys)?.toString()}
+          defaultValue={searchParams.get(props.keys[0])?.toString()}
         >
           <option value={props.allowedValues[3]}>Popularidade</option>
           <option value={props.allowedValues[5]}>Custo</option>

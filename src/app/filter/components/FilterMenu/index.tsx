@@ -27,11 +27,11 @@ export default function FilterMenu({ children }: FilterMenuProps) {
   const timeId = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
   const divFilters = useRef<HTMLDivElement>(null);
   const [dataGenres, setGenres] = useState<TypeBtnGenres[]>(() =>
-    handleGenres(searchParams.get(filtersMap.withGenres.keys)?.split(",")),
+    handleGenres(searchParams.get(filtersMap.withGenres.keys[0])?.split(",")),
   );
   const [dataProviders, setProviders] = useState<TypeBtnProvider[]>(() =>
     handleProviders(
-      searchParams.get(filtersMap.withWatchProviders.keys)?.split("|"),
+      searchParams.get(filtersMap.withWatchProviders.keys[0])?.split("|"),
     ),
   );
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -99,10 +99,10 @@ export default function FilterMenu({ children }: FilterMenuProps) {
 
   function reset(filter?: string) {
     switch (filter) {
-      case filtersMap.withWatchProviders.keys:
+      case filtersMap.withWatchProviders.keys[0]:
         setProviders(handleProviders());
         break;
-      case filtersMap.withGenres.keys:
+      case filtersMap.withGenres.keys[0]:
         setGenres(handleGenres());
         break;
       default:
@@ -151,7 +151,7 @@ export default function FilterMenu({ children }: FilterMenuProps) {
       .map((value) => value.id);
 
     getTrue.push(picked.id);
-    params.set(filtersMap.withGenres.keys, getTrue.join(","));
+    params.set(filtersMap.withGenres.keys[0], getTrue.join(","));
     replace(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
@@ -177,9 +177,9 @@ export default function FilterMenu({ children }: FilterMenuProps) {
       .filter((value) => value !== picked.id);
 
     if (getTrue.length == 0) {
-      params.delete(filtersMap.withGenres.keys);
+      params.delete(filtersMap.withGenres.keys[0]);
     } else {
-      params.set(filtersMap.withGenres.keys, getTrue.join(","));
+      params.set(filtersMap.withGenres.keys[0], getTrue.join(","));
     }
 
     replace(`${pathname}?${params.toString()}`, { scroll: false });
@@ -208,7 +208,7 @@ export default function FilterMenu({ children }: FilterMenuProps) {
 
     getTrue.push(picked.provider_id);
 
-    params.set(filtersMap.withWatchProviders.keys, getTrue.join("|"));
+    params.set(filtersMap.withWatchProviders.keys[0], getTrue.join("|"));
     replace(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
@@ -237,9 +237,9 @@ export default function FilterMenu({ children }: FilterMenuProps) {
       .filter((value) => value !== picked.provider_id);
 
     if (getTrue.length == 0) {
-      params.delete(filtersMap.withWatchProviders.keys);
+      params.delete(filtersMap.withWatchProviders.keys[0]);
     } else {
-      params.set(filtersMap.withWatchProviders.keys, getTrue.join("|"));
+      params.set(filtersMap.withWatchProviders.keys[0], getTrue.join("|"));
     }
 
     replace(`${pathname}?${params.toString()}`, { scroll: false });
@@ -260,14 +260,14 @@ export default function FilterMenu({ children }: FilterMenuProps) {
             genres={dataGenres}
             add={addGenre}
             remove={removeGenre}
-            clear={() => reset(filtersMap.withGenres.keys)}
+            clear={() => reset(filtersMap.withGenres.keys[0])}
           />
           <BreakHr color={"border-nightDew-300"} />
           <ProviderSelector
             providers={dataProviders}
             add={addProvider}
             remove={removeProvider}
-            clear={() => reset(filtersMap.withWatchProviders.keys)}
+            clear={() => reset(filtersMap.withWatchProviders.keys[0])}
           />
         </Menu>
       </div>

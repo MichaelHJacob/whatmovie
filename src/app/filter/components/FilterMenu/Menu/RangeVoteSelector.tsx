@@ -2,9 +2,9 @@ import { ChangeEvent, useRef, useState } from "react";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-import { filtersMapTypes } from "@/types/filtersTypes";
+import { FiltersMap } from "@/types/filtersTypes";
 
-type RangeVoteSelectorProps = { props: filtersMapTypes["voteAverage"] };
+type RangeVoteSelectorProps = { props: FiltersMap["voteAverage"] };
 
 export default function RangeVoteSelector({ props }: RangeVoteSelectorProps) {
   const { replace } = useRouter();
@@ -13,26 +13,26 @@ export default function RangeVoteSelector({ props }: RangeVoteSelectorProps) {
   const params = new URLSearchParams(searchParams);
 
   const [minRange, setMinRange] = useState(
-    Number(searchParams?.get(props.keys[0])) || props.allowedValues.min,
+    Number(searchParams?.get(props.keys[1])) || props.allowedValues.gte,
   );
   const [maxRange, setMaxRange] = useState(
-    Number(searchParams?.get(props.keys[1])) || props.allowedValues.max,
+    Number(searchParams?.get(props.keys[2])) || props.allowedValues.lte,
   );
   const [minNumber, setMinNumber] = useState(
-    searchParams?.get(props.keys[0]) || props.allowedValues.min.toString(),
+    searchParams?.get(props.keys[1]) || props.allowedValues.gte.toString(),
   );
   const [maxNumber, setMaxNumber] = useState(
-    searchParams?.get(props.keys[1]) || props.allowedValues.max.toString(),
+    searchParams?.get(props.keys[2]) || props.allowedValues.lte.toString(),
   );
 
-  const leftSide = `${Math.floor((minRange / props.allowedValues.max) * 100)}%`;
-  const rightSide = `${Math.floor((1 - maxRange / props.allowedValues.max) * 100)}%`;
+  const leftSide = `${Math.floor((minRange / props.allowedValues.lte) * 100)}%`;
+  const rightSide = `${Math.floor((1 - maxRange / props.allowedValues.lte) * 100)}%`;
   const timeIdMin = useRef<ReturnType<typeof setInterval> | null>(null);
   const timeIdMax = useRef<ReturnType<typeof setInterval> | null>(null);
 
   function toParams(min: string, max: string) {
-    params.set(props.keys[0], `${min}`);
-    params.set(props.keys[1], `${max}`);
+    params.set(props.keys[1], `${min}`);
+    params.set(props.keys[2], `${max}`);
     replace(`${pathname}?${params.toString()}`);
   }
 
@@ -155,8 +155,8 @@ export default function RangeVoteSelector({ props }: RangeVoteSelectorProps) {
               pattern="[0-9]*"
               inputMode="decimal"
               name="minNumber"
-              min={props.allowedValues.min}
-              max={props.allowedValues.max}
+              min={props.allowedValues.gte}
+              max={props.allowedValues.lte}
             />
           </label>
 
@@ -172,8 +172,8 @@ export default function RangeVoteSelector({ props }: RangeVoteSelectorProps) {
               }}
               pattern="[0-9]*"
               inputMode="decimal"
-              min={props.allowedValues.min}
-              max={props.allowedValues.max}
+              min={props.allowedValues.gte}
+              max={props.allowedValues.lte}
             />
           </label>
         </div>
@@ -193,9 +193,9 @@ export default function RangeVoteSelector({ props }: RangeVoteSelectorProps) {
             <input
               type="range"
               className="pointer-events-none absolute top-[-2px] h-0 w-full appearance-none"
-              step={props.allowedValues.step}
-              min={props.allowedValues.min}
-              max={props.allowedValues.max}
+              step={1.0}
+              min={props.allowedValues.gte}
+              max={props.allowedValues.lte}
               value={minRange}
               onChange={(e) => handleMinRange(Number(e.target.value))}
               onMouseUp={() => toParams(String(minRange), maxNumber)}
@@ -204,9 +204,9 @@ export default function RangeVoteSelector({ props }: RangeVoteSelectorProps) {
             <input
               type="range"
               className="pointer-events-none absolute top-[-2px] h-0 w-full appearance-none"
-              step={props.allowedValues.step}
-              min={props.allowedValues.min}
-              max={props.allowedValues.max}
+              step={1.0}
+              min={props.allowedValues.gte}
+              max={props.allowedValues.lte}
               value={maxRange}
               onChange={(e) => handleMaxRange(Number(e.target.value))}
               onMouseUp={() => toParams(minNumber, String(maxRange))}

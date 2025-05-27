@@ -1,12 +1,12 @@
 import CardMovie from "@/components/ui/CardMovie";
-import { MovieClient, MovieType } from "@/types/globalTypes";
+import { DiscoverMovieType } from "@/lib/validation/discoverMovieSchema";
 
-type MapCardMovieProps = { data: MovieClient[] | MovieType[] };
+type MapCardMovieProps = { data: DiscoverMovieType[] | null };
 
 export default function MapCardMovie({ data }: MapCardMovieProps) {
   return (
     <>
-      {data.map((value) => (
+      {data?.map((value) => (
         <li
           className="gridColSpanMovie h-auto xl:col-span-3 2xl:col-span-4"
           key={value.id}

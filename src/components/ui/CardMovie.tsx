@@ -1,9 +1,9 @@
 import Link from "next/link";
 
 import { POSTER } from "@/config/imageConfig";
-import { MovieClient, MovieType } from "@/types/globalTypes";
+import { DiscoverMovieType } from "@/lib/validation/discoverMovieSchema";
 
-type CardMovieProps = { data: MovieClient | MovieType };
+type CardMovieProps = { data: DiscoverMovieType };
 
 export default function CardMovie({ data }: CardMovieProps) {
   return (
