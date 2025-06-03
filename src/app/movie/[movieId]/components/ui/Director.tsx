@@ -1,9 +1,9 @@
-import { CrewType } from "@/types/globalTypes";
+import { CreditsType } from "@/lib/validation/creditsSchema";
 
-type DirectorProps = { credits?: CrewType[] };
+type DirectorProps = { credits?: CreditsType["crew"] };
 
 export default function Director({ credits }: DirectorProps) {
-  if (credits && credits.length >= 1) {
+  if (credits) {
     return (
       <>
         <dt className="label font-bold text-nightDew-200">Diretor:</dt>

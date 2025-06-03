@@ -2,9 +2,12 @@ import ListPeople from "@/app/movie/[movieId]/components/ui/People/ListPeople";
 import BreakHr from "@/components/ui/BreakHr";
 import ListScrollController from "@/components/ui/ListScrollController";
 import SubTitle from "@/components/ui/SubTitle";
-import { PropsPeople } from "@/types/globalTypes";
+import { CreditsType } from "@/lib/validation/creditsSchema";
 
-export default function People({ cast = [], crew = [] }: PropsPeople) {
+export default function People({
+  cast,
+  crew,
+}: Pick<CreditsType, "cast" | "crew">) {
   if (cast.length >= 1 || crew.length >= 1) {
     return (
       <>

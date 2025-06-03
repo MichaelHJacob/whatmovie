@@ -1,10 +1,9 @@
 import { Suspense } from "react";
 
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
 
-import Recommendations from "@/app/movie/[movieId]/components/layout/Recommendations";
 import Videos from "@/app/movie/[movieId]/components/layout/Videos";
+import Recommendations from "@/app/movie/[movieId]/components/layout/WmRecommendations";
 import CardInformation from "@/app/movie/[movieId]/components/ui/CardInformation";
 import Director from "@/app/movie/[movieId]/components/ui/Director";
 import People from "@/app/movie/[movieId]/components/ui/People";
@@ -13,30 +12,9 @@ import Translations from "@/app/movie/[movieId]/components/ui/Translations";
 import Container from "@/components/layout/Container";
 import SkeletonListMovie from "@/components/skeleton/SkeletonListMovie";
 import SubTitle from "@/components/ui/SubTitle";
-import { API_ENDPOINTS } from "@/config/config";
 import { POSTER } from "@/config/imageConfig";
-import { DetailsMovieType } from "@/types/globalTypes";
+import { getMovieDetails } from "@/lib/api/tmdb/getMovieDetails";
 import { getPlaiceholder } from "plaiceholder";
-
-async function getDetails(id: string) {
-  const options = {
-    headers: {
-      accept: "application/json",
-      Authorization: `${process.env.DB_TOKEN_AUTH}`,
-    },
-    next: { revalidate: 3600 },
-  };
-  const res = await fetch(
-    API_ENDPOINTS.finding.byId(id) +
-      "?append_to_response=videos%2Cwatch%2Fproviders%2Ccredits&language=pt-BR",
-    options,
-  );
-
-  if (!res.ok) {
-    throw new Error("Falha ao buscar dados");
-  }
-  return res.json();
-}
 
 async function getCssBlurIMG(src: string) {
   const buffer = await fetch(src).then(async (res) =>
@@ -51,13 +29,13 @@ async function getCssBlurIMG(src: string) {
 
   return css;
 }
-
-type generateMetadataProps = { params: { movieId: string } };
+type MovieProps = { params: { movieId: string } };
 
 export async function generateMetadata({
   params,
-}: generateMetadataProps): Promise<Metadata> {
-  const data: DetailsMovieType = await getDetails(params.movieId);
+}: MovieProps): Promise<Metadata> {
+  const data = await getMovieDetails(params.movieId);
+
   return {
     title: data.title.toString(),
     description: data.overview.substring(0, 160),
@@ -75,10 +53,8 @@ export async function generateMetadata({
   };
 }
 
-type MovieProps = { params: { movieId: string } };
-
 export default async function Movie({ params }: MovieProps) {
-  const data: DetailsMovieType = await getDetails(params.movieId);
+  const data = await getMovieDetails(params.movieId);
 
   let css = {
     backgroundImage: "linear-gradient(to top right, #075985, #3e131ca8)",
@@ -86,12 +62,9 @@ export default async function Movie({ params }: MovieProps) {
     backgroundSize: "contain",
     backgroundRepeat: "no-repeat",
   };
-  if (typeof data.poster_path == "string") {
-    css = await getCssBlurIMG(POSTER.w92 + data.poster_path);
-  }
 
-  if (!data || !params.movieId) {
-    redirect("/");
+  if (data.poster_path) {
+    css = await getCssBlurIMG(POSTER.w92 + data.poster_path);
   }
 
   function formatDate(date: string) {
@@ -102,6 +75,7 @@ export default async function Movie({ params }: MovieProps) {
       </span>
     );
   }
+
   function formatDateNumber(date: string) {
     const d = new Date(date);
     return <>{d.toLocaleDateString("pt-BR")}</>;
@@ -180,7 +154,7 @@ export default async function Movie({ params }: MovieProps) {
         <div className="md:gridTemplateSpace blockContainer items-center gap-0 max-md:flex max-md:w-fit max-md:flex-col max-md:items-start xl:grid-cols-[repeat(20,_minmax(0,_1fr))]">
           <div className="max-md:w-full md:col-span-4 lg:col-span-5">
             <div className="relative flex aspect-[2/3] items-center justify-start before:absolute before:z-20 before:block before:aspect-[2/3] before:w-full before:scale-75 before:rounded-xl before:bg-nightDew-600 before:blur-md max-md:max-h-[75vh] max-md:min-h-80">
-              {typeof data.poster_path == "string" ? (
+              {data.poster_path ? (
                 <img
                   srcSet={`${POSTER.w342}${data.poster_path} 342w, ${POSTER.w500}${data.poster_path} 500w, ${POSTER.w780}${data.poster_path} 780w`}
                   sizes="(max-width: 342px) 342px, (max-width: 500px) 500px, (max-width: 767px) 780px, (min-width: 768px) 300px, 500px"
@@ -220,15 +194,16 @@ export default async function Movie({ params }: MovieProps) {
                 </dd>
               </>
             )}
-            <Director credits={data.credits.crew} />
-            <Stream provider={data["watch/providers"].results.BR} />
+
+            {data.credits && <Director credits={data.credits.crew} />}
+            {data["watch/providers"]?.results?.BR && (
+              <Stream provider={data["watch/providers"].results.BR} />
+            )}
           </dl>
         </div>
       </div>
 
-      {data.videos.results.length >= 1 && (
-        <Videos videosArray={data.videos.results} />
-      )}
+      {data.videos?.results && <Videos videosArray={data.videos.results} />}
 
       <div>
         <SubTitle>Mais detalhes</SubTitle>
@@ -271,13 +246,13 @@ export default async function Movie({ params }: MovieProps) {
                 </dd>
               </>
             )}
-            {data.budget !== 0 && (
+            {data.budget && (
               <>
                 <dt className="label">Orçamento:</dt>
                 <dd className="data mb-2"> {formatNumber(data.budget)}</dd>
               </>
             )}
-            {data.revenue !== 0 && (
+            {data.revenue && (
               <>
                 <dt className="label">Receita:</dt>
                 <dd className="data mb-2"> {formatNumber(data.revenue)}</dd>
@@ -285,7 +260,7 @@ export default async function Movie({ params }: MovieProps) {
             )}
           </CardInformation>
           <CardInformation>
-            {data.production_companies.length != 0 && (
+            {data.production_companies && (
               <>
                 <dt className="label">Produzido por:</dt>
                 <dd className="data mb-2">
@@ -349,20 +324,12 @@ export default async function Movie({ params }: MovieProps) {
           </CardInformation>
         </div>
       </div>
-      <People cast={data.credits.cast} crew={data.credits.crew} />
+      {data.credits && (
+        <People cast={data.credits.cast} crew={data.credits.crew} />
+      )}
 
       <Suspense fallback={<SkeletonListMovie />}>
-        <Recommendations
-          movieID={params.movieId}
-          rootFilm={{
-            adult: data.adult,
-            popularity: data.popularity,
-            release_date: data.release_date,
-            vote_count: data.vote_count,
-            vote_average: data.vote_average,
-            genres_id: data.genres.map((value) => value.id),
-          }}
-        />
+        <Recommendations movieID={params.movieId} genres={data.genres} />
       </Suspense>
     </Container>
   );

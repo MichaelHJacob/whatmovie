@@ -1,6 +1,6 @@
-import { VideosResultsType } from "@/types/globalTypes";
+import { ObjVideoType } from "@/lib/validation/videosSchema";
 
-type VideoDisplayProps = { video: VideosResultsType };
+type VideoDisplayProps = { video: ObjVideoType };
 
 export default function VideoDisplay({ video }: VideoDisplayProps) {
   return (

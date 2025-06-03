@@ -1,13 +1,13 @@
 import { MetadataRoute } from "next";
 
-import { API_ENDPOINTS } from "@/config/config";
+import { API_ENDPOINTS } from "@/config/apiEndpoints";
 import { NowPlaying } from "@/types/globalTypes";
 
 async function getTheatres() {
   const options = {
     headers: {
       accept: "application/json",
-      Authorization: `${process.env.DB_TOKEN_AUTH}`,
+      Authorization: `Bearer ${process.env.TMDB_API_TOKEN}`,
     },
     next: { revalidate: 86400 },
   };

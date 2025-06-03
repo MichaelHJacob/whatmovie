@@ -1,14 +1,10 @@
 import ImageProfile from "@/app/movie/[movieId]/components/ui/People/ListPeople/ImageProfile";
 import ImageProfileUnavailable from "@/components/skeleton/ImageProfileUnavailable";
-import { PropsPeople } from "@/types/globalTypes";
+import { CreditsType } from "@/lib/validation/creditsSchema";
 
-type ListPeopleProps = { id: string } & PropsPeople;
+type ListPeopleProps = { id: string } & Pick<CreditsType, "cast" | "crew">;
 
-export default function ListPeople({
-  cast = [],
-  crew = [],
-  id,
-}: ListPeopleProps) {
+export default function ListPeople({ cast, crew, id }: ListPeopleProps) {
   return (
     <ul
       id={id}

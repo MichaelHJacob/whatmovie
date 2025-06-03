@@ -1,8 +1,8 @@
 import CardMovie from "@/components/ui/CardMovie";
-import { MovieType, RecommendationsMovieRate } from "@/types/globalTypes";
+import { DiscoverMovieType } from "@/lib/validation/discoverMovieSchema";
 
 type ListMovieProps = {
-  data: RecommendationsMovieRate[] | MovieType[];
+  data: ({ recommended?: number } & DiscoverMovieType)[];
   id: string;
 };
 
