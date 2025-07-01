@@ -1,5 +1,5 @@
 import { API_ENDPOINTS } from "@/config/apiEndpoints";
-import fetchData from "@/lib/api/fetchData";
+import { fetchTmdb } from "@/lib/api/fetchData";
 import getLocalParams, { keys } from "@/lib/i18n/getLocaleParams";
 import { discoverSchema } from "@/lib/validation/discoverSchema";
 
@@ -18,7 +18,7 @@ export async function getMovieRecommendations({
 
   const url = `${API_ENDPOINTS.finding.byId(id)}/recommendations?language=${language}&page=${page.toString()}`;
 
-  return fetchData<typeof discoverSchema._output>({
+  return fetchTmdb<typeof discoverSchema._output>({
     url,
     schema: discoverSchema,
   });

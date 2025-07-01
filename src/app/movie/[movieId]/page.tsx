@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 import Videos from "@/app/movie/[movieId]/components/layout/Videos";
 import Recommendations from "@/app/movie/[movieId]/components/layout/WmRecommendations";
@@ -14,6 +15,7 @@ import SkeletonListMovie from "@/components/skeleton/SkeletonListMovie";
 import SubTitle from "@/components/ui/SubTitle";
 import { POSTER } from "@/config/imageConfig";
 import { getMovieDetails } from "@/lib/api/tmdb/getMovieDetails";
+import { NotFoundError } from "@/lib/validation/extendExpectedError";
 import { getPlaiceholder } from "plaiceholder";
 
 async function getCssBlurIMG(src: string) {
@@ -29,19 +31,27 @@ async function getCssBlurIMG(src: string) {
 
   return css;
 }
+
 type MovieProps = { params: { movieId: string } };
 
 export async function generateMetadata({
   params,
 }: MovieProps): Promise<Metadata> {
-  const data = await getMovieDetails(params.movieId);
+  const [data] = await getMovieDetails({ id: params.movieId });
 
-  return {
+  if (!data)
+    return {
+      title: "Página não encontrada",
+      description: "Não foi possível carregar as informações solicitadas",
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
+
+  const metadata: Record<string, unknown> = {
     title: data.title.toString(),
     description: data.overview.substring(0, 160),
-    openGraph: {
-      images: `${POSTER.w780}${data?.poster_path}`,
-    },
     robots: {
       index: true,
       follow: true,
@@ -51,10 +61,26 @@ export async function generateMetadata({
       },
     },
   };
+
+  if (data.poster_path) {
+    metadata["openGraph"] = {
+      images: `${POSTER.w780}${data.poster_path}`,
+    };
+  }
+
+  return metadata;
 }
 
 export default async function Movie({ params }: MovieProps) {
-  const data = await getMovieDetails(params.movieId);
+  const [data, error] = await getMovieDetails({ id: params.movieId });
+
+  if (error || data === null) {
+    if (error instanceof NotFoundError) {
+      notFound();
+    } else {
+      throw error;
+    }
+  }
 
   let css = {
     backgroundImage: "linear-gradient(to top right, #075985, #3e131ca8)",

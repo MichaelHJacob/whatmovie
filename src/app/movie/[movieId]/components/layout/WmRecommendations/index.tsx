@@ -29,7 +29,10 @@ export default async function Recommendations({
   movieID,
   genres,
 }: RecommendationsProps) {
-  const DtRecommendationsP1 = await getMovieRecommendations({ id: movieID });
+  const [DtRecommendationsP1] = await getMovieRecommendations({ id: movieID });
+
+  if (!DtRecommendationsP1) return null;
+
   const genres_id = genres?.map((value) => value.id) || [];
   const arrayPoint: number[] = calcProportionalParts(genres_id.length);
   let maxCont: number;
@@ -50,10 +53,13 @@ export default async function Recommendations({
       .reverse()[0].popularity;
 
     if (DtRecommendationsP1.total_pages > 1) {
-      const DtRecommendationsP2 = await getMovieRecommendations({
+      const [DtRecommendationsP2] = await getMovieRecommendations({
         id: movieID,
         page: 2,
       });
+
+      if (!DtRecommendationsP2) return;
+
       if (DtRecommendationsP2.results) {
         maxCont = Math.max(
           maxCont,
