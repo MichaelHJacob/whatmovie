@@ -70,11 +70,6 @@ const config: Config = {
         rotateToL: "rotateToL 0.3s ease-in-out",
         rotateToR: "rotateToR 0.3s ease-in-out",
       },
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
       fontFamily: {
         logo: ["var(--font-caladea)", "Times New Roman", "ui-serif"],
         button: [
@@ -96,6 +91,10 @@ const config: Config = {
       black: colors.black,
       red: colors.red,
       blue: colors.blue,
+      gray: colors.gray,
+      stone: colors.stone,
+      rose: colors.rose,
+      amber: colors.amber,
       nightDew: {
         100: "#FBFCFD",
         200: "#F6F8F9",
