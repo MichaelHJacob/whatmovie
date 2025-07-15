@@ -38,6 +38,10 @@
 }
 
 @layer components {
+  .all-gap {
+    @apply gap-[--gap] xs:gap-[--gapXS] md:gap-[--gapMD] lg:gap-[--gapLG];
+  }
+
   .paddingHeader {
     @apply pt-[calc(2.75rem+var(--p))] xs:pt-[calc(2.75rem+var(--pXS))] md:pt-[calc(2.75rem+var(--pMD))] lg:pt-[calc(2.75rem+var(--pLG))];
   }

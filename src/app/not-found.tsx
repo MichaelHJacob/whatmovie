@@ -1,0 +1,40 @@
+import ErrorPage from "@/components/error/ErrorPage";
+import Container from "@/components/layout/Container";
+import NavBar from "@/components/layout/NavBar";
+import HTitle from "@/components/ui/HTitle";
+import ListMovie from "@/components/ui/ListMovie";
+import ListScrollController from "@/components/ui/ListScrollController";
+import { getPopular } from "@/lib/api/tmdb/getPopular";
+
+export default async function NotFound() {
+  const [data] = await getPopular();
+  return (
+    <>
+      <NavBar fixed />
+      <main>
+        <section>
+          <ErrorPage
+            as="div"
+            model="notFound"
+            textH1="Página não encontrada"
+            textCode="404"
+            textMsg1="Não conseguimos encontrar essa página"
+            textMsg2="mas talvez você encontre um filme interessante por aqui!"
+          />
+          {data?.results && (
+            <Container as="aside" className="relative bg-nightDew-100">
+              <HTitle>Filmes mais acessados</HTitle>
+              <ListScrollController
+                id={"popular"}
+                length={data.results.length}
+                surface
+              >
+                <ListMovie data={data?.results} id={"popular"} />
+              </ListScrollController>
+            </Container>
+          )}
+        </section>
+      </main>
+    </>
+  );
+}
