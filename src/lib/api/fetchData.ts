@@ -46,11 +46,11 @@ export async function fetchData<TData>({
     if (json.status_code === 34) {
       return [
         null,
-        new NotFoundError("O recurso solicitado não foi encontrado"),
+        new NotFoundError("O recurso solicitado não foi encontrado."),
       ] as const;
     }
 
-    return [null, new ExternalAPIError("Erro de API externa")] as const;
+    return [null, new ExternalAPIError("Erro de API externa.")] as const;
   }
 
   const { success, data, error } = schema.safeParse(json);
