@@ -4,30 +4,10 @@ import Container from "@/components/layout/Container";
 import ListMovie from "@/components/ui/ListMovie";
 import ListScrollController from "@/components/ui/ListScrollController";
 import SubTitle from "@/components/ui/SubTitle";
-import { API_BASE_URL } from "@/config/config";
-import { NowPlaying } from "@/types/globalTypes";
-
-async function getTheatres() {
-  const options = {
-    headers: {
-      accept: "application/json",
-      Authorization: `${process.env.DB_TOKEN_AUTH}`,
-    },
-    next: { revalidate: 3600 },
-  };
-  const res = await fetch(
-    `${API_BASE_URL}movie/now_playing?language=pt-BR&watch_region=BR&page=1`,
-    options,
-  );
-
-  if (!res.ok) {
-    throw new Error("Falha ao buscar dados");
-  }
-  return res.json();
-}
+import { getNowPlaying } from "@/lib/api/tmdb/getNowPlaying";
 
 export default async function Home() {
-  const inTheatres: NowPlaying = await getTheatres();
+  const [inTheatres] = await getNowPlaying();
 
   return (
     <Container>
@@ -52,16 +32,18 @@ export default async function Home() {
             </div>
           </div>
         </div>
-        <div className="relative before:absolute before:bottom-0 before:left-[50%] before:z-[-1] before:h-full before:w-screen before:translate-x-[-50%]">
-          <SubTitle>Lançamentos</SubTitle>
-          <ListScrollController
-            id={"lancamentos"}
-            length={inTheatres.results.length}
-            surface
-          >
-            <ListMovie data={inTheatres?.results} id={"lancamentos"} />
-          </ListScrollController>
-        </div>
+        {inTheatres && (
+          <div className="relative before:absolute before:bottom-0 before:left-[50%] before:z-[-1] before:h-full before:w-screen before:translate-x-[-50%]">
+            <SubTitle>Lançamentos</SubTitle>
+            <ListScrollController
+              id={"lancamentos"}
+              length={inTheatres.results.length}
+              surface
+            >
+              <ListMovie data={inTheatres?.results} id={"lancamentos"} />
+            </ListScrollController>
+          </div>
+        )}
       </div>
     </Container>
   );

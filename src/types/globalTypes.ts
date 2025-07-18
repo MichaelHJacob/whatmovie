@@ -13,14 +13,6 @@ export type TypeBtnGenres = {
   fastAccess: boolean;
 };
 
-export type NowPlaying = {
-  dates: { maximum: string; minimum: string };
-  page: number;
-  results: MovieType[];
-  total_pages: number;
-  total_results: number;
-};
-
 export type MovieType = {
   adult: boolean;
   backdrop_path: string;
