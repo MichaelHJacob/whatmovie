@@ -7,6 +7,13 @@ export class FilterValidationError extends Error {
   }
 }
 
+export class SearchValidationError extends Error {
+  constructor(public validation: FilterSchemaErrors) {
+    super("Erro de validação");
+    this.name = "FilterValidationError";
+  }
+}
+
 export class NotFoundError extends Error {
   constructor(message: string) {
     super(message);

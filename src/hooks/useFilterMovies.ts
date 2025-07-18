@@ -1,4 +1,10 @@
-import { FilterValidationError } from "@/lib/validation/FilterValidationError";
+import { DiscoverSchemaType } from "@/lib/validation/discoverSchema";
+import {
+  ExternalAPIError,
+  FilterValidationError,
+  NotFoundError,
+  ValidationError,
+} from "@/lib/validation/extendExpectedError";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 async function fetchFilter(filters: URLSearchParams) {
@@ -6,29 +12,37 @@ async function fetchFilter(filters: URLSearchParams) {
 
   if (!res.ok) {
     const errorData = await res.json();
-    if (errorData.name === "FilterValidationError") {
-      throw new FilterValidationError(errorData.validation);
-    }
 
-    throw new Error(errorData.message || "Erro desconhecido");
+    switch (errorData.name) {
+      case "FilterValidationError":
+        throw new FilterValidationError(errorData.validation);
+      case "NotFoundError":
+        throw new NotFoundError(errorData.message);
+      case "ValidationError":
+        throw new ValidationError(errorData.message);
+      case "ExternalAPIError":
+        throw new ExternalAPIError(errorData.message);
+      default:
+        throw new Error("Erro desconhecido");
+    }
   }
   return res.json();
 }
 
 export function useFilterMovies(filters: { [k: string]: string }) {
-  return useInfiniteQuery({
+  return useInfiniteQuery<DiscoverSchemaType>({
     queryKey: ["filters", filters],
     queryFn: ({ pageParam }) => {
       const params = new URLSearchParams({
         ...filters,
-        page: pageParam.toString(),
+        page: String(pageParam),
       });
       return fetchFilter(params);
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
       const next = lastPage.page + 1;
-      return next <= lastPage.total_pages ? next : undefined;
+      return next <= lastPage.total_pages && next <= 500 ? next : undefined;
     },
     throwOnError: false,
     refetchOnWindowFocus: false,

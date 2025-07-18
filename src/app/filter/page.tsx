@@ -9,7 +9,7 @@ import MovieCards from "@/components/skeleton/MovieCards";
 import LabelH4 from "@/components/ui/LabelH4";
 import { useFilterMovies } from "@/hooks/useFilterMovies";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
-import { FilterValidationError } from "@/lib/validation/FilterValidationError";
+import { FilterValidationError } from "@/lib/validation/extendExpectedError";
 
 export default function Page() {
   const observerRef = useRef<HTMLLIElement | null>(null);
@@ -41,7 +41,7 @@ export default function Page() {
     const errorMessage: string[] =
       error instanceof FilterValidationError
         ? Object.values(error.validation.fieldErrors).flat()
-        : [error.message];
+        : ["Ocorreu um erro inesperado, tente novamente mais tarde"];
     return (
       <div>
         <ul className="blockContainer relative w-full items-end xl:gap-[var(--gapMD)] 2xl:gap-[var(--gapLG)]">
