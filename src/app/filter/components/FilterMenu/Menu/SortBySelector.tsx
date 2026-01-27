@@ -1,22 +1,35 @@
+import { useEffect, useState } from "react";
+
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { FiltersMap } from "@/types/filtersTypes";
 
-type SortBySelectorProps = { props: FiltersMap["sortBy"] };
+type SortBySelectorProps = FiltersMap["sortBy"];
 
-export default function SortBySelector({ props }: SortBySelectorProps) {
+export default function SortBySelector(props: Readonly<SortBySelectorProps>) {
   const { replace } = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const params = new URLSearchParams(searchParams);
+  const [orderBy, setOrderBy] = useState(
+    searchParams.get(props.keys[0])?.toString() || props.allowedValues[3],
+  );
 
   function handleSelect(selected: string) {
     params.set(props.keys[0], selected);
     replace(`${pathname}?${params.toString()}`);
+    setOrderBy(selected);
   }
+
+  useEffect(() => {
+    if (!searchParams.has(props.keys[0])) {
+      setOrderBy(props.allowedValues[3]);
+    }
+  }, [searchParams, props.keys, props.allowedValues]);
+
   return (
     <li>
-      <label className="blockContainer-x flex min-h-11 w-full items-center justify-between rounded-lg">
+      <label className="blockContainer-px flex min-h-11 w-full items-center justify-between rounded-lg">
         <span className="filter-label">Ordenar por:</span>
         <select
           className="backBtn textBtn"
@@ -24,7 +37,7 @@ export default function SortBySelector({ props }: SortBySelectorProps) {
           onChange={(e) => {
             handleSelect(e.target.value);
           }}
-          defaultValue={searchParams.get(props.keys[0])?.toString()}
+          value={orderBy}
         >
           <option value={props.allowedValues[3]}>Popularidade</option>
           <option value={props.allowedValues[5]}>Custo</option>

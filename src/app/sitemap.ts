@@ -1,6 +1,6 @@
 import { MetadataRoute } from "next";
 
-import { getNowPlaying } from "@/lib/api/tmdb/getNowPlaying";
+import { getNowPlaying } from "@/lib/api/tmdb/use-cases/getNowPlaying";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [data] = await getNowPlaying();
