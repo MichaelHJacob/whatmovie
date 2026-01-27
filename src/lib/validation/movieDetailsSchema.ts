@@ -8,7 +8,7 @@ export const movieDetailsSchema = z.object({
   backdrop_path: z.string().nullable().catch(null),
   belongs_to_collection: z
     .object({
-      id: z.number(),
+      id: z.coerce.string(z.number()),
       name: z.string(),
       poster_path: z.string().nullable().catch(null),
       backdrop_path: z.string().nullable().catch(null),
@@ -23,7 +23,7 @@ export const movieDetailsSchema = z.object({
     .nullable()
     .catch(null),
   homepage: z.string().url().nullable().catch(null),
-  id: z.number(),
+  id: z.coerce.string(z.number()),
   imdb_id: z.string().nullable().catch(null),
   origin_country: z.array(z.string().length(2)).nullable().catch(null),
   original_language: z.string().length(2).nullable().catch(null),
@@ -40,7 +40,7 @@ export const movieDetailsSchema = z.object({
     .array(
       z
         .object({
-          id: z.number(),
+          id: z.coerce.string(z.number()),
           logo_path: z
             .string()
             .startsWith("/")

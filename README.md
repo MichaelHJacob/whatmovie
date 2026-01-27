@@ -1,11 +1,11 @@
+## [WhatMovie](https://whatmovie.com.br)
+
 <div align="center">
-    <img src="public/logo/LogoWmExtended_Light.png#gh-light-mode-only" width="480px">
-    <img src="public/logo/LogoWmExtended_Dark.png#gh-dark-mode-only" width="480px">
+    <img src="public/logo/LogoWmExtended_Light.webp#gh-light-mode-only" width="480px">
+    <img src="public/logo/LogoWmExtended_Dark.webp#gh-dark-mode-only" width="480px">
 </div>
 
-## [🔗 WhatMovie.com.br](https://www.whatmovie.com.br)
-
-Um site desenvolvido para amantes de filmes, com o objetivo de facilitar a descoberta e pesquisa de informações sobre filmes. O WhatMovie utiliza API fornecida pelo [The Movie Database (TMDB)](https://www.themoviedb.org/?language=pt-BR) para fornecer dados atualizados sobre filmes em seus serviços de streaming com uma experiência de navegação intuitiva, moderna e responsiva.
+Um site desenvolvido para amantes de filmes, com o objetivo de facilitar a descoberta e pesquisa de informações sobre filmes. O WhatMovie utiliza API fornecida pelo [The Movie Database (TMDB)](https://www.themoviedb.org/?language=pt-BR) para fornecer dados atualizados sobre filmes e seus serviços de streaming com uma experiência de navegação intuitiva, moderna e responsiva.
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -19,7 +19,7 @@ Um site desenvolvido para amantes de filmes, com o objetivo de facilitar a desco
 ## ✨ Funcionalidades
 
 - Página inicial com lançamentos recentes nos serviços de streaming.
-- Pesquisa por nome de filmes.
+- Pesquisa por nome.
 - Filtros para explorar filmes por categorias.
 - Página de informações detalhadas sobre cada filme, incluindo sinopse, elenco e muito mais.
 - Design responsivo e mobile-first para ótima experiência em qualquer dispositivo.

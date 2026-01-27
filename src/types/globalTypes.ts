@@ -1,3 +1,8 @@
+import { RequestInit } from "next/dist/server/web/spec-extension/request";
+
+import { keys } from "@/lib/i18n/getLocaleParams";
+import { ZodSchema } from "zod";
+
 export type TypeBtnProvider = {
   logo_path: string;
   provider_name: string;
@@ -13,36 +18,24 @@ export type TypeBtnGenres = {
   fastAccess: boolean;
 };
 
-export type MovieType = {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
+export type selectOption = null | {
+  id: string;
+  index: number;
 };
 
-export type SearchResult = {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
+export type fetchOptionsExtended = {
+  schema: ZodSchema;
+  revalidate?: number;
+  errorMessage?: string;
+  url: string | URL | Request;
+  options?: Omit<RequestInit, "headers">;
+};
+
+export type GetUseCasesParams = {
+  locale?: keys;
+  page?: number;
+};
+
+export type GetUseCasesWithIdParams = GetUseCasesParams & {
+  id: number | string;
 };

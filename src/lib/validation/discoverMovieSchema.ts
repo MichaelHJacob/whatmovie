@@ -4,7 +4,7 @@ export const discoverMovieSchema = z.object({
   adult: z.boolean().nullable().catch(null),
   backdrop_path: z.string().nullable().catch(null),
   genre_ids: z.array(z.number()).catch([]),
-  id: z.number(),
+  id: z.coerce.string(z.number()),
   original_language: z.string().nullable().catch(null),
   original_title: z.string(),
   overview: z.string().catch("Sinopse não disponível."),

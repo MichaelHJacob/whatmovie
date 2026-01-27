@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const objVideoSchema = z.object({
+export const videoSchema = z.object({
   iso_639_1: z.string().length(2),
   iso_3166_1: z.string().length(2),
   name: z.string(),
@@ -18,9 +18,9 @@ const objVideoSchema = z.object({
 });
 
 export const videosSchema = z.object({
-  id: z.number(),
+  id: z.coerce.string(z.number()),
   results: z
-    .array(objVideoSchema.nullable().catch(null))
+    .array(videoSchema.nullable().catch(null))
     .transform((array) => array.filter((obj) => obj !== null))
     .refine((array) => array.length >= 1)
     .nullable()
@@ -28,4 +28,4 @@ export const videosSchema = z.object({
 });
 
 export type VideosType = z.infer<typeof videosSchema>;
-export type ObjVideoType = z.infer<typeof objVideoSchema>;
+export type ObjVideoType = z.infer<typeof videoSchema>;

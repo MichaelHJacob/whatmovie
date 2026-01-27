@@ -1,64 +1,62 @@
-import { Suspense } from "react";
-
 import Link from "next/link";
 
+import WmLetters from "@/assets/logos/wmLetters.svg";
+import { QueryProvider } from "@/components/Providers";
+import Container from "@/components/layout/Container";
 import Search from "@/components/layout/NavBar/Search";
+import { navbarBase } from "@/components/layout/NavBar/navbar.styles";
+import { tv } from "tailwind-variants";
+
+const navbar = tv({
+  extend: navbarBase,
+  slots: {
+    innerNav: "blockContainer-px z-50 flex h-11 items-center justify-between",
+    navContainer:
+      "animate-presets top-0 z-40 w-full animate-fade before:absolute before:-inset-0 before:-z-10 before:block before:h-full before:w-full before:backdrop-blur-xl before:backdrop-saturate-150",
+    menu: "all-gap group flex w-full items-center justify-end before:invisible before:fixed before:right-0 before:top-0 before:z-40 before:h-dvh before:w-screen before:bg-scrim before:opacity-0 before:backdrop-blur-xl before:transition-all before:duration-1000 has-[input[data-bgscrim='true']]:before:visible has-[input[data-bgscrim='true']]:before:opacity-100",
+  },
+  variants: {
+    fixed: {
+      true: {
+        navContainer: "sticky -mb-11",
+      },
+      false: {
+        navContainer: "absolute",
+      },
+    },
+    dark: {
+      true: {
+        navContainer: "bg-nav-black",
+        icon: "fill-current text-nav-white hover:fill-current hover:text-nav-white-hover",
+      },
+      false: {
+        navContainer: "bg-floating",
+      },
+    },
+  },
+});
 
 type NavBarProps = { fixed?: boolean; dark?: boolean };
+export default function NavBar({ fixed, dark = false }: Readonly<NavBarProps>) {
+  const { navContainer, btnHeader, btnText, icon, innerNav, menu } = navbar({
+    dark,
+    fixed,
+  });
 
-export default function NavBar({ fixed, dark }: NavBarProps) {
   return (
-    <header
-      className={`left-0 top-0 z-[1000] w-full overflow-visible backdrop-blur-md ${
-        dark ? "bg-nightDew-700/30" : "bg-nightDew-200/80"
-      } ${fixed ? "fixed" : "absolute"}`}
-    >
-      <nav className="z-[2000] mx-auto flex h-11 w-full max-w-7xl items-center justify-start gap-[var(--gap)] overflow-visible px-[var(--p)] transition-all duration-700 xs:gap-[var(--gapXS)] xs:px-[var(--pXS)] md:gap-[var(--gapMD)] lg:gap-[var(--gapLG)] lg:px-[var(--pLG)]">
-        <Suspense>
-          <Search />
-        </Suspense>
+    <Container as="nav" className={navContainer()} innerStyles={innerNav()}>
+      <Link href="/" className={btnHeader()}>
+        <WmLetters className={icon({ class: "h-4" })} />
+      </Link>
 
-        <Link
-          href={`/filter`}
-          target="_top"
-          className={`header-backBtn order-3 min-w-fit justify-start overflow-hidden opacity-100 peer-open:w-0 peer-open:min-w-0 peer-open:px-0 peer-open:opacity-0 ${
-            dark && "hover:bg-opacity-10"
-          }`}
-        >
-          <img
-            src="/icons/filterIcon.svg"
-            className={`h-6 w-6 ${dark && "invert"}`}
-            width={24}
-            height={24}
-          />
-          <h2
-            className={`textBtn ${
-              dark ? "text-nightDew-100" : "text-nightDew-700"
-            }`}
-          >
-            Filtro
-          </h2>
+      <div className={menu()}>
+        <QueryProvider>
+          <Search dark={dark} />
+        </QueryProvider>
+        <Link href={`/filter`} target="_top" className={btnHeader()}>
+          <span className={btnText()}>Filtro</span>
         </Link>
-
-        <div className="w-full overflow-hidden transition-all duration-700 max-sm:peer-open:w-0 max-sm:peer-open:opacity-0">
-          <Link href="/" className={`flex w-auto items-center gap-2`}>
-            <img
-              src="/logo/wmIcon.svg"
-              className={`h-5 w-5 ${dark && "invert"}`}
-              alt="What Movie Logo"
-              width={20}
-              height={20}
-            />
-            <h1
-              className={`whitespace-nowrap font-logo text-lg font-[700] tracking-wider antialiased ${
-                dark ? "text-nightDew-100" : "textShadow text-nightDew-700"
-              }`}
-            >
-              What Movie
-            </h1>
-          </Link>
-        </div>
-      </nav>
-    </header>
+      </div>
+    </Container>
   );
 }

@@ -11,9 +11,9 @@ export default function ProviderButton({
   provider,
   add,
   remove,
-}: ProviderButtonProps) {
+}: Readonly<ProviderButtonProps>) {
   return (
-    <label className="backBtn relative box-content block aspect-square overflow-hidden bg-opacity-30 px-0">
+    <label className="backBtn relative col-span-1 row-span-1 box-content block aspect-square overflow-hidden px-0">
       <input
         className="peer absolute appearance-none bg-transparent opacity-0"
         type="checkbox"

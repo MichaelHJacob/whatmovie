@@ -16,6 +16,6 @@ const localeMap = {
 type localMapType = typeof localeMap;
 export type keys = keyof localMapType;
 
-export default function getLocalParams(locale: keys) {
+export function getLocalParams(locale: keys) {
   return localeMap[locale];
 }

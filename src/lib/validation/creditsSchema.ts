@@ -1,4 +1,4 @@
-import { department } from "@/data/tmdbJobs";
+import { tmdbJobs } from "@/data/tmdbJobs";
 import { z } from "zod";
 
 const info = z.object({
@@ -7,11 +7,8 @@ const info = z.object({
     .union([z.literal(1), z.literal(2)])
     .nullable()
     .catch(null),
-  id: z.number().catch(0),
-  known_for_department: z
-    .enum(department as [(typeof department)[number]])
-    .nullable()
-    .catch(null),
+  id: z.coerce.string(z.number().catch(0)),
+  known_for_department: z.enum(tmdbJobs.department).nullable().catch(null),
   name: z.string().catch(""),
   original_name: z.string().catch(""),
   popularity: z.number().catch(0),
@@ -20,7 +17,7 @@ const info = z.object({
 });
 
 export const creditsSchema = z.object({
-  id: z.number(),
+  id: z.coerce.string(z.number()),
   cast: z
     .array(
       info
@@ -39,9 +36,7 @@ export const creditsSchema = z.object({
     .array(
       info
         .extend({
-          department: z
-            .enum(department as [(typeof department)[number]])
-            .or(z.string()),
+          department: z.enum(tmdbJobs.department),
           job: z.string().catch(""),
         })
         .nullable()
