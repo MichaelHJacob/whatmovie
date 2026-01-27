@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const movieTranslationsSchema = z
   .object({
-    id: z.number(),
+    id: z.coerce.string(z.number()),
     translations: z
       .array(
         z

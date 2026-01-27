@@ -1,12 +1,14 @@
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { FiltersMap } from "@/types/filtersTypes";
 
-type RangeVoteSelectorProps = { props: FiltersMap["voteAverage"] };
+type RangeVoteSelectorProps = FiltersMap["voteAverage"];
 
-export default function RangeVoteSelector({ props }: RangeVoteSelectorProps) {
+export default function RangeVoteSelector(
+  props: Readonly<RangeVoteSelectorProps>,
+) {
   const { replace } = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -30,6 +32,15 @@ export default function RangeVoteSelector({ props }: RangeVoteSelectorProps) {
   const timeIdMin = useRef<ReturnType<typeof setInterval> | null>(null);
   const timeIdMax = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  useEffect(() => {
+    if (!searchParams.has(props.keys[1])) {
+      setMinRange(0);
+      setMaxRange(10);
+      setMinNumber("0");
+      setMaxNumber("10");
+    }
+  }, [searchParams, props.keys]);
+
   function toParams(min: string, max: string) {
     params.set(props.keys[1], `${min}`);
     params.set(props.keys[2], `${max}`);
@@ -52,20 +63,18 @@ export default function RangeVoteSelector({ props }: RangeVoteSelectorProps) {
 
   function numberMin(e: ChangeEvent<HTMLInputElement>) {
     const valor = Number(e.target.value);
+
     if (timeIdMin.current) {
       clearTimeout(timeIdMin.current);
     }
 
     setMinNumber(e.target.value);
+
     if (valor >= 0 && valor <= 9) {
-      e.target.onclick = () => {
-        setMinRange(valor);
-      };
+      setMinRange(valor);
 
       if (valor >= Number(maxNumber)) {
-        e.target.onclick = () => {
-          setMaxRange(valor + 1);
-        };
+        setMaxRange(valor + 1);
         setMaxNumber(String(valor + 1));
         if (timeIdMin.current) {
           clearTimeout(timeIdMin.current);
@@ -100,14 +109,10 @@ export default function RangeVoteSelector({ props }: RangeVoteSelectorProps) {
     }
     setMaxNumber(e.target.value);
     if (valor >= 1 && valor <= 10) {
-      e.target.onclick = () => {
-        setMaxRange(valor);
-      };
+      setMaxRange(valor);
 
       if (valor <= Number(minNumber)) {
-        e.target.onclick = () => {
-          setMinRange(valor - 1);
-        };
+        setMinRange(valor - 1);
 
         if (timeIdMax.current) {
           clearTimeout(timeIdMax.current);
@@ -138,10 +143,10 @@ export default function RangeVoteSelector({ props }: RangeVoteSelectorProps) {
   return (
     <li>
       <fieldset className="flex max-h-fit flex-col gap-[--gap] xs:gap-[--gapXS] md:gap-[--gapMD] lg:gap-[--gapLG]">
-        <legend className="blockContainer-x pb-[--gap] xs:pb-[--gapXS] md:pb-[--gapMD] lg:pb-[--gapLG]">
+        <legend className="blockContainer-px pb-[--gap] xs:pb-[--gapXS] md:pb-[--gapMD] lg:pb-[--gapLG]">
           <span className="filter-label">Pontuação:</span>
         </legend>
-        <div className="blockContainer-x flex w-full justify-between">
+        <div className="blockContainer-px flex w-full justify-between">
           <label className="backBtn flex items-center">
             <span className="textBtn text-xs uppercase opacity-65">Min</span>
             <input
@@ -156,7 +161,7 @@ export default function RangeVoteSelector({ props }: RangeVoteSelectorProps) {
               inputMode="decimal"
               name="minNumber"
               min={props.allowedValues.gte}
-              max={props.allowedValues.lte}
+              max={maxNumber}
             />
           </label>
 
@@ -172,16 +177,16 @@ export default function RangeVoteSelector({ props }: RangeVoteSelectorProps) {
               }}
               pattern="[0-9]*"
               inputMode="decimal"
-              min={props.allowedValues.gte}
+              min={minNumber}
               max={props.allowedValues.lte}
             />
           </label>
         </div>
 
-        <div className="blockContainer-x h-11 w-full pt-[20px]">
-          <div className="relative h-1 rounded-lg bg-nightDew-300">
+        <div className="blockContainer-px h-11 w-full pt-[20px]">
+          <div className="relative h-1 rounded-lg bg-base-medium">
             <div
-              className="absolute h-full rounded-lg bg-selector-100"
+              className="absolute h-full rounded-lg bg-input-on"
               style={{
                 right: rightSide,
                 left: leftSide,
@@ -193,7 +198,7 @@ export default function RangeVoteSelector({ props }: RangeVoteSelectorProps) {
             <input
               type="range"
               className="pointer-events-none absolute top-[-2px] h-0 w-full appearance-none"
-              step={1.0}
+              step={1}
               min={props.allowedValues.gte}
               max={props.allowedValues.lte}
               value={minRange}
@@ -204,7 +209,7 @@ export default function RangeVoteSelector({ props }: RangeVoteSelectorProps) {
             <input
               type="range"
               className="pointer-events-none absolute top-[-2px] h-0 w-full appearance-none"
-              step={1.0}
+              step={1}
               min={props.allowedValues.gte}
               max={props.allowedValues.lte}
               value={maxRange}

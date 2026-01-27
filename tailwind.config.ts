@@ -2,18 +2,88 @@ import plaiceholder from "@plaiceholder/tailwindcss";
 import fs from "node:fs";
 import path from "node:path";
 import type { Config } from "tailwindcss";
-import colors from "tailwindcss/colors";
+import tailwindcssAnimated from "tailwindcss-animated";
 import defaultTheme from "tailwindcss/defaultTheme";
+
+import { noiseSvg } from "./src/styles/noise";
+import {
+  blackWhite,
+  componentTokens,
+  inputLink,
+  primaryNeutralStates,
+  surface,
+} from "./src/styles/theme/tokens";
 
 const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/styles/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
+      backgroundColor: {
+        ...componentTokens.background,
+        ...surface.background,
+        ...blackWhite.background,
+        ...inputLink.background,
+        ...primaryNeutralStates.background,
+      },
+      textColor: {
+        ...componentTokens.foreground,
+        ...blackWhite.foreground,
+        ...inputLink.foreground,
+        ...primaryNeutralStates.foreground,
+      },
+      textDecorationColor: {
+        ...inputLink.foreground,
+      },
+      outlineColor: {
+        ...surface.border,
+        ...blackWhite.border,
+        ...inputLink.border,
+        ...primaryNeutralStates.border,
+      },
+      borderColor: {
+        ...surface.border,
+        ...blackWhite.border,
+        ...inputLink.border,
+        ...primaryNeutralStates.border,
+      },
+      fill: {
+        ...componentTokens.foreground,
+        ...blackWhite.foreground,
+        ...inputLink.foreground,
+        ...primaryNeutralStates.foreground,
+      },
+      stroke: {
+        ...componentTokens.foreground,
+        ...blackWhite.foreground,
+        ...inputLink.foreground,
+        ...primaryNeutralStates.foreground,
+      },
+      gradientColorStops: {
+        "listBase-1": "var(--color-listBase-1)",
+        "listBase-2": "var(--color-listBase-2)",
+        "listBase-3": "var(--color-listBase-3)",
+        "floating-1": "var(--color-floating-1)",
+        "floating-2": "var(--color-floating-2)",
+        "floating-3": "var(--color-floating-3)",
+        "body-1": "var(--color-body-1)",
+        "body-2": "var(--color-body-2)",
+        "body-3": "var(--color-body-3)",
+        "body-dense-1": "var(--color-body-dense-1)",
+        "body-dense-2": "var(--color-body-dense-2)",
+        "body-dense-3": "var(--color-body-dense-3)",
+        "gray-1": "var(--color-gray-1)",
+        "gray-2": "var(--color-gray-2)",
+      },
       keyframes: {
+        pulseDots: {
+          "0%, 60%, 100%": { opacity: "10%" },
+          "30%": { opacity: "100%" },
+        },
         wrong: {
           "0%, 100%": { transform: "translateX(0px)" },
           "20%": { transform: "translateX(10px)" },
@@ -21,104 +91,40 @@ const config: Config = {
           "60%": { transform: "translateX(10px)" },
           "80%": { transform: "translateX(-10px)" },
         },
-        showVideoV: {
-          "0%": { transform: "translateY(-50%)", opacity: "0%" },
-          "50%": { opacity: "40%" },
-          "100%": { transform: "translateY(0%)", opacity: "100%" },
-        },
-        showVideoH: {
-          "0%": { transform: "translateX(50%)", opacity: "0%" },
-          "50%": { opacity: "40%" },
-          "100%": { transform: "translateX(0%)", opacity: "100%" },
-        },
-        wiggle: {
-          "0%, 100%": { transform: "rotate(-3deg)" },
-          "50%": { transform: "rotate(3deg)" },
-        },
-        show: {
-          "0%": { opacity: "0" },
-          "100%": { opacity: "100%" },
-        },
-        mainMovie: {
-          "0%": { opacity: "50%" },
-          "100%": { opacity: "70%" },
-        },
-        hidden: {
-          "0%": { opacity: "100%" },
-          "100%": { opacity: "0" },
-        },
-        rotateToL: {
-          "0%": { transform: "rotate(0deg)" },
-          "100%": { transform: "rotate(190deg)" },
-        },
-        rotateToR: {
-          "0%": { transform: "rotate(190deg)" },
-          "100%": { transform: "rotate(0deg)" },
-        },
-      },
-      transitionTimingFunction: {
-        "in-expo": "cubic-bezier(0.95, 0.05, 0.795, 0.035)",
-        "out-expo": "cubic-bezier(0.19, 1, 0.22, 1)",
       },
       animation: {
         wrong: "wrong 0.5s ease-in-out",
-        show: "show 0.3s ease-in-out",
-        mainMovie: "mainMovie 0.3s linear",
-        hidden: "hidden 1s ease-in-out",
-        showVideoV: "showVideoV 0.1s ease-out",
-        showVideoH: "showVideoH 0.1s ease-out",
-        rotateToL: "rotateToL 0.3s ease-in-out",
-        rotateToR: "rotateToR 0.3s ease-in-out",
+        pulseDots: "pulseDots 1.5s ease-in-out",
+      },
+      backgroundImage: {
+        noise: `url("${noiseSvg}")`,
       },
       fontFamily: {
-        logo: ["var(--font-caladea)", "Times New Roman", "ui-serif"],
-        button: [
-          "var(--font-ss-pro)",
+        sans: [
           "var(--font-open-sans)",
           "ui-sans-serif",
           "system-ui",
+          ...defaultTheme.fontFamily.sans,
         ],
+        brand: ["var(--font-caladea)", "Times New Roman", "ui-serif"],
       },
       boxShadow: {
-        mid: "0 8px 30px 2px rgba(46, 46, 46, 0.467)",
-        light: "0 5px 35px -10px rgba(0, 0, 0, 0.150)",
-      },
-    },
-    colors: {
-      transparent: "transparent",
-      current: "currentColor",
-      white: colors.white,
-      black: colors.black,
-      red: colors.red,
-      blue: colors.blue,
-      gray: colors.gray,
-      stone: colors.stone,
-      rose: colors.rose,
-      amber: colors.amber,
-      nightDew: {
-        100: "#FBFCFD",
-        200: "#F6F8F9",
-        300: "#F1F4F7",
-        400: "#6A7786",
-        500: "#484A4C",
-        600: "#323233",
-        700: "#1C1C1C",
-      },
-      selector: {
-        100: "#1C83E6",
-        200: "#24394E",
+        card: "var(--shadow-card)",
+        "card-subtle": "var(--shadow-card-subtle)",
+        "card-minimal": "var(--shadow-card-minimal)",
+        people: "var(--shadow-people)",
+        btn: "var(--shadow-btn)",
+        "btn-hover": "var(--shadow-btn-hover)",
+        "btn-hList": "var(--shadow-btn-hList)",
       },
     },
     screens: {
       xs: "475px",
       ...defaultTheme.screens,
     },
-    fontFamily: {
-      sans: ["var(--font-open-sans)", "ui-sans-serif", "system-ui"],
-      serif: ["var(--font-caladea)", "Times New Roman", "ui-serif"],
-    },
   },
   plugins: [
+    tailwindcssAnimated,
     plaiceholder({
       resolver: (src) => fs.readFileSync(path.join("./public", `${src}.jpg`)),
     }),

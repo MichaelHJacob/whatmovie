@@ -17,7 +17,7 @@ const resultsProvidersSchema = z.object({
 });
 
 export const watchProvidersSchema = z.object({
-  id: z.number(),
+  id: z.coerce.string(z.number()),
   results: z
     .object({
       BR: resultsProvidersSchema,

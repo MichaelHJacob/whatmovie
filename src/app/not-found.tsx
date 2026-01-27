@@ -1,10 +1,10 @@
 import ErrorPage from "@/components/error/ErrorPage";
 import Container from "@/components/layout/Container";
+import ListScrollController from "@/components/layout/ListScrollController";
 import NavBar from "@/components/layout/NavBar";
 import HTitle from "@/components/ui/HTitle";
 import ListMovie from "@/components/ui/ListMovie";
-import ListScrollController from "@/components/ui/ListScrollController";
-import { getPopular } from "@/lib/api/tmdb/getPopular";
+import { getPopular } from "@/lib/api/tmdb/use-cases/getPopular";
 
 export default async function NotFound() {
   const [data] = await getPopular();
@@ -22,7 +22,7 @@ export default async function NotFound() {
             textMsg2="mas talvez você encontre um filme interessante por aqui!"
           />
           {data?.results && (
-            <Container as="aside" className="relative bg-nightDew-100">
+            <Container as="aside" className="relative">
               <HTitle>Filmes mais acessados</HTitle>
               <ListScrollController
                 id={"popular"}
