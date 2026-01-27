@@ -8,10 +8,5 @@
   "tailwindCSS.experimental.classRegex": [
     ["([\"'`][^\"'`]*.*?[\"'`])", "[\"'`]([^\"'`]*).*?[\"'`]"]
   ],
-  "tailwindCSS.classAttributes": [
-    "class",
-    "className",
-    "ngClass",
-    ".*Styles.*" 
-  ]
+  "tailwindCSS.classAttributes": ["class", "className", "ngClass", ".*Styles.*"]
 }

@@ -1,6 +1,8 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+@import "../styles/theme/colors.css";
+@import "../styles/theme/shadow.css";
 
 :root {
   --p: 1rem;
@@ -12,6 +14,8 @@
   --gapXS: 1.25rem;
   --gapMD: var(--gapXS);
   --gapLG: 1.5rem;
+
+  --rowNumbers: 5;
 }
 
 @layer base {
@@ -23,34 +27,55 @@
     -webkit-user-drag: none;
     @apply m-0 select-none p-0;
   }
-
-  .buttonText {
-    @apply select-none font-button text-sm font-[550] text-selector-200 max-sm:font-semibold;
-  }
-
-  .light-shadow {
-    @apply shadow-light max-sm:shadow-black/10;
-  }
-
-  .mid-shadow {
-    @apply shadow-mid max-xs:shadow-2xl max-xs:shadow-black/50;
-  }
 }
 
 @layer components {
-  .all-gap {
-    @apply gap-[--gap] xs:gap-[--gapXS] md:gap-[--gapMD] lg:gap-[--gapLG];
+  .frame-gradient {
+    @apply absolute z-20 block via-70% backdrop-blur-sm backdrop-saturate-150;
+  }
+
+  .frame-gradient-body {
+    @apply from-body-1 via-body-2 to-body-3;
+  }
+  .frame-gradient-body-dense {
+    @apply from-body-dense-1 via-body-dense-2 to-body-dense-3;
+  }
+
+  .frame-gradient-floating {
+    @apply from-floating-1 via-floating-2 to-floating-3;
+  }
+
+  .frame-gradient-listBase {
+    @apply from-listBase-1 via-listBase-2 to-listBase-3;
+  }
+
+  .bg-with-noise::after {
+    @apply absolute inset-0 block h-full w-full bg-neutral-500 bg-noise bg-repeat mix-blend-overlay content-[''];
   }
 
   .paddingHeader {
     @apply pt-[calc(2.75rem+var(--p))] xs:pt-[calc(2.75rem+var(--pXS))] md:pt-[calc(2.75rem+var(--pMD))] lg:pt-[calc(2.75rem+var(--pLG))];
   }
 
-  .blockContainer-t {
+  .scroll-pHeader {
+    @apply scroll-pt-[calc(2.75rem+var(--p))] xs:scroll-pt-[calc(2.75rem+var(--pXS))] md:scroll-pt-[calc(2.75rem+var(--pMD))] lg:scroll-pt-[calc(2.75rem+var(--pLG))];
+  }
+
+  .scroll-px {
+    @apply scroll-px-[--p] xs:scroll-px-[--pXS] md:scroll-px-[--pMD] lg:scroll-px-[--pLG];
+  }
+
+  .blockContainer-pl {
+    @apply pl-[var(--p)] xs:pl-[var(--pXS)] md:pl-[var(--pMD)] lg:pl-[var(--pLG)];
+  }
+  .blockContainer-pr {
+    @apply pr-[var(--p)] xs:pr-[var(--pXS)] md:pr-[var(--pMD)] lg:pr-[var(--pLG)];
+  }
+  .blockContainer-pt {
     @apply pt-[var(--p)] xs:pt-[var(--pXS)] md:pt-[var(--pMD)] lg:pt-[var(--pLG)];
   }
 
-  .blockContainer-b {
+  .blockContainer-pb {
     @apply pb-[var(--p)] xs:pb-[var(--pXS)] md:pb-[var(--pMD)] lg:pb-[var(--pLG)];
   }
   .blockContainer-mb {
@@ -61,24 +86,24 @@
     @apply mt-[var(--p)] xs:mt-[var(--pXS)] md:mt-[var(--pMD)] lg:mt-[var(--pLG)];
   }
 
-  .blockContainer-y {
-    @apply blockContainer-t blockContainer-b;
+  .blockContainer-py {
+    @apply blockContainer-pt blockContainer-pb;
   }
 
-  .blockContainer-x {
+  .blockContainer-px {
     @apply px-[var(--p)] xs:px-[var(--pXS)] md:px-[var(--pMD)] lg:px-[var(--pLG)];
   }
 
-  .blockContainer {
-    @apply blockContainer-x blockContainer-b scrollStyle;
+  .blockContainer-p {
+    @apply blockContainer-px blockContainer-pb;
   }
 
   .gridAutoSpace {
-    @apply auto-cols-[calc((100%-9*var(--gap))/10)] gap-[var(--gap)] xs:auto-cols-[calc((100%-14*var(--gapXS))/15)] xs:gap-[var(--gapXS)] md:auto-cols-[calc((100%-11*var(--gapMD))/12)] md:gap-[var(--gapMD)] lg:auto-cols-[calc((100%-19*var(--gapLG))/20)] lg:gap-[var(--gapLG)] xl:auto-cols-[calc((100%-11*var(--gapLG))/12)];
+    @apply all-gap auto-cols-[calc((100%-9*var(--gap))/10)] xs:auto-cols-[calc((100%-14*var(--gapXS))/15)] md:auto-cols-[calc((100%-11*var(--gapMD))/12)] lg:auto-cols-[calc((100%-19*var(--gapLG))/20)] xl:auto-cols-[calc((100%-11*var(--gapLG))/12)];
   }
 
   .gridTemplateSpace {
-    @apply grid grid-cols-10 gap-[var(--gap)] xs:grid-cols-[repeat(15,_minmax(0,_1fr))] xs:gap-[var(--gapXS)] md:grid-cols-12 md:gap-[var(--gapMD)] lg:grid-cols-[repeat(20,_minmax(0,_1fr))] lg:gap-[var(--gapLG)] xl:grid-cols-12 xl:gap-[var(--gapLG)];
+    @apply all-gap grid grid-cols-10 xs:grid-cols-[repeat(15,_minmax(0,_1fr))] md:grid-cols-12 lg:grid-cols-[repeat(20,_minmax(0,_1fr))] xl:grid-cols-12;
   }
 
   .gridColSpanMovie {
@@ -87,6 +112,10 @@
 
   .gridColSpanPeople {
     @apply col-span-3 h-min snap-start xs:col-span-3 md:col-span-2 lg:col-span-3;
+  }
+
+  .all-gap {
+    @apply gap-[--gap] xs:gap-[--gapXS] md:gap-[--gapMD] lg:gap-[--gapLG];
   }
 
   .reducerBlock-t {
@@ -109,87 +138,44 @@
     @apply reducerBlock-x mb-[calc(var(--p)*-1)] xs:mb-[calc(var(--pXS)*-1)] md:mb-[calc(var(--pMD)*-1)] lg:mb-[calc(var(--pLG)*-1)];
   }
 
-  .ListSpacing {
-    @apply scrollStyle blockContainer-x blockContainer-y reducerBlock-t no-scrollbar gridAutoSpace relative z-0 grid snap-x snap-mandatory scroll-pl-[var(--p)] list-none grid-flow-col grid-rows-[min-content] overflow-x-auto overflow-y-hidden overscroll-x-contain scroll-smooth xs:scroll-pl-[var(--pXS)] lg:scroll-pl-[var(--pLG)];
+  .listSpacing {
+    @apply blockContainer-px blockContainer-py reducerBlock-t no-scrollbar gridAutoSpace scroll-px relative grid snap-x snap-mandatory list-none grid-flow-col grid-rows-[min-content] overflow-x-auto overflow-y-hidden overscroll-x-contain scroll-smooth;
   }
 
   .unavailable {
-    @apply bg-gradient-to-br from-[#a21159]/10 to-selector-100/10 object-cover;
-  }
-
-  .gradient-text {
-    background:
-      linear-gradient(to top left, rgba(0, 0, 0, 0.54), rgba(0, 0, 0, 0.54)),
-      linear-gradient(to top left, rgb(1, 120, 253), rgba(0, 0, 0, 0)),
-      linear-gradient(to bottom, rgb(243, 3, 53), rgb(162, 17, 89));
-    background:
-      -moz-linear-gradient(
-        to top left,
-        rgba(0, 0, 0, 0.54),
-        rgba(0, 0, 0, 0.54)
-      ),
-      -moz-linear-gradient(to top left, rgb(1, 120, 253), rgba(0, 0, 0, 0)),
-      -moz-linear-gradient(to bottom, rgb(243, 3, 53), rgb(162, 17, 89));
-    background:
-      -webkit-linear-gradient(
-        to top left,
-        rgba(0, 0, 0, 0.54),
-        rgba(0, 0, 0, 0.54)
-      ),
-      -webkit-linear-gradient(to top left, rgb(1, 120, 253), rgba(0, 0, 0, 0)),
-      -webkit-linear-gradient(to bottom, rgb(243, 3, 53), rgb(162, 17, 89));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .subTitle {
-    @apply relative z-20 whitespace-normal p-0.5 text-lg font-semibold leading-4 tracking-normal text-nightDew-600;
+    @apply bg-gradient-to-t from-gray-1 to-gray-2 object-cover;
   }
 
   .label {
-    @apply px-1 text-base font-semibold leading-5 text-nightDew-500;
+    @apply px-1 text-base font-semibold leading-5 text-base-strong;
   }
 
   .data {
-    @apply p-1 text-base font-normal leading-5 text-nightDew-400;
+    @apply p-1 text-base font-normal leading-5 text-base-subtle;
   }
 
   .filter-label {
-    @apply label text-nightDew-400/90;
+    @apply label text-placeholder;
   }
 
   .backBtn-hover {
-    @apply cursor-pointer shadow-lg shadow-transparent transition-all duration-300 hover:shadow-nightDew-400/20 active:bg-selector-200/10 active:shadow-transparent;
+    @apply cursor-pointer transition-all duration-300 hover:shadow-btn-hover;
   }
 
   .backBtn {
-    @apply backBtn-hover flex h-8 w-auto appearance-none items-center gap-2 rounded-lg border-none bg-nightDew-300 bg-opacity-80 px-4 max-sm:h-9;
+    @apply backBtn-hover flex h-8 w-auto appearance-none items-center gap-2 rounded-lg border-none bg-base-dimmed px-4 shadow-btn max-sm:h-9;
   }
 
   .textBtn {
-    @apply buttonText whitespace-nowrap tracking-wider;
-  }
-
-  .header-backBtn {
-    @apply backBtn buttonText backBtn-hover flex h-8 w-auto items-center bg-transparent tracking-widest hover:bg-nightDew-100 hover:bg-opacity-85;
-  }
-
-  .main-backBtn {
-    @apply backdrop-blur-xl backdrop-saturate-150;
-  }
-
-  .list-backBtn {
-    @apply backBtn-hover box-content h-[calc(5.5rem+var(--gap))] w-full animate-show appearance-none rounded-lg border-none hover:bg-nightDew-100 hover:bg-opacity-85 xs:h-[calc(5.5rem+var(--gapXS))] md:h-[calc(5.5rem+var(--gapMD))] lg:h-[calc(5.5rem+var(--gapLG))];
-  }
-
-  .textShadow {
-    text-shadow: 0px 0px 5px #ffffff;
-    /* -webkit-text-stroke-width: 0.2px; */
-    /* -webkit-text-stroke-color: ##1c1c1c; */
+    @apply select-none whitespace-nowrap font-sans text-sm font-semibold tracking-normal;
   }
 }
 
 @layer utilities {
+  .animate-presets {
+    @apply animate-duration-500 animate-once animate-ease-in-out;
+  }
+
   .px-safe {
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
@@ -208,26 +194,10 @@
     padding-top: env(safe-area-inset-top);
   }
 
-  .scrollStyle ::-webkit-scrollbar {
-    @apply h-[2px] w-[0.7em];
-  }
-
-  .scrollStyle ::-webkit-scrollbar-track {
-    @apply rounded-none bg-nightDew-200;
-  }
-
-  .scrollStyle ::-webkit-scrollbar-thumb {
-    @apply rounded-xl bg-nightDew-400 shadow-[inset_0_0_0_2px] shadow-nightDew-100;
-  }
-
-  .scrollStyle ::-webkit-scrollbar-thumb:hover {
-    @apply bg-nightDew-500;
-  }
-
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
-  /* Hide scrollbar for IE, Edge and Firefox */
+
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -262,20 +232,9 @@
   }
 
   .btnRange {
-    @apply h-8 w-8 cursor-pointer rounded-full bg-selector-100;
-  }
-  /*
-  .videoFull {
-    @apply w-[calc((100%-var(--gapMD))-(100%-var(--gapMD))/3)]    h-full absolute left-0  top-0;
+    @apply h-8 w-8 cursor-pointer rounded-full bg-input-on;
   }
 
-  .videoGrigMin {
-    @apply md:col-[9/_span_4] lg:col-[16/_span_5] row-span-1;
-  }
-
-  .videoGridFull {
-    @apply md:col-[1/_span_8] lg:col-[1/_span_15] row-start-1;
-  } */
   .all-unset {
     all: unset;
   }

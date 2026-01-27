@@ -1,30 +1,39 @@
 import { useEffect } from "react";
 
-type UseIntersectionObserverProps = {
+type UseIntersectionObserverParams = {
   enabled?: boolean;
   targetRef: React.RefObject<Element> | null;
   onIntersect: () => void;
+  outIntersect?: () => void;
+  threshold?: number | number[];
 };
 
-export default function useIntersectionObserver({
+export function useIntersectionObserver({
   enabled = true,
   targetRef,
   onIntersect,
-}: UseIntersectionObserverProps) {
+  outIntersect,
+  threshold = 0,
+}: UseIntersectionObserverParams) {
   useEffect(() => {
     if (!enabled || !targetRef?.current) return;
 
     const target = targetRef.current;
-    const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        onIntersect();
-      }
-    });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          onIntersect();
+        } else {
+          if (outIntersect) outIntersect();
+        }
+      },
+      { threshold },
+    );
 
     observer.observe(target);
 
     return () => {
       if (target) observer.unobserve(target);
     };
-  }, [enabled, targetRef, onIntersect]);
+  }, [enabled, targetRef, onIntersect, outIntersect, threshold]);
 }

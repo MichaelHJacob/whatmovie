@@ -1,13 +1,8 @@
 import type { Metadata, Viewport } from "next";
-import { Caladea, Open_Sans, Source_Sans_3 } from "next/font/google";
+import { Caladea, Open_Sans } from "next/font/google";
 
 import "@/app/globals.css";
-
-const ss_pro = Source_Sans_3({
-  style: "normal",
-  subsets: ["latin"],
-  variable: "--font-ss-pro",
-});
+import Footer from "@/components/layout/Footer";
 
 const open_sans = Open_Sans({
   subsets: ["latin"],
@@ -36,14 +31,12 @@ export const viewport: Viewport = {
 
 type RootLayoutProps = { children: React.ReactNode };
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
-    <html
-      lang="pt-br"
-      className={`${caladea.variable} ${open_sans.variable} ${ss_pro.variable} text-[100%]`}
-    >
-      <body className="scrollStyle overflow-x-clip bg-nightDew-200 font-sans">
+    <html lang="pt-br" className={`${caladea.variable} ${open_sans.variable}`}>
+      <body className="overflow-x-clip bg-body font-sans text-neutral-body antialiased">
         {children}
+        <Footer />
       </body>
     </html>
   );
