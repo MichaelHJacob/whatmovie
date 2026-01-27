@@ -4,11 +4,11 @@ import { Fragment, useRef } from "react";
 
 import { useSearchParams } from "next/navigation";
 
-import MapCardMovie from "@/app/filter/components/ui/MapCardMovie";
-import MovieCards from "@/components/skeleton/MovieCards";
+import MovieCardMap from "@/app/filter/components/ui/MovieCardMap";
+import MovieCardSkeleton from "@/components/skeleton/MovieCardSkeleton";
 import LabelH4 from "@/components/ui/LabelH4";
 import { useFilterMovies } from "@/hooks/useFilterMovies";
-import useIntersectionObserver from "@/hooks/useIntersectionObserver";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { FilterValidationError } from "@/lib/validation/extendExpectedError";
 
 export default function Page() {
@@ -44,11 +44,11 @@ export default function Page() {
         : ["Ocorreu um erro inesperado, tente novamente mais tarde"];
     return (
       <div>
-        <ul className="blockContainer relative w-full items-end xl:gap-[var(--gapMD)] 2xl:gap-[var(--gapLG)]">
+        <ul className="blockContainer-p relative w-full items-end xl:gap-[var(--gapMD)] 2xl:gap-[var(--gapLG)]">
           {errorMessage.map((erro, i) => {
             return (
               <li
-                className="label tracking-winder light-shadow mb-4 max-w-full text-wrap rounded-lg border-0 border-red-900 bg-nightDew-100 p-4 text-red-900"
+                className="label tracking-winder mb-4 max-w-full text-wrap rounded-lg border-2 border-base-accent bg-notice-minimal p-4 text-notice-accent shadow-card-minimal"
                 key={i}
               >
                 {erro}
@@ -63,8 +63,8 @@ export default function Page() {
   if (isLoading) {
     return (
       <div>
-        <ul className="gridTemplateSpace blockContainer relative w-full items-end xl:gap-[var(--gapMD)] 2xl:grid-cols-[repeat(20,_minmax(0,_1fr))] 2xl:gap-[var(--gapLG)]">
-          {<MovieCards style="xl:col-span-3 2xl:col-span-4" size={20} />}
+        <ul className="gridTemplateSpace blockContainer-p animate-presets relative w-full animate-fade-up items-end xl:gap-[var(--gapMD)] 2xl:grid-cols-[repeat(20,_minmax(0,_1fr))] 2xl:gap-[var(--gapLG)]">
+          {<MovieCardSkeleton style="xl:col-span-3 2xl:col-span-4" size={20} />}
         </ul>
       </div>
     );
@@ -72,16 +72,16 @@ export default function Page() {
 
   return (
     <div>
-      <ul className="gridTemplateSpace blockContainer relative w-full animate-show items-end xl:gap-[var(--gapMD)] 2xl:grid-cols-[repeat(20,_minmax(0,_1fr))] 2xl:gap-[var(--gapLG)]">
+      <ul className="gridTemplateSpace blockContainer-p animate-presets relative w-full animate-fade items-end xl:gap-[var(--gapMD)] 2xl:grid-cols-[repeat(20,_minmax(0,_1fr))] 2xl:gap-[var(--gapLG)]">
         {data?.pages.map((data, i) => {
           return (
             <Fragment key={i}>
-              <MapCardMovie data={data.results} />
+              <MovieCardMap data={data.results} />
             </Fragment>
           );
         })}
         {hasNextPage && (
-          <MovieCards
+          <MovieCardSkeleton
             size={5}
             style="xl:col-span-3 2xl:col-span-4"
             xs={4}
@@ -91,7 +91,7 @@ export default function Page() {
         )}
       </ul>
       {!isLoading && totalResults < 20 && (
-        <div className="blockContainer flex justify-start">
+        <div className="blockContainer-p flex justify-start">
           <LabelH4>
             {totalResults == 0
               ? "Considere um filtro mais amplo para exibir resultados"

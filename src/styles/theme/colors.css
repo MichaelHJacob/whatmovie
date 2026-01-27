@@ -1,0 +1,355 @@
+:root {
+  /*  Component Token  */
+  --color-fg-nav: var(--color-fg-base-medium);
+  --color-fg-nav-hover: var(--color-fg-base-accent);
+  /* static */
+  --color-bg-nav-black: var(--color-bg-black-soft);
+  --color-bg-nav-black-expanded: var(--color-bg-black-intense);
+  --color-fg-nav-white: var(--color-fg-white-medium);
+  --color-fg-nav-white-hover: var(--color-fg-white-accent);
+  /* ---------------------------------------------------- */
+  /* Surface */
+  --color-bg-body: theme(colors.white);
+  --color-bg-base: theme(colors.gray.100);
+  --color-bg-raised: theme(colors.gray.100 / 80%);
+  --color-bg-overlay: theme(colors.gray.50 / 95%);
+  --color-bg-scrim: theme(colors.gray.200 / 40%);
+  --color-bg-floating: theme(colors.neutral.100 / 70%);
+  --color-bg-floating-expanded: theme(colors.neutral.100 / 95%);
+  --color-border-focus: theme(colors.blue.600);
+  /* ---------------------------------------------------- */
+  /* Black & White */
+  /* Base role */
+  /* title, labels or text */
+  --color-fg-base-accent: theme(colors.black / 96%);
+  /* H2 title for main sections or list on the page */
+  --color-fg-base-strong: theme(colors.black / 85%);
+  --color-fg-base-medium: theme(colors.black / 80%);
+  /* secondary labels or text */
+  --color-fg-base-subtle: theme(colors.black / 57%);
+  --color-fg-base-subtle-hover: theme(colors.black / 67%);
+  /* displaying disabled states or tertiary text */
+  --color-fg-base-minimal: theme(colors.black / 50%);
+  /* Part of a large heading that can be significantly muted for contrast. */
+  --color-fg-base-dimmed: theme(colors.black / 37%);
+  /* header */
+  --color-fg-base-heading: theme(colors.black / 91%);
+  /* body text in prose or articles */
+  --color-fg-base-body: theme(colors.zinc.800 / 91%);
+
+  --color-bg-base-ghost: theme(colors.black / 03%);
+  --color-bg-base-dimmed: theme(colors.black / 5%);
+  --color-bg-base-minimal: theme(colors.black / 07%);
+  --color-bg-base-subtle: theme(colors.black / 10%);
+  --color-bg-base-medium: theme(colors.black / 12%);
+  --color-bg-base-accent: theme(colors.black);
+  --color-bg-base-accent-hover: theme(colors.black / 80%);
+  --color-border-base-dimmed: theme(colors.black / 07%);
+  --color-border-base-minimal: theme(colors.black / 12%);
+  --color-border-base-accent: theme(colors.black / 15%);
+  /* inverted role */
+  --color-fg-inverted-accent: theme(colors.neutral.100);
+  --color-fg-inverted-strong: theme(colors.white / 85%);
+  --color-fg-inverted-medium: theme(colors.white / 80%);
+  --color-fg-inverted-subtle: theme(colors.neutral.100 / 66%);
+  --color-fg-inverted-minimal: theme(colors.neutral.100 / 47%);
+  --color-fg-inverted-dimmed: theme(colors.neutral.100 / 35%);
+  --color-fg-inverted-heading: theme(colors.white / 95%);
+  --color-fg-inverted-body: theme(colors.white / 95%);
+
+  --color-bg-inverted-ghost: theme(colors.white / 03%);
+  --color-bg-inverted-dimmed: theme(colors.white / 05%);
+  --color-bg-inverted-minimal: theme(colors.white / 07%);
+  --color-bg-inverted-subtle: theme(colors.white / 10%);
+  --color-bg-inverted-medium: theme(colors.white / 12%);
+  --color-bg-inverted-soft: theme(colors.gray.300 / 65%);
+  --color-bg-inverted-soft-hover: theme(colors.gray.200 / 95%);
+  --color-bg-inverted-accent: theme(colors.zinc.50);
+  --color-bg-inverted-accent-hover: theme(colors.zinc.50 / 80%);
+  --color-border-inverted-dimmed: theme(colors.zinc.100 / 07%);
+  --color-border-inverted-minimal: theme(colors.zinc.100 / 12%);
+  --color-border-inverted-accent: theme(colors.zinc.100);
+
+  /* static */
+  --color-fg-black-accent: theme(colors.black / 96%);
+  --color-fg-black-strong: theme(colors.black / 85%);
+
+  --color-bg-black-ghost: theme(colors.black / 03%);
+  --color-bg-black-dimmed: theme(colors.black / 05%);
+  --color-bg-black-minimal: theme(colors.black / 07%);
+  --color-bg-black-subtle: theme(colors.black / 10%);
+  --color-bg-black-medium: theme(colors.black / 12%);
+  --color-bg-black-soft: theme(colors.black / 35%);
+  --color-bg-black-intense: theme(colors.black / 95%);
+  --color-bg-black-accent: theme(colors.black);
+
+  --color-fg-white-accent: theme(colors.neutral.100);
+  --color-fg-white-strong: theme(colors.white / 85%);
+  --color-fg-white-medium: theme(colors.white / 80%);
+  --color-fg-white-subtle: theme(colors.white / 66%);
+  --color-fg-white-minimal: theme(colors.white / 55%);
+  --color-fg-white-heading: theme(colors.white / 91%);
+  --color-fg-white-body: theme(colors.white / 91%);
+  --color-fg-white-hover: theme(colors.white);
+
+  --color-bg-white-ghost: theme(colors.white / 03%);
+  --color-bg-white-dimmed: theme(colors.white / 05%);
+  --color-bg-white-minimal: theme(colors.white / 07%);
+  --color-bg-white-subtle: theme(colors.white / 10%);
+  --color-bg-white-medium: theme(colors.white / 12%);
+  --color-bg-white-intense: theme(colors.white / 95%);
+  --color-bg-white-accent: theme(colors.zinc.100);
+
+  --color-border-white-minimal: theme(colors.zinc.100 / 12%);
+
+  /* ---------------------------------------------------- */
+  /* Input & link */
+  --color-fg-placeholder: theme(colors.zinc.600 / 85%);
+  --color-bg-input: theme(colors.white / 90%);
+  --color-bg-input-focus: theme(colors.white);
+  --color-bg-input-on: theme(colors.blue.600);
+  --color-bg-input-off: theme(colors.neutral.400);
+  --color-bg-input-disabled: theme(colors.black / 5%);
+  --color-border-input: theme(colors.gray.200 / 15%);
+  --color-border-input-focus: theme(colors.blue.500);
+
+  --color-fg-black-placeholder: theme(colors.zinc.300 / 85%);
+  --color-bg-black-input: theme(colors.neutral.950 / 85%);
+  --color-border-black-input: theme(colors.gray.200 / 15%);
+
+  --color-fg-link: theme(colors.blue.600);
+  --color-fg-link-hover: theme(colors.blue.600);
+  --color-fg-link-primary: theme(colors.blue.600);
+  --color-fg-link-primary-hover: theme(colors.blue.600);
+  --color-fg-link-neutral: var(--color-fg-base-body);
+  --color-fg-link-neutral-hover: theme(colors.neutral.950);
+  --color-fg-link-neutral-subtle: var(--color-fg-neutral-subtle);
+  --color-fg-link-neutral-subtle-hover: theme(colors.neutral.700);
+  /* ---------------------------------------------------- */
+  /* Primary, Neutral & States */
+  /* Neutral role */
+  --color-fg-neutral-accent: theme(colors.neutral.950);
+  --color-fg-neutral-strong-hover: theme(colors.black);
+  --color-fg-neutral-strong: theme(colors.neutral.800);
+  --color-fg-neutral-subtle: theme(colors.neutral.600);
+  --color-fg-neutral-minimal: theme(colors.neutral.500);
+  --color-fg-neutral-dimmed: theme(colors.neutral.400);
+  --color-fg-neutral-heading: theme(colors.neutral.900);
+  --color-fg-neutral-body: theme(colors.neutral.900);
+  --color-bg-neutral-dimmed: theme(colors.zinc.50);
+  /* disable state for text button checkbox */
+  --color-bg-neutral-minimal: theme(colors.zinc.100);
+  /* background for group of buttons link swap button */
+  --color-bg-neutral-subtle: theme(colors.zinc.200);
+  --color-bg-neutral-medium: theme(colors.zinc.300);
+  /* Enable state of button */
+  --color-bg-neutral-accent: theme(colors.zinc.800);
+  /* Primary role */
+  --color-fg-primary-accent: theme(colors.blue.600);
+  --color-bg-primary-minimal: theme(colors.blue.50);
+  --color-bg-primary-accent: theme(colors.blue.600);
+  --color-bg-primary-accent-hover: theme(colors.blue.700);
+  --color-border-primary-minimal: theme(colors.blue.200);
+  --color-border-primary-accent: theme(colors.blue.600);
+
+  --color-fg-negative-accent: theme(colors.rose.600);
+  --color-bg-negative-minimal: theme(colors.rose.50);
+  --color-bg-negative-accent: theme(colors.rose.600);
+  --color-bg-negative-accent-hover: theme(colors.rose.700);
+  --color-border-negative-minimal: theme(colors.rose.200);
+  --color-border-negative-accent: theme(colors.rose.600);
+
+  --color-fg-negative-accent: theme(colors.rose.900);
+  --color-bg-negative-minimal: theme(colors.rose.50);
+  --color-bg-negative-accent: theme(colors.rose.800);
+  --color-bg-negative-accent-hover: theme(colors.rose.900);
+  --color-border-negative-minimal: theme(colors.rose.200);
+  --color-border-negative-accent: theme(colors.rose.800);
+
+  --color-fg-notice-accent: theme(colors.amber.700);
+  --color-bg-notice-minimal: theme(colors.amber.50);
+  --color-bg-notice-accent: theme(colors.amber.600);
+  --color-bg-notice-accent-hover: theme(colors.amber.700);
+  --color-border-notice-minimal: theme(colors.amber.200);
+  --color-border-notice-accent: theme(colors.amber.600);
+
+  /* ---------------------------------------------------- */
+  /* Gradients */
+  /* --color-base-1: var(--color-bg-base); */
+  --color-listBase-1: color-mix(
+    in srgb,
+    var(--color-bg-inverted-accent),
+    transparent 10%
+  );
+  --color-listBase-2: color-mix(
+    in srgb,
+    var(--color-bg-inverted-accent),
+    transparent 70%
+  );
+  --color-listBase-3: color-mix(
+    in srgb,
+    var(--color-bg-inverted-accent),
+    transparent 90%
+  );
+  --color-floating-1: color-mix(
+    in srgb,
+    var(--color-bg-floating-expanded),
+    transparent 10%
+  );
+  --color-floating-2: color-mix(
+    in srgb,
+    var(--color-bg-floating-expanded),
+    transparent 70%
+  );
+  --color-floating-3: color-mix(
+    in srgb,
+    var(--color-bg-floating-expanded),
+    transparent 90%
+  );
+  --color-body-1: color-mix(in srgb, var(--color-bg-body), transparent 10%);
+  --color-body-2: color-mix(in srgb, var(--color-bg-body), transparent 70%);
+  --color-body-3: color-mix(in srgb, var(--color-bg-body), transparent 90%);
+  --color-body-dense-1: color-mix(
+    in srgb,
+    var(--color-bg-body),
+    transparent 1%
+  );
+  --color-body-dense-2: color-mix(
+    in srgb,
+    var(--color-bg-body),
+    transparent 10%
+  );
+  --color-body-dense-3: color-mix(
+    in srgb,
+    var(--color-bg-body),
+    transparent 15%
+  );
+  --color-gray-1: color-mix(in srgb, theme(colors.gray.500), transparent 10%);
+  --color-gray-2: theme(colors.gray.400);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /*  Component Token  */
+    --color-fg-nav: var(--color-fg-base-medium);
+    --color-fg-nav-hover: var(--color-fg-base-accent);
+    /* ---------------------------------------------------- */
+    /* Surface */
+    --color-bg-body: theme(colors.neutral.950);
+    --color-bg-base: theme(colors.neutral.800);
+    --color-bg-raised: theme(colors.neutral.700 / 70%);
+    --color-bg-overlay: theme(colors.neutral.700 / 95%);
+    --color-bg-scrim: theme(colors.black / 40%);
+    --color-bg-floating: theme(colors.neutral.800 / 80%);
+    --color-bg-floating-expanded: theme(colors.neutral.800 / 95%);
+    --color-border-focus: theme(colors.blue.600);
+    /* ---------------------------------------------------- */
+    /* Black & White */
+    /* Base role */
+    /* title, labels or text */
+    --color-fg-base-accent: theme(colors.neutral.100);
+    /* H2 title for main sections or list on the page */
+    --color-fg-base-strong: theme(colors.white / 85%);
+    --color-fg-base-medium: theme(colors.white / 80%);
+    /* secondary labels or text */
+    --color-fg-base-subtle: theme(colors.neutral.100 / 66%);
+    --color-fg-base-subtle-hover: theme(colors.neutral.100);
+    /* displaying disabled states or tertiary text */
+    --color-fg-base-minimal: theme(colors.neutral.100 / 47%);
+    /* Part of a large heading that can be significantly muted for contrast. */
+    --color-fg-base-dimmed: theme(colors.neutral.100 / 35%);
+    /* header */
+    --color-fg-base-heading: theme(colors.white / 95%);
+    /* body text in prose or articles */
+    --color-fg-base-body: theme(colors.white / 95%);
+
+    --color-bg-base-ghost: theme(colors.white / 03%);
+    --color-bg-base-dimmed: theme(colors.white / 05%);
+    --color-bg-base-minimal: theme(colors.white / 07%);
+    --color-bg-base-subtle: theme(colors.white / 10%);
+    --color-bg-base-medium: theme(colors.white / 12%);
+    --color-bg-base-accent: theme(colors.zinc.100);
+    --color-bg-base-accent-hover: theme(colors.zinc.100 / 80%);
+    --color-border-base-dimmed: theme(colors.zinc.100 / 07%);
+    --color-border-base-minimal: var(--color-border-white-minimal);
+    --color-border-base-accent: theme(colors.zinc.100 / 15%);
+    /* inverted role */
+    --color-fg-inverted-accent: theme(colors.black / 96%);
+    --color-fg-inverted-strong: theme(colors.black / 85%);
+    --color-fg-inverted-medium: theme(colors.black / 80%);
+    --color-fg-inverted-subtle: theme(colors.black / 68%);
+    --color-fg-inverted-minimal: theme(colors.black / 55%);
+    --color-fg-inverted-dimmed: theme(colors.black / 37%);
+    --color-fg-inverted-heading: theme(colors.black / 91%);
+    --color-fg-inverted-body: theme(colors.zinc.800 / 91%);
+
+    --color-bg-inverted-ghost: theme(colors.black / 03%);
+    --color-bg-inverted-dimmed: theme(colors.black / 05%);
+    --color-bg-inverted-minimal: theme(colors.neutral.900 / 07%);
+    --color-bg-inverted-subtle: theme(colors.neutral.900 / 10%);
+    --color-bg-inverted-medium: theme(colors.neutral.900 / 12%);
+    --color-bg-inverted-soft: theme(colors.neutral.700 / 75%);
+    --color-bg-inverted-soft-hover: theme(colors.neutral.600 / 75%);
+    --color-bg-inverted-accent: theme(colors.neutral.900);
+    --color-bg-inverted-accent-hover: theme(colors.neutral.900 / 80%);
+    --color-border-inverted-dimmed: theme(colors.black / 07%);
+    --color-border-inverted-minimal: theme(colors.black / 12%);
+    --color-border-inverted-accent: theme(colors.black);
+
+    /* ---------------------------------------------------- */
+    /* Input link */
+    --color-fg-placeholder: var(--color-fg-black-placeholder);
+    --color-bg-input: var(--color-bg-black-input);
+    --color-bg-input-focus: theme(colors.neutral.950);
+    --color-bg-input-on: theme(colors.blue.600);
+    --color-bg-input-off: theme(colors.neutral.700);
+    --color-bg-input-disabled: theme(colors.gray.200 / 5%);
+    --color-border-input: theme(colors.gray.200 / 15%);
+    --color-border-input-focus: theme(colors.blue.500);
+
+    --color-fg-link: theme(colors.blue.500);
+    --color-fg-link-hover: theme(colors.blue.500);
+    --color-fg-link-primary: theme(colors.blue.500);
+    --color-fg-link-primary-hover: theme(colors.blue.500);
+    --color-fg-link-neutral: var(--color-fg-neutral-body);
+    --color-fg-link-neutral-hover: theme(colors.zinc.50);
+    --color-fg-link-neutral-subtle: var(--color-fg-neutral-subtle);
+    --color-fg-link-neutral-subtle-hover: theme(colors.neutral.300);
+    /* ---------------------------------------------------- */
+    /* Primary, Neutral & States */
+    --color-fg-neutral-accent: theme(colors.zinc.50);
+    --color-fg-neutral-strong-hover: theme(colors.white);
+    --color-fg-neutral-strong: theme(colors.neutral.300);
+    --color-fg-neutral-subtle: theme(colors.neutral.400);
+    --color-fg-neutral-minimal: theme(colors.neutral.500);
+    --color-fg-neutral-dimmed: theme(colors.neutral.600);
+    --color-fg-neutral-heading: theme(colors.zinc.100);
+    --color-fg-neutral-body: theme(colors.zinc.100);
+    --color-bg-neutral-dimmed: theme(colors.zinc.950);
+    --color-bg-neutral-minimal: theme(colors.zinc.900);
+    --color-bg-neutral-subtle: theme(colors.zinc.800);
+    --color-bg-neutral-medium: theme(colors.zinc.700);
+    --color-bg-neutral-accent: theme(colors.zinc.100);
+
+    --color-fg-primary-accent: theme(colors.blue.500);
+    --color-bg-primary-minimal: theme(colors.blue.950);
+    --color-bg-primary-accent: theme(colors.blue.500);
+    --color-bg-primary-accent-hover: theme(colors.blue.400);
+    --color-border-primary-minimal: theme(colors.blue.800);
+    --color-border-primary-accent: theme(colors.blue.500);
+
+    --color-fg-negative-accent: theme(colors.rose.700);
+    --color-bg-negative-minimal: theme(colors.rose.950);
+    --color-bg-negative-accent: theme(colors.rose.600);
+    --color-bg-negative-accent-hover: theme(colors.rose.700);
+    --color-border-negative-minimal: theme(colors.rose.800);
+    --color-border-negative-accent: theme(colors.rose.700);
+
+    --color-fg-notice-accent: theme(colors.amber.500);
+    --color-bg-notice-minimal: theme(colors.amber.950);
+    --color-bg-notice-accent: theme(colors.amber.500);
+    --color-bg-notice-accent-hover: theme(colors.amber.400);
+    --color-border-notice-minimal: theme(colors.amber.800);
+    --color-border-notice-accent: theme(colors.amber.500);
+  }
+}
