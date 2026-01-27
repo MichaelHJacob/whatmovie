@@ -14,16 +14,16 @@ export default function ProviderSelector({
   add,
   remove,
   clear,
-}: ProviderSelectorProps) {
+}: Readonly<ProviderSelectorProps>) {
   return (
     <li>
       <fieldset>
-        <legend className="blockContainer-x flex w-full items-center justify-between pb-[--gap] xs:pb-[--gapXS] md:pb-[--gapMD] lg:pb-[--gapLG]">
+        <legend className="blockContainer-px flex w-full items-center justify-between pb-[--gap] xs:pb-[--gapXS] md:pb-[--gapMD] lg:pb-[--gapLG]">
           <span className="filter-label">Onde assistir:</span>
           <ClearSelected onClear={clear} />
         </legend>
 
-        <ul className="justify-left blockContainer-x flex h-auto w-full select-none flex-wrap gap-2 rounded-lg">
+        <ul className="blockContainer-px grid h-auto w-full select-none grid-cols-[repeat(auto-fit,_2rem)] justify-between gap-2 max-sm:grid-cols-[repeat(auto-fit,_2.25rem)]">
           {providers.map((value) => (
             <li key={value.provider_id}>
               <ProviderButton provider={value} add={add} remove={remove} />
