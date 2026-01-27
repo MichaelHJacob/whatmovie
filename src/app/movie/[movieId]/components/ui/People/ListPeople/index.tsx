@@ -4,11 +4,15 @@ import { CreditsType } from "@/lib/validation/creditsSchema";
 
 type ListPeopleProps = { id: string } & Pick<CreditsType, "cast" | "crew">;
 
-export default function ListPeople({ cast, crew, id }: ListPeopleProps) {
+export default function ListPeople({
+  cast,
+  crew,
+  id,
+}: Readonly<ListPeopleProps>) {
   return (
     <ul
       id={id}
-      className="ListSpacing no-scrollbar list-none rounded-2xl lg:auto-cols-[calc((100%-20*var(--gapLG))/21)]"
+      className="listSpacing no-scrollbar list-none rounded-2xl lg:auto-cols-[calc((100%-20*var(--gapLG))/21)]"
     >
       {cast.length >= 1 &&
         cast.map((value, index) => (

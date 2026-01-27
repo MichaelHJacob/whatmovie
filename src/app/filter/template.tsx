@@ -6,7 +6,7 @@ import NavBar from "@/components/layout/NavBar";
 
 type TemplateProps = { children: React.ReactNode };
 
-export default function Template({ children }: TemplateProps) {
+export default function Template({ children }: Readonly<TemplateProps>) {
   return (
     <>
       <NavBar fixed />

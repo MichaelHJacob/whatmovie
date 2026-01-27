@@ -12,8 +12,7 @@ export const discoverSchema = z.object({
     .refine((array) => array.length >= 1, {
       message:
         "One or more errors in object array validation prevented at least one result from being obtained.",
-    })
-    .catch([]),
+    }),
   total_pages: z.number().positive(),
   total_results: z.number(),
 });
