@@ -126,7 +126,6 @@ export default function SearchResult({
   const dataMovies = data.pages.map((page) => page.results).flat();
   return (
     <DynamicGridListContainer
-      {...props}
       className={clsx(props.className, resultsContainer(), scroll())}
       id="suggestions"
       role="listbox"

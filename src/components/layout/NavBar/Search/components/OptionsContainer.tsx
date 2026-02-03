@@ -12,7 +12,7 @@ const OptionsContainerStyles = tv({
     active: {
       true: {
         divContainer:
-          "max-lg:blockContainer-px shadow-light h-full w-screen max-w-md max-sm:w-screen lg:px-[--pMD]",
+          "max-lg:blockContainer-px shadow-light h-screen w-screen max-w-md bg-floating-expanded backdrop-blur-xl max-sm:w-screen lg:px-[--pMD] xl:pr-[calc((100vw-1280px)/2+var(--pMD))]",
       },
       false: {
         divContainer: "w-24 bg-transparent before:hidden after:hidden sm:w-60",

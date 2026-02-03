@@ -159,12 +159,8 @@ export default function Search({ dark }: Readonly<SearchProps>) {
   });
 
   return (
-    <Form
-      isExpanded={isExpanded}
-      onToggleExpand={toggleExpand}
-      className={animation()}
-    >
-      <OptionsContainer isExpanded={isExpanded}>
+    <Form isExpanded={isExpanded} onToggleExpand={toggleExpand}>
+      <OptionsContainer isExpanded={isExpanded} className={animation()}>
         <Fieldset isExpanded={isExpanded} className={animation()}>
           <label
             htmlFor="search"

@@ -1,6 +1,3 @@
-import { ComponentProps } from "react";
-
-import clsx from "clsx";
 import { RemoveScroll } from "react-remove-scroll";
 import { tv } from "tailwind-variants";
 
@@ -11,8 +8,7 @@ const formStyles = tv({
   variants: {
     active: {
       true: {
-        formContainer:
-          "fixed right-0 top-0 z-50 h-dvh bg-floating-expanded backdrop-blur-xl xl:pr-[calc((100vw-1280px)/2+var(--pMD))]",
+        formContainer: "fixed right-0 top-0 z-50 h-dvh",
       },
       false: {
         formContainer: "relative bg-transparent before:hidden",
@@ -21,7 +17,7 @@ const formStyles = tv({
   },
 });
 
-type FormProps = ComponentProps<"form"> & {
+type FormProps = {
   children: React.ReactNode;
   isExpanded: boolean;
   onToggleExpand: () => void;
@@ -31,7 +27,6 @@ export default function Form({
   children,
   isExpanded,
   onToggleExpand,
-  ...props
 }: Readonly<FormProps>) {
   const { formContainer } = formStyles({
     active: isExpanded,
@@ -47,7 +42,7 @@ export default function Form({
           event.stopPropagation();
           if (isExpanded) onToggleExpand();
         }}
-        className={clsx(formContainer(), props.className)}
+        className={formContainer()}
       >
         {children}
       </form>
