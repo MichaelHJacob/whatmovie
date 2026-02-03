@@ -1,17 +1,38 @@
-import { VideosResultsType } from "@/types/globalTypes";
+import { ComponentProps } from "react";
 
-type VideoDisplayProps = { video: VideosResultsType };
+import { ObjVideoType } from "@/lib/validation/videosSchema";
+import clsx from "clsx";
+import { tv } from "tailwind-variants";
 
-export default function VideoDisplay({ video }: VideoDisplayProps) {
+const videoDisplayStyles = tv({
+  slots: {
+    container:
+      "aspect-video w-full bg-black shadow-card-subtle outline-2 -outline-offset-1 outline-black/70 lg:rounded-2xl",
+  },
+});
+
+type VideoDisplayProps = ComponentProps<"div"> & {
+  video?: ObjVideoType | null;
+};
+
+export default function VideoDisplay({
+  video,
+  ...props
+}: Readonly<VideoDisplayProps>) {
+  const { container } = videoDisplayStyles();
+
   return (
-    <div className="md:blockContainer-x">
-      <iframe
-        className="aspect-video w-full bg-black md:rounded-2xl md:shadow-light md:shadow-nightDew-500/50"
-        allow="fullscreen; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        src={`https://www.youtube.com/embed/${video.key}`}
-        title="YouTube video player"
-        frameBorder="0"
-      ></iframe>
+    <div {...props} className={clsx(props.className, container())}>
+      {video && (
+        <iframe
+          className="h-full w-full lg:rounded-2xl"
+          allow="autoplay; fullscreen; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          src={`https://www.youtube.com/embed/${video.key}?rel=0
+`}
+          title="YouTube video player"
+          frameBorder="0"
+        ></iframe>
+      )}
     </div>
   );
 }

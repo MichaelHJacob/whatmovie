@@ -12,33 +12,33 @@ import GenreButton from "@/app/filter/components/ui/GenreButton";
 import ProviderButton from "@/app/filter/components/ui/ProviderButton";
 import Container from "@/components/layout/Container";
 import BreakHr from "@/components/ui/BreakHr";
-import { listGenres, listMovieProvider } from "@/data/movieMetadata";
+import FoggyEdge from "@/components/ui/FoggyEdge";
+import { filtersMap } from "@/data/filtersMap";
 import { TypeBtnGenres, TypeBtnProvider } from "@/types/globalTypes";
 
 type FilterMenuProps = {
   children: ReactNode;
 };
 
-export default function FilterMenu({ children }: FilterMenuProps) {
+export default function FilterMenu({ children }: Readonly<FilterMenuProps>) {
   const { replace } = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const params = new URLSearchParams(searchParams);
   const timeId = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
   const divFilters = useRef<HTMLDivElement>(null);
-
   const [dataGenres, setGenres] = useState<TypeBtnGenres[]>(() =>
-    handleGenres(searchParams.get("g")?.split(",")),
+    handleGenres(searchParams.get(filtersMap.withGenres.keys[0])?.split(",")),
   );
-
   const [dataProviders, setProviders] = useState<TypeBtnProvider[]>(() =>
-    handleProviders(searchParams.get("p")?.split("|")),
+    handleProviders(
+      searchParams.get(filtersMap.withWatchProviders.keys[0])?.split("|"),
+    ),
   );
-
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   function handleGenres(inicial?: string[]): TypeBtnGenres[] {
-    return listGenres.genres.map((value) => {
+    return filtersMap.withGenres.allowedValues.genres.map((value) => {
       return {
         id: value.id,
         name: value.name,
@@ -49,7 +49,7 @@ export default function FilterMenu({ children }: FilterMenuProps) {
   }
 
   function handleProviders(inicial?: string[]): TypeBtnProvider[] {
-    return listMovieProvider.results.map((value) => {
+    return filtersMap.withWatchProviders.allowedValues.results.map((value) => {
       return {
         logo_path: value.logo_path,
         provider_name: value.provider_name,
@@ -63,19 +63,17 @@ export default function FilterMenu({ children }: FilterMenuProps) {
   function FilterMenuButton() {
     function open() {
       const element = document.getElementById(
-        isFilterOpen == true ? "Movies" : "filtersID",
+        isFilterOpen ? "Movies" : "filtersID",
       );
       setIsFilterOpen(!isFilterOpen);
       if (element) element.scrollIntoView({ behavior: "smooth" });
     }
 
     return (
-      <button onClick={open} className="main-backBtn backBtn xl:hidden">
+      <button onClick={open} className="backBtn backdrop-blur-xl xl:hidden">
         <span
           className={`h-[12px] w-[12px] ${
-            isFilterOpen
-              ? "rotate-[190deg] animate-rotateToL"
-              : "order-1 rotate-[0deg] animate-rotateToR"
+            isFilterOpen ? "rotate-180" : "order-1 rotate-0"
           } bg-[url('/icons/toRight.svg')] bg-[length:12px_12px] bg-[center_center] bg-no-repeat transition-all duration-300`}
         ></span>
         <span className="textBtn">
@@ -100,10 +98,10 @@ export default function FilterMenu({ children }: FilterMenuProps) {
 
   function reset(filter?: string) {
     switch (filter) {
-      case "p":
+      case filtersMap.withWatchProviders.keys[0]:
         setProviders(handleProviders());
         break;
-      case "g":
+      case filtersMap.withGenres.keys[0]:
         setGenres(handleGenres());
         break;
       default:
@@ -120,7 +118,7 @@ export default function FilterMenu({ children }: FilterMenuProps) {
     if (dataProviders && dataGenres) {
       return (
         <button
-          className="backBtn main-backBtn"
+          className="backBtn backdrop-blur-xl"
           onClick={() => {
             reset();
           }}
@@ -148,12 +146,11 @@ export default function FilterMenu({ children }: FilterMenuProps) {
     );
 
     const getTrue = dataGenres
-      .filter((value) => value.state == true)
+      .filter((value) => value.state)
       .map((value) => value.id);
 
     getTrue.push(picked.id);
-    params.set("g", getTrue.join(","));
-    params.set("page", "1");
+    params.set(filtersMap.withGenres.keys[0], getTrue.join(","));
     replace(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
@@ -174,17 +171,16 @@ export default function FilterMenu({ children }: FilterMenuProps) {
     );
 
     const getTrue = dataGenres
-      .filter((value) => value.state == true)
+      .filter((value) => value.state)
       .map((value) => value.id)
       .filter((value) => value !== picked.id);
 
     if (getTrue.length == 0) {
-      params.delete("g");
+      params.delete(filtersMap.withGenres.keys[0]);
     } else {
-      params.set("g", getTrue.join(","));
+      params.set(filtersMap.withGenres.keys[0], getTrue.join(","));
     }
 
-    params.set("page", "1");
     replace(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
@@ -206,13 +202,12 @@ export default function FilterMenu({ children }: FilterMenuProps) {
     );
 
     const getTrue = dataProviders
-      .filter((value) => value.state == true)
+      .filter((value) => value.state)
       .map((value) => value.provider_id);
 
     getTrue.push(picked.provider_id);
 
-    params.set("p", getTrue.join("|"));
-    params.set("page", "1");
+    params.set(filtersMap.withWatchProviders.keys[0], getTrue.join("|"));
     replace(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
@@ -236,61 +231,64 @@ export default function FilterMenu({ children }: FilterMenuProps) {
     );
 
     const getTrue = dataProviders
-      .filter((value) => value.state == true)
+      .filter((value) => value.state)
       .map((value) => value.provider_id)
       .filter((value) => value !== picked.provider_id);
 
     if (getTrue.length == 0) {
-      params.delete("p");
+      params.delete(filtersMap.withWatchProviders.keys[0]);
     } else {
-      params.set("p", getTrue.join("|"));
+      params.set(filtersMap.withWatchProviders.keys[0], getTrue.join("|"));
     }
 
-    params.set("page", "1");
     replace(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
   return (
-    <div
+    <FoggyEdge
+      fadeOutGradient={false}
+      side="top"
+      topHead
+      surfaceColor="bodyDense"
       onScroll={handleFilterMenu}
-      className="no-scrollbar scrollStyle z-10 h-dvh w-auto snap-x snap-mandatory overflow-x-auto overscroll-x-contain whitespace-nowrap xl:mx-auto xl:w-auto"
+      className="no-scrollbar z-10 h-dvh w-auto snap-x snap-mandatory overflow-x-auto overscroll-auto whitespace-nowrap before:right-0 before:min-h-[5.5rem] xl:mx-auto xl:w-auto"
     >
       <div
         ref={divFilters}
         id="filtersID"
-        className="inline-block h-full w-[80vw] min-w-80 max-w-sm snap-end snap-always overflow-y-scroll overscroll-y-contain overscroll-x-contain bg-nightDew-100 lg:max-w-lg xl:max-w-md"
+        className="relative z-30 inline-block h-full w-[80vw] min-w-80 max-w-sm snap-end snap-always overflow-y-scroll overscroll-auto overscroll-y-auto bg-raised lg:max-w-lg xl:max-w-md"
       >
         <Menu>
           <GenreSelector
             genres={dataGenres}
             add={addGenre}
             remove={removeGenre}
-            clear={reset}
+            clear={() => reset(filtersMap.withGenres.keys[0])}
           />
-          <BreakHr color={"border-nightDew-300"} />
+          <BreakHr />
           <ProviderSelector
             providers={dataProviders}
             add={addProvider}
             remove={removeProvider}
-            clear={reset}
+            clear={() => reset(filtersMap.withWatchProviders.keys[0])}
           />
         </Menu>
       </div>
 
       <div
         id="Movies"
-        className="inline-block h-full w-screen snap-start snap-always overflow-auto overscroll-y-contain xl:w-[calc(100%-448px)]"
+        className="inline-block h-full w-screen snap-start snap-always overflow-auto overscroll-y-auto xl:w-[calc(100%-448px)]"
       >
         <Container paddingTop>
           <FastAccess>
             <FilterMenuButton />
             <ResetButton />
-            {dataProviders.filter((value) => value.fastAccess).length > 0 && (
+            {dataProviders.some((value) => value.fastAccess) && (
               <ul className="flex h-fit w-auto select-none justify-start gap-2">
                 {dataProviders
                   .filter((value) => value.fastAccess)
                   .map((value) => (
-                    <li key={value.provider_id} className="*:main-backBtn">
+                    <li key={value.provider_id} className="*:backdrop-blur-xl">
                       <ProviderButton
                         provider={value}
                         add={addProvider}
@@ -300,12 +298,12 @@ export default function FilterMenu({ children }: FilterMenuProps) {
                   ))}
               </ul>
             )}
-            {dataGenres.filter((value) => value.fastAccess).length > 0 && (
+            {dataGenres.some((value) => value.fastAccess) && (
               <ul className="flex h-fit w-auto select-none gap-2">
                 {dataGenres
                   .filter((value) => value.fastAccess)
                   .map((value) => (
-                    <li key={value.id} className="*:main-backBtn">
+                    <li key={value.id} className="*:backdrop-blur-xl">
                       <GenreButton
                         genre={value}
                         add={addGenre}
@@ -319,6 +317,6 @@ export default function FilterMenu({ children }: FilterMenuProps) {
           {children}
         </Container>
       </div>
-    </div>
+    </FoggyEdge>
   );
 }

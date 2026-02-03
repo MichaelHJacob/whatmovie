@@ -1,69 +1,45 @@
 import { Suspense } from "react";
 
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
-import Recommendations from "@/app/movie/[movieId]/components/layout/Recommendations";
 import Videos from "@/app/movie/[movieId]/components/layout/Videos";
+import Recommendations from "@/app/movie/[movieId]/components/layout/WmRecommendations";
 import CardInformation from "@/app/movie/[movieId]/components/ui/CardInformation";
-import Director from "@/app/movie/[movieId]/components/ui/Director";
 import People from "@/app/movie/[movieId]/components/ui/People";
 import Stream from "@/app/movie/[movieId]/components/ui/Stream";
 import Translations from "@/app/movie/[movieId]/components/ui/Translations";
 import Container from "@/components/layout/Container";
 import SkeletonListMovie from "@/components/skeleton/SkeletonListMovie";
-import SubTitle from "@/components/ui/SubTitle";
-import { API_ENDPOINTS } from "@/config/config";
+import HTitle from "@/components/ui/HTitle";
 import { POSTER } from "@/config/imageConfig";
-import { DetailsMovieType } from "@/types/globalTypes";
-import { getPlaiceholder } from "plaiceholder";
+import { getMovieDetails } from "@/lib/api/tmdb/use-cases/getMovieDetails";
+import { generateImageBlur } from "@/lib/utils/generateImageBlur";
+import getFormattedDate from "@/lib/utils/getFormattedDate";
+import { NotFoundError } from "@/lib/validation/extendExpectedError";
+import clsx from "clsx";
+import { tv } from "tailwind-variants";
 
-async function getDetails(id: string) {
-  const options = {
-    headers: {
-      accept: "application/json",
-      Authorization: `${process.env.DB_TOKEN_AUTH}`,
-    },
-    next: { revalidate: 3600 },
-  };
-  const res = await fetch(
-    API_ENDPOINTS.finding.byId(id) +
-      "?append_to_response=videos%2Cwatch%2Fproviders%2Ccredits&language=pt-BR",
-    options,
-  );
-
-  if (!res.ok) {
-    throw new Error("Falha ao buscar dados");
-  }
-  return res.json();
-}
-
-async function getCssBlurIMG(src: string) {
-  const buffer = await fetch(src).then(async (res) =>
-    Buffer.from(await res.arrayBuffer()),
-  );
-
-  const { css } = await getPlaiceholder(buffer);
-
-  if (!css) {
-    throw new Error("Falha ao buscar imagem 64");
-  }
-
-  return css;
-}
-
-type generateMetadataProps = { params: { movieId: string } };
+type MovieProps = { params: { movieId: string } };
 
 export async function generateMetadata({
   params,
-}: generateMetadataProps): Promise<Metadata> {
-  const data: DetailsMovieType = await getDetails(params.movieId);
-  return {
+}: Readonly<MovieProps>): Promise<Metadata> {
+  const [data] = await getMovieDetails({ id: params.movieId });
+
+  if (!data)
+    return {
+      title: "Página não encontrada",
+      description: "Não foi possível carregar as informações solicitadas",
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
+
+  const metadata: Record<string, unknown> = {
     title: data.title.toString(),
     description: data.overview.substring(0, 160),
-    openGraph: {
-      images: `${POSTER.w780}${data?.poster_path}`,
-    },
     robots: {
       index: true,
       follow: true,
@@ -73,38 +49,32 @@ export async function generateMetadata({
       },
     },
   };
+
+  if (data.poster_path) {
+    metadata["openGraph"] = {
+      images: `${POSTER.w780}${data.poster_path}`,
+    };
+  }
+
+  return metadata;
 }
 
-type MovieProps = { params: { movieId: string } };
+const movieStyles = tv({
+  slots: {
+    img: "rounded-xl max-md:max-h-[75vh] max-md:min-h-80",
+  },
+});
 
-export default async function Movie({ params }: MovieProps) {
-  const data: DetailsMovieType = await getDetails(params.movieId);
+export default async function Movie({ params }: Readonly<MovieProps>) {
+  const [data, error] = await getMovieDetails({ id: params.movieId });
+  const { img } = movieStyles();
 
-  let css = {
-    backgroundImage: "linear-gradient(to top right, #075985, #3e131ca8)",
-    backgroundPosition: "center",
-    backgroundSize: "contain",
-    backgroundRepeat: "no-repeat",
-  };
-  if (typeof data.poster_path == "string") {
-    css = await getCssBlurIMG(POSTER.w92 + data.poster_path);
-  }
-
-  if (!data || !params.movieId) {
-    redirect("/");
-  }
-
-  function formatDate(date: string) {
-    const d = new Date(date);
-    return (
-      <span className="lowercase">
-        {d.toLocaleDateString("pt-BR", { dateStyle: "long" })}
-      </span>
-    );
-  }
-  function formatDateNumber(date: string) {
-    const d = new Date(date);
-    return <>{d.toLocaleDateString("pt-BR")}</>;
+  if (error || data === null) {
+    if (error instanceof NotFoundError) {
+      notFound();
+    } else {
+      throw error;
+    }
   }
 
   function formatTime(time: number) {
@@ -119,206 +89,144 @@ export default async function Movie({ params }: MovieProps) {
     }
   }
 
-  function formatNumber(n: number) {
-    const int = Math.trunc(n);
-    const length = `${int}`.length;
+  const USDollarToBrazilians = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "USD",
+    currencyDisplay: "name",
+  });
 
-    if (length <= 6) {
-      return (
-        <>
-          {Math.ceil(int / 1000).toLocaleString("en-US", {
-            style: "currency",
-            currency: "USD",
-            currencyDisplay: "symbol",
-            useGrouping: true,
-            minimumFractionDigits: 0,
-          })}{" "}
-          mil
-        </>
-      );
-    } else if (length >= 7) {
-      if (n === 1000000) {
-        return (
-          <>
-            {Math.ceil(int / 1000000).toLocaleString("en-US", {
-              style: "currency",
-              currency: "USD",
-              currencyDisplay: "symbol",
-              useGrouping: true,
-              minimumFractionDigits: 0,
-            })}{" "}
-            milhão
-          </>
-        );
-      } else {
-        return (
-          <>
-            {Math.ceil(int / 1000000).toLocaleString("en-US", {
-              style: "currency",
-              currency: "USD",
-              currencyDisplay: "symbol",
-              useGrouping: true,
-              minimumFractionDigits: 0,
-            })}{" "}
-            milhões
-          </>
-        );
-      }
-    }
+  let backgroundStyle = {
+    backgroundImage:
+      "linear-gradient(to top, var(--color-gray-1) 0% , var(--color-gray-2) 100%)",
+  };
+
+  if (typeof data.poster_path === "string") {
+    const BlurDataUrl = await generateImageBlur(POSTER.w92 + data?.poster_path);
+    backgroundStyle = { backgroundImage: `url("${BlurDataUrl}")` };
   }
 
   return (
-    <Container>
-      <div className="paddingHeader relative z-30 h-min w-full">
-        <div className="absolute left-[50%] top-0 z-[-1] h-full w-screen translate-x-[-50%] overflow-hidden bg-nightDew-400">
-          <div
-            style={css}
-            className="h-full w-full animate-mainMovie bg-no-repeat opacity-70 blur-3xl"
-          />
-          <div className="absolute left-0 top-0 h-full w-full bg-black/50 backdrop-blur-3xl" />
-        </div>
-        <div className="md:gridTemplateSpace blockContainer items-center gap-0 max-md:flex max-md:w-fit max-md:flex-col max-md:items-start xl:grid-cols-[repeat(20,_minmax(0,_1fr))]">
-          <div className="max-md:w-full md:col-span-4 lg:col-span-5">
-            <div className="relative flex aspect-[2/3] items-center justify-start before:absolute before:z-20 before:block before:aspect-[2/3] before:w-full before:scale-75 before:rounded-xl before:bg-nightDew-600 before:blur-md max-md:max-h-[75vh] max-md:min-h-80">
-              {typeof data.poster_path == "string" ? (
+    <main>
+      <Container
+        as="header"
+        style={backgroundStyle}
+        className="paddingHeader bg-with-noise relative z-30 h-min w-full bg-[length:100%_100%] bg-center bg-no-repeat after:opacity-50"
+      >
+        <div className="md:gridTemplateSpace blockContainer-p items-center gap-0 max-md:flex max-md:w-fit max-md:flex-col max-md:items-start xl:grid-cols-[repeat(20,_minmax(0,_1fr))]">
+          <div className="md:col-span-4 lg:col-span-5">
+            <div className="relative z-30 block h-auto w-auto after:absolute after:inset-0 after:block after:rounded-xl after:shadow-card after:max-xs:shadow-card-subtle">
+              {data.poster_path ? (
                 <img
-                  srcSet={`${POSTER.w342}${data.poster_path} 342w, ${POSTER.w500}${data.poster_path} 500w, ${POSTER.w780}${data.poster_path} 780w`}
-                  sizes="(max-width: 342px) 342px, (max-width: 500px) 500px, (max-width: 767px) 780px, (min-width: 768px) 300px, 500px"
-                  src={POSTER.w780 + data.poster_path}
+                  srcSet={`${POSTER.w342}${data.poster_path} 342w, ${POSTER.w500}${data.poster_path} 500w, ${POSTER.original}${data.poster_path} 780w`}
+                  sizes="(max-width: 768px) 100vw, (min-width: 768px) 500px, 780px"
+                  src={POSTER.original + data.poster_path}
                   alt={data.original_title}
-                  className="mid-shadow z-30 rounded-lg object-contain contrast-[1.1]"
+                  className={clsx(img(), "aspect-[2/3_auto]")}
                 />
               ) : (
-                <div className="unavailable mid-shadow z-30 flex aspect-[2/3] h-full w-full flex-col items-center justify-center gap-5 overflow-hidden break-words rounded-lg pb-10 pt-10 contrast-[1.1] backdrop-blur-xl">
-                  <p className="textBtn w-full text-wrap text-center text-nightDew-300 text-opacity-30">
+                <div
+                  className={clsx(
+                    img(),
+                    "unavailable flex aspect-[2/3] h-full w-full flex-col items-center justify-center gap-5 overflow-hidden break-words pb-10 pt-10",
+                  )}
+                >
+                  <p className="textBtn w-full text-wrap text-center text-base-dimmed">
                     imagem indisponível
                   </p>
-                  <p className="textBtn w-full text-wrap px-3 text-center text-lg text-nightDew-300 text-opacity-20">
+                  <p className="textBtn w-full text-wrap px-3 text-center text-lg text-base-minimal">
                     {data.title}
                   </p>
                 </div>
               )}
             </div>
           </div>
-          <dl className="relative z-40 h-auto rounded-lg md:col-span-8 md:px-4 md:pb-4 lg:col-[span_15_/_span_15]">
-            <h2 className="px-1 py-5 text-4xl font-semibold tracking-wide text-nightDew-100 md:col-span-4 lg:col-span-5">
+          <div className="relative z-40 h-auto md:col-span-8 md:px-4 md:pb-4 lg:col-[span_15_/_span_15]">
+            <HTitle
+              as="h1"
+              container={false}
+              className="px-1 py-5 text-4xl font-bold text-white-heading md:col-span-4 lg:col-span-5"
+            >
               {data.title}
-            </h2>
-            <dd className="data mb-2 mt-[-1.25rem] font-semibold text-nightDew-100">
-              {data.release_date && <>{formatDateNumber(data.release_date)}</>}
+            </HTitle>
+            <p className="data mb-2 mt-[-1.25rem] font-semibold text-white-subtle">
+              {data.release_date &&
+                getFormattedDate(data.release_date, "short")}
               {" - "}
-              {data.genres && (
-                <>{data.genres.map((value) => value.name).join(", ")}</>
-              )}
-            </dd>
+              {data.genres && data.genres.map((value) => value.name).join(", ")}
+            </p>
 
             {data.overview && (
-              <>
-                <dt className="label font-bold text-nightDew-100">Sinopse:</dt>
-                <dd className="data mb-2 font-semibold text-nightDew-100">
-                  {data.overview}
-                </dd>
-              </>
+              <p className="data mb-2 font-semibold text-white-subtle">
+                <strong className="hidden">Sinopse:</strong>
+                {data.overview}
+              </p>
             )}
-            <Director credits={data.credits.crew} />
-            <Stream provider={data["watch/providers"].results.BR} />
-          </dl>
+
+            {data["watch/providers"]?.results?.BR && (
+              <Stream provider={data["watch/providers"].results.BR} />
+            )}
+          </div>
         </div>
-      </div>
+      </Container>
 
-      {data.videos.results.length >= 1 && (
-        <Videos videosArray={data.videos.results} />
-      )}
+      {data.videos?.results && <Videos videosArray={data.videos.results} />}
 
-      <div>
-        <SubTitle>Mais detalhes</SubTitle>
-
-        <div className="ListSpacing no-scrollbar">
-          <CardInformation>
-            {data.original_title && (
-              <>
-                <dt className="label">Titulo original:</dt>
-                <dd className="data mb-2"> {data.original_title}</dd>
-              </>
-            )}
-            {data.original_language && (
-              <>
-                <dt className="label">Idioma original:</dt>
-                <dd className="data mb-2"> {data.original_language}</dd>
-              </>
-            )}
-            {data.release_date && (
-              <>
-                <dt className="label">Data de lançamento:</dt>
-                <dd className="data mb-2">{formatDate(data.release_date)}</dd>
-              </>
-            )}
-          </CardInformation>
-          <CardInformation>
-            {data.runtime && (
-              <>
-                <dt className="label">Duração:</dt>
-                <dd className="data mb-2">
-                  {data.runtime && formatTime(data.runtime)}
-                </dd>
-              </>
-            )}
-            {data.genres && (
-              <>
-                <dt className="label">Gêneros:</dt>
-                <dd className="data mb-2">
-                  {data.genres.map((value) => value.name).join(", ")}
-                </dd>
-              </>
-            )}
-            {data.budget !== 0 && (
-              <>
-                <dt className="label">Orçamento:</dt>
-                <dd className="data mb-2"> {formatNumber(data.budget)}</dd>
-              </>
-            )}
-            {data.revenue !== 0 && (
-              <>
-                <dt className="label">Receita:</dt>
-                <dd className="data mb-2"> {formatNumber(data.revenue)}</dd>
-              </>
-            )}
-          </CardInformation>
-          <CardInformation>
-            {data.production_companies.length != 0 && (
-              <>
-                <dt className="label">Produzido por:</dt>
-                <dd className="data mb-2">
-                  <ul className="list-none">
-                    {data.production_companies.map((value, i, a) => (
-                      <li key={i} className="mr-1">
-                        {value.name}
-                        {i + 1 < a.length && ", "}
-                      </li>
-                    ))}
-                  </ul>
-                </dd>
-              </>
-            )}
-            {data.production_countries && (
-              <>
-                <dt className="label">Pais de produção:</dt>
-                <dd className="data mb-2">
-                  <ul className="list-none">
-                    {data.production_countries.map((value, i, a) => (
-                      <li key={i} className="mr-1">
-                        {value.name}
-                        {i + 1 < a.length && ", "}
-                      </li>
-                    ))}
-                  </ul>
-                </dd>
-              </>
-            )}
-          </CardInformation>
-          {(data.belongs_to_collection?.name != undefined || data.homepage) && (
+      <Container as="section">
+        <HTitle>Mais detalhes</HTitle>
+        <dl>
+          <div className="listSpacing no-scrollbar">
             <CardInformation>
-              {data.belongs_to_collection?.name != undefined && (
+              {data.original_title && (
+                <>
+                  <dt className="label">Titulo original:</dt>
+                  <dd className="data mb-2"> {data.original_title}</dd>
+                </>
+              )}
+
+              {data.release_date && (
+                <>
+                  <dt className="label">Data de lançamento:</dt>
+                  <dd className="data mb-2">
+                    <span className="lowercase">
+                      {getFormattedDate(data.release_date, "long")}
+                    </span>
+                  </dd>
+                </>
+              )}
+              {data.credits && (
+                <>
+                  <dt className="label">Diretor:</dt>
+                  <dd className="data mb-2">
+                    {data.credits.crew
+                      .filter((value) => value.job == "Director")
+                      .map((value) => value.name)
+                      .join(", ")}
+                  </dd>
+                </>
+              )}
+              {data.homepage && (
+                <dt className="label -ml-2 mb-2">
+                  <a
+                    href={data.homepage}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="backBtn-hover rounded-lg p-2 underline"
+                  >
+                    Site Oficial
+                  </a>
+                </dt>
+              )}
+            </CardInformation>
+            <CardInformation>
+              {data.genres && (
+                <>
+                  <dt className="label">Gêneros:</dt>
+                  <dd className="data mb-2">
+                    {data.genres.map((value) => value.name).join(", ")}
+                  </dd>
+                </>
+              )}
+              {data.belongs_to_collection?.name && (
                 <>
                   <dt className="label">Coleção:</dt>
                   <dd className="data mb-2">
@@ -326,44 +234,83 @@ export default async function Movie({ params }: MovieProps) {
                   </dd>
                 </>
               )}
-              {data.homepage && (
-                <dt className="label mb-2">
-                  <a
-                    href={data.homepage}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="backBtn-hover m-[-4px] rounded-lg p-2 underline"
-                  >
-                    Site Oficial
-                  </a>
-                </dt>
+              {data.runtime && (
+                <>
+                  <dt className="label">Duração:</dt>
+                  <dd className="data mb-2">
+                    {data.runtime && formatTime(data.runtime)}
+                  </dd>
+                </>
               )}
             </CardInformation>
-          )}
-        </div>
-        <div className="blockContainer">
-          <CardInformation>
-            <Suspense>
-              <Translations movieId={params.movieId} />
-            </Suspense>
-          </CardInformation>
-        </div>
-      </div>
-      <People cast={data.credits.cast} crew={data.credits.crew} />
-
+            <CardInformation>
+              {data.production_companies && (
+                <>
+                  <dt className="label">Produzido por:</dt>
+                  <dd className="data mb-2">
+                    <ul className="list-none">
+                      {data.production_companies.map((value, i, a) => (
+                        <li key={i} className="mr-1">
+                          {value.name}
+                          {i + 1 < a.length && ", "}
+                        </li>
+                      ))}
+                    </ul>
+                  </dd>
+                </>
+              )}
+              {data.production_countries && (
+                <>
+                  <dt className="label">Pais de produção:</dt>
+                  <dd className="data mb-2">
+                    <ul className="list-none">
+                      {data.production_countries.map((value, i, a) => (
+                        <li key={i} className="mr-1">
+                          {value.name}
+                          {i + 1 < a.length && ", "}
+                        </li>
+                      ))}
+                    </ul>
+                  </dd>
+                </>
+              )}
+              {data.original_language && (
+                <>
+                  <dt className="label">Idioma original:</dt>
+                  <dd className="data mb-2"> {data.original_language}</dd>
+                </>
+              )}
+            </CardInformation>
+            <CardInformation>
+              {data.budget && (
+                <>
+                  <dt className="label">Orçamento:</dt>
+                  <dd className="data mb-2">
+                    {USDollarToBrazilians.format(data.budget)}
+                  </dd>
+                </>
+              )}
+              {data.revenue && (
+                <>
+                  <dt className="label">Receita:</dt>
+                  <dd className="data mb-2">
+                    {USDollarToBrazilians.format(data.revenue)}
+                  </dd>
+                </>
+              )}
+            </CardInformation>
+          </div>
+          <Suspense>
+            <Translations movieId={params.movieId} />
+          </Suspense>
+        </dl>
+      </Container>
+      {data.credits && (
+        <People cast={data.credits.cast} crew={data.credits.crew} />
+      )}
       <Suspense fallback={<SkeletonListMovie />}>
-        <Recommendations
-          movieID={params.movieId}
-          rootFilm={{
-            adult: data.adult,
-            popularity: data.popularity,
-            release_date: data.release_date,
-            vote_count: data.vote_count,
-            vote_average: data.vote_average,
-            genres_id: data.genres.map((value) => value.id),
-          }}
-        />
+        <Recommendations movieID={params.movieId} genres={data.genres} />
       </Suspense>
-    </Container>
+    </main>
   );
 }

@@ -1,29 +1,29 @@
 import { type NextRequest } from "next/server";
 
-import { API_BASE_URL } from "@/config/config";
+import { API_ENDPOINTS } from "@/config/apiEndpoints";
+import { apiFetch } from "@/lib/api/apiFetch";
+import { getLocalParams } from "@/lib/i18n/getLocaleParams";
+import { discoverSchema } from "@/lib/validation/discoverSchema";
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const query = searchParams.get("query");
+  const page = searchParams.get("page") || 1;
+  const language = getLocalParams("pt-BR");
 
-  if (query) {
-    const res = await fetch(
-      `${API_BASE_URL}search/movie?query=${encodeURIComponent(query)}&include_adult=false&language=pt-BR&page=1&region=BR`,
+  const searchTerm = query?.trim();
+
+  if (!searchTerm) {
+    console.error("Erro:Parâmetro de pesquisa é vazio ou nulo.", query);
+    return Response.json(
       {
-        headers: {
-          accept: "application/json",
-          Authorization: `${process.env.DB_TOKEN_AUTH}`,
-        },
-        next: { revalidate: 3600 },
+        name: "SearchValidationError",
+        message: "Parâmetro de pesquisa é vazio ou nulo.",
       },
+      { status: 400 },
     );
-
-    if (!res.ok) {
-      throw new Error("Falha ao buscar dados de busca");
-    }
-
-    const data = await res.json();
-
-    return Response.json(data);
   }
+  const url = `${API_ENDPOINTS.finding.search}?query=${encodeURIComponent(searchTerm)}&include_adult=false&language=${language.language}&page=${page}&region=${language.region}`;
+
+  return apiFetch({ url, schema: discoverSchema, stringRequest: query });
 }
