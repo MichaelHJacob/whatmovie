@@ -1,18 +1,18 @@
 import ImageProfile from "@/app/movie/[movieId]/components/ui/People/ListPeople/ImageProfile";
 import ImageProfileUnavailable from "@/components/skeleton/ImageProfileUnavailable";
-import { PropsPeople } from "@/types/globalTypes";
+import { CreditsType } from "@/lib/validation/creditsSchema";
 
-type ListPeopleProps = { id: string } & PropsPeople;
+type ListPeopleProps = { id: string } & Pick<CreditsType, "cast" | "crew">;
 
 export default function ListPeople({
-  cast = [],
-  crew = [],
+  cast,
+  crew,
   id,
-}: ListPeopleProps) {
+}: Readonly<ListPeopleProps>) {
   return (
     <ul
       id={id}
-      className="ListSpacing no-scrollbar list-none rounded-2xl lg:auto-cols-[calc((100%-20*var(--gapLG))/21)]"
+      className="listSpacing no-scrollbar list-none rounded-2xl lg:auto-cols-[calc((100%-20*var(--gapLG))/21)]"
     >
       {cast.length >= 1 &&
         cast.map((value, index) => (

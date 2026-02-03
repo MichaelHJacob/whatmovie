@@ -1,50 +1,42 @@
+import HTitle from "@/components/ui/HTitle";
 import { LOGO } from "@/config/imageConfig";
-import { Provider } from "@/types/globalTypes";
+import { ResultsProvidersType } from "@/lib/validation/watchProvidersSchema";
 
-type StreamProps = { provider?: Provider };
+type StreamProps = { provider: ResultsProvidersType };
 
-export default function Stream({ provider }: StreamProps) {
-  if (
-    provider !== undefined &&
-    provider.flatrate !== undefined &&
-    provider.flatrate.length >= 1
-  ) {
-    return (
-      <>
-        <dt className="label mb-2 font-bold text-nightDew-200">
-          Disponível em:
-        </dt>
+export default function Stream({ provider }: Readonly<StreamProps>) {
+  if (!provider.flatrate) return;
 
-        <dd className="flex w-full flex-row flex-wrap gap-[--gap] xs:gap-[--gapXS] md:gap-[--gapMD] lg:gap-[--gapLG]">
-          {provider.flatrate.map((value, i: number, arr) => (
-            <div
-              key={i}
-              className="mb-1 inline-flex h-11 w-fit items-center gap-[calc(var(--gap)/2)] xs:gap-[calc(var(--gapXS)/2)] md:gap-[calc(var(--gapMD)/2)] lg:gap-[calc(var(--gapLG)/2)]"
+  return (
+    <>
+      <HTitle
+        container={false}
+        className="mb-2 px-1 font-bold text-white-strong"
+      >
+        Disponível em:
+      </HTitle>
+      <ul className="flex w-full justify-start gap-2 px-1 xs:grid xs:grid-cols-[repeat(auto-fit,minmax(min(45%,13rem),1fr))]">
+        {provider.flatrate.map((value, i: number, arr) => (
+          <li
+            key={i}
+            className="col-span-1 row-span-1 inline-flex h-11 w-fit items-center gap-1"
+          >
+            <img
+              className="h-10 w-10 select-none rounded-xl contrast-[1.1]"
+              srcSet={`${LOGO.w92}${value.logo_path} 1x, ${LOGO.w154}${value.logo_path} 2x`}
+              src={LOGO.w154 + value.logo_path}
+              alt={`logo ${value.provider_name}`}
+            />
+            <p
+              className={`data font-semibold text-white-subtle ${
+                arr.length > 2 && "max-xs:hidden"
+              }`}
             >
-              <img
-                className="h-10 w-10 select-none rounded-xl contrast-[1.1]"
-                srcSet={`${LOGO.w92}${value.logo_path} 1x, ${LOGO.w154}${value.logo_path} 2x`}
-                src={LOGO.w154 + value.logo_path}
-                alt={`logo ${value.provider_name}`}
-              />
-              <div
-                className={`data font-semibold text-nightDew-200 ${
-                  arr.length > 2 && "max-sm:hidden"
-                }`}
-              >
-                {value.provider_name}{" "}
-                <span
-                  className={`data select-none text-nightDew-200 ${
-                    i + 1 == arr.length && "hidden"
-                  }`}
-                >
-                  |
-                </span>
-              </div>
-            </div>
-          ))}
-        </dd>
-      </>
-    );
-  }
+              {value.provider_name}
+            </p>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
 }

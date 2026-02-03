@@ -5,5 +5,7 @@
   ],
   "importOrder": ["^react$", "^next(.*)$", "<THIRD_PARTY_MODULES>", "^[./]"],
   "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true
+  "importOrderSortSpecifiers": true,
+  "tailwindFunctions": ["tv"],
+  "endOfLine": "lf"
 }

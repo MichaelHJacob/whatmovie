@@ -4,7 +4,7 @@ import { inspect } from "node:util";
 import path from "path";
 import prettier from "prettier";
 
-import { API_ENDPOINTS } from "../src/config/config";
+import { API_ENDPOINTS } from "../src/config/apiEndpoints";
 
 dotenv.config({ path: [".env.local"] });
 
@@ -14,7 +14,7 @@ async function getApiConfig() {
   const options = {
     headers: {
       accept: "application/json",
-      Authorization: `${process.env.DB_TOKEN_AUTH}`,
+      Authorization: `Bearer ${process.env.TMDB_API_TOKEN}`,
     },
   };
   const res = await fetch(API_ENDPOINTS.configuration, options);

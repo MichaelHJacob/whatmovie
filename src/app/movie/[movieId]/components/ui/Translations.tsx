@@ -1,43 +1,33 @@
-import { API_ENDPOINTS } from "@/config/config";
-import { TranslationsType } from "@/types/globalTypes";
-
-async function getTranslations(movieID: string) {
-  const options = {
-    headers: {
-      accept: "application/json",
-      Authorization: `${process.env.DB_TOKEN_AUTH}`,
-    },
-  };
-  const res = await fetch(
-    API_ENDPOINTS.finding.byId(movieID) + "/translations",
-    options,
-  );
-
-  if (!res.ok) {
-    throw new Error("Falha ao buscar dados");
-  }
-  return res.json();
-}
+import CardInformation from "@/app/movie/[movieId]/components/ui/CardInformation";
+import { getMovieTranslations } from "@/lib/api/tmdb/use-cases/getMovieTranslations";
 
 type TranslationsProps = {
   movieId: string;
 };
 
-export default async function Translations({ movieId }: TranslationsProps) {
-  const result: TranslationsType = await getTranslations(movieId);
+export default async function Translations({
+  movieId,
+}: Readonly<TranslationsProps>) {
+  const [data] = await getMovieTranslations({ id: movieId });
 
-  if (typeof result.translations == "object") {
-    return (
-      <>
+  if (!data) return null;
+
+  return (
+    <div className="blockContainer-p">
+      <CardInformation>
         <dt className="label mb-1">Traduções:</dt>
-        <dd className="data mb-2">
-          <>
-            {result.translations
-              .map((value) => value.name + "-" + value.iso_3166_1)
-              .join(", ")}
-          </>
+        <dd>
+          <ul className="mb-2 grid w-full grid-cols-2 xs:grid-cols-3 sm:grid-cols-[repeat(auto-fit,_minmax(10rem,_1fr))]">
+            {data.translations.map((value) => {
+              return (
+                <li className="data col-span-1 row-span-1" key={value.name}>
+                  {value.name + "-" + value.iso_3166_1}
+                </li>
+              );
+            })}
+          </ul>
         </dd>
-      </>
-    );
-  }
+      </CardInformation>
+    </div>
+  );
 }

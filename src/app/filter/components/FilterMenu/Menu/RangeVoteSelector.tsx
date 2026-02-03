@@ -1,34 +1,49 @@
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-export default function RangeVoteSelector() {
+import { FiltersMap } from "@/types/filtersTypes";
+
+type RangeVoteSelectorProps = FiltersMap["voteAverage"];
+
+export default function RangeVoteSelector(
+  props: Readonly<RangeVoteSelectorProps>,
+) {
   const { replace } = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const params = new URLSearchParams(searchParams);
 
   const [minRange, setMinRange] = useState(
-    Number(searchParams?.get("vote_gte")) || 0,
+    Number(searchParams?.get(props.keys[1])) || props.allowedValues.gte,
   );
   const [maxRange, setMaxRange] = useState(
-    Number(searchParams?.get("vote_lte")) || 10,
+    Number(searchParams?.get(props.keys[2])) || props.allowedValues.lte,
   );
   const [minNumber, setMinNumber] = useState(
-    searchParams?.get("vote_gte") || "0",
+    searchParams?.get(props.keys[1]) || props.allowedValues.gte.toString(),
   );
   const [maxNumber, setMaxNumber] = useState(
-    searchParams?.get("vote_lte") || "10",
+    searchParams?.get(props.keys[2]) || props.allowedValues.lte.toString(),
   );
 
-  const leftSide = `${Math.floor((minRange / 10) * 100)}%`;
-  const rightSide = `${Math.floor((1 - maxRange / 10) * 100)}%`;
+  const leftSide = `${Math.floor((minRange / props.allowedValues.lte) * 100)}%`;
+  const rightSide = `${Math.floor((1 - maxRange / props.allowedValues.lte) * 100)}%`;
   const timeIdMin = useRef<ReturnType<typeof setInterval> | null>(null);
   const timeIdMax = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  useEffect(() => {
+    if (!searchParams.has(props.keys[1])) {
+      setMinRange(0);
+      setMaxRange(10);
+      setMinNumber("0");
+      setMaxNumber("10");
+    }
+  }, [searchParams, props.keys]);
+
   function toParams(min: string, max: string) {
-    params.set("vote_gte", `${min}`);
-    params.set("vote_lte", `${max}`);
+    params.set(props.keys[1], `${min}`);
+    params.set(props.keys[2], `${max}`);
     replace(`${pathname}?${params.toString()}`);
   }
 
@@ -48,20 +63,18 @@ export default function RangeVoteSelector() {
 
   function numberMin(e: ChangeEvent<HTMLInputElement>) {
     const valor = Number(e.target.value);
+
     if (timeIdMin.current) {
       clearTimeout(timeIdMin.current);
     }
 
     setMinNumber(e.target.value);
+
     if (valor >= 0 && valor <= 9) {
-      e.target.onclick = () => {
-        setMinRange(valor);
-      };
+      setMinRange(valor);
 
       if (valor >= Number(maxNumber)) {
-        e.target.onclick = () => {
-          setMaxRange(valor + 1);
-        };
+        setMaxRange(valor + 1);
         setMaxNumber(String(valor + 1));
         if (timeIdMin.current) {
           clearTimeout(timeIdMin.current);
@@ -96,14 +109,10 @@ export default function RangeVoteSelector() {
     }
     setMaxNumber(e.target.value);
     if (valor >= 1 && valor <= 10) {
-      e.target.onclick = () => {
-        setMaxRange(valor);
-      };
+      setMaxRange(valor);
 
       if (valor <= Number(minNumber)) {
-        e.target.onclick = () => {
-          setMinRange(valor - 1);
-        };
+        setMinRange(valor - 1);
 
         if (timeIdMax.current) {
           clearTimeout(timeIdMax.current);
@@ -134,10 +143,10 @@ export default function RangeVoteSelector() {
   return (
     <li>
       <fieldset className="flex max-h-fit flex-col gap-[--gap] xs:gap-[--gapXS] md:gap-[--gapMD] lg:gap-[--gapLG]">
-        <legend className="blockContainer-x pb-[--gap] xs:pb-[--gapXS] md:pb-[--gapMD] lg:pb-[--gapLG]">
+        <legend className="blockContainer-px pb-[--gap] xs:pb-[--gapXS] md:pb-[--gapMD] lg:pb-[--gapLG]">
           <span className="filter-label">Pontuação:</span>
         </legend>
-        <div className="blockContainer-x flex w-full justify-between">
+        <div className="blockContainer-px flex w-full justify-between">
           <label className="backBtn flex items-center">
             <span className="textBtn text-xs uppercase opacity-65">Min</span>
             <input
@@ -151,8 +160,8 @@ export default function RangeVoteSelector() {
               pattern="[0-9]*"
               inputMode="decimal"
               name="minNumber"
-              min={0}
-              max={10}
+              min={props.allowedValues.gte}
+              max={maxNumber}
             />
           </label>
 
@@ -168,16 +177,16 @@ export default function RangeVoteSelector() {
               }}
               pattern="[0-9]*"
               inputMode="decimal"
-              min={0}
-              max={10}
+              min={minNumber}
+              max={props.allowedValues.lte}
             />
           </label>
         </div>
 
-        <div className="blockContainer-x h-11 w-full pt-[20px]">
-          <div className="relative h-1 rounded-lg bg-nightDew-300">
+        <div className="blockContainer-px h-11 w-full pt-[20px]">
+          <div className="relative h-1 rounded-lg bg-base-medium">
             <div
-              className="absolute h-full rounded-lg bg-selector-100"
+              className="absolute h-full rounded-lg bg-input-on"
               style={{
                 right: rightSide,
                 left: leftSide,
@@ -189,9 +198,9 @@ export default function RangeVoteSelector() {
             <input
               type="range"
               className="pointer-events-none absolute top-[-2px] h-0 w-full appearance-none"
-              min={0}
-              max={10}
-              step={0.1}
+              step={1}
+              min={props.allowedValues.gte}
+              max={props.allowedValues.lte}
               value={minRange}
               onChange={(e) => handleMinRange(Number(e.target.value))}
               onMouseUp={() => toParams(String(minRange), maxNumber)}
@@ -200,9 +209,9 @@ export default function RangeVoteSelector() {
             <input
               type="range"
               className="pointer-events-none absolute top-[-2px] h-0 w-full appearance-none"
-              min={0}
-              max={10}
-              step={0.1}
+              step={1}
+              min={props.allowedValues.gte}
+              max={props.allowedValues.lte}
               value={maxRange}
               onChange={(e) => handleMaxRange(Number(e.target.value))}
               onMouseUp={() => toParams(minNumber, String(maxRange))}
