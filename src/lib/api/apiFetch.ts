@@ -5,7 +5,7 @@ export async function apiFetch({
   url,
   options,
   schema,
-  revalidate = 3600,
+  revalidate = 43200,
   stringRequest = "",
 }: fetchOptionsExtended & { stringRequest?: string | null }) {
   const params = {
@@ -57,7 +57,12 @@ export async function apiFetch({
       );
     }
 
-    return Response.json(parsed.data);
+    return Response.json(parsed.data, {
+      headers: {
+        "Cache-Control": "public, max-age=600, stale-while-revalidate=1200",
+        "CDN-Cache-Control": "s-maxage=43200, stale-while-revalidate=86400",
+      },
+    });
   } catch (error) {
     console.error("Erro interno ao buscar dados:", error);
     return Response.json(
