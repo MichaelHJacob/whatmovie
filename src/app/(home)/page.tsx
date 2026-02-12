@@ -13,6 +13,8 @@ import { tv } from "tailwind-variants";
 import LogoWmExtended_Dark from "../../../public/logo/LogoWmExtended_Dark.webp";
 import LogoWmExtended_Light from "../../../public/logo/LogoWmExtended_Light.webp";
 
+export const revalidate = 86400;
+
 const homeStyle = tv({
   slots: {
     container:

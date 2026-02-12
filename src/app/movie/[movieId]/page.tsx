@@ -21,6 +21,8 @@ import { NotFoundError } from "@/lib/validation/extendExpectedError";
 import clsx from "clsx";
 import { tv } from "tailwind-variants";
 
+export const revalidate = 432000;
+
 type MovieProps = { params: { movieId: string } };
 
 export async function generateStaticParams() {
