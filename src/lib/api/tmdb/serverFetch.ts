@@ -11,7 +11,7 @@ type DataOrError<TData> = [TData, null] | [null, Error];
 export async function serverFetch<TData>({
   url,
   schema,
-  revalidate = 3600,
+  revalidate = 86400,
   options,
   errorMessage = "Erro ao buscar dados",
 }: fetchOptionsExtended): Promise<DataOrError<TData>> {
