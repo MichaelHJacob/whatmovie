@@ -6,15 +6,21 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: ["Googlebot", "Applebot", "Bingbot"],
         allow: ["/"],
+        crawlDelay: 10,
       },
       {
-        userAgent: ["GPTBot", "ChatGPT-User"],
+        userAgent: [
+          "GPTBot",
+          "ChatGPT-User",
+          "CCBot",
+          "ahrefsbot",
+          "dotbot",
+          "MJ12bot",
+          "SemrushBot",
+        ],
         disallow: ["/"],
       },
     ],
-    sitemap: [
-      "https://whatmovie.com.br/sitemap.xml",
-      "https://www.whatmovie.com.br/sitemap.xml",
-    ],
+    sitemap: "https://whatmovie.com.br/sitemap.xml",
   };
 }

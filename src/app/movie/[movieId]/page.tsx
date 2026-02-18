@@ -14,6 +14,7 @@ import SkeletonListMovie from "@/components/skeleton/SkeletonListMovie";
 import HTitle from "@/components/ui/HTitle";
 import { POSTER } from "@/config/imageConfig";
 import { getMovieDetails } from "@/lib/api/tmdb/use-cases/getMovieDetails";
+import { getPopular } from "@/lib/api/tmdb/use-cases/getPopular";
 import { generateImageBlur } from "@/lib/utils/generateImageBlur";
 import getFormattedDate from "@/lib/utils/getFormattedDate";
 import { NotFoundError } from "@/lib/validation/extendExpectedError";
@@ -21,6 +22,12 @@ import clsx from "clsx";
 import { tv } from "tailwind-variants";
 
 type MovieProps = { params: { movieId: string } };
+
+export async function generateStaticParams() {
+  const [movies] = await getPopular();
+
+  return movies?.results.map((data) => ({ movieId: data.id })) || [];
+}
 
 export async function generateMetadata({
   params,
