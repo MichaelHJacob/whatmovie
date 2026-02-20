@@ -28,7 +28,6 @@ type ShortCardProps = {
   cache: boolean;
   selected: boolean;
   onToggleSelect: (option: selectOption) => void;
-  onBgScrim: () => void;
   index: number;
 };
 
@@ -37,7 +36,6 @@ const ShortCard = memo(function ShortCard({
   cache,
   selected,
   onToggleSelect,
-  onBgScrim,
   index,
 }: Readonly<ShortCardProps>) {
   const { li, link, contentBox, img, textBox, text } = shortCardStyles();
@@ -60,7 +58,6 @@ const ShortCard = memo(function ShortCard({
         prefetch={cache}
         onClick={() => {
           onToggleSelect({ id: data.id, index });
-          onBgScrim();
         }}
       >
         {data.poster_path ? (
