@@ -27,7 +27,7 @@ export default function GlobalError({
   return (
     <html lang="pt-br" className={`${caladea.variable} ${open_sans.variable}`}>
       <body className="overflow-x-clip bg-notice-accent font-sans">
-        <NavBar dark fixed />
+        <NavBar />
         <main>
           <ErrorPage model="errorPage" as="section" onRetry={reset} />
         </main>

@@ -21,7 +21,6 @@ type SearchResultProps = ComponentProps<"ul"> & {
   observer: MutableRefObject<HTMLDivElement | null>;
   onToggleSelect: (option: selectOption) => void;
   selected: selectOption;
-  onBgScrim: () => void;
 };
 
 const searchResultStyles = tv({
@@ -38,7 +37,6 @@ export default function SearchResult({
   onToggleSelect,
   selected,
   observer,
-  onBgScrim,
   ...props
 }: SearchResultProps) {
   const {
@@ -139,7 +137,6 @@ export default function SearchResult({
           cache={!selected}
           selected={isSelected(value.id, index)}
           onToggleSelect={onToggleSelect}
-          onBgScrim={onBgScrim}
           index={index}
         />
       ))}
