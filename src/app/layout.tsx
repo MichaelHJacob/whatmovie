@@ -4,6 +4,7 @@ import { Caladea, Open_Sans } from "next/font/google";
 import "@/app/globals.css";
 import Footer from "@/components/layout/Footer";
 import NavBar from "@/components/layout/NavBar";
+import NavPathProvider from "@/components/ui/NavPathProvider";
 import { Analytics } from "@vercel/analytics/next";
 
 const open_sans = Open_Sans({
@@ -40,6 +41,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
     <html lang="pt-br" className={`${caladea.variable} ${open_sans.variable}`}>
       <body className="overflow-x-clip bg-body font-sans text-neutral-body antialiased">
+        <NavPathProvider />
         <NavBar />
         {children}
         <Footer />
