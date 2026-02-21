@@ -6,7 +6,7 @@ import { tv } from "tailwind-variants";
 
 const formStyles = tv({
   slots: {
-    formContainer: "h-auto w-auto bg-transparent",
+    formContainer: "peer h-auto w-auto bg-transparent",
   },
   variants: {
     active: {
@@ -39,6 +39,7 @@ export default function Form({
   return (
     <RemoveScroll enabled={isExpanded} forwardProps>
       <form
+        {...props}
         role="search"
         onSubmit={(e) => {
           e.preventDefault();
