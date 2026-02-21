@@ -144,6 +144,7 @@ export default function Search() {
       isExpanded={isExpanded}
       onToggleExpand={toggleExpand}
       className={animation()}
+      data-bgscrim={isExpanded}
     >
       <OptionsContainer isExpanded={isExpanded}>
         <Fieldset isExpanded={isExpanded} className={animation()}>
