@@ -11,7 +11,7 @@
   /* Surface */
   --color-bg-body: theme(colors.white);
   --color-bg-base: theme(colors.gray.100);
-  --color-bg-raised: theme(colors.gray.100 / 80%);
+  --color-bg-raised: theme(colors.neutral.100 / 72%);
   --color-bg-overlay: theme(colors.gray.50 / 95%);
   --color-bg-scrim: theme(colors.gray.200 / 40%);
   --color-bg-floating: theme(colors.neutral.100 / 70%);
@@ -237,7 +237,7 @@
     /* Surface */
     --color-bg-body: theme(colors.neutral.950);
     --color-bg-base: theme(colors.neutral.800);
-    --color-bg-raised: theme(colors.neutral.700 / 70%);
+    --color-bg-raised: theme(colors.neutral.800 / 70%);
     --color-bg-overlay: theme(colors.neutral.700 / 95%);
     --color-bg-scrim: theme(colors.black / 40%);
     --color-bg-floating: theme(colors.neutral.800 / 80%);
