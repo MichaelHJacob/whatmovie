@@ -11,7 +11,7 @@ export default function Stream({ provider }: Readonly<StreamProps>) {
     <>
       <HTitle
         container={false}
-        className="mb-2 px-1 font-bold text-white-strong"
+        className="mb-2 px-1 font-bold text-base-strong"
       >
         Disponível em:
       </HTitle>
@@ -28,7 +28,7 @@ export default function Stream({ provider }: Readonly<StreamProps>) {
               alt={`logo ${value.provider_name}`}
             />
             <p
-              className={`data font-semibold text-white-subtle ${
+              className={`data font-semibold text-base-medium ${
                 arr.length > 2 && "max-xs:hidden"
               }`}
             >

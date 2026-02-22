@@ -68,13 +68,18 @@ export async function generateMetadata({
 
 const movieStyles = tv({
   slots: {
+    container: "paddingHeader relative h-min w-full",
+    innerContainer:
+      "md:gridTemplateSpace blockContainer-p items-center gap-0 max-md:flex max-md:w-fit max-md:flex-col max-md:items-start xl:grid-cols-[repeat(20,_minmax(0,_1fr))]",
     img: "rounded-xl max-md:max-h-[75vh] max-md:min-h-80",
+    raised:
+      "bg-cover bg-center bg-no-repeat before:absolute before:inset-0 before:block before:h-full before:w-full before:bg-raised before:backdrop-blur-md",
   },
 });
 
 export default async function Movie({ params }: Readonly<MovieProps>) {
   const [data, error] = await getMovieDetails({ id: params.movieId });
-  const { img } = movieStyles();
+  const { container, innerContainer, raised, img } = movieStyles();
 
   if (error || data === null) {
     if (error instanceof NotFoundError) {
@@ -117,62 +122,60 @@ export default async function Movie({ params }: Readonly<MovieProps>) {
       <Container
         as="header"
         style={backgroundStyle}
-        className="paddingHeader bg-with-noise relative z-30 h-min w-full bg-[length:100%_100%] bg-center bg-no-repeat after:opacity-50"
+        className={clsx(container(), raised())}
+        innerStyles={innerContainer()}
       >
-        <div className="md:gridTemplateSpace blockContainer-p items-center gap-0 max-md:flex max-md:w-fit max-md:flex-col max-md:items-start xl:grid-cols-[repeat(20,_minmax(0,_1fr))]">
-          <div className="md:col-span-4 lg:col-span-5">
-            <div className="relative z-30 block h-auto w-auto after:absolute after:inset-0 after:block after:rounded-xl after:shadow-card after:max-xs:shadow-card-subtle">
-              {data.poster_path ? (
-                <img
-                  srcSet={`${POSTER.w342}${data.poster_path} 342w, ${POSTER.w500}${data.poster_path} 500w, ${POSTER.original}${data.poster_path} 780w`}
-                  sizes="(max-width: 768px) 100vw, (min-width: 768px) 500px, 780px"
-                  src={POSTER.original + data.poster_path}
-                  alt={data.original_title}
-                  className={clsx(img(), "aspect-[2/3_auto]")}
-                />
-              ) : (
-                <div
-                  className={clsx(
-                    img(),
-                    "unavailable flex aspect-[2/3] h-full w-full flex-col items-center justify-center gap-5 overflow-hidden break-words pb-10 pt-10",
-                  )}
-                >
-                  <p className="textBtn w-full text-wrap text-center text-base-dimmed">
-                    imagem indisponível
-                  </p>
-                  <p className="textBtn w-full text-wrap px-3 text-center text-lg text-base-minimal">
-                    {data.title}
-                  </p>
-                </div>
-              )}
-            </div>
+        <div className="md:col-span-4 lg:col-span-5">
+          <div className="relative block h-auto w-auto after:absolute after:inset-0 after:block after:rounded-xl after:shadow-card after:max-xs:shadow-card-subtle">
+            {data.poster_path ? (
+              <img
+                srcSet={`${POSTER.w342}${data.poster_path} 342w, ${POSTER.w500}${data.poster_path} 500w, ${POSTER.original}${data.poster_path} 780w`}
+                sizes="(max-width: 768px) 100vw, (min-width: 768px) 500px, 780px"
+                src={POSTER.original + data.poster_path}
+                alt={data.original_title}
+                className={clsx(img(), "aspect-[2/3_auto]")}
+              />
+            ) : (
+              <div
+                className={clsx(
+                  img(),
+                  "unavailable flex aspect-[2/3] h-full w-full flex-col items-center justify-center gap-5 overflow-hidden break-words pb-10 pt-10",
+                )}
+              >
+                <p className="textBtn w-full text-wrap text-center text-base-dimmed">
+                  imagem indisponível
+                </p>
+                <p className="textBtn w-full text-wrap px-3 text-center text-lg text-base-minimal">
+                  {data.title}
+                </p>
+              </div>
+            )}
           </div>
-          <div className="relative z-40 h-auto md:col-span-8 md:px-4 md:pb-4 lg:col-[span_15_/_span_15]">
-            <HTitle
-              as="h1"
-              container={false}
-              className="px-1 py-5 text-4xl font-bold text-white-heading md:col-span-4 lg:col-span-5"
-            >
-              {data.title}
-            </HTitle>
-            <p className="data mb-2 mt-[-1.25rem] font-semibold text-white-subtle">
-              {data.release_date &&
-                getFormattedDate(data.release_date, "short")}
-              {" - "}
-              {data.genres && data.genres.map((value) => value.name).join(", ")}
+        </div>
+        <div className="relative h-auto md:col-span-8 md:px-4 md:pb-4 lg:col-[span_15_/_span_15]">
+          <HTitle
+            as="h1"
+            container={false}
+            className="px-1 py-5 text-4xl font-bold text-base-heading md:col-span-4 lg:col-span-5"
+          >
+            {data.title}
+          </HTitle>
+          <p className="data mb-2 mt-[-1.25rem] font-semibold text-base-medium">
+            {data.release_date && getFormattedDate(data.release_date, "short")}
+            {" - "}
+            {data.genres && data.genres.map((value) => value.name).join(", ")}
+          </p>
+
+          {data.overview && (
+            <p className="data mb-2 font-semibold text-base-medium">
+              <strong className="hidden">Sinopse:</strong>
+              {data.overview}
             </p>
+          )}
 
-            {data.overview && (
-              <p className="data mb-2 font-semibold text-white-subtle">
-                <strong className="hidden">Sinopse:</strong>
-                {data.overview}
-              </p>
-            )}
-
-            {data["watch/providers"]?.results?.BR && (
-              <Stream provider={data["watch/providers"].results.BR} />
-            )}
-          </div>
+          {data["watch/providers"]?.results?.BR && (
+            <Stream provider={data["watch/providers"].results.BR} />
+          )}
         </div>
       </Container>
 
