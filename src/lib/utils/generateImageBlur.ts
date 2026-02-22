@@ -6,17 +6,16 @@ export async function generateImageBlur(imageUrl: string): Promise<string> {
   const buffer = Buffer.from(arrayBuffer);
 
   const resizedBuffer = await sharp(buffer)
-    .resize(300, 300, { fit: "cover", position: "center" })
+    .resize(150, 150, { fit: "cover", position: "center" })
     .extract({
-      left: 50,
-      top: 50,
-      width: 200,
-      height: 200,
+      left: 25,
+      top: 25,
+      width: 100,
+      height: 100,
     })
-    .blur(50)
-    .modulate({ brightness: 0.7, lightness: 30, saturation: 1.4 })
-    .linear(0.6, -30)
-    .webp({ quality: 80 })
+    .blur(9)
+    .modulate({ brightness: 1.2, lightness: -20, saturation: 1.8 })
+    .webp({ quality: 70 })
     .toBuffer();
 
   if (!resizedBuffer) {
