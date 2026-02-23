@@ -2,7 +2,7 @@
 
 import { useCallback, useMemo, useRef, useState } from "react";
 
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import SearchIcon from "@/assets/icons/searchIcon.svg";
 import SearchResult from "@/components/layout/NavBar/Search/SearchResult";
@@ -21,9 +21,9 @@ const searchStyles = tv({
   extend: navbarBase,
   slots: {
     labelSearch:
-      "group/label w-full cursor-pointer items-center gap-2 rounded-xl p-1 text-placeholder outline-2 outline-offset-1 outline-transparent transition-all duration-200 has-[:focus]:outline-input-focus",
+      "group/label w-full cursor-pointer items-center gap-2 rounded-xl bg-input p-1 text-placeholder outline-2 outline-offset-1 outline-transparent transition-all duration-200 has-[:focus]:outline-input-focus",
     inputSearch:
-      "w-full appearance-none overflow-hidden text-ellipsis whitespace-nowrap bg-transparent text-base max-sm:placeholder:text-opacity-0",
+      "w-full appearance-none overflow-hidden text-ellipsis whitespace-nowrap bg-transparent text-base placeholder:text-placeholder max-sm:placeholder:text-opacity-0",
     btnClose: "group/close flex px-0 transition-all duration-300",
     animation: "animate-presets",
   },
@@ -39,22 +39,10 @@ const searchStyles = tv({
         animation: "",
       },
     },
-    dark: {
-      true: {
-        inputSearch: "placeholder:text-black-placeholder",
-        labelSearch: "border-black-input bg-black-input text-black-placeholder",
-      },
-      false: {
-        inputSearch: "placeholder:text-placeholder",
-        labelSearch: "bg-input text-placeholder",
-      },
-    },
   },
 });
 
-type SearchProps = { dark: boolean };
-
-export default function Search({ dark }: Readonly<SearchProps>) {
+export default function Search() {
   const [term, setTerm] = useState("");
   const [prevTerm, setPrevTerm] = useState(term);
   const [autoSelect, setAutoSelect] = useState<boolean>(true);
@@ -66,7 +54,7 @@ export default function Search({ dark }: Readonly<SearchProps>) {
     "end",
   );
   const [selected, setSelected] = useState<selectOption>(null);
-  const [bgScrim, setBgScrim] = useState(true);
+
   const {
     btnClose,
     inputSearch,
@@ -76,16 +64,10 @@ export default function Search({ dark }: Readonly<SearchProps>) {
     icon,
     animation,
   } = searchStyles({
-    dark: dark && isExpanded ? false : dark,
     animating: isAnimating,
   });
-  const pathname = usePathname();
-  const router = useRouter();
-  const path = pathname.split("/").at(1) ?? "";
 
-  const toggleBgScrim = useCallback(() => {
-    setBgScrim(path !== "movie");
-  }, [path]);
+  const router = useRouter();
 
   const { data, hasNextPage } = useSearchMovies(debouncedTerm);
 
@@ -145,7 +127,6 @@ export default function Search({ dark }: Readonly<SearchProps>) {
 
   function toRoute(id: string) {
     router.push(`/movie/${id}`);
-    toggleBgScrim();
   }
 
   const { handleKeyDown } = useKeyboardNavigation({
@@ -163,6 +144,7 @@ export default function Search({ dark }: Readonly<SearchProps>) {
       isExpanded={isExpanded}
       onToggleExpand={toggleExpand}
       className={animation()}
+      data-bgscrim={isExpanded}
     >
       <OptionsContainer isExpanded={isExpanded}>
         <Fieldset isExpanded={isExpanded} className={animation()}>
@@ -181,7 +163,6 @@ export default function Search({ dark }: Readonly<SearchProps>) {
             />
             <span className="sr-only">Buscar</span>
             <input
-              data-bgscrim={bgScrim && isExpanded}
               className={clsx(
                 btnText(),
                 inputSearch(),
@@ -255,7 +236,6 @@ export default function Search({ dark }: Readonly<SearchProps>) {
                 input.current.blur();
               }
             }}
-            onBgScrim={toggleBgScrim}
           />
         )}
       </OptionsContainer>
