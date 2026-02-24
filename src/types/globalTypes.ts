@@ -39,3 +39,5 @@ export type GetUseCasesParams = {
 export type GetUseCasesWithIdParams = GetUseCasesParams & {
   id: number | string;
 };
+
+export type DataOrError<TData> = [TData, null] | [null, Error];
