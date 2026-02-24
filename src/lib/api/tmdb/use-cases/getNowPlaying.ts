@@ -5,10 +5,8 @@ import { getLocalParams } from "@/lib/i18n/getLocaleParams";
 import { getMovieByReleaseDate } from "@/lib/utils/getMovieByReleaseDate";
 import { discoverSchema } from "@/lib/validation/discoverSchema";
 import { FilterSchemaType } from "@/lib/validation/filterSchema";
-import { GetUseCasesParams } from "@/types/globalTypes";
+import { DataOrError, GetUseCasesParams } from "@/types/globalTypes";
 import { flatten } from "flat";
-
-type DataOrError<TData> = [TData, null] | [null, Error];
 
 export async function getNowPlaying({
   locale = "pt-BR",
