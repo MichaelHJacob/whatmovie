@@ -4,9 +4,7 @@ import {
   NotFoundError,
   ValidationError,
 } from "@/lib/validation/extendExpectedError";
-import { fetchOptionsExtended } from "@/types/globalTypes";
-
-type DataOrError<TData> = [TData, null] | [null, Error];
+import { DataOrError, fetchOptionsExtended } from "@/types/globalTypes";
 
 export async function serverFetch<TData>({
   url,
