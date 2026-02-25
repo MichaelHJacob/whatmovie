@@ -172,6 +172,10 @@
 }
 
 @layer utilities {
+  .default-gradient {
+    @apply bg-gradient-to-t from-gray-1 to-gray-2
+  }
+
   .animate-presets {
     @apply animate-duration-500 animate-once animate-ease-in-out;
   }
