@@ -107,22 +107,18 @@ export default async function Movie({ params }: Readonly<MovieProps>) {
     currencyDisplay: "name",
   });
 
-  let backgroundStyle = {
-    backgroundImage:
-      "linear-gradient(to top, var(--color-gray-1) 0% , var(--color-gray-2) 100%)",
-  };
-
-  if (typeof data.poster_path === "string") {
-    const BlurDataUrl = await generateImageBlur(POSTER.w92 + data?.poster_path);
-    backgroundStyle = { backgroundImage: `url("${BlurDataUrl}")` };
-  }
+  const [base64] = data?.poster_path
+    ? await generateImageBlur(POSTER.w92 + data.poster_path)
+    : [null];
 
   return (
     <main>
       <Container
         as="header"
-        style={backgroundStyle}
-        className={clsx(container(), raised())}
+        style={{
+          backgroundImage: base64 ? `url("${base64}")` : undefined,
+        }}
+        className={clsx(container(), raised(), !base64 && "default-gradient")}
         innerStyles={innerContainer()}
       >
         <div className="md:col-span-4 lg:col-span-5">
