@@ -118,7 +118,11 @@ export default async function Movie({ params }: Readonly<MovieProps>) {
         style={{
           backgroundImage: base64 ? `url("${base64}")` : undefined,
         }}
-        className={clsx(container(), raised(), !base64 && "default-gradient")}
+        className={clsx(
+          container(),
+          raised(),
+          !base64 && "bg-gradient-default",
+        )}
         innerStyles={innerContainer()}
       >
         <div className="md:col-span-4 lg:col-span-5">
@@ -135,7 +139,7 @@ export default async function Movie({ params }: Readonly<MovieProps>) {
               <div
                 className={clsx(
                   img(),
-                  "unavailable flex aspect-[2/3] h-full w-full flex-col items-center justify-center gap-5 overflow-hidden break-words pb-10 pt-10",
+                  "bg-gradient-default flex aspect-[2/3] h-full w-full flex-col items-center justify-center gap-5 overflow-hidden break-words pb-10 pt-10",
                 )}
               >
                 <p className="textBtn w-full text-wrap text-center text-base-dimmed">

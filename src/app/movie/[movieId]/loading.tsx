@@ -10,7 +10,7 @@ export default function Loading() {
         </div>
         <div className="md:gridTemplateSpace blockContainer-p items-center xl:grid-cols-[repeat(20,_minmax(0,_1fr))]">
           <div className="relative overflow-visible md:col-span-4 lg:col-span-5">
-            <div className="unavailable flex aspect-[18/27] h-full max-h-[75] w-full flex-col items-center justify-between overflow-hidden rounded-lg pb-10 pt-5"></div>
+            <div className="bg-gradient-default flex aspect-[18/27] h-full max-h-[75] w-full flex-col items-center justify-between overflow-hidden rounded-lg pb-10 pt-5"></div>
           </div>
           <div className="relative z-40 rounded-lg pt-2 max-md:backdrop-blur-3xl md:col-span-8 lg:col-[span_15_/_span_15]">
             <div className="mb-1 h-11 w-3/4 rounded-lg bg-white/90" />
