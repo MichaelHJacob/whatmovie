@@ -4,7 +4,7 @@ export default function ImageProfileUnavailable({
   alt,
 }: Readonly<ImageProfileUnavailableProps>) {
   return (
-    <div className="unavailable relative aspect-square rounded-full after:absolute after:inset-0 after:block after:rounded-full after:shadow-people">
+    <div className="bg-gradient-default relative aspect-square rounded-full after:absolute after:inset-0 after:block after:rounded-full after:shadow-people">
       <p className="textBtn absolute bottom-1 left-[50%] top-[10%] w-min translate-x-[-50%] text-wrap text-center text-xs text-inverted-strong text-opacity-30">
         imagem indisponível
       </p>
