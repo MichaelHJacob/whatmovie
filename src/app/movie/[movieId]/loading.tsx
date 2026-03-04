@@ -1,42 +1,45 @@
-import CardInformation from "@/app/movie/[movieId]/components/ui/CardInformation";
 import Container from "@/components/layout/Container";
+import { movieBase } from "@/styles/movie.styles";
+import clsx from "clsx";
+import { tv } from "tailwind-variants";
+
+const loadingStyles = tv({
+  extend: movieBase,
+  slots: {
+    base: "animate-pulse rounded-lg bg-neutral-500/30",
+  },
+});
 
 export default function Loading() {
+  const {
+    container,
+    innerContainer,
+    raised,
+    imgContainer,
+    img,
+    imgUnavailable,
+    descriptionContainer,
+    base,
+  } = loadingStyles();
+
   return (
-    <Container>
-      <div className="paddingHeader relative z-30 h-min w-full animate-pulse">
-        <div className="absolute left-[50%] top-0 z-[-1] h-full w-screen translate-x-[-50%] overflow-hidden">
-          <div className="h-full w-full animate-pulse bg-neutral-500" />
+    <div className="min-h-screen">
+      <Container
+        className={clsx(container(), raised(), "bg-gradient-default")}
+        innerStyles={innerContainer()}
+      >
+        <div className={clsx(imgContainer(), "animate-pulse")}>
+          <div className={clsx(img(), imgUnavailable(), "opacity-30")} />
         </div>
-        <div className="md:gridTemplateSpace blockContainer-p items-center xl:grid-cols-[repeat(20,_minmax(0,_1fr))]">
-          <div className="relative overflow-visible md:col-span-4 lg:col-span-5">
-            <div className="bg-gradient-default flex aspect-[18/27] h-full max-h-[75] w-full flex-col items-center justify-between overflow-hidden rounded-lg pb-10 pt-5"></div>
+        <div className={clsx(descriptionContainer(), "pb-11")}>
+          <div>
+            <div className={clsx(base(), "mb-2 h-10 w-3/4")} />
+            <div className={clsx(base(), "my-1 h-5 w-1/2")} />
           </div>
-          <div className="relative z-40 rounded-lg pt-2 max-md:backdrop-blur-3xl md:col-span-8 lg:col-[span_15_/_span_15]">
-            <div className="mb-1 h-11 w-3/4 rounded-lg bg-white/90" />
-            <div className="mb-2 h-5 w-1/2 rounded-lg bg-white/90" />
-            <div className="mb-2 h-5 w-2/12 rounded-lg bg-white/90" />
-          </div>
+          <div className={clsx(base(), "my-1 h-20 w-full")} />
+          <div className={clsx(base(), "my-3 h-7 w-40")} />
         </div>
-      </div>
-
-      <div className="bg-white dark:bg-black">
-        <div className="blockContainer-px py-2 xs:py-[1rem] lg:py-6">
-          <div className="mb-2 h-6 w-24 rounded-lg bg-black/30 dark:bg-white/30" />
-        </div>
-
-        <div className="listSpacing animate-pulse items-stretch">
-          <CardInformation>
-            <div className="aspect-square h-full w-full"></div>
-          </CardInformation>
-          <CardInformation>
-            <div className="aspect-square h-full w-full"></div>
-          </CardInformation>
-          <CardInformation>
-            <div className="aspect-square h-full w-full"></div>
-          </CardInformation>
-        </div>
-      </div>
-    </Container>
+      </Container>
+    </div>
   );
 }
