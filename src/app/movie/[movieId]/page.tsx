@@ -15,8 +15,8 @@ import HTitle from "@/components/ui/HTitle";
 import { POSTER } from "@/config/imageConfig";
 import { getMovieDetails } from "@/lib/api/tmdb/use-cases/getMovieDetails";
 import { getPopular } from "@/lib/api/tmdb/use-cases/getPopular";
-import { generateImageBlur } from "@/lib/utils/generateImageBlur";
-import getFormattedDate from "@/lib/utils/getFormattedDate";
+import { generateBlurImage } from "@/lib/image/generateBlurImage";
+import { formatToLocaleDate } from "@/lib/utils/formatToLocaleDate";
 import { NotFoundError } from "@/lib/validation/extendExpectedError";
 import clsx from "clsx";
 import { tv } from "tailwind-variants";
@@ -108,7 +108,7 @@ export default async function Movie({ params }: Readonly<MovieProps>) {
   });
 
   const [base64] = data?.poster_path
-    ? await generateImageBlur(POSTER.w92 + data.poster_path)
+    ? await generateBlurImage(POSTER.w92 + data.poster_path)
     : [null];
 
   return (
@@ -157,7 +157,8 @@ export default async function Movie({ params }: Readonly<MovieProps>) {
             {data.title}
           </HTitle>
           <p className="data mb-2 mt-[-1.25rem] font-semibold text-base-medium">
-            {data.release_date && getFormattedDate(data.release_date, "short")}
+            {data.release_date &&
+              formatToLocaleDate(data.release_date, "short")}
             {" - "}
             {data.genres && data.genres.map((value) => value.name).join(", ")}
           </p>
@@ -194,7 +195,7 @@ export default async function Movie({ params }: Readonly<MovieProps>) {
                   <dt className="label">Data de lançamento:</dt>
                   <dd className="data mb-2">
                     <span className="lowercase">
-                      {getFormattedDate(data.release_date, "long")}
+                      {formatToLocaleDate(data.release_date, "long")}
                     </span>
                   </dd>
                 </>
