@@ -1,6 +1,6 @@
 import { listGenres } from "@/data/movieMetadata";
 
-export default function getFormattedGenres(genres: number[]) {
+export function formatGenres(genres: number[]) {
   const result = genres.map((value) =>
     listGenres.genres.find((element) => element.id == value),
   );
