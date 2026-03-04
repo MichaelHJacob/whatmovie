@@ -142,10 +142,6 @@
     @apply blockContainer-px blockContainer-py reducerBlock-t no-scrollbar gridAutoSpace scroll-px relative grid snap-x snap-mandatory list-none grid-flow-col grid-rows-[min-content] overflow-x-auto overflow-y-hidden overscroll-x-contain scroll-smooth;
   }
 
-  .unavailable {
-    @apply bg-gradient-to-t from-gray-1 to-gray-2 object-cover;
-  }
-
   .label {
     @apply px-1 text-base font-semibold leading-5 text-base-strong;
   }
@@ -172,8 +168,8 @@
 }
 
 @layer utilities {
-  .default-gradient {
-    @apply bg-gradient-to-t from-gray-1 to-gray-2
+  .bg-gradient-default {
+    @apply bg-gradient-to-t from-gray-1 to-gray-2;
   }
 
   .animate-presets {

@@ -33,7 +33,7 @@ const MovieCardSkeleton = forwardRef(function MovieCardSkeleton(
         ref={i === 0 ? ref : undefined}
         className={`gridColSpanMovie ${style} ${size <= 6 && i >= base && "max-xs:hidden"} ${size <= 6 && i >= xs && "xs:max-md:hidden"} ${size <= 6 && i >= md && "md:max-lg:hidden"} ${size <= 6 && i >= lg && "lg:max-xl:hidden"} ${size <= 6 && i >= xl && "xl:max-2xl:hidden"}`}
       >
-        <div className="unavailable aspect-[2/3] w-full animate-pulse rounded-lg shadow-card max-xs:shadow-card-subtle" />
+        <div className="bg-gradient-default aspect-[2/3] w-full animate-pulse rounded-lg shadow-card max-xs:shadow-card-subtle" />
       </li>,
     );
   }
