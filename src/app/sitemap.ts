@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 
 import { getPopular } from "@/lib/api/tmdb/use-cases/getPopular";
-import getToday from "@/lib/utils/getToday";
+import { getISODateString } from "@/lib/utils/getISODateString";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [data] = await getPopular();
@@ -16,7 +16,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     {
       url: "https://whatmovie.com.br",
-      lastModified: getToday(),
+      lastModified: getISODateString(),
       changeFrequency: "daily",
       priority: 0.9,
     },

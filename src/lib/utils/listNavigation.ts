@@ -32,7 +32,7 @@ export function getPreviousOption(
       return { id: previousID, index: currentIndex - 1 };
     }
   } else if (!observer) {
-    const last = optionIDs.at(optionIDs.length - 1);
+    const last = optionIDs.at(-1);
     if (last) return { id: last, index: optionIDs.length - 1 };
   }
   return null;
