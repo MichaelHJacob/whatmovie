@@ -5,8 +5,8 @@ import Link from "next/link";
 import { navbarBase } from "@/components/layout/NavBar/navbar.styles";
 import { POSTER } from "@/config/imageConfig";
 import { useAutoScrollRef } from "@/hooks/useAutoScrollRef";
-import getFormattedDate from "@/lib/utils/getFormattedDate";
-import getFormattedGenres from "@/lib/utils/getFormattedGenres";
+import { formatGenres } from "@/lib/utils/formatGenres";
+import { formatToLocaleDate } from "@/lib/utils/formatToLocaleDate";
 import { DiscoverSchemaType } from "@/lib/validation/discoverSchema";
 import { selectionItemBase } from "@/styles/selection.styles";
 import { selectOption } from "@/types/globalTypes";
@@ -74,10 +74,10 @@ const ShortCard = memo(function ShortCard({
           <strong className={text({ class: "font-bold" })}>{data.title}</strong>
           {data.release_date && (
             <small className={text()}>
-              {getFormattedDate(data.release_date, "short")}
+              {formatToLocaleDate(data.release_date, "short")}
             </small>
           )}
-          <small className={text()}>{getFormattedGenres(data.genre_ids)}</small>
+          <small className={text()}>{formatGenres(data.genre_ids)}</small>
         </div>
       </Link>
     </li>

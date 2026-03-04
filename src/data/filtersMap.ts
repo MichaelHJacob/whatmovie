@@ -1,5 +1,5 @@
 import { listGenres, listMovieProvider } from "@/data/movieMetadata";
-import getToday from "@/lib/utils/getToday";
+import { getISODateString } from "@/lib/utils/getISODateString";
 import { z } from "zod";
 
 type BaseFilter =
@@ -102,7 +102,7 @@ export const filtersMap = {
       "primary_release_date.lte",
       "primary_release_date.gte",
     ],
-    allowedValues: getToday,
+    allowedValues: getISODateString,
     type: "date",
     schema: z
       .object({
@@ -124,7 +124,7 @@ export const filtersMap = {
 
   releaseDate: {
     keys: ["release_date", "release_date.lte", "release_date.gte"],
-    allowedValues: getToday,
+    allowedValues: getISODateString,
     type: "date",
     schema: z
       .object({
