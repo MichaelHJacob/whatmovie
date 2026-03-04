@@ -18,6 +18,7 @@ import { getPopular } from "@/lib/api/tmdb/use-cases/getPopular";
 import { generateBlurImage } from "@/lib/image/generateBlurImage";
 import { formatToLocaleDate } from "@/lib/utils/formatToLocaleDate";
 import { NotFoundError } from "@/lib/validation/extendExpectedError";
+import { movieBase } from "@/styles/movie.styles";
 import clsx from "clsx";
 import { tv } from "tailwind-variants";
 
@@ -67,19 +68,29 @@ export async function generateMetadata({
 }
 
 const movieStyles = tv({
+  extend: movieBase,
   slots: {
-    container: "paddingHeader relative h-min w-full",
-    innerContainer:
-      "md:gridTemplateSpace blockContainer-p items-center gap-0 max-md:flex max-md:w-fit max-md:flex-col max-md:items-start xl:grid-cols-[repeat(20,_minmax(0,_1fr))]",
-    img: "rounded-xl max-md:max-h-[75vh] max-md:min-h-80",
-    raised:
-      "bg-cover bg-center bg-no-repeat before:absolute before:inset-0 before:block before:h-full before:w-full before:bg-raised before:backdrop-blur-md",
+    textImgUnavailable: "textBtn w-full text-wrap text-center",
+    title: "px-1 text-4xl font-bold text-base-heading",
+    text: "data font-semibold text-base-medium",
+    subTitle: "w-full px-1 py-2 text-base-strong xs:py-4 md:py-2 lg:py-3",
   },
 });
 
 export default async function Movie({ params }: Readonly<MovieProps>) {
   const [data, error] = await getMovieDetails({ id: params.movieId });
-  const { container, innerContainer, raised, img } = movieStyles();
+  const {
+    container,
+    innerContainer,
+    raised,
+    imgContainer,
+    img,
+    imgUnavailable,
+    textImgUnavailable,
+    descriptionContainer,
+    title,
+    text,
+  } = movieStyles();
 
   if (error || data === null) {
     if (error instanceof NotFoundError) {
@@ -114,7 +125,6 @@ export default async function Movie({ params }: Readonly<MovieProps>) {
   return (
     <main>
       <Container
-        as="header"
         style={{
           backgroundImage: base64 ? `url("${base64}")` : undefined,
         }}
@@ -125,50 +135,55 @@ export default async function Movie({ params }: Readonly<MovieProps>) {
         )}
         innerStyles={innerContainer()}
       >
-        <div className="md:col-span-4 lg:col-span-5">
-          <div className="relative block h-auto w-auto after:absolute after:inset-0 after:block after:rounded-xl after:shadow-card after:max-xs:shadow-card-subtle">
-            {data.poster_path ? (
-              <img
-                srcSet={`${POSTER.w342}${data.poster_path} 342w, ${POSTER.w500}${data.poster_path} 500w, ${POSTER.original}${data.poster_path} 780w`}
-                sizes="(max-width: 768px) 100vw, (min-width: 768px) 500px, 780px"
-                src={POSTER.original + data.poster_path}
-                alt={data.original_title}
-                className={clsx(img(), "aspect-[2/3_auto]")}
-              />
-            ) : (
-              <div
+        <div className={imgContainer()}>
+          {data.poster_path ? (
+            <img
+              srcSet={`${POSTER.w342}${data.poster_path} 342w, ${POSTER.w500}${data.poster_path} 500w, ${POSTER.original}${data.poster_path} 780w`}
+              sizes="(max-width: 768px) 100vw, (min-width: 768px) 500px, 780px"
+              src={POSTER.original + data.poster_path}
+              alt={data.original_title}
+              className={clsx(
+                img(),
+                "aspect-[2/3_auto] animate-fade animate-ease-out",
+              )}
+            />
+          ) : (
+            <div className={clsx(img(), imgUnavailable())}>
+              <p className={clsx(textImgUnavailable(), "text-base-dimmed")}>
+                imagem indisponível
+              </p>
+              <p
                 className={clsx(
-                  img(),
-                  "bg-gradient-default flex aspect-[2/3] h-full w-full flex-col items-center justify-center gap-5 overflow-hidden break-words pb-10 pt-10",
+                  textImgUnavailable(),
+                  "px-3 text-lg text-base-minimal",
                 )}
               >
-                <p className="textBtn w-full text-wrap text-center text-base-dimmed">
-                  imagem indisponível
-                </p>
-                <p className="textBtn w-full text-wrap px-3 text-center text-lg text-base-minimal">
-                  {data.title}
-                </p>
-              </div>
-            )}
-          </div>
+                {data.title}
+              </p>
+            </div>
+          )}
         </div>
-        <div className="relative h-auto md:col-span-8 md:px-4 md:pb-4 lg:col-[span_15_/_span_15]">
-          <HTitle
-            as="h1"
-            container={false}
-            className="px-1 py-5 text-4xl font-bold text-base-heading md:col-span-4 lg:col-span-5"
-          >
-            {data.title}
-          </HTitle>
-          <p className="data mb-2 mt-[-1.25rem] font-semibold text-base-medium">
-            {data.release_date &&
-              formatToLocaleDate(data.release_date, "short")}
-            {" - "}
-            {data.genres && data.genres.map((value) => value.name).join(", ")}
-          </p>
+
+        <div className={descriptionContainer()}>
+          <header>
+            <HTitle as="h1" container={false} className={title()}>
+              {data.title}
+            </HTitle>
+
+            <p className={text()}>
+              {data.release_date &&
+                formatToLocaleDate(data.release_date, "short")}
+              {data.genres && (
+                <>
+                  {" - "}
+                  {data.genres.map((value) => value.name).join(", ")}
+                </>
+              )}
+            </p>
+          </header>
 
           {data.overview && (
-            <p className="data mb-2 font-semibold text-base-medium">
+            <p className={text()}>
               <strong className="hidden">Sinopse:</strong>
               {data.overview}
             </p>
