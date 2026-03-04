@@ -5,8 +5,8 @@ function getTimeSteps(date: string) {
   return time.getTime();
 }
 
-export function getMovieByReleaseDate(movies: DiscoverSchemaType["results"]) {
-  const result = movies.sort((valueA, valueB) => {
+export function orderByReleaseDate(movies: DiscoverSchemaType["results"]) {
+  const result = Array.from(movies).toSorted((valueA, valueB) => {
     if (!valueA.release_date) return -1;
     if (!valueB.release_date) return +1;
     return (

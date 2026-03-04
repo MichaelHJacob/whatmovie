@@ -1,4 +1,4 @@
-import getCompareMovies from "@/app/movie/[movieId]/components/layout/WmRecommendations/getCompareMovies";
+import { compareMovies } from "@/app/movie/[movieId]/components/layout/WmRecommendations/compareMovies";
 import Container from "@/components/layout/Container";
 import ListScrollController from "@/components/layout/ListScrollController/index";
 import HTitle from "@/components/ui/HTitle";
@@ -55,7 +55,7 @@ export default async function Recommendations({
     ...DtRecommendationsP1.results.map((value) => {
       return {
         ...value,
-        recommended: getCompareMovies(
+        recommended: compareMovies(
           value,
           maxPop,
           maxCont,
@@ -96,7 +96,7 @@ export default async function Recommendations({
       ...DtRecommendationsP2.results.map((value) => {
         return {
           ...value,
-          recommended: getCompareMovies(
+          recommended: compareMovies(
             value,
             maxPop,
             maxCont,

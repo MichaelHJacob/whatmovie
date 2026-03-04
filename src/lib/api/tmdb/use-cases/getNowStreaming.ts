@@ -2,7 +2,7 @@ import { API_ENDPOINTS } from "@/config/apiEndpoints";
 import { filtersMap } from "@/data/filtersMap";
 import { serverFetch } from "@/lib/api/tmdb/serverFetch";
 import { getLocalParams } from "@/lib/i18n/getLocaleParams";
-import { getMovieByReleaseDate } from "@/lib/utils/getMovieByReleaseDate";
+import { orderByReleaseDate } from "@/lib/utils/orderByReleaseDate";
 import { discoverSchema } from "@/lib/validation/discoverSchema";
 import { FilterSchemaType } from "@/lib/validation/filterSchema";
 import { DataOrError, GetUseCasesParams } from "@/types/globalTypes";
@@ -40,7 +40,7 @@ export async function getNowStreaming({
   });
 
   if (data) {
-    data.results = getMovieByReleaseDate(data.results);
+    data.results = orderByReleaseDate(data.results);
   }
 
   return [data, error] as DataOrError<typeof discoverSchema._output>;

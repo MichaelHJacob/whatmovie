@@ -1,6 +1,16 @@
 import { DiscoverMovieType } from "@/lib/validation/discoverMovieSchema";
 
-export default function getCompareMovies(
+function period(rcmDate: string) {
+  const date = new Date();
+  const year = date.getFullYear();
+  const rcmYear = rcmDate.split("-");
+
+  if (rcmYear.length === 3) return year - Number.parseInt(rcmYear[0]);
+
+  return 11;
+}
+
+export function compareMovies(
   value: DiscoverMovieType,
   maxP: number,
   maxCV: number,
@@ -8,17 +18,6 @@ export default function getCompareMovies(
   pointRoot: number[],
 ) {
   function date() {
-    function period(rcmDate: string) {
-      const date = new Date();
-      const year = date.getFullYear();
-      const rcmYear = rcmDate.split("-");
-      if (rcmYear.length !== 3 || typeof year !== "number") {
-        return 11;
-      } else {
-        return year - Number.parseInt(rcmYear[0]);
-      }
-    }
-
     if (value.release_date === null) return 0;
     const time = period(value.release_date);
     return time > 30 ? 50 : ((30 - time) / 30) * 0.5 * 100 + 50;
@@ -92,15 +91,16 @@ export default function getCompareMovies(
 
     const contrast = Math.abs(genres_id.length - value.genre_ids.length);
 
-    return score <= 0 || contrast === 0
-      ? Math.trunc(score)
-      : Math.trunc(
-          score -
-            score *
-              (genres_id.length > value.genre_ids.length
-                ? contrast / genres_id.length
-                : contrast / value.genre_ids.length),
-        );
+    if (score <= 0 || contrast === 0) {
+      return Math.trunc(score);
+    } else {
+      const weight =
+        genres_id.length > value.genre_ids.length
+          ? contrast / genres_id.length
+          : contrast / value.genre_ids.length;
+
+      return Math.trunc(score - score * weight);
+    }
   }
 
   const rate = Math.trunc(value.vote_average * 10);
