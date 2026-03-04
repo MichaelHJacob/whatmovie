@@ -1,7 +1,7 @@
 import { DataOrError } from "@/types/globalTypes";
 import sharp from "sharp";
 
-export async function generateImageBlur(
+export async function generateBlurImage(
   imageUrl: string,
 ): Promise<DataOrError<string>> {
   try {
