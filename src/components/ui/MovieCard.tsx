@@ -18,7 +18,7 @@ export default function MovieCard({ data }: Readonly<MovieCardProps>) {
           className="block aspect-[2/3_auto] rounded-xl bg-base-minimal"
         />
       ) : (
-        <div className="unavailable flex aspect-[2/3] h-full w-full flex-col items-center justify-between overflow-hidden break-words rounded-xl pb-10 pt-5">
+        <div className="bg-gradient-default flex aspect-[2/3] h-full w-full flex-col items-center justify-between overflow-hidden break-words rounded-xl pb-10 pt-5">
           <p className="textBtn w-min text-wrap text-center text-opacity-30">
             imagem indisponível
           </p>
