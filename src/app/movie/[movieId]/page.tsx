@@ -3,24 +3,16 @@ import { Suspense } from "react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import Details from "@/app/movie/[movieId]/components/layout/Details";
+import PageHero from "@/app/movie/[movieId]/components/layout/PageHero";
 import Videos from "@/app/movie/[movieId]/components/layout/Videos";
 import Recommendations from "@/app/movie/[movieId]/components/layout/WmRecommendations";
-import CardInformation from "@/app/movie/[movieId]/components/ui/CardInformation";
 import People from "@/app/movie/[movieId]/components/ui/People";
-import Stream from "@/app/movie/[movieId]/components/ui/Stream";
-import Translations from "@/app/movie/[movieId]/components/ui/Translations";
-import Container from "@/components/layout/Container";
 import SkeletonListMovie from "@/components/skeleton/SkeletonListMovie";
-import HTitle from "@/components/ui/HTitle";
 import { POSTER } from "@/config/imageConfig";
 import { getMovieDetails } from "@/lib/api/tmdb/use-cases/getMovieDetails";
 import { getPopular } from "@/lib/api/tmdb/use-cases/getPopular";
-import { generateBlurImage } from "@/lib/image/generateBlurImage";
-import { formatToLocaleDate } from "@/lib/utils/formatToLocaleDate";
 import { NotFoundError } from "@/lib/validation/extendExpectedError";
-import { movieBase } from "@/styles/movie.styles";
-import clsx from "clsx";
-import { tv } from "tailwind-variants";
 
 type MovieProps = { params: { movieId: string } };
 
@@ -67,30 +59,8 @@ export async function generateMetadata({
   return metadata;
 }
 
-const movieStyles = tv({
-  extend: movieBase,
-  slots: {
-    textImgUnavailable: "textBtn w-full text-wrap text-center",
-    title: "px-1 text-4xl font-bold text-base-heading",
-    text: "data font-semibold text-base-medium",
-    subTitle: "w-full px-1 py-2 text-base-strong xs:py-4 md:py-2 lg:py-3",
-  },
-});
-
 export default async function Movie({ params }: Readonly<MovieProps>) {
   const [data, error] = await getMovieDetails({ id: params.movieId });
-  const {
-    container,
-    innerContainer,
-    raised,
-    imgContainer,
-    img,
-    imgUnavailable,
-    textImgUnavailable,
-    descriptionContainer,
-    title,
-    text,
-  } = movieStyles();
 
   if (error || data === null) {
     if (error instanceof NotFoundError) {
@@ -100,240 +70,16 @@ export default async function Movie({ params }: Readonly<MovieProps>) {
     }
   }
 
-  function formatTime(time: number) {
-    if (time < 60) {
-      return <> {time} min</>;
-    } else {
-      return (
-        <>
-          {Math.floor(time / 60)} h {time % 60} min
-        </>
-      );
-    }
-  }
-
-  const USDollarToBrazilians = new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "USD",
-    currencyDisplay: "name",
-  });
-
-  const [base64] = data?.poster_path
-    ? await generateBlurImage(POSTER.w92 + data.poster_path)
-    : [null];
-
   return (
     <main>
-      <Container
-        style={{
-          backgroundImage: base64 ? `url("${base64}")` : undefined,
-        }}
-        className={clsx(
-          container(),
-          raised(),
-          !base64 && "bg-gradient-default",
+      <article>
+        <PageHero data={data} />
+        {data.videos?.results && <Videos videosArray={data.videos.results} />}
+        <Details data={data} movieId={params.movieId} />
+        {data.credits && (
+          <People cast={data.credits.cast} crew={data.credits.crew} />
         )}
-        innerStyles={innerContainer()}
-      >
-        <div className={imgContainer()}>
-          {data.poster_path ? (
-            <img
-              srcSet={`${POSTER.w342}${data.poster_path} 342w, ${POSTER.w500}${data.poster_path} 500w, ${POSTER.original}${data.poster_path} 780w`}
-              sizes="(max-width: 768px) 100vw, (min-width: 768px) 500px, 780px"
-              src={POSTER.original + data.poster_path}
-              alt={data.original_title}
-              className={clsx(
-                img(),
-                "aspect-[2/3_auto] animate-fade animate-ease-out",
-              )}
-            />
-          ) : (
-            <div className={clsx(img(), imgUnavailable())}>
-              <p className={clsx(textImgUnavailable(), "text-base-dimmed")}>
-                imagem indisponível
-              </p>
-              <p
-                className={clsx(
-                  textImgUnavailable(),
-                  "px-3 text-lg text-base-minimal",
-                )}
-              >
-                {data.title}
-              </p>
-            </div>
-          )}
-        </div>
-
-        <div className={descriptionContainer()}>
-          <header>
-            <HTitle as="h1" container={false} className={title()}>
-              {data.title}
-            </HTitle>
-
-            <p className={text()}>
-              {data.release_date &&
-                formatToLocaleDate(data.release_date, "short")}
-              {data.genres && (
-                <>
-                  {" - "}
-                  {data.genres.map((value) => value.name).join(", ")}
-                </>
-              )}
-            </p>
-          </header>
-
-          {data.overview && (
-            <p className={text()}>
-              <strong className="hidden">Sinopse:</strong>
-              {data.overview}
-            </p>
-          )}
-
-          {data["watch/providers"]?.results?.BR && (
-            <Stream provider={data["watch/providers"].results.BR} />
-          )}
-        </div>
-      </Container>
-
-      {data.videos?.results && <Videos videosArray={data.videos.results} />}
-
-      <Container as="section">
-        <HTitle>Mais detalhes</HTitle>
-        <dl>
-          <div className="listSpacing no-scrollbar">
-            <CardInformation>
-              {data.original_title && (
-                <>
-                  <dt className="label">Titulo original:</dt>
-                  <dd className="data mb-2"> {data.original_title}</dd>
-                </>
-              )}
-
-              {data.release_date && (
-                <>
-                  <dt className="label">Data de lançamento:</dt>
-                  <dd className="data mb-2">
-                    <span className="lowercase">
-                      {formatToLocaleDate(data.release_date, "long")}
-                    </span>
-                  </dd>
-                </>
-              )}
-              {data.credits && (
-                <>
-                  <dt className="label">Diretor:</dt>
-                  <dd className="data mb-2">
-                    {data.credits.crew
-                      .filter((value) => value.job == "Director")
-                      .map((value) => value.name)
-                      .join(", ")}
-                  </dd>
-                </>
-              )}
-              {data.homepage && (
-                <dt className="label -ml-2 mb-2">
-                  <a
-                    href={data.homepage}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="backBtn-hover rounded-lg p-2 underline"
-                  >
-                    Site Oficial
-                  </a>
-                </dt>
-              )}
-            </CardInformation>
-            <CardInformation>
-              {data.genres && (
-                <>
-                  <dt className="label">Gêneros:</dt>
-                  <dd className="data mb-2">
-                    {data.genres.map((value) => value.name).join(", ")}
-                  </dd>
-                </>
-              )}
-              {data.belongs_to_collection?.name && (
-                <>
-                  <dt className="label">Coleção:</dt>
-                  <dd className="data mb-2">
-                    {data.belongs_to_collection?.name}
-                  </dd>
-                </>
-              )}
-              {data.runtime && (
-                <>
-                  <dt className="label">Duração:</dt>
-                  <dd className="data mb-2">
-                    {data.runtime && formatTime(data.runtime)}
-                  </dd>
-                </>
-              )}
-            </CardInformation>
-            <CardInformation>
-              {data.production_companies && (
-                <>
-                  <dt className="label">Produzido por:</dt>
-                  <dd className="data mb-2">
-                    <ul className="list-none">
-                      {data.production_companies.map((value, i, a) => (
-                        <li key={i} className="mr-1">
-                          {value.name}
-                          {i + 1 < a.length && ", "}
-                        </li>
-                      ))}
-                    </ul>
-                  </dd>
-                </>
-              )}
-              {data.production_countries && (
-                <>
-                  <dt className="label">Pais de produção:</dt>
-                  <dd className="data mb-2">
-                    <ul className="list-none">
-                      {data.production_countries.map((value, i, a) => (
-                        <li key={i} className="mr-1">
-                          {value.name}
-                          {i + 1 < a.length && ", "}
-                        </li>
-                      ))}
-                    </ul>
-                  </dd>
-                </>
-              )}
-              {data.original_language && (
-                <>
-                  <dt className="label">Idioma original:</dt>
-                  <dd className="data mb-2"> {data.original_language}</dd>
-                </>
-              )}
-            </CardInformation>
-            <CardInformation>
-              {data.budget && (
-                <>
-                  <dt className="label">Orçamento:</dt>
-                  <dd className="data mb-2">
-                    {USDollarToBrazilians.format(data.budget)}
-                  </dd>
-                </>
-              )}
-              {data.revenue && (
-                <>
-                  <dt className="label">Receita:</dt>
-                  <dd className="data mb-2">
-                    {USDollarToBrazilians.format(data.revenue)}
-                  </dd>
-                </>
-              )}
-            </CardInformation>
-          </div>
-          <Suspense>
-            <Translations movieId={params.movieId} />
-          </Suspense>
-        </dl>
-      </Container>
-      {data.credits && (
-        <People cast={data.credits.cast} crew={data.credits.crew} />
-      )}
+      </article>
       <Suspense fallback={<SkeletonListMovie />}>
         <Recommendations movieID={params.movieId} genres={data.genres} />
       </Suspense>
