@@ -15,8 +15,8 @@ import HTitle from "@/components/ui/HTitle";
 import { POSTER } from "@/config/imageConfig";
 import { getMovieDetails } from "@/lib/api/tmdb/use-cases/getMovieDetails";
 import { getPopular } from "@/lib/api/tmdb/use-cases/getPopular";
+import { generateBlurImage } from "@/lib/image/generateBlurImage";
 import { formatToLocaleDate } from "@/lib/utils/formatToLocaleDate";
-import { generateImageBlur } from "@/lib/utils/generateImageBlur";
 import { NotFoundError } from "@/lib/validation/extendExpectedError";
 import clsx from "clsx";
 import { tv } from "tailwind-variants";
@@ -108,7 +108,7 @@ export default async function Movie({ params }: Readonly<MovieProps>) {
   });
 
   const [base64] = data?.poster_path
-    ? await generateImageBlur(POSTER.w92 + data.poster_path)
+    ? await generateBlurImage(POSTER.w92 + data.poster_path)
     : [null];
 
   return (
