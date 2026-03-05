@@ -68,7 +68,7 @@ const ShortCard = memo(function ShortCard({
             className={img()}
           />
         ) : (
-          <div className={img({ class: "unavailable" })} />
+          <div className={img({ class: "bg-gradient-default" })} />
         )}
         <div className={textBox()}>
           <strong className={text({ class: "font-bold" })}>{data.title}</strong>
