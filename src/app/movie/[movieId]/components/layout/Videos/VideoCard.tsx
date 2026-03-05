@@ -33,15 +33,15 @@ export default function VideoCard({
   const setItemRef = useAutoScrollRef(data.id, isSelected, isScrollActive);
 
   return (
-    <li {...props} ref={setItemRef} id={data.id} className={clsx(li())}>
-      <button className={clsx(contentBox())}>
+    <li {...props} ref={setItemRef} id={data.id} className={li()}>
+      <button className={contentBox()}>
         <img
           src={`https://i.ytimg.com/vi/${data.key}/hqdefault.jpg`}
           className={img()}
           alt={data.name}
         />
-        <div className={textBox({ class: "max-lg:border-white-minimal" })}>
-          <p className={clsx(text())}>{data.name}</p>
+        <div className={clsx(textBox(), "max-lg:border-white-minimal")}>
+          <p className={text()}>{data.name}</p>
         </div>
       </button>
     </li>
