@@ -52,7 +52,7 @@ export default function Container<T extends ElementType = "div">({
   surface,
   ...props
 }: ContainerProps<T>) {
-  const Component = as || "div";
+  const Component = as ?? "div";
 
   const { base, container } = containerStyles({
     model,

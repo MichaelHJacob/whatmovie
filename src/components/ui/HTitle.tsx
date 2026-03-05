@@ -30,7 +30,7 @@ export default function HTitle<T extends ElementType>({
     return (
       <Element
         className={clsx(
-          "blockContainer-px min-h-11 w-full py-2 xs:py-[1rem] lg:py-6",
+          "blockContainer-px min-h-11 w-full py-2 xs:py-4 lg:py-6",
           containerStyles,
         )}
       >
