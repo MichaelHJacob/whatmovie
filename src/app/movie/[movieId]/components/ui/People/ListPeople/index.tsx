@@ -1,6 +1,17 @@
 import ImageProfile from "@/app/movie/[movieId]/components/ui/People/ListPeople/ImageProfile";
 import ImageProfileUnavailable from "@/components/skeleton/ImageProfileUnavailable";
 import { CreditsType } from "@/lib/validation/creditsSchema";
+import { tv } from "tailwind-variants";
+
+const listPeopleStyles = tv({
+  slots: {
+    ul: "listSpacing no-scrollbar list-none rounded-2xl lg:auto-cols-[calc((100%-20*var(--gapLG))/21)]",
+    li: "gridColSpanPeople",
+    textContainer: "mt-2 h-fit w-full text-center",
+    label: "label line-clamp-2",
+    data: "data line-clamp-2",
+  },
+});
 
 type ListPeopleProps = { id: string } & Pick<CreditsType, "cast" | "crew">;
 
@@ -9,23 +20,22 @@ export default function ListPeople({
   crew,
   id,
 }: Readonly<ListPeopleProps>) {
+  const { ul, li, textContainer, label, data } = listPeopleStyles();
+
   return (
-    <ul
-      id={id}
-      className="listSpacing no-scrollbar list-none rounded-2xl lg:auto-cols-[calc((100%-20*var(--gapLG))/21)]"
-    >
+    <ul id={id} className={ul()}>
       {cast.length >= 1 &&
         cast.map((value, index) => (
-          <li id={id + String(index)} key={index} className="gridColSpanPeople">
+          <li id={id + String(index)} key={value.cast_id} className={li()}>
             {typeof value.profile_path == "string" ? (
               <ImageProfile path={value.profile_path} alt={value.name} />
             ) : (
               <ImageProfileUnavailable alt={value.name} />
             )}
 
-            <div className="mt-2 h-fit w-full text-center">
-              <p className="label line-clamp-2">{value.name}</p>
-              <p className="data line-clamp-2">{value.character}</p>
+            <div className={textContainer()}>
+              <p className={label()}>{value.name}</p>
+              <p className={data()}>{value.character}</p>
             </div>
           </li>
         ))}
@@ -34,17 +44,17 @@ export default function ListPeople({
         crew.map((value, index) => (
           <li
             id={id + String(index + cast.length)}
-            key={index}
-            className="gridColSpanPeople"
+            key={value.credit_id}
+            className={li()}
           >
             {typeof value.profile_path == "string" ? (
               <ImageProfile path={value.profile_path} alt={value.name} />
             ) : (
               <ImageProfileUnavailable alt={value.name} />
             )}
-            <div className="mt-2 h-fit w-full text-center">
-              <p className="label line-clamp-2">{value.name}</p>
-              <p className="data line-clamp-2">{value.job}</p>
+            <div className={textContainer()}>
+              <p className={label()}>{value.name}</p>
+              <p className={data()}>{value.job}</p>
             </div>
           </li>
         ))}
