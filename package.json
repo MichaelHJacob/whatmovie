@@ -11,6 +11,12 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "browserslist": [
+    ">= 0.2%",
+    "last 3 versions",
+    "not dead",
+    "maintained node versions"
+  ],
   "dependencies": {
     "@plaiceholder/next": "^3.0.0",
     "@plaiceholder/tailwindcss": "^3.0.0",
