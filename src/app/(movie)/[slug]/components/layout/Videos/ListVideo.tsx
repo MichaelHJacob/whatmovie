@@ -2,7 +2,7 @@
 
 import { KeyboardEvent, useMemo, useState } from "react";
 
-import VideoCard from "@/app/movie/[movieId]/components/layout/Videos/VideoCard";
+import VideoCard from "@/app/(movie)/[slug]/components/layout/Videos/VideoCard";
 import DynamicGridListContainer from "@/components/ui/DynamicGridListContainer";
 import { useKeyboardNavigation } from "@/hooks/useKeyboardNavigation";
 import { ObjVideoType } from "@/lib/validation/videosSchema";
