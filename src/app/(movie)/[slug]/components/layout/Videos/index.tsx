@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 
-import ListVideo from "@/app/movie/[movieId]/components/layout/Videos/ListVideo";
-import VideoDisplay from "@/app/movie/[movieId]/components/layout/Videos/VideoDisplay";
+import ListVideo from "@/app/(movie)/[slug]/components/layout/Videos/ListVideo";
+import VideoDisplay from "@/app/(movie)/[slug]/components/layout/Videos/VideoDisplay";
 import Container from "@/components/layout/Container";
 import BreakHr from "@/components/ui/BreakHr";
 import FoggyEdge from "@/components/ui/FoggyEdge";

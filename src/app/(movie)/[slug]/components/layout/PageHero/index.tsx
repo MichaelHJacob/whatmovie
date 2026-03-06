@@ -1,4 +1,4 @@
-import Stream from "@/app/movie/[movieId]/components/layout/PageHero/Stream";
+import Stream from "@/app/(movie)/[slug]/components/layout/PageHero/Stream";
 import Container from "@/components/layout/Container";
 import HTitle from "@/components/ui/HTitle";
 import { POSTER } from "@/config/imageConfig";

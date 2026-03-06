@@ -126,7 +126,7 @@ export default function Search() {
   }
 
   function toRoute(id: string) {
-    router.push(`/movie/${id}`);
+    router.push(`/${id}`);
   }
 
   const { handleKeyDown } = useKeyboardNavigation({

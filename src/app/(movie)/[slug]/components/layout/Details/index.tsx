@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 
-import CardInformation from "@/app/movie/[movieId]/components/layout/Details/CardInformation";
-import Translations from "@/app/movie/[movieId]/components/layout/Details/Translations";
+import CardInformation from "@/app/(movie)/[slug]/components/layout/Details/CardInformation";
+import Translations from "@/app/(movie)/[slug]/components/layout/Details/Translations";
 import Container from "@/components/layout/Container";
 import HTitle from "@/components/ui/HTitle";
 import { formatTimeToShortText } from "@/lib/utils/formatTimeToShortText";
