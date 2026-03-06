@@ -53,7 +53,7 @@ const ShortCard = memo(function ShortCard({
       className={li()}
     >
       <Link
-        href={`/movie/${data.id}`}
+        href={`/${data.id}`}
         className={clsx(link(), contentBox())}
         prefetch={cache}
         onClick={() => {

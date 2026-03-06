@@ -1,4 +1,4 @@
-import CardInformation from "@/app/movie/[movieId]/components/layout/Details/CardInformation";
+import CardInformation from "@/app/(movie)/[slug]/components/layout/Details/CardInformation";
 import { getMovieTranslations } from "@/lib/api/tmdb/use-cases/getMovieTranslations";
 import { tv } from "tailwind-variants";
 
