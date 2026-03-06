@@ -2,6 +2,15 @@
 import withPlaiceholder from "@plaiceholder/next";
 
 const nextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/movie/:slug",
+        destination: "/:slug",
+        permanent: true,
+      },
+    ];
+  },
   webpack(config) {
     const fileLoaderRule = config.module.rules.find((rule) =>
       rule.test?.test?.(".svg"),
