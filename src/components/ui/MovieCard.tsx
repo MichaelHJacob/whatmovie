@@ -8,7 +8,7 @@ type MovieCardProps = { data: DiscoverMovieType };
 export default function MovieCard({ data }: Readonly<MovieCardProps>) {
   return (
     <Link
-      href={`/movie/${data.id}`}
+      href={`/${data.id}`}
       className="relative block after:absolute after:inset-0 after:block after:rounded-xl after:shadow-card max-xs:after:shadow-card-subtle"
     >
       {typeof data.poster_path == "string" ? (

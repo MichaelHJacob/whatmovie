@@ -51,7 +51,7 @@ export default function ContentSlider({
   return (
     <Link
       {...props}
-      href={`/movie/${data.id}`}
+      href={`/${data.id}`}
       className={clsx(link(), props.className)}
     >
       <figure className={figure()}>

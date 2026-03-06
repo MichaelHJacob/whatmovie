@@ -38,6 +38,8 @@ export default function VideoCard({
         <img
           src={`https://i.ytimg.com/vi/${data.key}/hqdefault.jpg`}
           className={img()}
+          fetchPriority="low"
+          loading="lazy"
           alt={data.name}
         />
         <div className={clsx(textBox(), "max-lg:border-white-minimal")}>

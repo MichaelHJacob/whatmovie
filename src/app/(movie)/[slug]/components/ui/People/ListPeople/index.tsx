@@ -1,4 +1,4 @@
-import ImageProfile from "@/app/movie/[movieId]/components/ui/People/ListPeople/ImageProfile";
+import ImageProfile from "@/app/(movie)/[slug]/components/ui/People/ListPeople/ImageProfile";
 import ImageProfileUnavailable from "@/components/skeleton/ImageProfileUnavailable";
 import { CreditsType } from "@/lib/validation/creditsSchema";
 import { tv } from "tailwind-variants";

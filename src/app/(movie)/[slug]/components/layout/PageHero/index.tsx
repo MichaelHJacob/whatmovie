@@ -1,4 +1,4 @@
-import Stream from "@/app/movie/[movieId]/components/layout/PageHero/Stream";
+import Stream from "@/app/(movie)/[slug]/components/layout/PageHero/Stream";
 import Container from "@/components/layout/Container";
 import HTitle from "@/components/ui/HTitle";
 import { POSTER } from "@/config/imageConfig";
@@ -57,6 +57,8 @@ export default async function PageHero({ data }: Readonly<PageHeroProps>) {
             sizes="(max-width: 768px) 100vw, (min-width: 768px) 500px, 780px"
             src={POSTER.original + data.poster_path}
             alt={data.original_title}
+            fetchPriority="high"
+            loading="eager"
             className={clsx(
               img(),
               "aspect-[2/3_auto] animate-fade animate-ease-out",

@@ -39,6 +39,8 @@ export default function Stream({
               className={img()}
               srcSet={`${LOGO.w92}${value.logo_path} 1x, ${LOGO.w154}${value.logo_path} 2x`}
               src={LOGO.w154 + value.logo_path}
+              loading="eager"
+              fetchPriority="auto"
               alt={`logo ${value.provider_name}`}
             />
             <p className={clsx(text, arr.length > 2 && "max-xs:hidden")}>

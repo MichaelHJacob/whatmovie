@@ -1,4 +1,4 @@
-import ListPeople from "@/app/movie/[movieId]/components/ui/People/ListPeople";
+import ListPeople from "@/app/(movie)/[slug]/components/ui/People/ListPeople";
 import Container from "@/components/layout/Container";
 import ListScrollController from "@/components/layout/ListScrollController";
 import BreakHr from "@/components/ui/BreakHr";

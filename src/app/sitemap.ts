@@ -9,7 +9,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const movies = data?.results?.map((movie) => movie.id) || [];
 
   const moviesUrls = movies.map((movie) => ({
-    url: `https://whatmovie.com.br/movie/${movie}`,
+    url: `https://whatmovie.com.br/${movie}`,
     priority: 1,
   }));
 

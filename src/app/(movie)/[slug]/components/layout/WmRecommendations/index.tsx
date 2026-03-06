@@ -1,4 +1,4 @@
-import { compareMovies } from "@/app/movie/[movieId]/components/layout/WmRecommendations/compareMovies";
+import { compareMovies } from "@/app/(movie)/[slug]/components/layout/WmRecommendations/compareMovies";
 import Container from "@/components/layout/Container";
 import ListScrollController from "@/components/layout/ListScrollController/index";
 import HTitle from "@/components/ui/HTitle";
