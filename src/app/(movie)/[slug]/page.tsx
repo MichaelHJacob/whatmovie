@@ -12,14 +12,18 @@ import SkeletonListMovie from "@/components/skeleton/SkeletonListMovie";
 import { POSTER } from "@/config/imageConfig";
 import { getMovieDetails } from "@/lib/api/tmdb/use-cases/getMovieDetails";
 import { getPopular } from "@/lib/api/tmdb/use-cases/getPopular";
+import { formatToIdSlug } from "@/lib/utils/formatToIdSlug";
 import { NotFoundError } from "@/lib/validation/extendExpectedError";
 
 type MovieProps = { params: { slug: string } };
 
 export async function generateStaticParams() {
   const [movies] = await getPopular();
-
-  return movies?.results.map((data) => ({ slug: data.id })) || [];
+  return (
+    movies?.results.map((data) => ({
+      slug: formatToIdSlug(data.id, data.title),
+    })) || []
+  );
 }
 
 export async function generateMetadata({
