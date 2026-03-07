@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { POSTER } from "@/config/imageConfig";
+import { formatToIdSlug } from "@/lib/utils/formatToIdSlug";
 import { DiscoverMovieType } from "@/lib/validation/discoverMovieSchema";
 
 type MovieCardProps = { data: DiscoverMovieType };
@@ -8,7 +9,7 @@ type MovieCardProps = { data: DiscoverMovieType };
 export default function MovieCard({ data }: Readonly<MovieCardProps>) {
   return (
     <Link
-      href={`/movie/${data.id}`}
+      href={`/${formatToIdSlug(data.id, data.title)}`}
       className="relative block after:absolute after:inset-0 after:block after:rounded-xl after:shadow-card max-xs:after:shadow-card-subtle"
     >
       {typeof data.poster_path == "string" ? (

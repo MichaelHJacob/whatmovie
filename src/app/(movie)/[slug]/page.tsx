@@ -3,29 +3,34 @@ import { Suspense } from "react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import Details from "@/app/movie/[movieId]/components/layout/Details";
-import PageHero from "@/app/movie/[movieId]/components/layout/PageHero";
-import Videos from "@/app/movie/[movieId]/components/layout/Videos";
-import Recommendations from "@/app/movie/[movieId]/components/layout/WmRecommendations";
-import People from "@/app/movie/[movieId]/components/ui/People";
+import Details from "@/app/(movie)/[slug]/components/layout/Details";
+import PageHero from "@/app/(movie)/[slug]/components/layout/PageHero";
+import Videos from "@/app/(movie)/[slug]/components/layout/Videos";
+import Recommendations from "@/app/(movie)/[slug]/components/layout/WmRecommendations";
+import People from "@/app/(movie)/[slug]/components/ui/People";
 import SkeletonListMovie from "@/components/skeleton/SkeletonListMovie";
 import { POSTER } from "@/config/imageConfig";
 import { getMovieDetails } from "@/lib/api/tmdb/use-cases/getMovieDetails";
 import { getPopular } from "@/lib/api/tmdb/use-cases/getPopular";
+import { formatToIdSlug } from "@/lib/utils/formatToIdSlug";
 import { NotFoundError } from "@/lib/validation/extendExpectedError";
 
-type MovieProps = { params: { movieId: string } };
+type MovieProps = { params: { slug: string } };
 
 export async function generateStaticParams() {
   const [movies] = await getPopular();
-
-  return movies?.results.map((data) => ({ movieId: data.id })) || [];
+  return (
+    movies?.results.map((data) => ({
+      slug: formatToIdSlug(data.id, data.title),
+    })) || []
+  );
 }
 
 export async function generateMetadata({
   params,
 }: Readonly<MovieProps>): Promise<Metadata> {
-  const [data] = await getMovieDetails({ id: params.movieId });
+  const dataID = params.slug.split("-").at(0);
+  const [data] = dataID ? await getMovieDetails({ id: dataID }) : [null];
 
   if (!data)
     return {
@@ -60,9 +65,10 @@ export async function generateMetadata({
 }
 
 export default async function Movie({ params }: Readonly<MovieProps>) {
-  const [data, error] = await getMovieDetails({ id: params.movieId });
+  const dataID = params.slug.split("-").at(0) || "";
+  const [data, error] = await getMovieDetails({ id: dataID });
 
-  if (error || data === null) {
+  if (error || !data) {
     if (error instanceof NotFoundError) {
       notFound();
     } else {
@@ -75,13 +81,13 @@ export default async function Movie({ params }: Readonly<MovieProps>) {
       <article>
         <PageHero data={data} />
         {data.videos?.results && <Videos videosArray={data.videos.results} />}
-        <Details data={data} movieId={params.movieId} />
+        <Details data={data} movieId={dataID} />
         {data.credits && (
           <People cast={data.credits.cast} crew={data.credits.crew} />
         )}
       </article>
       <Suspense fallback={<SkeletonListMovie />}>
-        <Recommendations movieID={params.movieId} genres={data.genres} />
+        <Recommendations movieID={dataID} genres={data.genres} />
       </Suspense>
     </main>
   );

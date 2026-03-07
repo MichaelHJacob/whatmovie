@@ -3,6 +3,7 @@ import { ComponentProps } from "react";
 import Link from "next/link";
 
 import { BACKDROP } from "@/config/imageConfig";
+import { formatToIdSlug } from "@/lib/utils/formatToIdSlug";
 import { DiscoverSchemaType } from "@/lib/validation/discoverSchema";
 import { selectOption } from "@/types/globalTypes";
 import clsx from "clsx";
@@ -51,7 +52,7 @@ export default function ContentSlider({
   return (
     <Link
       {...props}
-      href={`/movie/${data.id}`}
+      href={`/${formatToIdSlug(data.id, data.title)}`}
       className={clsx(link(), props.className)}
     >
       <figure className={figure()}>
