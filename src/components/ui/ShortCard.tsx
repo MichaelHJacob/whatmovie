@@ -6,6 +6,7 @@ import { navbarBase } from "@/components/layout/NavBar/navbar.styles";
 import { POSTER } from "@/config/imageConfig";
 import { useAutoScrollRef } from "@/hooks/useAutoScrollRef";
 import { formatGenres } from "@/lib/utils/formatGenres";
+import { formatToIdSlug } from "@/lib/utils/formatToIdSlug";
 import { formatToLocaleDate } from "@/lib/utils/formatToLocaleDate";
 import { DiscoverSchemaType } from "@/lib/validation/discoverSchema";
 import { selectionItemBase } from "@/styles/selection.styles";
@@ -40,9 +41,6 @@ const ShortCard = memo(function ShortCard({
 }: Readonly<ShortCardProps>) {
   const { li, link, contentBox, img, textBox, text } = shortCardStyles();
   const setItemRef = useAutoScrollRef(data.id, selected);
-  if (selected) {
-    console.log("data: ", data, "cache", cache, "selected", selected);
-  }
 
   return (
     <li
@@ -53,7 +51,7 @@ const ShortCard = memo(function ShortCard({
       className={li()}
     >
       <Link
-        href={`/${data.id}`}
+        href={`/${formatToIdSlug(data.id, data.title)}`}
         className={clsx(link(), contentBox())}
         prefetch={cache}
         onClick={() => {
