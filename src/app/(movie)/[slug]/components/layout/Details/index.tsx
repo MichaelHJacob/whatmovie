@@ -30,7 +30,12 @@ export default async function Details({
                 <dd className="data mb-2"> {data.original_title}</dd>
               </>
             )}
-
+            {data.tagline && (
+              <>
+                <dt className="label">Tagline:</dt>
+                <dd className="data mb-2">{data.tagline}</dd>
+              </>
+            )}
             {data.release_date && (
               <>
                 <dt className="label">Data de lançamento:</dt>
