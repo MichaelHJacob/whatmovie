@@ -1,8 +1,5 @@
-import { listGenres } from "@/data/movieMetadata";
+import { getGenresByIds } from "@/lib/utils/getGenresByIds";
 
 export function formatGenres(genres: number[]) {
-  const result = genres.map((value) =>
-    listGenres.genres.find((element) => element.id == value),
-  );
-  return result.map((term) => term?.name).join(", ");
+  return getGenresByIds(genres).join(", ");
 }
