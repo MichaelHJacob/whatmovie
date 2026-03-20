@@ -1,12 +1,15 @@
 import Image from "next/image";
 
 import NowStreaming from "@/app/(home)/components/NowStreaming";
+import StructuredData from "@/components/StructuredData";
 import Container from "@/components/layout/Container";
 import ListScrollController from "@/components/layout/ListScrollController";
 import HTitle from "@/components/ui/HTitle";
 import ListMovie from "@/components/ui/ListMovie";
 import { getNowPlaying } from "@/lib/api/tmdb/use-cases/getNowPlaying";
 import { getPopular } from "@/lib/api/tmdb/use-cases/getPopular";
+import { homeJsonLd } from "@/lib/structured-data/homeJsonLd";
+import { itemListJsonLd } from "@/lib/structured-data/itemListJsonLd";
 import clsx from "clsx";
 import { tv } from "tailwind-variants";
 
@@ -34,60 +37,73 @@ export default async function Home() {
     homeStyle();
 
   return (
-    <main>
-      <Container as="header" model="initial" paddingTop innerStyles={inner()}>
-        <div className={containerImage()}>
-          <Image
-            className={clsx(image(), "hidden dark:block")}
-            src={LogoWmExtended_Dark}
-            alt="What Movie Logo"
-            quality={100}
-            sizes={size()}
-            priority
-          />
-          <Image
-            className={clsx(image(), "block dark:hidden")}
-            src={LogoWmExtended_Light}
-            alt="What Movie Logo"
-            quality={100}
-            sizes={size()}
-            priority
-          />
-        </div>
-        <div className={containerText()}>
-          <p className={text()}>
-            Descubra onde assistir aos filmes mais populares e lançamentos do
-            cinema. Explore listas atualizadas diariamente, veja trailers
-            dublados e use filtros avançados para encontrar sua próxima escolha
-            certa.
-          </p>
-        </div>
-      </Container>
-      {popular?.results && (
-        <Container as="section" surface="listBase">
-          <HTitle>Mais acessados</HTitle>
-          <ListScrollController
-            id={"popular"}
-            length={popular.results.length}
-            surface
-          >
-            <ListMovie data={popular?.results} id={"popular"} />
-          </ListScrollController>
+    <>
+      <StructuredData data={homeJsonLd()} />
+      <main>
+        <Container as="header" model="initial" paddingTop innerStyles={inner()}>
+          <div className={containerImage()}>
+            <Image
+              className={clsx(image(), "hidden dark:block")}
+              src={LogoWmExtended_Dark}
+              alt="What Movie Logo"
+              quality={100}
+              sizes={size()}
+              priority
+            />
+            <Image
+              className={clsx(image(), "block dark:hidden")}
+              src={LogoWmExtended_Light}
+              alt="What Movie Logo"
+              quality={100}
+              sizes={size()}
+              priority
+            />
+          </div>
+          <div className={containerText()}>
+            <p className={text()}>
+              Descubra onde assistir aos filmes mais populares e lançamentos do
+              cinema. Explore listas atualizadas diariamente, veja trailers
+              dublados e use filtros avançados para encontrar sua próxima
+              escolha certa.
+            </p>
+          </div>
         </Container>
-      )}
-      <NowStreaming />
-      {inTheatres && (
-        <Container as="section" surface="listBase">
-          <HTitle>Principais títulos nos Cinemas</HTitle>
-          <ListScrollController
-            id={"lancamentos"}
-            length={inTheatres.results.length}
-            surface
-          >
-            <ListMovie data={inTheatres?.results} id={"lancamentos"} />
-          </ListScrollController>
-        </Container>
-      )}
-    </main>
+        {popular?.results && (
+          <Container as="section" surface="listBase">
+            <HTitle>Mais acessados</HTitle>
+            <StructuredData
+              data={itemListJsonLd(popular, "popular", "Mais acessados")}
+            />
+            <ListScrollController
+              id={"popular"}
+              length={popular.results.length}
+              surface
+            >
+              <ListMovie data={popular?.results} id={"popular"} />
+            </ListScrollController>
+          </Container>
+        )}
+        <NowStreaming />
+        {inTheatres && (
+          <Container as="section" surface="listBase">
+            <HTitle>Principais títulos nos Cinemas</HTitle>
+            <StructuredData
+              data={itemListJsonLd(
+                inTheatres,
+                "theatres",
+                "Principais títulos nos Cinemas",
+              )}
+            />
+            <ListScrollController
+              id={"lancamentos"}
+              length={inTheatres.results.length}
+              surface
+            >
+              <ListMovie data={inTheatres?.results} id={"lancamentos"} />
+            </ListScrollController>
+          </Container>
+        )}
+      </main>
+    </>
   );
 }
