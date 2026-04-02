@@ -1,10 +1,15 @@
 "use client";
 
-import { MutableRefObject, ReactNode, RefObject, useMemo } from "react";
+import { ReactNode, useRef } from "react";
 
 import AutoScroller from "@/components/layout/ListController/AutoScroller";
 import IndicatorDots from "@/components/layout/ListController/IndicatorDots";
+import { ListControllerProvider } from "@/components/layout/ListController/ListControllerContext";
+import { FoggyEdgeVariants } from "@/components/ui/FoggyEdge";
 import SideButton from "@/components/ui/SideButton";
+import { useListItemObserver } from "@/hooks/useListItemObserver";
+import { useLockScrollOnResize } from "@/hooks/useLockScrollOnResize";
+import { useSelectorByAttribute } from "@/hooks/useSelectorByAttribute";
 import {
   getNextOption,
   getPreviousOption,
@@ -15,78 +20,92 @@ import { selectOption } from "@/types/globalTypes";
 
 type ListControllerProps = {
   children: ReactNode;
-  containerRef: RefObject<HTMLUListElement>;
-  optionRefs: MutableRefObject<Map<
-    string,
-    { el: Element; index: number }
-  > | null>;
-  data: DiscoverSchemaType["results"];
-  selected: NonNullable<selectOption>[];
-  model: "cards" | "banner";
+  data?: DiscoverSchemaType["results"];
+  model: "cards" | "banner" | "list";
+  options: NonNullable<selectOption>[];
+  ids: string[];
+  surfaceColor?: FoggyEdgeVariants["surfaceColor"];
 };
 
 export default function ListController({
   children,
-  containerRef,
-  optionRefs,
   data,
-  selected,
-  model = "banner",
+  model,
+  options,
+  ids,
+  surfaceColor,
 }: Readonly<ListControllerProps>) {
-  const movieOptions: NonNullable<selectOption>[] = useMemo(() => {
-    return data.map((value, index) => {
-      return { id: value.id, index: index };
-    });
-  }, [data]);
+  const rootRef = useRef<HTMLDivElement>(null);
 
-  const ids = useMemo(() => {
-    return movieOptions.map((value) => value.id);
-  }, [movieOptions]);
+  const { containerRef, getMap } = useSelectorByAttribute(rootRef);
+
+  useLockScrollOnResize(containerRef);
+
+  const visibleIDs = useListItemObserver({
+    margin: "0px -16px 0px -16px",
+    optionIDs: ids,
+    containerRef,
+    optionMap: getMap(),
+    threshold: model === "cards" || model === "banner" ? 0.1 : 0.9,
+  });
 
   function handleToLeft() {
-    const back = getPreviousOption(ids, selected[0].index);
-    if (back && optionRefs.current) {
-      const { el } = optionRefs.current.get(back.id) ?? {};
-      if (el) optionIntoView(el);
-    }
+    const currentIndex = visibleIDs.at(0)?.index;
+    if (!currentIndex) return;
+    const back = getPreviousOption({
+      optionIDs: ids,
+      currentIndex,
+      steps: visibleIDs.length,
+    });
+    if (!back) return;
+
+    const el = getMap().get(back.id);
+    if (el) optionIntoView(el);
   }
 
   function handleToRight() {
-    const next = getNextOption(ids, selected[0].index);
-    if (next) {
-      const { el } = optionRefs.current?.get(next.id) ?? {};
-      if (el) optionIntoView(el);
-    }
+    const next = getNextOption({
+      optionIDs: ids,
+      currentIndex: visibleIDs.at(-1)?.index ?? visibleIDs.length - 1,
+      steps: visibleIDs.length,
+    });
+    if (!next) return;
+
+    const el = getMap().get(next.id);
+    if (el) optionIntoView(el);
   }
 
   return (
-    <div className="group relative h-auto w-auto">
-      {children}
-      <SideButton
-        hiddenLeft={selected.some((s) => s.index === 0)}
-        hiddenRight={selected.some((s) => s.id === ids[ids.length - 1])}
-        onLeft={handleToLeft}
-        onRight={handleToRight}
-        noBackdrop={model === "banner"}
-        surfaceColor={model === "cards" ? "body" : undefined}
-        model={model}
-      />
-      <div className="all-gap blockContainer-px absolute bottom-0 z-10 grid h-[--pMD] w-full grid-cols-3 grid-rows-1 items-center lg:h-[--pLG]">
-        <IndicatorDots
-          optionRefs={optionRefs}
-          allOptions={movieOptions}
-          selected={selected}
-          data={data}
-          model={model}
+    <div ref={rootRef} className="group relative h-auto w-auto">
+      <ListControllerProvider value={{ selected: visibleIDs }}>
+        {children}
+        <SideButton
+          hiddenLeft={visibleIDs.some((s) => s.index === 0)}
+          onLeft={handleToLeft}
+          onRight={handleToRight}
+          noBackdrop={model === "banner"}
+          surfaceColor={surfaceColor}
+          model={model === "list" ? "cards" : model}
         />
-        <AutoScroller
-          optionRefs={optionRefs}
-          allOptions={movieOptions}
-          selected={selected}
-          containerRef={containerRef}
-          model={model}
-        />
-      </div>
+        {(model === "cards" || model === "banner") && data && (
+          <div className="all-gap blockContainer-px absolute bottom-0 z-10 grid h-[--pMD] w-full grid-cols-3 grid-rows-1 items-center lg:h-[--pLG]">
+            <IndicatorDots
+              optionMap={getMap()}
+              allOptions={options}
+              selected={visibleIDs}
+              data={data}
+              model={model}
+            />
+            <AutoScroller
+              optionMap={getMap()}
+              allOptions={options}
+              selected={visibleIDs.slice(0, 1)}
+              containerRef={containerRef}
+              model={model}
+            />
+          </div>
+        )}
+      </ListControllerProvider>
     </div>
   );
 }

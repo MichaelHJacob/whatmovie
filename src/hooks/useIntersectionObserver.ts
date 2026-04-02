@@ -23,8 +23,8 @@ export function useIntersectionObserver({
       (entries) => {
         if (entries[0].isIntersecting) {
           onIntersect();
-        } else {
-          if (outIntersect) outIntersect();
+        } else if (outIntersect) {
+          outIntersect();
         }
       },
       { threshold },

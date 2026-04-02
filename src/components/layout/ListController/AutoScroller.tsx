@@ -1,5 +1,4 @@
 import {
-  MutableRefObject,
   RefObject,
   useCallback,
   useEffect,
@@ -47,17 +46,14 @@ const autoScrollStyles = tv({
 type AutoScrollerVariants = VariantProps<typeof autoScrollStyles>;
 
 type AutoScrollerProps = AutoScrollerVariants & {
-  optionRefs: MutableRefObject<Map<
-    string,
-    { el: Element; index: number }
-  > | null>;
+  optionMap: Map<string, HTMLElement>;
   containerRef: RefObject<HTMLUListElement>;
   allOptions: NonNullable<selectOption>[];
   selected: NonNullable<selectOption>[];
 };
 
 export default function AutoScroller({
-  optionRefs,
+  optionMap,
   containerRef,
   allOptions,
   selected,
@@ -78,10 +74,13 @@ export default function AutoScroller({
       setCount((c) => c + 1);
       if (count >= 3) {
         setCount(0);
-        const next = getNextOption(ids, selected[0].index);
+        const next = getNextOption({
+          optionIDs: ids,
+          currentIndex: selected.at(0)?.index ?? 0,
+        });
         if (next) {
-          const { el } = optionRefs.current?.get(next.id) ?? {};
-          if (el) optionIntoView(el);
+          const element = optionMap.get(next.id);
+          if (element) optionIntoView(element);
         }
       }
     }
@@ -90,7 +89,7 @@ export default function AutoScroller({
       interval.current = setInterval(step, 1000);
     }
     return () => clearInterval(interval.current);
-  }, [auto, count, ids, optionRefs, selected]);
+  }, [auto, count, ids, optionMap, selected]);
 
   const onAutoScroll = useCallback(() => {
     setAuto(true);
