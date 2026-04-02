@@ -1,8 +1,7 @@
 import ErrorPage from "@/components/error/ErrorPage";
 import Container from "@/components/layout/Container";
-import ListScrollController from "@/components/layout/ListScrollController";
+import MovieList from "@/components/layout/MovieList";
 import HTitle from "@/components/ui/HTitle";
-import ListMovie from "@/components/ui/ListMovie";
 import { getPopular } from "@/lib/api/tmdb/use-cases/getPopular";
 
 export default async function NotFound() {
@@ -21,13 +20,11 @@ export default async function NotFound() {
         {data?.results && (
           <Container as="aside" className="relative">
             <HTitle>Filmes mais acessados</HTitle>
-            <ListScrollController
-              id={"popular"}
-              length={data.results.length}
-              surface
-            >
-              <ListMovie data={data?.results} id={"popular"} />
-            </ListScrollController>
+            <MovieList
+              data={data.results}
+              model="list"
+              surfaceColor="listBase"
+            />
           </Container>
         )}
       </section>

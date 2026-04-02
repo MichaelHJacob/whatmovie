@@ -73,9 +73,7 @@ export default function Search() {
 
   const movieIDs: string[] | null = useMemo(() => {
     if (!data) return null;
-    return data.pages
-      .map((page) => page.results.map((value) => value.id))
-      .flat();
+    return data.pages.flatMap((page) => page.results.map((value) => value.id));
   }, [data]);
 
   function toggleExpand() {
@@ -171,11 +169,7 @@ export default function Search() {
               ref={input}
               onKeyDown={(event) => {
                 handleKeyDown(event);
-                if (
-                  selected &&
-                  movieIDs &&
-                  selected.index + 1 === movieIDs.length
-                ) {
+                if (selected && selected.index + 1 === movieIDs?.length) {
                   if (hasNextPage) setAutoSelect(true);
                 }
               }}
