@@ -1,12 +1,4 @@
-import {
-  MutableRefObject,
-  RefObject,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import PauseToIcon from "@/assets/icons/pauseIcon.svg";
 import PlayToIcon from "@/assets/icons/playIcon.svg";
@@ -19,9 +11,9 @@ import { VariantProps, tv } from "tailwind-variants";
 const autoScrollStyles = tv({
   slots: {
     container:
-      "group relative box-content h-8 w-8 cursor-pointer justify-self-end overflow-hidden rounded-3xl shadow-black/20 transition-all duration-500 lg:hover:shadow-sm lg:hover:backdrop-blur-md lg:hover:backdrop-saturate-200",
+      "group relative box-content justify-self-end overflow-hidden rounded-3xl shadow-black/20 transition-all duration-500 lg:hover:shadow-sm lg:hover:backdrop-blur-md lg:hover:backdrop-saturate-200",
     numbers:
-      "relative box-content block h-8 w-8 rounded-md transition-all duration-500 before:absolute before:right-1/2 before:top-1/2 before:block before:h-4 before:w-4 before:-translate-y-1/2 before:translate-x-1/2 before:rounded-md before:content-[''] group-hover:animate-none group-hover:opacity-0",
+      "relative box-content block h-8 w-8 rounded-md transition-all duration-500 before:absolute before:right-1/2 before:top-1/2 before:block before:h-4 before:w-4 before:-translate-y-1/2 before:translate-x-1/2 before:rounded-md before:content-[''] group-hover:animate-none",
     icon: "box-content h-3 w-3 stroke-none p-[0.625rem] transition-all duration-500",
     textNumber:
       "box-content block w-3 px-[0.625rem] text-center font-sans text-sm font-bold leading-8",
@@ -47,19 +39,16 @@ const autoScrollStyles = tv({
 type AutoScrollerVariants = VariantProps<typeof autoScrollStyles>;
 
 type AutoScrollerProps = AutoScrollerVariants & {
-  optionRefs: MutableRefObject<Map<
-    string,
-    { el: Element; index: number }
-  > | null>;
-  containerRef: RefObject<HTMLUListElement>;
-  allOptions: NonNullable<selectOption>[];
-  selected: NonNullable<selectOption>[];
+  optionMap: Map<string, HTMLElement>;
+  containerNode: HTMLElement | null;
+  optionsIDs: string[];
+  selected: selectOption;
 };
 
 export default function AutoScroller({
-  optionRefs,
-  containerRef,
-  allOptions,
+  optionMap,
+  containerNode,
+  optionsIDs,
   selected,
   model = "banner",
 }: Readonly<AutoScrollerProps>) {
@@ -67,60 +56,66 @@ export default function AutoScroller({
 
   const [count, setCount] = useState(0);
   const [auto, setAuto] = useState(false);
-  const currentOptionID = useRef<string | null>(null);
+  const isAutoScrolling = useRef<boolean>(true);
   const interval = useRef<NodeJS.Timeout>();
-  const ids = useMemo(() => {
-    return allOptions.map((value) => value.id);
-  }, [allOptions]);
-
-  useEffect(() => {
-    function step() {
-      setCount((c) => c + 1);
-      if (count >= 3) {
-        setCount(0);
-        const next = getNextOption(ids, selected[0].index);
-        if (next) {
-          const { el } = optionRefs.current?.get(next.id) ?? {};
-          if (el) optionIntoView(el);
-        }
-      }
-    }
-
-    if (auto) {
-      interval.current = setInterval(step, 1000);
-    }
-    return () => clearInterval(interval.current);
-  }, [auto, count, ids, optionRefs, selected]);
 
   const onAutoScroll = useCallback(() => {
     setAuto(true);
   }, []);
+
   const outAutoScroll = useCallback(() => {
-    clearInterval(interval.current);
     setCount(0);
+    clearInterval(interval.current);
     setAuto(false);
   }, []);
 
   useIntersectionObserver({
-    targetRef: containerRef,
+    targetNode: containerNode,
     onIntersect: onAutoScroll,
     outIntersect: outAutoScroll,
     threshold: 0.9,
   });
 
-  if (count === 0 && selected.at(0)) {
-    currentOptionID.current = selected[0].id;
-  }
+  useEffect(() => {
+    const first = selected;
 
-  if (selected.at(0) && currentOptionID.current !== selected[0].id) {
-    clearInterval(interval.current);
-    setCount(0);
-    setAuto(false);
-  }
+    function step() {
+      if (!first) return;
+      setCount((c) => c + 1);
+
+      if (count >= 3) {
+        setCount(0);
+        const next = getNextOption({
+          optionIDs: optionsIDs,
+          currentIndex: first.index,
+        });
+        if (next) {
+          const element = optionMap.get(next.id);
+          isAutoScrolling.current = true;
+          if (element) optionIntoView(element);
+        } else {
+          outAutoScroll();
+        }
+      }
+    }
+
+    if (auto) interval.current = setInterval(step, 1000);
+
+    return () => clearInterval(interval.current);
+  }, [auto, count, optionsIDs, optionMap, selected, outAutoScroll]);
+
+  useEffect(() => {
+    if (!selected) return;
+    if (isAutoScrolling.current) {
+      isAutoScrolling.current = false;
+    } else {
+      outAutoScroll();
+    }
+  }, [outAutoScroll, selected]);
 
   return (
-    <div className={container()}>
-      <div className={clsx("flex w-auto flex-nowrap")}>
+    <div className={clsx(container(), auto ? "h-8 w-16" : "h-8 w-8")}>
+      <div className="absolute right-0 flex w-16 flex-nowrap">
         <div
           className={clsx(
             numbers(),
@@ -128,13 +123,10 @@ export default function AutoScroller({
               count >= 3 &&
               "animate-fade-right delay-700 animate-reverse animate-duration-700",
             auto && count === 0 && "animate-fade-left animate-duration-300",
-            auto ? "opacity-100" : "opacity-0",
           )}
         >
           <span
-            className={clsx(
-              "relative block h-auto w-auto transition-all duration-500",
-            )}
+            className="relative block h-auto w-auto transition-all duration-500"
             style={{ transform: `translateY(calc(${count} * 2rem * -1 ))` }}
           >
             <span className={textNumber()}>0</span>
@@ -146,16 +138,11 @@ export default function AutoScroller({
         <button
           onClick={() => {
             if (auto) {
-              setCount(0);
-              clearInterval(interval.current);
-              setAuto(false);
+              outAutoScroll();
             }
-            if (!auto) setAuto(true);
+            if (!auto) onAutoScroll();
           }}
-          className={clsx(
-            "transition-transform duration-500 ease-in-out",
-            auto ? "group-hover:-translate-x-full" : "-translate-x-full",
-          )}
+          className="relative h-8 w-8"
         >
           {auto ? (
             <PauseToIcon className={icon()} />

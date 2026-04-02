@@ -1,17 +1,19 @@
-import { ComponentProps } from "react";
+"use client";
+
+import { ComponentProps, useContext } from "react";
 
 import Link from "next/link";
 
+import { ListControllerContext } from "@/components/layout/ListController/ListControllerContext";
 import { BACKDROP } from "@/config/imageConfig";
 import { formatToIdSlug } from "@/lib/utils/formatToIdSlug";
 import { DiscoverSchemaType } from "@/lib/validation/discoverSchema";
-import { selectOption } from "@/types/globalTypes";
 import clsx from "clsx";
 import { VariantProps, tv } from "tailwind-variants";
 
 const contentSliderStyles = tv({
   slots: {
-    link: "relative flex h-full flex-col justify-between",
+    link: "relative flex h-full flex-col justify-between [[data-selected='dois']_&]:bg-blue-500",
     figure: "absolute inset-0 -z-10 m-0 h-full w-full",
     img: "h-full w-full object-cover object-center brightness-90",
     textContainer:
@@ -38,17 +40,18 @@ type ContentSliderVariants = VariantProps<typeof contentSliderStyles>;
 type ContentSliderProps = ComponentProps<"a"> &
   ContentSliderVariants & {
     data: DiscoverSchemaType["results"][0];
-    selected: NonNullable<selectOption>[];
   };
 
 export default function ContentSlider({
   data,
-  selected,
   model,
   ...props
 }: Readonly<ContentSliderProps>) {
+  const listContext = useContext(ListControllerContext);
   const { link, figure, img, textContainer, title, overview } =
     contentSliderStyles({ model });
+  const inView = !!listContext?.selected.find((value) => value?.id === data.id);
+
   return (
     <Link
       {...props}
@@ -60,30 +63,16 @@ export default function ContentSlider({
           src={`${BACKDROP.w1280 + data.backdrop_path}`}
           className={img()}
           loading="lazy"
-          alt={`Imagem de plano de fundo do filme ${data.title}`}
+          alt={`Plano de fundo do filme ${data.title}`}
         />
       </figure>
-      <div
-        className={clsx(
-          textContainer(),
-          selected.some((s) => s.id === data.id) && "before:animate-fade",
-        )}
-      >
-        <p
-          className={clsx(
-            title(),
-            selected.some((s) => s.id === data.id) && "animate-fade-left",
-          )}
-        >
+
+      <div className={clsx(textContainer(), inView && "before:animate-fade")}>
+        <p className={clsx(title(), inView && "animate-fade-left")}>
           {data.title}
         </p>
         {data.overview && (
-          <p
-            className={clsx(
-              overview(),
-              selected.some((s) => s.id === data.id) && "animate-fade-left",
-            )}
-          >
+          <p className={clsx(overview(), inView && "animate-fade-left")}>
             {data.overview}
           </p>
         )}
