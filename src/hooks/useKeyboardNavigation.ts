@@ -30,21 +30,20 @@ export function useKeyboardNavigation({
         case "ArrowUp":
           if (!optionIDs) break;
           event.preventDefault();
-          option = getPreviousOption(
+          option = getPreviousOption({
             optionIDs,
-            selected ? selected.index : 0,
-            observer && observer.current,
-          );
+            currentIndex: selected?.index ?? 0,
+          });
           break;
         case "Down":
         case "ArrowDown":
           if (!optionIDs) break;
           event.preventDefault();
-          option = getNextOption(
+          option = getNextOption({
             optionIDs,
-            selected ? selected.index : -1,
-            observer && observer.current,
-          );
+            currentIndex: selected?.index ?? 0,
+            observer: observer?.current,
+          });
           break;
         case "Escape":
         case "Tab":

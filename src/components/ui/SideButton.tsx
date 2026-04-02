@@ -1,7 +1,6 @@
 import { ComponentProps } from "react";
 
-import FoggyEdge from "@/components/ui/FoggyEdge";
-import { FoggyEdgeVariants } from "@/components/ui/FoggyEdge";
+import FoggyEdge, { FoggyEdgeVariants } from "@/components/ui/FoggyEdge";
 import GoToButton from "@/components/ui/GoToButton";
 import clsx from "clsx";
 import { VariantProps, tv } from "tailwind-variants";
@@ -26,8 +25,8 @@ const sideButtonStyles = tv({
         base: "before:opacity-0 after:opacity-0",
       },
       false: {
-        button: "opacity-0 group-hover:opacity-100",
-        base: "before:opacity-0 after:opacity-0 before:group-hover:opacity-100 after:group-hover:opacity-100",
+        button: "opacity-0 [@media_(pointer:fine)]:group-hover:opacity-100",
+        base: "before:opacity-0 after:opacity-0 before:[@media_(pointer:fine)]:group-hover:opacity-100 after:[@media_(pointer:fine)]:group-hover:opacity-100",
       },
     },
   },
@@ -38,7 +37,7 @@ type SideButtonVariants = VariantProps<typeof sideButtonStyles>;
 type SideButtonProps = SideButtonVariants &
   ComponentProps<"div"> & {
     hiddenLeft: boolean;
-    hiddenRight: boolean;
+    hiddenRight?: boolean;
     onLeft: () => void;
     onRight: () => void;
     surfaceColor: FoggyEdgeVariants["surfaceColor"];
@@ -50,7 +49,7 @@ export default function SideButton({
   surfaceColor,
   model,
   hiddenLeft,
-  hiddenRight,
+  hiddenRight = false,
   onLeft,
   onRight,
 }: Readonly<SideButtonProps>) {

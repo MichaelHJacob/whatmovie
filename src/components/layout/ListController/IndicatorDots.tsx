@@ -1,6 +1,6 @@
 "use client";
 
-import { MutableRefObject, useMemo, useRef } from "react";
+import { useRef } from "react";
 
 import { optionIntoView } from "@/lib/utils/listNavigation";
 import { DiscoverSchemaType } from "@/lib/validation/discoverSchema";
@@ -11,13 +11,13 @@ import { VariantProps, tv } from "tailwind-variants";
 const indicatorDotsStyles = tv({
   slots: {
     container:
-      "relative col-span-1 col-start-2 box-content h-auto w-40 justify-self-center overflow-hidden rounded-3xl px-[6px] lg:border-none lg:backdrop-blur-md lg:backdrop-saturate-150",
+      "relative col-span-1 col-start-2 box-content h-auto w-auto max-w-40 justify-self-center overflow-hidden rounded-3xl px-[6px] lg:border-none lg:backdrop-blur-md lg:backdrop-saturate-150",
     dotsUl:
       "relative m-0 flex h-min w-auto list-none appearance-none flex-nowrap transition-all duration-1000",
     dotsLi:
       "block h-auto w-auto list-none appearance-none transition-transform duration-500",
     dotsButton:
-      "relative block h-8 cursor-pointer list-none appearance-none after:block after:h-5 after:w-5 after:rounded-full after:transition-colors after:hover:duration-500",
+      "relative block h-8 cursor-pointer list-none appearance-none after:block after:h-5 after:w-5 after:rounded-full after:transition-opacity after:hover:duration-500",
   },
   variants: {
     model: {
@@ -36,85 +36,54 @@ const indicatorDotsStyles = tv({
 type IndicatorDotsVariants = VariantProps<typeof indicatorDotsStyles>;
 
 type IndicatorDotsProps = IndicatorDotsVariants & {
-  optionRefs: MutableRefObject<Map<
-    string,
-    { el: Element; index: number }
-  > | null>;
+  optionMap: Map<string, HTMLElement>;
   allOptions: NonNullable<selectOption>[];
   selected: NonNullable<selectOption>[];
   data: DiscoverSchemaType["results"];
 };
 
 export default function IndicatorDots({
-  optionRefs,
+  optionMap,
   allOptions,
   selected,
   data,
   model = "banner",
 }: Readonly<IndicatorDotsProps>) {
-  const optionInView = useRef<NonNullable<selectOption>[]>(
-    data.slice(0, 8).map((movie, index) => {
-      return { id: movie.id, index: index };
-    }),
-  );
+  const optInView = useRef<NonNullable<selectOption>[]>(allOptions.slice(0, 8));
   const { container, dotsUl, dotsButton, dotsLi } = indicatorDotsStyles({
     model,
   });
 
-  const selectorPosition = useMemo(() => {
-    if (
-      !selected.length ||
-      allOptions.length <= 8 ||
-      optionInView.current.length < 8
-    )
-      return 0;
+  const firstSelected = selected.at(0)?.index;
+  const lastSelected = selected.at(-1)?.index;
+  const firstInView = optInView.current.at(0)?.index ?? 0;
+  const secondInView = optInView.current.at(1)?.index;
+  const penultInView = optInView.current.at(-2)?.index;
+  const lastInView = optInView.current.at(-1)?.index ?? 7;
 
-    if (
-      optionInView.current[0].index > 0 &&
-      selected[0].index <= optionInView.current[1].index
-    ) {
-      optionInView.current = allOptions.slice(
-        optionInView.current[0].index - 1,
-        optionInView.current[7].index,
-      );
-    } else if (
-      selected.at(0) &&
-      optionInView.current.at(6) &&
-      selected[0].index >= optionInView.current[6].index
-    ) {
-      if (optionInView.current[7].index < allOptions.length - 1) {
-        optionInView.current = allOptions.slice(
-          optionInView.current[0].index + 1,
-          optionInView.current[7].index + 2,
-        );
-      }
+  if (
+    secondInView != undefined &&
+    penultInView !== undefined &&
+    firstSelected !== undefined &&
+    lastSelected !== undefined
+  ) {
+    if (lastSelected >= penultInView && lastSelected <= allOptions.length - 3) {
+      optInView.current = allOptions.slice(penultInView - 5, penultInView + 3);
+    } else if (firstSelected >= 2 && firstSelected <= secondInView) {
+      optInView.current = allOptions.slice(secondInView - 2, secondInView + 6);
+    } else if (lastSelected >= penultInView) {
+      optInView.current = allOptions.slice(-8);
+    } else if (firstSelected <= 2) {
+      optInView.current = allOptions.slice(0, 8);
     }
-
-    if (
-      !optionInView.current.some((value) => value.index === selected[0].index)
-    ) {
-      if (selected[0].index < allOptions.length - 8) {
-        optionInView.current = allOptions.slice(
-          selected[0].index,
-          selected[0].index + 8,
-        );
-      } else {
-        optionInView.current = allOptions.slice(
-          allOptions.length - 8,
-          allOptions.length,
-        );
-      }
-    }
-
-    return optionInView.current[0].index ?? 0;
-  }, [allOptions, selected]);
+  }
 
   return (
     <div className={container()}>
       <ul
         className={clsx(dotsUl())}
         style={{
-          transform: `translateX(calc(${selectorPosition} * 1.25rem * -1))`,
+          transform: `translateX(calc(${firstInView} * 1.25rem * -1))`,
         }}
       >
         {data.map((movie, index) => (
@@ -122,15 +91,11 @@ export default function IndicatorDots({
             key={movie.id}
             className={clsx(
               dotsLi(),
-              index !== 1 &&
-                index !== data.length - 2 &&
-                (optionInView.current[1].index === index ||
-                  optionInView.current[6].index === index) &&
+              ((secondInView !== 1 && secondInView === index) ||
+                (penultInView !== data.length - 2 && penultInView === index)) &&
                 "scale-75",
-              index !== 0 &&
-                index !== data.length - 1 &&
-                (index >= optionInView.current[7].index ||
-                  index <= optionInView.current[0].index) &&
+              ((lastInView !== data.length - 1 && index >= lastInView) ||
+                (firstInView !== 0 && index <= firstInView)) &&
                 "scale-50",
             )}
           >
@@ -138,13 +103,13 @@ export default function IndicatorDots({
               className={clsx(
                 dotsButton(),
                 selected.map((value) => value.index).includes(index)
-                  ? "after:opacity-100"
-                  : "after:opacity-30 after:hover:opacity-70",
+                  ? "after:opacity-100 after:duration-100"
+                  : "after:opacity-30 after:duration-1000 after:hover:opacity-70",
                 "after:scale-[0.4]",
               )}
               onClick={() => {
-                const { el } = optionRefs.current?.get(movie.id) ?? {};
-                if (el) optionIntoView(el);
+                const card = optionMap.get(movie.id);
+                if (card) optionIntoView(card);
               }}
             >
               <span className="sr-only">{movie.title}</span>

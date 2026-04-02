@@ -1,23 +1,27 @@
 import { RefObject, useEffect, useRef } from "react";
 
-export function useLockScrollOnResize(containerRef: RefObject<HTMLElement>) {
+export function useLockScrollOnResize(
+  container: HTMLElement | null | RefObject<HTMLElement>,
+) {
   const resizing = useRef<boolean>(false);
   const returnTimeout = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
+    const element =
+      container && "current" in container ? container.current : container;
+
+    if (!element) return;
 
     const handleResize = () => {
       if (!resizing.current) {
         resizing.current = true;
-        container.style.overflowX = "hidden";
+        element.style.overflowX = "hidden";
       }
 
       clearTimeout(returnTimeout.current);
       returnTimeout.current = setTimeout(() => {
         resizing.current = false;
-        container.style.overflowX = "auto";
+        element.style.overflowX = "auto";
       }, 200);
     };
 
@@ -26,5 +30,5 @@ export function useLockScrollOnResize(containerRef: RefObject<HTMLElement>) {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [containerRef]);
+  }, [container]);
 }

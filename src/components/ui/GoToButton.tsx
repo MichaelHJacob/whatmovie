@@ -8,7 +8,7 @@ import { VariantProps, tv } from "tailwind-variants";
 const goToButtonStyles = tv({
   slots: {
     button:
-      "group/btn z-30 mt-11 box-content h-14 rounded-lg px-1 backdrop-blur-md backdrop-saturate-200 transition-all duration-300 ease-in-out lg:px-[0.375rem]",
+      "group/btn z-30 mt-11 box-content h-16 rounded-lg px-2 backdrop-blur-md backdrop-saturate-200 transition-all duration-300 ease-in-out",
     icon: "box-border h-3 w-3 transition-colors duration-300",
   },
   variants: {
