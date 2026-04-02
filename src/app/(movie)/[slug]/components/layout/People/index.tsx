@@ -1,6 +1,5 @@
-import ListPeople from "@/app/(movie)/[slug]/components/ui/People/ListPeople";
+import PeopleList from "@/app/(movie)/[slug]/components/layout/People/PeopleList";
 import Container from "@/components/layout/Container";
-import ListScrollController from "@/components/layout/ListScrollController";
 import BreakHr from "@/components/ui/BreakHr";
 import HTitle from "@/components/ui/HTitle";
 import { CreditsType } from "@/lib/validation/creditsSchema";
@@ -15,12 +14,7 @@ export default function People({
         <BreakHr />
         <Container as="section">
           <HTitle>Elenco e equipe</HTitle>
-          <ListScrollController
-            id="ElencoEquipe"
-            length={cast.length + crew.length}
-          >
-            <ListPeople cast={cast} crew={crew} id="ElencoEquipe" />
-          </ListScrollController>
+          <PeopleList cast={cast} crew={crew} />
         </Container>
       </>
     );

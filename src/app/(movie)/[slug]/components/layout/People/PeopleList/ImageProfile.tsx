@@ -22,6 +22,7 @@ export default function ImageProfile({
         srcSet={`${PROFILE.w185 + path} 1x, ${PROFILE.h632 + path} 2x`}
         src={PROFILE.w185 + path}
         alt={alt}
+        fetchPriority="low"
         loading="lazy"
         className={img()}
       />
