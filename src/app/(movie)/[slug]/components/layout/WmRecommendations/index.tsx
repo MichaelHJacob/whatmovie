@@ -1,8 +1,7 @@
 import { compareMovies } from "@/app/(movie)/[slug]/components/layout/WmRecommendations/compareMovies";
 import Container from "@/components/layout/Container";
-import ListScrollController from "@/components/layout/ListScrollController/index";
+import MovieList from "@/components/layout/MovieList";
 import HTitle from "@/components/ui/HTitle";
-import ListMovie from "@/components/ui/ListMovie";
 import { getMovieRecommendations } from "@/lib/api/tmdb/use-cases/getMovieRecommendations";
 import { DiscoverMovieType } from "@/lib/validation/discoverMovieSchema";
 import { MovieDetailsType } from "@/lib/validation/movieDetailsSchema";
@@ -120,13 +119,7 @@ export default async function Recommendations({
     return (
       <Container as="aside" surface="listBase">
         <HTitle>Recomendações</HTitle>
-        <ListScrollController
-          id={"Recomendacoes"}
-          length={relatedFilter.length}
-          surface
-        >
-          <ListMovie data={relatedFilter} id={"Recomendacoes"} />
-        </ListScrollController>
+        <MovieList data={relatedFilter} model="list" surfaceColor="listBase" />
       </Container>
     );
   }

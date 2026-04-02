@@ -3,9 +3,8 @@ import Image from "next/image";
 import NowStreaming from "@/app/(home)/components/NowStreaming";
 import StructuredData from "@/components/StructuredData";
 import Container from "@/components/layout/Container";
-import ListScrollController from "@/components/layout/ListScrollController";
+import MovieList from "@/components/layout/MovieList";
 import HTitle from "@/components/ui/HTitle";
-import ListMovie from "@/components/ui/ListMovie";
 import { getNowPlaying } from "@/lib/api/tmdb/use-cases/getNowPlaying";
 import { getPopular } from "@/lib/api/tmdb/use-cases/getPopular";
 import { homeJsonLd } from "@/lib/structured-data/homeJsonLd";
@@ -33,6 +32,7 @@ const homeStyle = tv({
 export default async function Home() {
   const [inTheatres] = await getNowPlaying();
   const [popular] = await getPopular();
+
   const { inner, containerImage, containerText, text, image, size } =
     homeStyle();
 
@@ -72,15 +72,21 @@ export default async function Home() {
           <Container as="section" surface="listBase">
             <HTitle>Mais acessados</HTitle>
             <StructuredData
-              data={itemListJsonLd(popular, "popular", "Mais acessados")}
+              data={itemListJsonLd(
+                popular.results
+                  .filter((data) => data.vote_count >= 100)
+                  .sort((a, b) => b.popularity - a.popularity),
+                "popular",
+                "Mais acessados",
+              )}
             />
-            <ListScrollController
-              id={"popular"}
-              length={popular.results.length}
-              surface
-            >
-              <ListMovie data={popular?.results} id={"popular"} />
-            </ListScrollController>
+            <MovieList
+              data={popular.results
+                .filter((data) => data.vote_count >= 100)
+                .sort((a, b) => b.popularity - a.popularity)}
+              model="list"
+              surfaceColor="listBase"
+            />
           </Container>
         )}
         <NowStreaming />
@@ -89,18 +95,16 @@ export default async function Home() {
             <HTitle>Principais títulos nos Cinemas</HTitle>
             <StructuredData
               data={itemListJsonLd(
-                inTheatres,
+                inTheatres.results,
                 "theatres",
                 "Principais títulos nos Cinemas",
               )}
             />
-            <ListScrollController
-              id={"lancamentos"}
-              length={inTheatres.results.length}
-              surface
-            >
-              <ListMovie data={inTheatres?.results} id={"lancamentos"} />
-            </ListScrollController>
+            <MovieList
+              data={inTheatres.results}
+              model="list"
+              surfaceColor="listBase"
+            />
           </Container>
         )}
       </main>

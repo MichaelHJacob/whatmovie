@@ -10,7 +10,11 @@ export default async function NowStreaming() {
 
   if (!data) return null;
 
-  const jsonLd = itemListJsonLd(data, "streaming", "Lançamentos no Streaming");
+  const jsonLd = itemListJsonLd(
+    data.results,
+    "streaming",
+    "Lançamentos no Streaming",
+  );
 
   return (
     <Container as="section">

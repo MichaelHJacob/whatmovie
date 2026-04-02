@@ -5,9 +5,9 @@ import { notFound } from "next/navigation";
 
 import Details from "@/app/(movie)/[slug]/components/layout/Details";
 import PageHero from "@/app/(movie)/[slug]/components/layout/PageHero";
+import People from "@/app/(movie)/[slug]/components/layout/People";
 import Videos from "@/app/(movie)/[slug]/components/layout/Videos";
 import Recommendations from "@/app/(movie)/[slug]/components/layout/WmRecommendations";
-import People from "@/app/(movie)/[slug]/components/ui/People";
 import StructuredData from "@/components/StructuredData";
 import SkeletonListMovie from "@/components/skeleton/SkeletonListMovie";
 import { POSTER } from "@/config/imageConfig";
