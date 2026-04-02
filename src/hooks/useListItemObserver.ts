@@ -1,83 +1,68 @@
-import {
-  MutableRefObject,
-  RefObject,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { selectOption } from "@/types/globalTypes";
 
 type UseIntersectionObserverParams = {
-  rootElement: RefObject<HTMLElement>;
-  margin: string;
-  optionRefs: MutableRefObject<Map<
-    string,
-    { el: Element; index: number }
-  > | null>;
+  containerNode: HTMLElement | null;
+  margin: IntersectionObserverInit["rootMargin"];
+  optionIDs: string[];
+  optionMap: Map<string, HTMLLIElement>;
+  threshold: IntersectionObserverInit["threshold"];
 };
 
 export function useListItemObserver({
-  rootElement,
+  containerNode,
+  optionIDs,
   margin,
-  optionRefs,
+  optionMap,
+  threshold,
 }: UseIntersectionObserverParams): NonNullable<selectOption>[] {
-  const [selected, setSelected] = useState<NonNullable<selectOption>[]>([]);
+  const [inView, setInView] = useState<NonNullable<selectOption>[]>([]);
+  const selectionMap = useMemo(() => {
+    return new Map<HTMLElement, NonNullable<selectOption>>();
+  }, []);
 
   const callback: IntersectionObserverCallback = useCallback(
     (entries: IntersectionObserverEntry[]) => {
-      setSelected((prev) => {
-        const newSelection = new Set(prev);
+      entries.forEach((entry) => {
+        const element = entry.target as HTMLElement;
+        const elementId = element.dataset.itemId;
 
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const element = entry.target;
-            if (element instanceof HTMLElement) {
-              const elementId = element.dataset.movieId ?? "";
-              const option = optionRefs.current?.get(elementId) ?? null;
-
-              if (option)
-                newSelection.add({ id: elementId, index: option.index });
-            }
-          } else {
-            const element = entry.target;
-            if (element instanceof HTMLElement) {
-              const elementId = element.dataset.movieId ?? "";
-              const { index } = optionRefs.current?.get(elementId) ?? {};
-
-              newSelection.forEach((objSelect) => {
-                if (index === objSelect.index) {
-                  newSelection.delete(objSelect);
-                }
-              });
-            }
-          }
-        });
-
-        return Array.from(newSelection);
+        if (!elementId) return;
+        const index = optionIDs.indexOf(elementId);
+        if (entry.isIntersecting) {
+          selectionMap.set(element, { id: elementId, index: index });
+        } else {
+          selectionMap.delete(element);
+        }
       });
+
+      setInView(Array.from(selectionMap.values()));
     },
-    [optionRefs],
+    [selectionMap, optionIDs],
   );
 
   useEffect(() => {
-    if (!optionRefs.current) return;
+    if (!containerNode) return;
 
-    const observer = new IntersectionObserver(callback, {
-      root: rootElement.current,
+    const intersectionObserver = new IntersectionObserver(callback, {
+      root: containerNode,
       rootMargin: margin,
-      threshold: 0.1,
+      threshold: threshold,
     });
 
-    optionRefs.current.forEach((param) => {
-      const { el } = param;
-      observer.observe(el);
+    optionMap.forEach((node) => {
+      intersectionObserver.observe(node);
     });
 
     return () => {
-      observer.disconnect();
+      intersectionObserver.disconnect();
     };
-  }, [callback, optionRefs, rootElement, margin]);
+  }, [callback, optionIDs, margin, optionMap, containerNode, threshold]);
 
-  return selected;
+  const viewInOrder = useMemo(() => {
+    return inView.sort((a, b) => a.index - b.index);
+  }, [inView]);
+
+  return viewInOrder;
 }

@@ -4,9 +4,7 @@ export function useItemMap() {
   const itemsRef = useRef<Map<string, HTMLLIElement> | null>(null);
 
   function getMap() {
-    if (!itemsRef.current) {
-      itemsRef.current = new Map();
-    }
+    itemsRef.current ??= new Map();
     return itemsRef.current;
   }
 
