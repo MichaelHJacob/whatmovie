@@ -48,6 +48,8 @@ export default function Search() {
   const [autoSelect, setAutoSelect] = useState<boolean>(true);
   const input = useRef<HTMLInputElement | null>(null);
   const observerRef = useRef<HTMLDivElement>(null);
+  const timeoutID = useRef<NodeJS.Timeout>();
+  const isTyping = useRef(false);
   const debouncedTerm = useDebounce(term, 500);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isAnimating, setIsAnimating] = useState<"opening" | "closing" | "end">(
@@ -143,6 +145,7 @@ export default function Search() {
       onToggleExpand={toggleExpand}
       className={animation()}
       data-bgscrim={isExpanded}
+      enabled={!isTyping.current}
     >
       <OptionsContainer isExpanded={isExpanded}>
         <Fieldset isExpanded={isExpanded} className={animation()}>
@@ -168,6 +171,11 @@ export default function Search() {
               )}
               ref={input}
               onKeyDown={(event) => {
+                isTyping.current = true;
+                clearTimeout(timeoutID.current);
+                timeoutID.current = setTimeout(() => {
+                  isTyping.current = false;
+                }, 1000);
                 handleKeyDown(event);
                 if (selected && selected.index + 1 === movieIDs?.length) {
                   if (hasNextPage) setAutoSelect(true);
