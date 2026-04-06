@@ -25,12 +25,14 @@ type FormProps = ComponentProps<"form"> & {
   children: React.ReactNode;
   isExpanded: boolean;
   onToggleExpand: () => void;
+  enabled: boolean;
 };
 
 export default function Form({
   children,
   isExpanded,
   onToggleExpand,
+  enabled,
   ...props
 }: Readonly<FormProps>) {
   const { formContainer } = formStyles({
@@ -46,7 +48,7 @@ export default function Form({
         }}
         onMouseLeave={(event) => {
           event.stopPropagation();
-          if (isExpanded) onToggleExpand();
+          if (isExpanded && enabled) onToggleExpand();
         }}
         className={clsx(formContainer(), props.className)}
       >
