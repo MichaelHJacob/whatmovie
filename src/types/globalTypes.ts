@@ -34,6 +34,7 @@ export type fetchOptionsExtended = {
 export type GetUseCasesParams = {
   locale?: keys;
   page?: number;
+  revalidate?: number;
 };
 
 export type GetUseCasesWithIdParams = GetUseCasesParams & {

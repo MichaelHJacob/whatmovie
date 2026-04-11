@@ -7,6 +7,7 @@ import { GetUseCasesParams } from "@/types/globalTypes";
 export async function getPopular({
   locale = "pt-BR",
   page = 1,
+  revalidate,
 }: GetUseCasesParams = {}) {
   const local = getLocalParams(locale);
 
@@ -17,5 +18,6 @@ export async function getPopular({
   return serverFetch<typeof discoverSchema._output>({
     url,
     schema: discoverSchema,
+    revalidate: revalidate,
   });
 }
