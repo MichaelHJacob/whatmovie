@@ -5,15 +5,28 @@ import { formatToIdSlug } from "@/lib/utils/formatToIdSlug";
 import { getISODateString } from "@/lib/utils/getISODateString";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [data] = await getPopular();
+  const urlMap = new Map();
 
-  const movies =
-    data?.results?.map((movie) => formatToIdSlug(movie.id, movie.title)) || [];
+  const results = await Promise.allSettled(
+    Array.from({ length: 25 }, (_, i) => {
+      return getPopular({ page: i + 1 });
+    }),
+  );
 
-  const moviesUrls = movies.map((movie) => ({
-    url: `https://whatmovie.com.br/${movie}`,
-    priority: 1,
-  }));
+  results.forEach((result) => {
+    if (result.status === "fulfilled") {
+      const [data] = result.value;
+
+      data?.results.forEach((value) => {
+        if (!urlMap.has(value.id)) {
+          urlMap.set(value.id, {
+            url: `https://whatmovie.com.br/${formatToIdSlug(value.id, value.title)}`,
+            priority: 1,
+          });
+        }
+      });
+    }
+  });
 
   return [
     {
@@ -26,6 +39,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: "https://whatmovie.com.br/filter",
       priority: 0.8,
     },
-    ...moviesUrls,
+    ...Array.from(urlMap.values()),
   ];
 }
