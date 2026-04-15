@@ -1,8 +1,6 @@
 import { API_ENDPOINTS } from "@/config/apiEndpoints";
-import { filtersMap } from "@/data/filtersMap";
 import { serverFetch } from "@/lib/api/tmdb/serverFetch";
 import { getLocalParams } from "@/lib/i18n/getLocaleParams";
-import { orderByReleaseDate } from "@/lib/utils/orderByReleaseDate";
 import { discoverSchema } from "@/lib/validation/discoverSchema";
 import { FilterSchemaType } from "@/lib/validation/filterSchema";
 import { DataOrError, GetUseCasesParams } from "@/types/globalTypes";
@@ -17,17 +15,16 @@ export async function getNowStreaming({
   const nowStreamingParams: FilterSchemaType = {
     page: page.toString(),
     ...local,
-    release_date: {
-      gte: filtersMap.releaseDate.allowedValues(-31),
-      lte: filtersMap.releaseDate.allowedValues(),
-    },
-    sort_by: "popularity.desc",
+    sort_by: "primary_release_date.desc",
     include_adult: "false",
     include_video: "false",
     with_release_type: "4",
+    with_watch_monetization_types: "flatrate|rent|buy",
+    without_genres: "99",
+    watch_region: "BR",
     certification: { lte: "16" },
-    vote_count: { gte: "20" },
-    vote_average: { gte: "5", lte: "10" },
+    vote_count: { gte: "50" },
+    vote_average: { gte: "6", lte: "10" },
   };
 
   const params = new URLSearchParams(flatten(nowStreamingParams));
@@ -38,10 +35,6 @@ export async function getNowStreaming({
     url,
     schema: discoverSchema,
   });
-
-  if (data) {
-    data.results = orderByReleaseDate(data.results);
-  }
 
   return [data, error] as DataOrError<typeof discoverSchema._output>;
 }
