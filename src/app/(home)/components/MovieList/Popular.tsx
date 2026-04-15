@@ -15,10 +15,10 @@ export default async function Popular() {
   const jsonLd = itemListJsonLd(movies, "streaming", "Sucessos de Público");
 
   return (
-    <Container as="section" surface="listBase">
+    <Container as="section">
       <HTitle>Sucessos de Público</HTitle>
       <StructuredData data={jsonLd} />
-      <MovieList model="list" data={movies} surfaceColor="listBase" />
+      <MovieList model="list" data={movies} />
     </Container>
   );
 }

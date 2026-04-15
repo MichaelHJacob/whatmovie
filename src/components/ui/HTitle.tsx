@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { tv } from "tailwind-variants";
 
 const hTitle = tv({
-  base: "whitespace-normal font-sans text-lg font-semibold leading-snug -tracking-wide text-neutral-strong",
+  base: "relative z-10 whitespace-normal font-sans text-lg font-bold leading-snug -tracking-wide text-neutral-strong",
 });
 
 type HTitleProps<T extends ElementType> = {
