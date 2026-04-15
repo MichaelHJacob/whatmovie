@@ -8,23 +8,17 @@ import { itemListJsonLd } from "@/lib/structured-data/itemListJsonLd";
 export default async function NowPlaying() {
   const [inTheatres] = await getNowPlaying();
 
-  if (!inTheatres) return;
+  const movies = inTheatres?.results.filter((data) => data.popularity >= 5);
+
+  if (!movies) return;
+
+  const jsonLd = itemListJsonLd(movies, "streaming", "Apenas nos Cinemas");
 
   return (
     <Container as="section" surface="listBase">
-      <HTitle>Principais títulos nos Cinemas</HTitle>
-      <StructuredData
-        data={itemListJsonLd(
-          inTheatres.results,
-          "theatres",
-          "Principais títulos nos Cinemas",
-        )}
-      />
-      <MovieList
-        data={inTheatres.results}
-        model="list"
-        surfaceColor="listBase"
-      />
+      <HTitle>Apenas nos Cinemas</HTitle>
+      <StructuredData data={jsonLd} />
+      <MovieList model="list" data={movies} surfaceColor="listBase" />
     </Container>
   );
 }
