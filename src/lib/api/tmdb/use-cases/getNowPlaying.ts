@@ -2,7 +2,6 @@ import { API_ENDPOINTS } from "@/config/apiEndpoints";
 import { filtersMap } from "@/data/filtersMap";
 import { serverFetch } from "@/lib/api/tmdb/serverFetch";
 import { getLocalParams } from "@/lib/i18n/getLocaleParams";
-import { orderByReleaseDate } from "@/lib/utils/orderByReleaseDate";
 import { discoverSchema } from "@/lib/validation/discoverSchema";
 import { FilterSchemaType } from "@/lib/validation/filterSchema";
 import { DataOrError, GetUseCasesParams } from "@/types/globalTypes";
@@ -19,15 +18,15 @@ export async function getNowPlaying({
     ...local,
     release_date: {
       gte: filtersMap.releaseDate.allowedValues(-31),
-      lte: filtersMap.releaseDate.allowedValues(),
+      lte: filtersMap.releaseDate.allowedValues(+1),
     },
     sort_by: "popularity.desc",
     include_adult: "false",
     include_video: "false",
     with_release_type: "3",
+    without_watch_providers: "8|119|350|337|531|1899|283",
+    without_genres: "99|27",
     certification: { lte: "16" },
-    vote_count: { gte: "20" },
-    vote_average: { gte: "5", lte: "10" },
   };
 
   const params = new URLSearchParams(flatten(nowPlayingParams));
@@ -38,10 +37,6 @@ export async function getNowPlaying({
     url,
     schema: discoverSchema,
   });
-
-  if (data) {
-    data.results = orderByReleaseDate(data.results);
-  }
 
   return [data, error] as DataOrError<typeof discoverSchema._output>;
 }
