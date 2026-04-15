@@ -35,7 +35,7 @@ export default async function NowStreaming() {
     <Container as="section">
       <HTitle>Destaques Recentes</HTitle>
       <StructuredData data={jsonLd} />
-      <MovieList model="cards" data={movies} />
+      <MovieList model="list" data={movies} />
     </Container>
   );
 }
