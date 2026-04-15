@@ -6,29 +6,19 @@ import { getPopular } from "@/lib/api/tmdb/use-cases/getPopular";
 import { itemListJsonLd } from "@/lib/structured-data/itemListJsonLd";
 
 export default async function Popular() {
-  const [popular] = await getPopular();
+  const [data] = await getPopular();
 
-  if (!popular) return;
+  if (!data) return;
+
+  const movies = data.results.sort((a, b) => b.vote_average - a.vote_average);
+
+  const jsonLd = itemListJsonLd(movies, "streaming", "Sucessos de Público");
 
   return (
     <Container as="section" surface="listBase">
-      <HTitle>Mais acessados</HTitle>
-      <StructuredData
-        data={itemListJsonLd(
-          popular.results
-            .filter((data) => data.vote_count >= 100)
-            .sort((a, b) => b.popularity - a.popularity),
-          "popular",
-          "Mais acessados",
-        )}
-      />
-      <MovieList
-        data={popular.results
-          .filter((data) => data.vote_count >= 100)
-          .sort((a, b) => b.popularity - a.popularity)}
-        model="list"
-        surfaceColor="listBase"
-      />
+      <HTitle>Sucessos de Público</HTitle>
+      <StructuredData data={jsonLd} />
+      <MovieList model="list" data={movies} surfaceColor="listBase" />
     </Container>
   );
 }
