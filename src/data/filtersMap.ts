@@ -271,6 +271,22 @@ export const filtersMap = {
       .optional(),
   },
 
+  withoutGenres: {
+    keys: ["without_genres"],
+    allowedValues: listGenres,
+    type: "option",
+    schema: z
+      .string()
+      .transform((val) => val.split(","))
+      .pipe(
+        z.array(
+          z.enum(listGenres.genres.map((g) => g.id.toString()) as [string]),
+        ),
+      )
+      .transform((val) => val?.join(","))
+      .optional(),
+  },
+
   withWatchProviders: {
     keys: ["with_watch_providers"],
     allowedValues: listMovieProvider,
@@ -287,6 +303,24 @@ export const filtersMap = {
                 .includes(id),
             ),
         { message: "Parâmetro 'Onde assistir' invalido" },
+      )
+      .optional(),
+  },
+
+  withoutWatchProviders: {
+    keys: ["without_watch_providers"],
+    allowedValues: listMovieProvider,
+    type: "option",
+    schema: z
+      .string()
+      .refine((val) =>
+        val
+          .split(/[,|]/)
+          .every((id) =>
+            listMovieProvider.results
+              .map((value) => value.provider_id.toString())
+              .includes(id),
+          ),
       )
       .optional(),
   },
