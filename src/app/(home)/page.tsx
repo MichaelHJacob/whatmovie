@@ -1,14 +1,11 @@
 import Image from "next/image";
 
-import NowStreaming from "@/app/(home)/components/NowStreaming";
+import NowPlaying from "@/app/(home)/components/MovieList/NowPlaying";
+import NowStreaming from "@/app/(home)/components/MovieList/NowStreaming";
+import Popular from "@/app/(home)/components/MovieList/Popular";
 import StructuredData from "@/components/StructuredData";
 import Container from "@/components/layout/Container";
-import MovieList from "@/components/layout/MovieList";
-import HTitle from "@/components/ui/HTitle";
-import { getNowPlaying } from "@/lib/api/tmdb/use-cases/getNowPlaying";
-import { getPopular } from "@/lib/api/tmdb/use-cases/getPopular";
 import { homeJsonLd } from "@/lib/structured-data/homeJsonLd";
-import { itemListJsonLd } from "@/lib/structured-data/itemListJsonLd";
 import clsx from "clsx";
 import { tv } from "tailwind-variants";
 
@@ -32,8 +29,6 @@ const homeStyle = tv({
 });
 
 export default async function Home() {
-  const [inTheatres] = await getNowPlaying();
-  const [popular] = await getPopular();
   const { container, inner, containerImage, containerText, text, image, size } =
     homeStyle();
 
@@ -75,45 +70,9 @@ export default async function Home() {
             </p>
           </div>
         </Container>
-        {popular?.results && (
-          <Container as="section" surface="listBase">
-            <HTitle>Mais acessados</HTitle>
-            <StructuredData
-              data={itemListJsonLd(
-                popular.results
-                  .filter((data) => data.vote_count >= 100)
-                  .sort((a, b) => b.popularity - a.popularity),
-                "popular",
-                "Mais acessados",
-              )}
-            />
-            <MovieList
-              data={popular.results
-                .filter((data) => data.vote_count >= 100)
-                .sort((a, b) => b.popularity - a.popularity)}
-              model="list"
-              surfaceColor="listBase"
-            />
-          </Container>
-        )}
+        <Popular />
         <NowStreaming />
-        {inTheatres && (
-          <Container as="section" surface="listBase">
-            <HTitle>Principais títulos nos Cinemas</HTitle>
-            <StructuredData
-              data={itemListJsonLd(
-                inTheatres.results,
-                "theatres",
-                "Principais títulos nos Cinemas",
-              )}
-            />
-            <MovieList
-              data={inTheatres.results}
-              model="list"
-              surfaceColor="listBase"
-            />
-          </Container>
-        )}
+        <NowPlaying />
       </main>
     </>
   );
