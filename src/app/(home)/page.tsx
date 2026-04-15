@@ -72,9 +72,9 @@ export default async function Home() {
             </p>
           </div>
         </Container>
-        <Popular />
         <NowStreaming />
         <NowPlaying />
+        <Popular />
       </main>
     </>
   );

@@ -18,7 +18,7 @@ export default async function NowPlaying() {
     <Container as="section" surface="listBase">
       <HTitle>Apenas nos Cinemas</HTitle>
       <StructuredData data={jsonLd} />
-      <MovieList model="list" data={movies} surfaceColor="listBase" />
+      <MovieList model="cards" data={movies} surfaceColor="listBase" />
     </Container>
   );
 }
