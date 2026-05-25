@@ -17,4 +17,5 @@
     inset 0px 0px 0px 2px rgb(0 0 0 / 0.02), 0 4px 4px rgba(0, 0, 0, 0.02);
   --shadow-btn-hover:
     inset 0px 0px 0px 1px rgb(0 0 0 / 0.04), 0 4px 12px -4px rgba(0, 0, 0, 0.12);
+  --shadow-appIcon: 0px 1px 4.7px rgb(0 0 0 / 0.3);
 }

@@ -30,6 +30,86 @@
 }
 
 @layer components {
+  .bg-hero {
+    background-image: url("/images/background/background-768x672-white.jpeg");
+    background-image: image-set(
+      url("/images/background/background-768x672-white.webp") type("image/webp"),
+      url("/images/background/background-768x672-white.jpeg") type("image/jpeg")
+    );
+    @media (prefers-color-scheme: dark) {
+      background-image: url("/images/background/background-768x672-dark.jpeg");
+      background-image: image-set(
+        url("/images/background/background-768x672-dark.webp")
+          type("image/webp"),
+        url("/images/background/background-768x672-dark.jpeg")
+          type("image/jpeg")
+      );
+    }
+  }
+
+  @media (min-width: 768px) {
+    .bg-hero {
+      background-image: url("/images/background/background-1024x576-white.jpeg");
+      background-image: image-set(
+        url("/images/background/background-1024x576-white.webp")
+          type("image/webp"),
+        url("/images/background/background-1024x576-white.jpeg")
+          type("image/jpeg")
+      );
+      @media (prefers-color-scheme: dark) {
+        background-image: url("/images/background/background-1024x576-dark.jpeg");
+        background-image: image-set(
+          url("/images/background/background-1024x576-dark.webp")
+            type("image/webp"),
+          url("/images/background/background-1024x576-dark.jpeg")
+            type("image/jpeg")
+        );
+      }
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .bg-hero {
+      background-image: url("/images/background/background-1280x720-white.jpeg");
+      background-image: image-set(
+        url("/images/background/background-1280x720-white.webp")
+          type("image/webp"),
+        url("/images/background/background-1280x720-white.jpeg")
+          type("image/jpeg")
+      );
+      @media (prefers-color-scheme: dark) {
+        background-image: url("/images/background/background-1280x720-dark.jpeg");
+        background-image: image-set(
+          url("/images/background/background-1280x720-dark.webp")
+            type("image/webp"),
+          url("/images/background/background-1280x720-dark.jpeg")
+            type("image/jpeg")
+        );
+      }
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .bg-hero {
+      background-image: url("/images/background/background-1536x720-white.jpeg");
+      background-image: image-set(
+        url("/images/background/background-1536x720-white.webp")
+          type("image/webp"),
+        url("/images/background/background-1536x720-white.jpeg")
+          type("image/jpeg")
+      );
+      @media (prefers-color-scheme: dark) {
+        background-image: url("/images/background/background-1536x720-dark.jpeg");
+        background-image: image-set(
+          url("/images/background/background-1536x720-dark.webp")
+            type("image/webp"),
+          url("/images/background/background-1536x720-dark.jpeg")
+            type("image/jpeg")
+        );
+      }
+    }
+  }
+
   .frame-gradient {
     @apply absolute z-20 block via-70% backdrop-blur-sm backdrop-saturate-150;
   }
