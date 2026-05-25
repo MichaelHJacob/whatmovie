@@ -91,8 +91,49 @@ const config: Config = {
           "60%": { transform: "translateX(10px)" },
           "80%": { transform: "translateX(-10px)" },
         },
+        "slide-up": {
+          "0%": {
+            opacity: "0%",
+            transform: "translateY(15px)",
+          },
+          "35%, 70%": {
+            opacity: "100%",
+            transform: "translateY(0px)",
+          },
+          "100%": {
+            opacity: "0%",
+            transform: "translateY(0px)",
+          },
+        },
+        "wmSlide-up": {
+          "0%, 7.1%": {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+          "13.2%, 85.8%": {
+            opacity: "0",
+            transform: "translateY(15px)",
+          },
+          "92.9%, 100%": {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
+        showIN: {
+          "0%": {
+            opacity: "0%",
+            transform: "scale(1.5)",
+          },
+          "100%": {
+            opacity: "100%",
+            transform: "scale(1)",
+          },
+        },
       },
       animation: {
+        "slide-up": "slide-up 1400ms ease-out",
+        "wmSlide-up": "wmSlide-up 6890ms ease-in-out",
+        "show-in": "showIN 1.5s ease-in-out",
         wrong: "wrong 0.5s ease-in-out",
         pulseDots: "pulseDots 1.5s ease-in-out",
       },
@@ -116,6 +157,9 @@ const config: Config = {
         btn: "var(--shadow-btn)",
         "btn-hover": "var(--shadow-btn-hover)",
         "btn-hList": "var(--shadow-btn-hList)",
+      },
+      dropShadow: {
+        appIcon: "var(--shadow-appIcon)",
       },
     },
     screens: {

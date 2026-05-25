@@ -1,9 +1,8 @@
-## [WhatMovie](https://whatmovie.com.br)
-
-<div align="center">
-    <img src="public/logo/LogoWmExtended_Light.webp#gh-light-mode-only" width="480px">
-    <img src="public/logo/LogoWmExtended_Dark.webp#gh-dark-mode-only" width="480px">
-</div>
+<h1 align="center">
+    <img src="public/logo/whatmovie_logo_medium.webp" width="80px" alt="WhatMovie" /></br>
+    <img src="public/logo/whatmovie-text.svg" width="200px" alt="WhatMovie"/> 
+    <span hidden>WhatMovie</span>
+</h1>
 
 Um site desenvolvido para amantes de filmes, com o objetivo de facilitar a descoberta e pesquisa de informações sobre filmes. O WhatMovie utiliza API fornecida pelo [The Movie Database (TMDB)](https://www.themoviedb.org/?language=pt-BR) para fornecer dados atualizados sobre filmes e seus serviços de streaming com uma experiência de navegação intuitiva, moderna e responsiva.
 

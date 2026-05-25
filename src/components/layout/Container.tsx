@@ -11,7 +11,7 @@ const containerStyles = tv({
   variants: {
     model: {
       initial: {
-        base: "w-full max-md:h-[80vh] md:h-min md:min-h-[min(calc(100vw/(16/9)),calc(90vh-2.75rem))] xl:min-h-[min(calc(80rem/(16/9)),calc(90vh-2.75rem))]",
+        base: "min-h-fit w-full max-md:h-[80vh] max-md:max-h-[42rem] md:h-min md:min-h-[min(calc(100vw/(16/9)),calc(90vh-2.75rem))] xl:min-h-[min(calc(80rem/(16/9)),calc(90vh-2.75rem))]",
       },
       banner: {
         base: "relative overflow-hidden rounded-3xl max-md:aspect-[3/4] md:max-xl:h-[35rem] xl:aspect-[16/9] xl:max-h-[calc(95vh-2.75rem)]",

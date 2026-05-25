@@ -17,6 +17,7 @@ const caladea = Caladea({
   weight: ["400", "700"],
   subsets: ["latin"],
   variable: "--font-caladea",
+  style: ["italic", "normal"],
 });
 
 export const metadata: Metadata = {
