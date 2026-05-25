@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import WmLetters from "@/assets/logos/wmLetters.svg";
+import WhatMovieText from "@/assets/logos/whatmovie-text.svg";
 import { QueryProvider } from "@/components/Providers";
 import Container from "@/components/layout/Container";
 import Search from "@/components/layout/NavBar/Search";
@@ -41,7 +41,7 @@ export default function NavBar() {
       innerStyles={innerNav()}
     >
       <Link href="/" className={btnHeader()}>
-        <WmLetters className={icon({ class: "h-4" })} />
+        <WhatMovieText className={icon({ class: "h-4" })} />
       </Link>
 
       <div className={menu()}>

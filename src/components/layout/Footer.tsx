@@ -13,7 +13,7 @@ export default function Footer() {
         <Link href="/" className="text-neutral-accent">
           <WmLogo
             aria-label="WhatMovie"
-            className="inline-block h-11 fill-current"
+            className="inline-block h-7 fill-current stroke-black dark:stroke-white"
           />
           <span className="sr-only">WhatMovie</span>
         </Link>
@@ -64,7 +64,6 @@ export default function Footer() {
             >
               Michael H. Jacob
             </a>
-            {/* */}.
           </p>
         </div>
       </div>
