@@ -9,7 +9,7 @@ const breakHrStyles = tv({
     wFull: {
       true: "w-full",
       false:
-        "w-[calc(100%-2*var(--p))] xs:w-[calc(100%-2*var(--pXS))] md:w-[calc(100%-2*var(--pMD))] lg:w-[calc(100%-2*var(--pLG))] lg:max-w-[calc(80rem-2*var(--pLG))]",
+        "w-[calc(100%-2*var(--p))] max-w-[calc(96rem-2*var(--pMD))] md:w-[calc(100%-2*var(--pMD))]",
     },
   },
   defaultVariants: {

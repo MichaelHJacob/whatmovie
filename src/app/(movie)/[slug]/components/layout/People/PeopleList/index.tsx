@@ -7,7 +7,7 @@ import { tv } from "tailwind-variants";
 
 const PeopleListStyles = tv({
   slots: {
-    ul: "listSpacing no-scrollbar list-none rounded-2xl lg:auto-cols-[calc((100%-20*var(--gapLG))/21)]",
+    ul: "listSpacing no-scrollbar list-none",
     li: "gridColSpanPeople",
     textContainer: "mt-2 h-fit w-full text-center",
     label: "label line-clamp-2",

@@ -19,7 +19,7 @@ type ListVideoProps = {
 export const selectionContainerBase = tv({
   slots: {
     selectionBar:
-      "blockContainer-px blockContainer-py h-auto w-full max-lg:overflow-y-visible lg:h-full lg:scroll-py-[calc(var(--pLG)+1rem)] lg:py-[calc(var(--pLG)+1rem)]",
+      "blockContainer-px blockContainer-py h-auto w-full max-lg:overflow-y-visible lg:h-full lg:scroll-py-[calc(var(--pMD)+1rem)] lg:py-[calc(var(--pMD)+1rem)]",
     ul: "inset-0 grid-cols-1 max-lg:auto-rows-[5rem] lg:absolute",
   },
 });

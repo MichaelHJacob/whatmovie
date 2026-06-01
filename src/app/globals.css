@@ -5,15 +5,12 @@
 @import "../styles/theme/shadow.css";
 
 :root {
-  --p: 1rem;
-  --pXS: 2.125rem;
-  --pMD: var(--pXS);
-  --pLG: 3.25rem;
+  --p: 1.25rem;
 
-  --gap: 0.5rem;
-  --gapXS: 1.25rem;
-  --gapMD: var(--gapXS);
-  --gapLG: 1.5rem;
+  --pMD: 2.5rem;
+
+  --gap: 0.625rem;
+  --gapMD: 1.25rem;
 
   --rowNumbers: 5;
 }
@@ -134,36 +131,36 @@
   }
 
   .paddingHeader {
-    @apply pt-[calc(2.75rem+var(--p))] xs:pt-[calc(2.75rem+var(--pXS))] md:pt-[calc(2.75rem+var(--pMD))] lg:pt-[calc(2.75rem+var(--pLG))];
+    @apply pt-[calc(2.75rem+var(--p))] md:pt-[calc(2.75rem+var(--pMD))];
   }
 
   .scroll-pHeader {
-    @apply scroll-pt-[calc(2.75rem+var(--p))] xs:scroll-pt-[calc(2.75rem+var(--pXS))] md:scroll-pt-[calc(2.75rem+var(--pMD))] lg:scroll-pt-[calc(2.75rem+var(--pLG))];
+    @apply scroll-pt-[calc(2.75rem+var(--p))] md:scroll-pt-[calc(2.75rem+var(--pMD))];
   }
 
   .scroll-px {
-    @apply scroll-px-[--p] xs:scroll-px-[--pXS] md:scroll-px-[--pMD] lg:scroll-px-[--pLG];
+    @apply scroll-px-[--p] md:scroll-px-[--pMD];
   }
 
   .blockContainer-pl {
-    @apply pl-[var(--p)] xs:pl-[var(--pXS)] md:pl-[var(--pMD)] lg:pl-[var(--pLG)];
+    @apply pl-[var(--p)] md:pl-[var(--pMD)];
   }
   .blockContainer-pr {
-    @apply pr-[var(--p)] xs:pr-[var(--pXS)] md:pr-[var(--pMD)] lg:pr-[var(--pLG)];
+    @apply pr-[var(--p)] md:pr-[var(--pMD)];
   }
   .blockContainer-pt {
-    @apply pt-[var(--p)] xs:pt-[var(--pXS)] md:pt-[var(--pMD)] lg:pt-[var(--pLG)];
+    @apply pt-[var(--p)] md:pt-[var(--pMD)];
   }
 
   .blockContainer-pb {
-    @apply pb-[var(--p)] xs:pb-[var(--pXS)] md:pb-[var(--pMD)] lg:pb-[var(--pLG)];
+    @apply pb-[var(--p)] md:pb-[var(--pMD)];
   }
   .blockContainer-mb {
-    @apply mb-[var(--p)] xs:mb-[var(--pXS)] md:mb-[var(--pMD)] lg:mb-[var(--pLG)];
+    @apply mb-[var(--p)] md:mb-[var(--pMD)];
   }
 
   .blockContainer-mt {
-    @apply mt-[var(--p)] xs:mt-[var(--pXS)] md:mt-[var(--pMD)] lg:mt-[var(--pLG)];
+    @apply mt-[var(--p)] md:mt-[var(--pMD)];
   }
 
   .blockContainer-py {
@@ -171,7 +168,7 @@
   }
 
   .blockContainer-px {
-    @apply px-[var(--p)] xs:px-[var(--pXS)] md:px-[var(--pMD)] lg:px-[var(--pLG)];
+    @apply px-[var(--p)] md:px-[var(--pMD)];
   }
 
   .blockContainer-p {
@@ -179,31 +176,31 @@
   }
 
   .gridAutoSpace {
-    @apply all-gap auto-cols-[calc((100%-9*var(--gap))/10)] xs:auto-cols-[calc((100%-14*var(--gapXS))/15)] md:auto-cols-[calc((100%-11*var(--gapMD))/12)] lg:auto-cols-[calc((100%-19*var(--gapLG))/20)] xl:auto-cols-[calc((100%-11*var(--gapLG))/12)];
+    @apply all-gap auto-cols-[2.625rem]   md:auto-cols-[calc((100%-29*var(--gapMD))/30)]  lg:auto-cols-[calc((100%-23*var(--gapMD))/24)]  xl:auto-cols-[calc((100%-39*var(--gapMD))/40)] ;
   }
 
   .gridTemplateSpace {
-    @apply all-gap grid grid-cols-10 xs:grid-cols-[repeat(15,_minmax(0,_1fr))] md:grid-cols-12 lg:grid-cols-[repeat(20,_minmax(0,_1fr))] xl:grid-cols-12;
+    @apply all-gap grid grid-cols-10 xs:grid-cols-[repeat(auto-fit,_minmax(2.625rem,_1fr))]  md:grid-cols-[repeat(30,_minmax(0,_1fr))]  lg:grid-cols-[repeat(24,_minmax(0,_1fr))]  xl:grid-cols-[repeat(40,_minmax(0,_1fr))];
   }
 
   .gridColSpanMovie {
-    @apply col-span-5 snap-start xs:col-span-5 md:col-span-3 lg:col-span-4 xl:col-span-2;
+    @apply col-span-3 snap-start md:col-span-6 lg:col-span-4 xl:col-span-5;
   }
 
   .gridColSpanPeople {
-    @apply col-span-3 h-min snap-start xs:col-span-3 md:col-span-2 lg:col-span-3;
+    @apply col-span-3 h-min snap-start xs:col-span-2 md:col-span-5 lg:col-span-3 xl:col-span-4;
   }
 
   .all-gap {
-    @apply gap-[--gap] xs:gap-[--gapXS] md:gap-[--gapMD] lg:gap-[--gapLG];
+    @apply gap-[--gap] md:gap-[--gapMD];
   }
 
   .reducerBlock-t {
-    @apply mt-[calc(var(--p)*-1)] xs:mt-[calc(var(--pXS)*-1)] md:mt-[calc(var(--pMD)*-1)] lg:mt-[calc(var(--pLG)*-1)];
+    @apply mt-[calc(var(--p)*-1)] md:mt-[calc(var(--pMD)*-1)];
   }
 
   .reducerBlock-b {
-    @apply mb-[calc(var(--p)*-1)] xs:mb-[calc(var(--pXS)*-1)] md:mb-[calc(var(--pMD)*-1)] lg:mb-[calc(var(--pLG)*-1)];
+    @apply mb-[calc(var(--p)*-1)] md:mb-[calc(var(--pMD)*-1)];
   }
 
   .reducerBlock-y {
@@ -211,11 +208,11 @@
   }
 
   .reducerBlock-x {
-    @apply mx-[calc(var(--p)*-1)] xs:mx-[calc(var(--pXS)*-1)] md:mx-[calc(var(--pMD)*-1)] lg:mx-[calc(var(--pLG)*-1)];
+    @apply mx-[calc(var(--p)*-1)] md:mx-[calc(var(--pMD)*-1)];
   }
 
   .reducerBlock {
-    @apply reducerBlock-x mb-[calc(var(--p)*-1)] xs:mb-[calc(var(--pXS)*-1)] md:mb-[calc(var(--pMD)*-1)] lg:mb-[calc(var(--pLG)*-1)];
+    @apply reducerBlock-x mb-[calc(var(--p)*-1)] md:mb-[calc(var(--pMD)*-1)];
   }
 
   .listSpacing {

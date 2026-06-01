@@ -18,7 +18,7 @@ export default function ProviderSelector({
   return (
     <li>
       <fieldset>
-        <legend className="blockContainer-px flex w-full items-center justify-between pb-[--gap] xs:pb-[--gapXS] md:pb-[--gapMD] lg:pb-[--gapLG]">
+        <legend className="blockContainer-px flex w-full items-center justify-between pb-[--gap] md:pb-[--gapMD]">
           <span className="filter-label">Onde assistir:</span>
           <ClearSelected onClear={clear} />
         </legend>
