@@ -142,8 +142,8 @@ export default function RangeVoteSelector(
 
   return (
     <li>
-      <fieldset className="flex max-h-fit flex-col gap-[--gap] xs:gap-[--gapXS] md:gap-[--gapMD] lg:gap-[--gapLG]">
-        <legend className="blockContainer-px pb-[--gap] xs:pb-[--gapXS] md:pb-[--gapMD] lg:pb-[--gapLG]">
+      <fieldset className="flex max-h-fit flex-col gap-[--gap] md:gap-[--gapMD]">
+        <legend className="blockContainer-px pb-[--gap] md:pb-[--gapMD]">
           <span className="filter-label">Pontuação:</span>
         </legend>
         <div className="blockContainer-px flex w-full justify-between">

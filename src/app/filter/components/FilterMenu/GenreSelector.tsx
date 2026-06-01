@@ -18,7 +18,7 @@ export default function GenreSelector({
   return (
     <li>
       <fieldset>
-        <legend className="blockContainer-px flex w-full items-center justify-between pb-[--gap] xs:pb-[--gapXS] md:pb-[--gapMD] lg:pb-[--gapLG]">
+        <legend className="blockContainer-px flex w-full items-center justify-between pb-[--gap] md:pb-[--gapMD]">
           <span className="filter-label">Gênero:</span>
           <ClearSelected onClear={clear} />
         </legend>

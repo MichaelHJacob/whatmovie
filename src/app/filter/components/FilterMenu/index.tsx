@@ -256,7 +256,7 @@ export default function FilterMenu({ children }: Readonly<FilterMenuProps>) {
       <div
         ref={divFilters}
         id="filtersID"
-        className="relative z-30 inline-block h-full w-[80vw] min-w-80 max-w-sm snap-end snap-always overflow-y-scroll overscroll-auto overscroll-y-auto bg-raised lg:max-w-lg xl:max-w-md"
+        className="relative z-30 inline-block h-full w-[80vw] min-w-80 max-w-sm snap-end snap-always overflow-y-scroll overscroll-auto overscroll-y-auto bg-raised lg:max-w-md"
       >
         <Menu>
           <GenreSelector
@@ -279,7 +279,10 @@ export default function FilterMenu({ children }: Readonly<FilterMenuProps>) {
         id="Movies"
         className="inline-block h-full w-screen snap-start snap-always overflow-auto overscroll-y-auto xl:w-[calc(100%-448px)]"
       >
-        <Container paddingTop>
+        <Container
+          paddingTop
+          innerStyles="xl:max-w-screen-lg 2xl:max-w-screen-xl min-[1728px]:max-w-screen-2xl"
+        >
           <FastAccess>
             <FilterMenuButton />
             <ResetButton />

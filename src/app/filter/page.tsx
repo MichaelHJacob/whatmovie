@@ -1,15 +1,29 @@
 "use client";
 
-import { Fragment, useRef } from "react";
+import { useRef } from "react";
 
 import { useSearchParams } from "next/navigation";
 
-import MovieCardMap from "@/app/filter/components/ui/MovieCardMap";
 import MovieCardSkeleton from "@/components/skeleton/MovieCardSkeleton";
 import LabelH4 from "@/components/ui/LabelH4";
+import MovieCard from "@/components/ui/MovieCard";
 import { useFilterMovies } from "@/hooks/useFilterMovies";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import { DiscoverMovieType } from "@/lib/validation/discoverMovieSchema";
 import { FilterValidationError } from "@/lib/validation/extendExpectedError";
+import clsx from "clsx";
+import { tv } from "tailwind-variants";
+
+const filterPegeStyles = tv({
+  slots: {
+    ulGrid:
+      "gridTemplateSpace blockContainer-p animate-presets relative w-full items-end xl:grid-cols-[repeat(30,_minmax(0,_1fr))] 2xl:grid-cols-[repeat(24,_minmax(0,_1fr))] min-[1728px]:grid-cols-[repeat(40,_minmax(0,_1fr))]",
+    liError:
+      "label tracking-winder mb-4 max-w-full text-wrap rounded-lg border-2 border-base-accent bg-notice-minimal p-4 text-notice-accent shadow-card-minimal",
+    liFilter:
+      "max-xs:col-span-5 xl:col-span-6 2xl:col-span-4 min-[1728px]:col-span-5",
+  },
+});
 
 export default function Page() {
   const observerRef = useRef<HTMLLIElement | null>(null);
@@ -24,6 +38,7 @@ export default function Page() {
     isLoading,
     isError,
   } = useFilterMovies(paramsObject);
+  const { ulGrid, liFilter } = filterPegeStyles();
 
   const totalResults = data?.pages.at(0)?.total_results || 0;
 
@@ -37,6 +52,9 @@ export default function Page() {
     },
   });
 
+  const movies: DiscoverMovieType[] | null =
+    data?.pages.flatMap((page) => page.results) || null;
+
   if (isError) {
     const errorMessage: string[] =
       error instanceof FilterValidationError
@@ -44,12 +62,12 @@ export default function Page() {
         : ["Ocorreu um erro inesperado, tente novamente mais tarde"];
     return (
       <div>
-        <ul className="blockContainer-p relative w-full items-end xl:gap-[var(--gapMD)] 2xl:gap-[var(--gapLG)]">
-          {errorMessage.map((erro, i) => {
+        <ul className="blockContainer-p relative w-full items-end xl:gap-[var(--gapMD)]">
+          {errorMessage.map((erro) => {
             return (
               <li
                 className="label tracking-winder mb-4 max-w-full text-wrap rounded-lg border-2 border-base-accent bg-notice-minimal p-4 text-notice-accent shadow-card-minimal"
-                key={i}
+                key={erro}
               >
                 {erro}
               </li>
@@ -60,30 +78,29 @@ export default function Page() {
     );
   }
 
-  if (isLoading) {
-    return (
-      <div>
-        <ul className="gridTemplateSpace blockContainer-p animate-presets relative w-full animate-fade-up items-end xl:gap-[var(--gapMD)] 2xl:grid-cols-[repeat(20,_minmax(0,_1fr))] 2xl:gap-[var(--gapLG)]">
-          {<MovieCardSkeleton style="xl:col-span-3 2xl:col-span-4" size={20} />}
-        </ul>
-      </div>
-    );
-  }
-
   return (
     <div>
-      <ul className="gridTemplateSpace blockContainer-p animate-presets relative w-full animate-fade items-end xl:gap-[var(--gapMD)] 2xl:grid-cols-[repeat(20,_minmax(0,_1fr))] 2xl:gap-[var(--gapLG)]">
-        {data?.pages.map((data, i) => {
+      <ul
+        className={clsx(
+          ulGrid(),
+          isLoading ? "animate-fade-up" : "animate-fade",
+        )}
+      >
+        {isLoading && <MovieCardSkeleton style={liFilter()} size={24} />}
+        {movies?.map((movie) => {
           return (
-            <Fragment key={i}>
-              <MovieCardMap data={data.results} />
-            </Fragment>
+            <li
+              className={clsx(liFilter(), "gridColSpanMovie h-auto")}
+              key={movie.id}
+            >
+              <MovieCard data={movie} />
+            </li>
           );
         })}
         {hasNextPage && (
           <MovieCardSkeleton
-            size={5}
-            style="xl:col-span-3 2xl:col-span-4"
+            size={8}
+            style={liFilter()}
             xs={4}
             xl={4}
             ref={observerRef}

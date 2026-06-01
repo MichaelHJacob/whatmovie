@@ -16,7 +16,7 @@ const listItemStyles = tv({
     model: {
       cards: {
         liContainer:
-          "col-span-10 xs:col-[span_15/span_15] md:col-span-12 lg:col-[span_20/span_20] xl:col-span-12",
+          "col-span-1 md:col-[span_30/span_30] lg:col-[span_24/span_24] xl:col-[span_40/span_40]",
       },
       banner: {
         liContainer: "flex-shrink-0",

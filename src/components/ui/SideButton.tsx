@@ -7,7 +7,7 @@ import { VariantProps, tv } from "tailwind-variants";
 
 const sideButtonStyles = tv({
   slots: {
-    base: "absolute z-10 flex h-full w-[--p] items-center justify-center xs:w-[--pXS] md:w-[--pMD] lg:w-[--pLG]",
+    base: "absolute z-10 flex h-full w-[--p] items-center justify-center md:w-[--pMD]",
     button: "shadow-btn-hList",
   },
   variants: {

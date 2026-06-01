@@ -22,7 +22,7 @@ export default async function Details({
     <Container as="section">
       <HTitle>Mais detalhes</HTitle>
       <dl>
-        <div className="listSpacing no-scrollbar">
+        <div className="listSpacing no-scrollbar max-xs:auto-cols-[min(100%,_16rem)]">
           <CardInformation>
             {data.original_title && (
               <>
