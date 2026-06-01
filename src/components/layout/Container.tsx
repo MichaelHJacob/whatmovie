@@ -5,7 +5,7 @@ import { VariantProps, tv } from "tailwind-variants";
 
 const containerStyles = tv({
   slots: {
-    base: "mx-auto w-full max-w-7xl",
+    base: "mx-auto w-full max-w-screen-2xl",
     container: "w-full",
   },
   variants: {

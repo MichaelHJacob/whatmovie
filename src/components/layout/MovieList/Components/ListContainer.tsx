@@ -35,7 +35,7 @@ const ListContainerStyles = tv({
       model: ["cards", "banner"],
       class: {
         ulContainer:
-          "z-0 h-[80vh] min-h-96 w-full max-md:h-[80vh] md:h-[min(calc(100vw/(16/9)),calc(90vh-2.75rem))] xl:h-[min(calc(80rem/(16/9)),calc(90vh-2.75rem))]",
+          "z-0 h-[80vh] min-h-96 w-full max-md:auto-cols-[100%] md:h-[min(calc(100vw/(16/9)),calc(90vh-2.75rem))] xl:h-[min(calc(80rem/(16/9)),calc(90vh-2.75rem))]",
       },
     },
   ],

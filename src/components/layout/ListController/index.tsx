@@ -88,7 +88,7 @@ export default function ListController({
           model={model === "list" ? "cards" : model}
         />
         {(model === "cards" || model === "banner") && data && (
-          <div className="all-gap blockContainer-px absolute bottom-0 z-10 grid h-[--pMD] w-full grid-cols-3 grid-rows-1 items-center lg:h-[--pLG]">
+          <div className="all-gap blockContainer-px absolute bottom-0 z-10 grid h-[--pMD] w-full grid-cols-3 grid-rows-1 items-center">
             <IndicatorDots
               optionMap={getMap()}
               allOptions={options}

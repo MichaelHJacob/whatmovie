@@ -16,11 +16,11 @@ type VideosProps = { videosArray: ObjVideoType[] };
 const videoListStyles = tv({
   slots: {
     listBoxContainer:
-      "lg:reducerBlock-y lg:reducerBlock-x relative col-span-full row-span-1 max-lg:before:hidden max-lg:after:hidden lg:col-span-7 xl:col-span-4",
+      "lg:reducerBlock-y lg:reducerBlock-x relative col-span-full row-span-1 max-lg:before:hidden max-lg:after:hidden lg:col-span-9 xl:col-[span_13/span_13]",
     content:
       "lg:blockContainer-p gridTemplateSpace auto-rows-auto max-lg:gap-0",
     videoContainer:
-      "relative z-30 col-span-full row-span-1 lg:col-[span_13/span_13] xl:col-span-8",
+      "relative z-30 col-span-full row-span-1 lg:col-[span_15/span_15] xl:col-[span_27/span_27]",
   },
 });
 
