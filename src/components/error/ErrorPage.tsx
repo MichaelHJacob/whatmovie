@@ -3,6 +3,7 @@ import { ComponentPropsWithoutRef, ElementType } from "react";
 import AlertSing from "@/assets/status-signs/alert.svg";
 import ErrorSign from "@/assets/status-signs/error.svg";
 import Container from "@/components/layout/Container";
+import Button from "@/components/ui/Button";
 import HTitle from "@/components/ui/HTitle";
 import { VariantProps, tv } from "tailwind-variants";
 
@@ -71,7 +72,7 @@ export default function ErrorPage<T extends ElementType = "div">({
             <ErrorSign className="absolute h-52 w-52 fill-inverted-medium drop-shadow-2xl" />
           )}
           <p className={colorTextSing()}>
-            Código do erro:
+            Código do erro:{/* */}
             <span className="block rounded-lg bg-red-400 text-6xl font-extrabold">
               {textCode}
             </span>
@@ -87,14 +88,13 @@ export default function ErrorPage<T extends ElementType = "div">({
             {textMsg2}
           </p>
           {onRetry && (
-            <button
+            <Button
               onClick={() => onRetry()}
-              className="backBtn z-50 w-min bg-white/10 shadow-sm shadow-rose-900 active:bg-amber-700"
+              shadowBtn
+              className="z-50 bg-white/10 text-inverted-accent shadow-sm shadow-rose-900 active:bg-amber-700"
             >
-              <span className="textBtn text-inverted-accent">
-                Recarregar página
-              </span>
-            </button>
+              Recarregar página
+            </Button>
           )}
         </div>
       </div>

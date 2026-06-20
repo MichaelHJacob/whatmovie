@@ -47,7 +47,7 @@ type SideButtonProps = SideButtonVariants &
 export default function SideButton({
   noBackdrop = false,
   surfaceColor,
-  model,
+  model = "banner",
   hiddenLeft,
   hiddenRight = false,
   onLeft,

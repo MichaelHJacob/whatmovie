@@ -1,11 +1,32 @@
-type ClearSelectedProps = { onClear: () => void };
+import { ComponentPropsWithRef } from "react";
+
+import Button from "@/components/ui/Button";
+import clsx from "clsx";
+
+type ClearSelectedProps = {
+  onClear: () => void;
+} & ComponentPropsWithRef<"button">;
 
 export default function ClearSelected({
   onClear,
+  ...props
 }: Readonly<ClearSelectedProps>) {
+  function handleClick() {
+    onClear();
+  }
+
   return (
-    <button className="backBtn" type="button" onClick={onClear}>
-      <span className="textBtn">Limpar</span>
-    </button>
+    <Button
+      textBtn
+      theme="base"
+      {...props}
+      className={clsx(
+        props.className,
+        "hover:bg-negative-minimal hover:text-negative-accent",
+      )}
+      onClick={handleClick}
+    >
+      Limpar
+    </Button>
   );
 }
