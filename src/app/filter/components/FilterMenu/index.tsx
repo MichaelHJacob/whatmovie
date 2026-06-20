@@ -10,8 +10,10 @@ import Menu from "@/app/filter/components/FilterMenu/Menu";
 import ProviderSelector from "@/app/filter/components/FilterMenu/ProviderSelector";
 import GenreButton from "@/app/filter/components/ui/GenreButton";
 import ProviderButton from "@/app/filter/components/ui/ProviderButton";
+import ToRight from "@/assets/icons/toRight.svg";
 import Container from "@/components/layout/Container";
 import BreakHr from "@/components/ui/BreakHr";
+import Button from "@/components/ui/Button";
 import FoggyEdge from "@/components/ui/FoggyEdge";
 import { filtersMap } from "@/data/filtersMap";
 import { TypeBtnGenres, TypeBtnProvider } from "@/types/globalTypes";
@@ -70,16 +72,15 @@ export default function FilterMenu({ children }: Readonly<FilterMenuProps>) {
     }
 
     return (
-      <button onClick={open} className="backBtn backdrop-blur-xl xl:hidden">
-        <span
-          className={`h-[12px] w-[12px] ${
-            isFilterOpen ? "rotate-180" : "order-1 rotate-0"
-          } bg-[url('/icons/toRight.svg')] bg-[length:12px_12px] bg-[center_center] bg-no-repeat transition-all duration-300`}
-        ></span>
-        <span className="textBtn">
-          {isFilterOpen ? "Fechar" : "Expandir filtro"}
-        </span>
-      </button>
+      <Button
+        onClick={open}
+        blur
+        textBtn
+        className="bg-base-accent text-inverted-accent hover:bg-base-accent-hover xl:hidden"
+      >
+        <ToRight className={isFilterOpen ? "rotate-180" : "order-1 rotate-0"} />
+        {isFilterOpen ? "Fechar" : "Expandir filtro"}
+      </Button>
     );
   }
 
@@ -117,14 +118,17 @@ export default function FilterMenu({ children }: Readonly<FilterMenuProps>) {
   function ResetButton() {
     if (dataProviders && dataGenres) {
       return (
-        <button
-          className="backBtn backdrop-blur-xl"
+        <Button
+          blur
+          textBtn
+          theme="base"
+          className="hover:bg-negative-minimal hover:text-negative-accent"
           onClick={() => {
             reset();
           }}
         >
-          <span className="textBtn">Reset</span>
-        </button>
+          Reset
+        </Button>
       );
     }
   }
