@@ -16,9 +16,6 @@ export const buttonStyles = tv({
       true: {
         button: "rounded-full",
       },
-      false: {
-        button: "rounded-lg",
-      },
     },
     blur: {
       true: {
@@ -33,6 +30,9 @@ export const buttonStyles = tv({
     size: {
       default: {
         button: "h-9 px-3",
+      },
+      mid: {
+        button: "h-11 px-3",
       },
       tall: {
         button: "h-16 px-2",
@@ -80,6 +80,19 @@ export const buttonStyles = tv({
       theme: ["navigation-banner", "navigation-cards"],
       class: {
         button: "z-30 mt-11",
+      },
+    },
+    {
+      size: "mid",
+      round: false,
+      class: {
+        button: "rounded-xl",
+      },
+    },
+    {
+      round: false,
+      class: {
+        button: "rounded-lg",
       },
     },
     {

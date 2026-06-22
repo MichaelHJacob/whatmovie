@@ -304,7 +304,7 @@ export default function FilterMenu({
                 {providers
                   .filter((value) => value.fastAccess)
                   .map((value) => (
-                    <li key={value.provider_id} className="*:backdrop-blur-xl">
+                    <li key={value.provider_id} className="h-9">
                       <ProviderButton
                         provider={value}
                         add={addProvider}

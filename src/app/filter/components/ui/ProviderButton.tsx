@@ -1,37 +1,59 @@
 "use client";
 
+import { ChangeEvent } from "react";
+
 import { useTmdbConfigContext } from "@/components/providers/TmdbConfigProvider";
+import { buttonStyles } from "@/components/ui/Button";
+import CheckButton from "@/components/ui/CheckButton";
 import { TypeBtnProvider } from "@/types/globalTypes";
+import clsx from "clsx";
+import { VariantProps, tv } from "tailwind-variants";
 
 type ProviderButtonProps = {
   provider: TypeBtnProvider;
   add: (picked: TypeBtnProvider) => void;
   remove: (picked: TypeBtnProvider) => void;
+  style?: string;
+  size: VariantProps<typeof buttonStyles>["size"];
 };
+
+const providerButtonStyles = tv({
+  slots: {
+    base: "aspect-square bg-cover bg-center bg-no-repeat",
+    blend: "mix-blend-luminosity has-[:checked]:mix-blend-normal",
+    opacity: "opacity-30 has-[:checked]:opacity-100",
+  },
+});
 
 export default function ProviderButton({
   provider,
   add,
   remove,
+  style,
+  size,
 }: Readonly<ProviderButtonProps>) {
   const baseUrl = useTmdbConfigContext();
 
+  const { base, blend, opacity } = providerButtonStyles();
+  function toggleCheckbox(e: ChangeEvent<HTMLInputElement>) {
+    if (e.target.checked) {
+      add(provider);
+    } else {
+      remove(provider);
+    }
+  }
   return (
-    <label className="backBtn relative col-span-1 row-span-1 box-content block aspect-square overflow-hidden px-0">
-      <input
-        className="peer absolute appearance-none bg-transparent opacity-0"
-        type="checkbox"
-        value={provider.provider_id}
-        checked={provider.state}
-        onChange={() => (provider.state ? remove(provider) : add(provider))}
-      />
-      <img
-        className="aspect-square w-full object-contain opacity-50 grayscale-[90%] transition-all duration-500 hover:grayscale-0 peer-checked:opacity-100 peer-checked:grayscale-0"
-        src={baseUrl.logo.i50 + provider.logo_path}
-        width={44}
-        height={44}
-        alt={provider.provider_name}
-      />
-    </label>
+    <CheckButton
+      style={{
+        backgroundImage: `url(${baseUrl.logo.i50 + provider.logo_path})`,
+      }}
+      name={`option${provider.provider_id}`}
+      checked={provider.state}
+      onToggleCheckbox={toggleCheckbox}
+      labelText={provider.provider_name}
+      className={clsx(base(), blend(), style, opacity())}
+      title={provider.provider_name}
+      size={size}
+    />
   );
 }
