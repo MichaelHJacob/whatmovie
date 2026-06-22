@@ -7,6 +7,8 @@ export const filterMenuBase = tv({
     innerField: "h-auto w-full select-none gap-2",
     topButton:
       "blockContainer-px absolute right-0 top-0 flex h-11 max-w-min -translate-y-full items-center justify-end",
+    outline:
+      "outline-4 outline-offset-0 outline-black/0 hover:outline-input-focus focus:outline-input-focus",
   },
   variants: {
     fieldset: {
