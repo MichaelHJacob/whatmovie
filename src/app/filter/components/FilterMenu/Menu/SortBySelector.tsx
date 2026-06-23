@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { filterMenuBase } from "@/app/filter/components/FilterMenu/filterMenu.styles";
+import { buttonStyles } from "@/components/ui/Button";
 import { FiltersMap } from "@/types/filtersTypes";
+import clsx from "clsx";
 
 type SortBySelectorProps = FiltersMap["sortBy"];
 
@@ -28,14 +30,18 @@ export default function SortBySelector(props: Readonly<SortBySelectorProps>) {
     }
   }, [searchParams, props.keys, props.allowedValues]);
 
-  const { field, title } = filterMenuBase({ fieldset: false });
+  const { field, title, outline } = filterMenuBase({ fieldset: false });
+  const { button, text } = buttonStyles({
+    textBtn: true,
+    theme: "neutral-subtle",
+  });
 
   return (
     <div className={field()}>
-      <label className="flex items-center justify-between">
+      <label className="flex cursor-pointer touch-manipulation items-center justify-between">
         <span className={title()}>Ordenar por:</span>
         <select
-          className="backBtn textBtn"
+          className={clsx(button(), text(), outline())}
           name="sortBy"
           onChange={(e) => {
             handleSelect(e.target.value);
