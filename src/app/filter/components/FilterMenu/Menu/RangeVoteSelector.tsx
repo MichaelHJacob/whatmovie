@@ -3,6 +3,7 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { filterMenuBase } from "@/app/filter/components/FilterMenu/filterMenu.styles";
+import InputNumber from "@/app/filter/components/ui/InputNumber";
 import { FiltersMap } from "@/types/filtersTypes";
 import clsx from "clsx";
 
@@ -148,40 +149,28 @@ export default function RangeVoteSelector(
     <fieldset className={field()}>
       <legend className={title()}>Pontuação:</legend>
       <div className={clsx(innerField(), "flex w-full justify-between")}>
-        <label className="backBtn flex items-center">
-          <span className="textBtn text-xs uppercase opacity-65">Min</span>
-          <input
-            type="number"
-            value={minNumber}
-            className="textBtn mx-[-10px] h-11 w-[44px] rounded-lg bg-transparent text-center"
-            onChange={(e) => numberMin(e)}
-            onTouchStartCapture={() => {
-              setMinNumber("");
-            }}
-            pattern="[0-9]*"
-            inputMode="decimal"
-            name="minNumber"
-            min={props.allowedValues.gte}
-            max={maxNumber}
-          />
-        </label>
-
-        <label className="backBtn flex items-center">
-          <span className="textBtn text-xs uppercase opacity-65">Max</span>
-          <input
-            type="number"
-            className="textBtn mx-[-10px] h-11 w-[44px] rounded-lg bg-transparent text-center"
-            value={maxNumber}
-            onChange={(e) => numberMax(e)}
-            onTouchStartCapture={() => {
-              setMaxNumber("");
-            }}
-            pattern="[0-9]*"
-            inputMode="decimal"
-            min={minNumber}
-            max={props.allowedValues.lte}
-          />
-        </label>
+        <InputNumber
+          labelText="min"
+          value={minNumber}
+          onChange={(e) => numberMin(e)}
+          onTouchStartCapture={() => {
+            setMinNumber("");
+          }}
+          name="minNumber"
+          min={props.allowedValues.gte}
+          max={maxNumber}
+        />
+        <InputNumber
+          labelText="max"
+          value={maxNumber}
+          onChange={(e) => numberMax(e)}
+          onTouchStartCapture={() => {
+            setMaxNumber("");
+          }}
+          name="minNumber"
+          min={minNumber}
+          max={props.allowedValues.lte}
+        />
       </div>
       <div className={clsx(innerField(), "min-h-11 pt-5")}>
         <div className="relative h-1 rounded-lg bg-base-medium">
