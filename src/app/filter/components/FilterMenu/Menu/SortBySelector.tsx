@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
+import { filterMenuBase } from "@/app/filter/components/FilterMenu/filterMenu.styles";
 import { FiltersMap } from "@/types/filtersTypes";
 
 type SortBySelectorProps = FiltersMap["sortBy"];
@@ -27,25 +28,27 @@ export default function SortBySelector(props: Readonly<SortBySelectorProps>) {
     }
   }, [searchParams, props.keys, props.allowedValues]);
 
+  const { field, title } = filterMenuBase({ fieldset: false });
+
   return (
-    <li>
-      <label className="blockContainer-px flex min-h-11 w-full items-center justify-between rounded-lg">
-        <span className="filter-label">Ordenar por:</span>
-        <select
-          className="backBtn textBtn"
-          name="sortBy"
-          onChange={(e) => {
-            handleSelect(e.target.value);
-          }}
-          value={orderBy}
-        >
-          <option value={props.allowedValues[3]}>Popularidade</option>
-          <option value={props.allowedValues[5]}>Custo</option>
-          <option value={props.allowedValues[7]}>Lançamento</option>
-          <option value={props.allowedValues[13]}>Votos</option>
-          <option value={props.allowedValues[11]}>Pontuação</option>
-        </select>
-      </label>
-    </li>
+    <div className={field()}>
+    <label className="flex items-center justify-between">
+      <span className={title()}>Ordenar por:</span>
+      <select
+        className="backBtn textBtn"
+        name="sortBy"
+        onChange={(e) => {
+          handleSelect(e.target.value);
+        }}
+        value={orderBy}
+      >
+        <option value={props.allowedValues[3]}>Popularidade</option>
+        <option value={props.allowedValues[5]}>Custo</option>
+        <option value={props.allowedValues[7]}>Lançamento</option>
+        <option value={props.allowedValues[13]}>Votos</option>
+        <option value={props.allowedValues[11]}>Pontuação</option>
+      </select>
+    </label>
+    </div>
   );
 }

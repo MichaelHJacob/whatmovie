@@ -2,7 +2,9 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
+import { filterMenuBase } from "@/app/filter/components/FilterMenu/filterMenu.styles";
 import { FiltersMap } from "@/types/filtersTypes";
+import clsx from "clsx";
 
 type RangeVoteSelectorProps = FiltersMap["voteAverage"];
 
@@ -140,86 +142,83 @@ export default function RangeVoteSelector(
     }
   }
 
+  const { field, title, innerField } = filterMenuBase();
+
   return (
-    <li>
-      <fieldset className="flex max-h-fit flex-col gap-[--gap] md:gap-[--gapMD]">
-        <legend className="blockContainer-px pb-[--gap] md:pb-[--gapMD]">
-          <span className="filter-label">Pontuação:</span>
-        </legend>
-        <div className="blockContainer-px flex w-full justify-between">
-          <label className="backBtn flex items-center">
-            <span className="textBtn text-xs uppercase opacity-65">Min</span>
-            <input
-              type="number"
-              value={minNumber}
-              className="textBtn mx-[-10px] h-11 w-[44px] rounded-lg bg-transparent text-center"
-              onChange={(e) => numberMin(e)}
-              onTouchStartCapture={() => {
-                setMinNumber("");
-              }}
-              pattern="[0-9]*"
-              inputMode="decimal"
-              name="minNumber"
-              min={props.allowedValues.gte}
-              max={maxNumber}
-            />
-          </label>
+    <fieldset className={field()}>
+      <legend className={title()}>Pontuação:</legend>
+      <div className={clsx(innerField(), "flex w-full justify-between")}>
+        <label className="backBtn flex items-center">
+          <span className="textBtn text-xs uppercase opacity-65">Min</span>
+          <input
+            type="number"
+            value={minNumber}
+            className="textBtn mx-[-10px] h-11 w-[44px] rounded-lg bg-transparent text-center"
+            onChange={(e) => numberMin(e)}
+            onTouchStartCapture={() => {
+              setMinNumber("");
+            }}
+            pattern="[0-9]*"
+            inputMode="decimal"
+            name="minNumber"
+            min={props.allowedValues.gte}
+            max={maxNumber}
+          />
+        </label>
 
-          <label className="backBtn flex items-center">
-            <span className="textBtn text-xs uppercase opacity-65">Max</span>
-            <input
-              type="number"
-              className="textBtn mx-[-10px] h-11 w-[44px] rounded-lg bg-transparent text-center"
-              value={maxNumber}
-              onChange={(e) => numberMax(e)}
-              onTouchStartCapture={() => {
-                setMaxNumber("");
-              }}
-              pattern="[0-9]*"
-              inputMode="decimal"
-              min={minNumber}
-              max={props.allowedValues.lte}
-            />
-          </label>
+        <label className="backBtn flex items-center">
+          <span className="textBtn text-xs uppercase opacity-65">Max</span>
+          <input
+            type="number"
+            className="textBtn mx-[-10px] h-11 w-[44px] rounded-lg bg-transparent text-center"
+            value={maxNumber}
+            onChange={(e) => numberMax(e)}
+            onTouchStartCapture={() => {
+              setMaxNumber("");
+            }}
+            pattern="[0-9]*"
+            inputMode="decimal"
+            min={minNumber}
+            max={props.allowedValues.lte}
+          />
+        </label>
+      </div>
+      <div className={clsx(innerField(), "min-h-11 pt-5")}>
+        <div className="relative h-1 rounded-lg bg-base-medium">
+          <div
+            className="absolute h-full rounded-lg bg-input-on"
+            style={{
+              right: rightSide,
+              left: leftSide,
+            }}
+          ></div>
         </div>
 
-        <div className="blockContainer-px h-11 w-full pt-[20px]">
-          <div className="relative h-1 rounded-lg bg-base-medium">
-            <div
-              className="absolute h-full rounded-lg bg-input-on"
-              style={{
-                right: rightSide,
-                left: leftSide,
-              }}
-            ></div>
-          </div>
-
-          <div className="relative">
-            <input
-              type="range"
-              className="pointer-events-none absolute top-[-2px] h-0 w-full appearance-none"
-              step={1}
-              min={props.allowedValues.gte}
-              max={props.allowedValues.lte}
-              value={minRange}
-              onChange={(e) => handleMinRange(Number(e.target.value))}
-              onMouseUp={() => toParams(String(minRange), maxNumber)}
-              onTouchEnd={() => toParams(String(minRange), maxNumber)}
-            />
-            <input
-              type="range"
-              className="pointer-events-none absolute top-[-2px] h-0 w-full appearance-none"
-              step={1}
-              min={props.allowedValues.gte}
-              max={props.allowedValues.lte}
-              value={maxRange}
-              onChange={(e) => handleMaxRange(Number(e.target.value))}
-              onMouseUp={() => toParams(minNumber, String(maxRange))}
-              onTouchEnd={() => toParams(minNumber, String(maxRange))}
-            />
-          </div>
+        <div className="relative">
+          <input
+            type="range"
+            className="pointer-events-none absolute top-[-2px] h-0 w-full appearance-none"
+            step={1}
+            min={props.allowedValues.gte}
+            max={props.allowedValues.lte}
+            value={minRange}
+            onChange={(e) => handleMinRange(Number(e.target.value))}
+            onMouseUp={() => toParams(String(minRange), maxNumber)}
+            onTouchEnd={() => toParams(String(minRange), maxNumber)}
+          />
+          <input
+            type="range"
+            className="pointer-events-none absolute top-[-2px] h-0 w-full appearance-none"
+            step={1}
+            min={props.allowedValues.gte}
+            max={props.allowedValues.lte}
+            value={maxRange}
+            onChange={(e) => handleMaxRange(Number(e.target.value))}
+            onMouseUp={() => toParams(minNumber, String(maxRange))}
+            onTouchEnd={() => toParams(minNumber, String(maxRange))}
+          />
         </div>
-      </fieldset>
-    </li>
+      </div>
+    </fieldset>
   );
 }
