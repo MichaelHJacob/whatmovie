@@ -37,6 +37,9 @@ export const buttonStyles = tv({
       tall: {
         button: "h-16 px-2",
       },
+      short: {
+        button: "h-7 px-3",
+      },
       custom: "",
     },
     textBtn: {
@@ -45,6 +48,14 @@ export const buttonStyles = tv({
       },
     },
     theme: {
+      "neutral-subtle": {
+        button: "bg-neutral-subtle",
+        text: "text-neutral-subtle hover:text-neutral-strong-hover",
+      },
+      "neutral-accent": {
+        button: "bg-neutral-accent hover:bg-neutral-accent-hover",
+        text: "text-inverted-accent",
+      },
       base: {
         button: "bg-base-subtle",
         text: "text-base-medium",
@@ -69,6 +80,12 @@ export const buttonStyles = tv({
       theme: ["navigation-banner", "navigation-cards"],
       class: {
         button: "z-30 mt-11",
+      },
+    },
+    {
+      size: "short",
+      class: {
+        text: "uppercase",
       },
     },
   ],
