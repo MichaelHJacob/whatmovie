@@ -1,21 +1,40 @@
 import { PROFILE } from "@/config/imageConfig";
-import { tv } from "tailwind-variants";
+import { VariantProps, tv } from "tailwind-variants";
 
 const imageProfileStyles = tv({
   slots: {
-    imgContainer:
-      "relative after:absolute after:inset-0 after:block after:rounded-full after:shadow-people",
-    img: "aspect-square w-full rounded-full object-cover contrast-[1.1]",
+    imgContainer: "relative",
+    img: "aspect-square rounded-full object-cover contrast-[1.1]",
+  },
+  variants: {
+    mode: {
+      list: {
+        imgContainer: "aspect-square h-full",
+        img: "h-full",
+      },
+      icon: {
+        imgContainer:
+          "w-full after:absolute after:inset-0 after:block after:rounded-full after:shadow-people",
+        img: "w-full",
+      },
+    },
+  },
+  defaultVariants: {
+    mode: "icon",
   },
 });
 
-type ImageProfileProps = { path: string; alt: string };
+type ImageProfileProps = {
+  path: string;
+  alt: string;
+} & VariantProps<typeof imageProfileStyles>;
 
 export default function ImageProfile({
   path,
   alt,
+  mode,
 }: Readonly<ImageProfileProps>) {
-  const { imgContainer, img } = imageProfileStyles();
+  const { imgContainer, img } = imageProfileStyles({ mode });
   return (
     <div className={imgContainer()}>
       <img
