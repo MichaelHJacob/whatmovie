@@ -2,6 +2,8 @@
   /*  Component Token  */
   --color-fg-nav: var(--color-fg-base-medium);
   --color-fg-nav-hover: var(--color-fg-base-accent);
+  --color-bg-scrim-menu: theme(colors.gray.200 / 40%);
+  --color-bg-scrim-modal: theme(colors.neutral.950 / 40%);
   /* static */
   --color-bg-nav-black: var(--color-bg-black-soft);
   --color-bg-nav-black-expanded: var(--color-bg-black-intense);
@@ -12,8 +14,7 @@
   --color-bg-body: theme(colors.white);
   --color-bg-base: theme(colors.gray.100);
   --color-bg-raised: theme(colors.neutral.100 / 72%);
-  --color-bg-overlay: theme(colors.gray.50 / 95%);
-  --color-bg-scrim: theme(colors.gray.200 / 40%);
+  --color-bg-overlay: theme(colors.gray.50);
   --color-bg-floating: theme(colors.neutral.100 / 70%);
   --color-bg-floating-expanded: theme(colors.neutral.100 / 95%);
   --color-border-focus: theme(colors.blue.600);
@@ -144,6 +145,7 @@
   --color-bg-neutral-medium: theme(colors.zinc.300);
   /* Enable state of button */
   --color-bg-neutral-accent: theme(colors.zinc.800);
+  --color-bg-neutral-accent-hover: theme(colors.zinc.700);
   /* Primary role */
   --color-fg-primary-accent: theme(colors.blue.600);
   --color-bg-primary-minimal: theme(colors.blue.50);
@@ -233,13 +235,14 @@
     /*  Component Token  */
     --color-fg-nav: var(--color-fg-base-medium);
     --color-fg-nav-hover: var(--color-fg-base-accent);
+    --color-bg-scrim-menu: theme(colors.black / 4%);
+    --color-bg-scrim-modal: theme(colors.black / 40%);
     /* ---------------------------------------------------- */
     /* Surface */
     --color-bg-body: theme(colors.neutral.950);
     --color-bg-base: theme(colors.neutral.800);
     --color-bg-raised: theme(colors.neutral.800 / 70%);
-    --color-bg-overlay: theme(colors.neutral.700 / 95%);
-    --color-bg-scrim: theme(colors.black / 40%);
+    --color-bg-overlay: theme(colors.neutral.700);
     --color-bg-floating: theme(colors.neutral.800 / 80%);
     --color-bg-floating-expanded: theme(colors.neutral.800 / 95%);
     --color-border-focus: theme(colors.blue.600);
@@ -330,6 +333,7 @@
     --color-bg-neutral-subtle: theme(colors.zinc.800);
     --color-bg-neutral-medium: theme(colors.zinc.700);
     --color-bg-neutral-accent: theme(colors.zinc.100);
+    --color-bg-neutral-accent-hover: theme(colors.zinc.200);
 
     --color-fg-primary-accent: theme(colors.blue.500);
     --color-bg-primary-minimal: theme(colors.blue.950);

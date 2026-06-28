@@ -6,6 +6,8 @@ export const componentTokens = {
     "navigationBtn-hover": "var(--color-bg-inverted-soft-hover)",
     "navigationBtn-black": "var(--color-bg-black-soft)",
     "navigationBtn-black-hover": "var(--color-bg-black-soft-hover)",
+    "scrim-menu": "var(--color-bg-scrim-menu)",
+    "scrim-modal": "var(--color-bg-scrim-modal)",
   },
   foreground: {
     nav: "var(--color-fg-nav)",
@@ -25,7 +27,6 @@ export const surface = {
     base: "var(--color-bg-base)",
     raised: "var(--color-bg-raised)",
     overlay: "var(--color-bg-overlay)",
-    scrim: "var(--color-bg-scrim)",
     floating: "var(--color-bg-floating)",
     "floating-expanded": "var(--color-bg-floating-expanded)",
   },
@@ -161,6 +162,7 @@ export const primaryNeutralStates = {
     "neutral-subtle": "var(--color-bg-neutral-subtle)",
     "neutral-medium": "var(--color-bg-neutral-medium)",
     "neutral-accent": "var(--color-bg-neutral-accent)",
+    "neutral-accent-hover": "var(--color-bg-neutral-accent-hover)",
     // Primary, Negative and Notice role
     "primary-minimal": "var(--color-bg-primary-minimal)",
     "primary-accent": "var(--color-bg-primary-accent)",

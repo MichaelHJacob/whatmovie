@@ -18,7 +18,7 @@ const navbar = tv({
     theme:
       "group fixed before:fixed before:bg-floating peer-data-[theme=movie]:absolute peer-data-[theme=movie]:before:absolute",
     scrim:
-      "invisible fixed inset-0 -z-20 h-dvh w-screen bg-scrim opacity-0 backdrop-blur-xl transition-all duration-1000 peer-data-[bgscrim='true']:visible peer-data-[bgscrim='true']:opacity-100 [[data-theme='movie']_~_nav_&]:hidden",
+      "invisible fixed inset-0 -z-20 h-dvh w-screen bg-scrim-menu opacity-0 backdrop-blur-xl transition-all duration-1000 peer-data-[bgscrim='true']:visible peer-data-[bgscrim='true']:opacity-100 [[data-theme='movie']_~_nav_&]:hidden",
   },
 });
 
