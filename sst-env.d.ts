@@ -10,6 +10,10 @@ declare module "sst" {
       "type": "sst.sst.Secret"
       "value": string
     }
+    "WhatMovieWeb": {
+      "type": "sst.aws.Nextjs"
+      "url": string
+    }
   }
 }
 
