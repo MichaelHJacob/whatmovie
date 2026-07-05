@@ -11,8 +11,10 @@ export default $config({
     };
   },
   async run() {
-    const web = new sst.aws.Nextjs("WhatMovieWeb");
-
+    const tmdbApiToken = new sst.Secret("TmdbApiToken");
+    const web = new sst.aws.Nextjs("WhatMovieWeb", {
+      link: [tmdbApiToken],
+    });
     return {
       url: web.url,
     };

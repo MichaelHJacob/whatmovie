@@ -1,5 +1,7 @@
+import { Resource } from "sst";
+
 export const ENV = {
-  TMDB_TOKEN: process.env.TMDB_API_TOKEN,
+  TMDB_TOKEN: Resource.TmdbApiToken.value,
 };
 
 if (!ENV.TMDB_TOKEN) {
