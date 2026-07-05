@@ -2,7 +2,6 @@ import Stream from "@/app/(movie)/[slug]/components/layout/PageHero/Stream";
 import Container from "@/components/layout/Container";
 import HTitle from "@/components/ui/HTitle";
 import { POSTER } from "@/config/imageConfig";
-import { generateBlurImage } from "@/lib/image/generateBlurImage";
 import { formatToLocaleDate } from "@/lib/utils/formatToLocaleDate";
 import { MovieDetailsType } from "@/lib/validation/movieDetailsSchema";
 import { movieBase } from "@/styles/movie.styles";
@@ -38,16 +37,18 @@ export default async function PageHero({ data }: Readonly<PageHeroProps>) {
     subTitle,
   } = movieStyles();
 
-  const [base64] = data?.poster_path
-    ? await generateBlurImage(POSTER.w92 + data.poster_path)
-    : [null];
-
   return (
     <Container
       style={{
-        backgroundImage: base64 ? `url("${base64}")` : undefined,
+        backgroundImage: data.poster_path
+          ? `url("${POSTER.w92 + data.poster_path}")`
+          : undefined,
       }}
-      className={clsx(container(), raised(), !base64 && "bg-gradient-default")}
+      className={clsx(
+        container(),
+        raised(),
+        !data.poster_path && "bg-gradient-default",
+      )}
       innerStyles={innerContainer()}
     >
       <div className={imgContainer()}>
