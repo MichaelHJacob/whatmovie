@@ -10,6 +10,7 @@
     "dev": "next dev",
     "generate-config": "ts-node scripts/createApiConfig.ts",
     "generate-data": "ts-node scripts/createMetadata.ts",
+    "generate-listGenres": "ts-node scripts/createListGenres.ts",
     "lint": "next lint",
     "prebuild": "npm run generate-data && npm run generate-config",
     "start": "next start"

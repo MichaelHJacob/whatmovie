@@ -1,4 +1,5 @@
-import { listGenres, listMovieProvider } from "@/data/movieMetadata";
+import { listMovieProvider } from "@/data/movieMetadata";
+import { tmdbMovieGenres } from "@/data/tmdbMovieGenres";
 import { getISODateString } from "@/lib/utils/getISODateString";
 import { z } from "zod";
 
@@ -255,16 +256,19 @@ export const filtersMap = {
 
   withGenres: {
     keys: ["with_genres"],
-    allowedValues: listGenres,
+    allowedValues: tmdbMovieGenres,
     type: "option",
     schema: z
       .string()
       .transform((val) => val.split(","))
       .pipe(
         z.array(
-          z.enum(listGenres.genres.map((g) => g.id.toString()) as [string], {
-            message: "Parâmetro 'Gênero' invalido",
-          }),
+          z.enum(
+            tmdbMovieGenres.genres.map((g) => g.id.toString()) as [string],
+            {
+              message: "Parâmetro 'Gênero' invalido",
+            },
+          ),
         ),
       )
       .transform((val) => val?.join(","))
@@ -273,14 +277,16 @@ export const filtersMap = {
 
   withoutGenres: {
     keys: ["without_genres"],
-    allowedValues: listGenres,
+    allowedValues: tmdbMovieGenres,
     type: "option",
     schema: z
       .string()
       .transform((val) => val.split(","))
       .pipe(
         z.array(
-          z.enum(listGenres.genres.map((g) => g.id.toString()) as [string]),
+          z.enum(
+            tmdbMovieGenres.genres.map((g) => g.id.toString()) as [string],
+          ),
         ),
       )
       .transform((val) => val?.join(","))
