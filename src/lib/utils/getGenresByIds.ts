@@ -1,7 +1,9 @@
-import { listGenres } from "@/data/movieMetadata";
+import { tmdbMovieGenres } from "@/data/tmdbMovieGenres";
 
 export function getGenresByIds(genres: number[]) {
-  const list = listGenres.genres.filter((value) => genres.includes(value.id));
+  const list = tmdbMovieGenres.genres.filter((value) =>
+    genres.includes(value.id),
+  );
 
   return list.map((value) => value.name);
 }

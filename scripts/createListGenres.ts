@@ -8,17 +8,17 @@ import { API_ENDPOINTS } from "../src/config/apiEndpoints";
 
 dotenv.config({ path: [".env.local"] });
 
-const OUTPUT_PATH = path.join(__dirname, "../src/data/movieMetadata.ts");
+const OUTPUT_PATH = path.join(__dirname, "../src/data/tmdbMovieGenres.ts");
 
-async function getMovieProviders() {
+async function getGenres() {
   const options = {
     headers: {
       accept: "application/json",
-      Authorization: `Bearer ${process.env.TMDB_API_TOKEN}`,
+      Authorization: `${process.env.DB_TOKEN_AUTH}`,
     },
   };
   const res = await fetch(
-    `${API_ENDPOINTS.metadata.movieProviders}?language=pt-BR&watch_region=BR`,
+    `${API_ENDPOINTS.metadata.movieGenres}?language=pt-BR`,
     options,
   );
 
@@ -30,10 +30,10 @@ async function getMovieProviders() {
 }
 
 async function run() {
-  const listMovieProvider = await getMovieProviders();
+  const tmdbMovieGenres = await getGenres();
 
-  const fileContent = `  
-  export const listMovieProvider = ${inspect(listMovieProvider, {
+  const fileContent = `
+  export const tmdbMovieGenres = ${inspect(tmdbMovieGenres, {
     depth: null,
     compact: true,
     sorted: false,
