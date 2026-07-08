@@ -1,4 +1,3 @@
-import { listMovieProvider } from "@/data/movieMetadata";
 import { tmdbMovieGenres } from "@/data/tmdbMovieGenres";
 import { getISODateString } from "@/lib/utils/getISODateString";
 import { z } from "zod";
@@ -17,7 +16,7 @@ type BaseFilter =
     }
   | {
       keys: string[];
-      allowedValues: string[] | object | number[];
+      allowedValues?: string[] | object | number[];
       type: "option" | "range" | "alternative";
       schema: z.ZodTypeAny;
     };
@@ -295,38 +294,28 @@ export const filtersMap = {
 
   withWatchProviders: {
     keys: ["with_watch_providers"],
-    allowedValues: listMovieProvider,
     type: "option",
     schema: z
       .string()
-      .refine(
-        (val) =>
-          val
-            .split(/[,|]/)
-            .every((id) =>
-              listMovieProvider.results
-                .map((value) => value.provider_id.toString())
-                .includes(id),
-            ),
-        { message: "Parâmetro 'Onde assistir' invalido" },
+      .regex(
+        new RegExp(/^(?!.*?\b(\d{1,4})\b.*?\b\1\b)\d{1,4}(?:[,|]\d{1,4})*$/),
+        {
+          message: "Parâmetro 'Onde assistir' invalido",
+        },
       )
       .optional(),
   },
 
   withoutWatchProviders: {
     keys: ["without_watch_providers"],
-    allowedValues: listMovieProvider,
     type: "option",
     schema: z
       .string()
-      .refine((val) =>
-        val
-          .split(/[,|]/)
-          .every((id) =>
-            listMovieProvider.results
-              .map((value) => value.provider_id.toString())
-              .includes(id),
-          ),
+      .regex(
+        new RegExp(/^(?!.*?\b(\d{1,4})\b.*?\b\1\b)\d{1,4}(?:[,|]\d{1,4})*$/),
+        {
+          message: "Parâmetro invalido",
+        },
       )
       .optional(),
   },
