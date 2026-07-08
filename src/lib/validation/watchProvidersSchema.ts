@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const providerSchema = z.object({
+export const providerSchema = z.object({
   logo_path: z.string(),
   provider_id: z.number(),
   provider_name: z.string(),
