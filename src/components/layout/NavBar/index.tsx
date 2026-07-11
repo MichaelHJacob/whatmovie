@@ -5,6 +5,8 @@ import { QueryProvider } from "@/components/Providers";
 import Container from "@/components/layout/Container";
 import Search from "@/components/layout/NavBar/Search";
 import { navbarBase } from "@/components/layout/NavBar/navbar.styles";
+import TmdbConfigProvider from "@/components/providers/TmdbConfigProvider";
+import { imgBaseUrl } from "@/lib/utils/getImageBaseUrl";
 import clsx from "clsx";
 import { tv } from "tailwind-variants";
 
@@ -46,7 +48,9 @@ export default function NavBar() {
 
       <div className={menu()}>
         <QueryProvider>
-          <Search />
+          <TmdbConfigProvider config={imgBaseUrl}>
+            <Search />
+          </TmdbConfigProvider>
         </QueryProvider>
         <Link href={`/filter`} target="_top" className={btnHeader()}>
           <span className={btnText()}>Filtro</span>
