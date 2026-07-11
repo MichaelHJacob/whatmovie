@@ -1,4 +1,6 @@
-import { LOGO } from "@/config/imageConfig";
+"use client";
+
+import { useTmdbConfigContext } from "@/components/providers/TmdbConfigProvider";
 import { TypeBtnProvider } from "@/types/globalTypes";
 
 type ProviderButtonProps = {
@@ -12,6 +14,8 @@ export default function ProviderButton({
   add,
   remove,
 }: Readonly<ProviderButtonProps>) {
+  const baseUrl = useTmdbConfigContext();
+
   return (
     <label className="backBtn relative col-span-1 row-span-1 box-content block aspect-square overflow-hidden px-0">
       <input
@@ -23,7 +27,7 @@ export default function ProviderButton({
       />
       <img
         className="aspect-square w-full object-contain opacity-50 grayscale-[90%] transition-all duration-500 hover:grayscale-0 peer-checked:opacity-100 peer-checked:grayscale-0"
-        src={LOGO.w92 + provider.logo_path}
+        src={baseUrl.logo.i50 + provider.logo_path}
         width={44}
         height={44}
         alt={provider.provider_name}
