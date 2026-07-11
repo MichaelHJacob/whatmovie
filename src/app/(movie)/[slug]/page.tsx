@@ -10,11 +10,11 @@ import Videos from "@/app/(movie)/[slug]/components/layout/Videos";
 import Recommendations from "@/app/(movie)/[slug]/components/layout/WmRecommendations";
 import StructuredData from "@/components/StructuredData";
 import SkeletonListMovie from "@/components/skeleton/SkeletonListMovie";
-import { POSTER } from "@/config/imageConfig";
 import { getMovieDetails } from "@/lib/api/tmdb/use-cases/getMovieDetails";
 import { getPopular } from "@/lib/api/tmdb/use-cases/getPopular";
 import { itemPageMovieJsonLd } from "@/lib/structured-data/itemPageMovieJsonLd";
 import { formatToIdSlug } from "@/lib/utils/formatToIdSlug";
+import { imgBaseUrl } from "@/lib/utils/getImageBaseUrl";
 import { NotFoundError } from "@/lib/validation/extendExpectedError";
 
 export const revalidate = 432000;
@@ -61,7 +61,7 @@ export async function generateMetadata({
 
   if (data.poster_path) {
     metadata["openGraph"] = {
-      images: `${POSTER.w780}${data.poster_path}`,
+      images: `${imgBaseUrl.poster.b800}${data.poster_path}`,
     };
   }
 

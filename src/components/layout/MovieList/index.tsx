@@ -8,6 +8,7 @@ import ListItem, {
 } from "@/components/layout/MovieList/Components/ListItem";
 import { FoggyEdgeVariants } from "@/components/ui/FoggyEdge";
 import MovieCard from "@/components/ui/MovieCard";
+import { imgBaseUrl } from "@/lib/utils/getImageBaseUrl";
 import { DiscoverMovieType } from "@/lib/validation/discoverMovieSchema";
 
 type MovieListProps = {
@@ -46,9 +47,15 @@ export default function MovieList({
               model={model}
               paddingTop={paddingTop}
             >
-              {model === "list" && <MovieCard data={data} />}
-              {(model === "cards" || model === "banner") && (
-                <ContentSlider key={data.id} data={data} model={model} />
+              {model === "cards" || model === "banner" ? (
+                <ContentSlider
+                  key={data.id}
+                  data={data}
+                  model={model}
+                  baseUrl={imgBaseUrl}
+                />
+              ) : (
+                <MovieCard data={data} baseUrl={imgBaseUrl} />
               )}
             </ListItem>
           );

@@ -5,8 +5,8 @@ import { ComponentProps, useContext } from "react";
 import Link from "next/link";
 
 import { ListControllerContext } from "@/components/layout/ListController/ListControllerContext";
-import { BACKDROP } from "@/config/imageConfig";
 import { formatToIdSlug } from "@/lib/utils/formatToIdSlug";
+import { imgBaseUrlType } from "@/lib/utils/getImageBaseUrl";
 import { DiscoverSchemaType } from "@/lib/validation/discoverSchema";
 import clsx from "clsx";
 import { VariantProps, tv } from "tailwind-variants";
@@ -40,11 +40,13 @@ type ContentSliderVariants = VariantProps<typeof contentSliderStyles>;
 type ContentSliderProps = ComponentProps<"a"> &
   ContentSliderVariants & {
     data: DiscoverSchemaType["results"][0];
+    baseUrl: imgBaseUrlType;
   };
 
 export default function ContentSlider({
   data,
   model,
+  baseUrl,
   ...props
 }: Readonly<ContentSliderProps>) {
   const listContext = useContext(ListControllerContext);
@@ -60,7 +62,7 @@ export default function ContentSlider({
     >
       <figure className={figure()}>
         <img
-          src={`${BACKDROP.w1280 + data.backdrop_path}`}
+          src={`${baseUrl.backdrop.b1200 + data.backdrop_path}`}
           className={img()}
           fetchPriority="auto"
           loading="lazy"

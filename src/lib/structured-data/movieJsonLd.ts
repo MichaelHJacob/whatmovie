@@ -1,4 +1,4 @@
-import { POSTER } from "@/config/imageConfig";
+import { imgBaseUrl } from "@/lib/utils/getImageBaseUrl";
 import { DiscoverMovieType } from "@/lib/validation/discoverMovieSchema";
 import { MovieDetailsType } from "@/lib/validation/movieDetailsSchema";
 import { Movie } from "schema-dts";
@@ -10,10 +10,9 @@ export function movieJsonLd(data: MovieDetailsType | DiscoverMovieType): Movie {
     alternateName: data.title,
     image: data.poster_path
       ? [
-          `${POSTER.w342}${data.poster_path}`,
-          `${POSTER.w500}${data.poster_path}`,
-          `${POSTER.w780}${data.poster_path}`,
-          `${POSTER.original}${data.poster_path}`,
+          `${imgBaseUrl.poster.p300}${data.poster_path}`,
+          `${imgBaseUrl.poster.p500}${data.poster_path}`,
+          `${imgBaseUrl.poster.b800}${data.poster_path}`,
         ]
       : undefined,
     dateCreated: data.release_date ?? undefined,
