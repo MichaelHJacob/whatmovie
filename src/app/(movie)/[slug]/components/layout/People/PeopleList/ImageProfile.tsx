@@ -1,4 +1,6 @@
-import { PROFILE } from "@/config/imageConfig";
+"use client";
+
+import { useTmdbConfigContext } from "@/components/providers/TmdbConfigProvider";
 import { VariantProps, tv } from "tailwind-variants";
 
 const imageProfileStyles = tv({
@@ -35,11 +37,12 @@ export default function ImageProfile({
   mode,
 }: Readonly<ImageProfileProps>) {
   const { imgContainer, img } = imageProfileStyles({ mode });
+  const baseUrl = useTmdbConfigContext();
   return (
     <div className={imgContainer()}>
       <img
-        srcSet={`${PROFILE.w185 + path} 1x, ${PROFILE.h632 + path} 2x`}
-        src={PROFILE.w185 + path}
+        srcSet={`${baseUrl.profile.p200 + path} 1x, ${baseUrl.profile.f600 + path} 2x`}
+        src={baseUrl.profile.p200 + path}
         alt={alt}
         fetchPriority="low"
         loading="lazy"
