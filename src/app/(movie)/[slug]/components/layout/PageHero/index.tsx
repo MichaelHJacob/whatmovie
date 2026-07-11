@@ -1,8 +1,8 @@
 import Stream from "@/app/(movie)/[slug]/components/layout/PageHero/Stream";
 import Container from "@/components/layout/Container";
 import HTitle from "@/components/ui/HTitle";
-import { POSTER } from "@/config/imageConfig";
 import { formatToLocaleDate } from "@/lib/utils/formatToLocaleDate";
+import { imgBaseUrl } from "@/lib/utils/getImageBaseUrl";
 import { MovieDetailsType } from "@/lib/validation/movieDetailsSchema";
 import { movieBase } from "@/styles/movie.styles";
 import clsx from "clsx";
@@ -41,7 +41,7 @@ export default async function PageHero({ data }: Readonly<PageHeroProps>) {
     <Container
       style={{
         backgroundImage: data.poster_path
-          ? `url("${POSTER.w92 + data.poster_path}")`
+          ? `url("${imgBaseUrl.poster.p100 + data.poster_path}")`
           : undefined,
       }}
       className={clsx(
@@ -54,9 +54,9 @@ export default async function PageHero({ data }: Readonly<PageHeroProps>) {
       <div className={imgContainer()}>
         {data.poster_path ? (
           <img
-            srcSet={`${POSTER.w342}${data.poster_path} 342w, ${POSTER.w500}${data.poster_path} 500w, ${POSTER.original}${data.poster_path} 780w`}
+            srcSet={`${imgBaseUrl.poster.p300}${data.poster_path} 342w, ${imgBaseUrl.poster.p500}${data.poster_path} 500w, ${imgBaseUrl.poster.b800}${data.poster_path} 780w`}
             sizes="(max-width: 768px) 100vw, (min-width: 768px) 500px, 780px"
-            src={POSTER.original + data.poster_path}
+            src={imgBaseUrl.poster.p300 + data.poster_path}
             alt={data.original_title}
             fetchPriority="high"
             loading="eager"

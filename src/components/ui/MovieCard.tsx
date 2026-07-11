@@ -1,12 +1,15 @@
 import Link from "next/link";
 
-import { POSTER } from "@/config/imageConfig";
 import { formatToIdSlug } from "@/lib/utils/formatToIdSlug";
+import { imgBaseUrlType } from "@/lib/utils/getImageBaseUrl";
 import { DiscoverMovieType } from "@/lib/validation/discoverMovieSchema";
 
-type MovieCardProps = { data: DiscoverMovieType };
+type MovieCardProps = {
+  data: DiscoverMovieType;
+  baseUrl: imgBaseUrlType;
+};
 
-export default function MovieCard({ data }: Readonly<MovieCardProps>) {
+export default function MovieCard({ data, baseUrl }: Readonly<MovieCardProps>) {
   return (
     <Link
       href={`/${formatToIdSlug(data.id, data.title)}`}
@@ -14,7 +17,7 @@ export default function MovieCard({ data }: Readonly<MovieCardProps>) {
     >
       {typeof data.poster_path == "string" ? (
         <img
-          src={POSTER.w342 + data.poster_path}
+          src={baseUrl.poster.p300 + data.poster_path}
           alt={data.title}
           loading="lazy"
           fetchPriority="low"
