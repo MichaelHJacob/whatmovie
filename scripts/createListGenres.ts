@@ -8,16 +8,19 @@ import { API_ENDPOINTS } from "../src/config/apiEndpoints";
 
 dotenv.config({ path: [".env.local"] });
 
-const OUTPUT_PATH = path.join(__dirname, "../src/data/tmdbConfig.ts");
+const OUTPUT_PATH = path.join(__dirname, "../src/data/tmdbMovieGenres.ts");
 
-async function getApiConfig() {
+async function getGenres() {
   const options = {
     headers: {
       accept: "application/json",
-      Authorization: `Bearer ${process.env.TMDB_API_TOKEN}`,
+      Authorization: `${process.env.DB_TOKEN_AUTH}`,
     },
   };
-  const res = await fetch(API_ENDPOINTS.configuration, options);
+  const res = await fetch(
+    `${API_ENDPOINTS.metadata.movieGenres}?language=pt-BR`,
+    options,
+  );
 
   if (!res.ok) {
     throw new Error("Falha ao buscar dados");
@@ -27,10 +30,10 @@ async function getApiConfig() {
 }
 
 async function run() {
-  const config = await getApiConfig();
+  const tmdbMovieGenres = await getGenres();
 
   const fileContent = `
-  export const tmdbConfig = ${inspect(config, {
+  export const tmdbMovieGenres = ${inspect(tmdbMovieGenres, {
     depth: null,
     compact: true,
     sorted: false,

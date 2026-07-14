@@ -4,6 +4,7 @@ import { useRef } from "react";
 
 import { useSearchParams } from "next/navigation";
 
+import { useTmdbConfigContext } from "@/components/providers/TmdbConfigProvider";
 import MovieCardSkeleton from "@/components/skeleton/MovieCardSkeleton";
 import LabelH4 from "@/components/ui/LabelH4";
 import MovieCard from "@/components/ui/MovieCard";
@@ -41,6 +42,7 @@ export default function Page() {
   const { ulGrid, liFilter } = filterPegeStyles();
 
   const totalResults = data?.pages.at(0)?.total_results || 0;
+  const imgBaseUrl = useTmdbConfigContext();
 
   useIntersectionObserver({
     enabled: hasNextPage && !isFetchingNextPage,
@@ -93,7 +95,7 @@ export default function Page() {
               className={clsx(liFilter(), "gridColSpanMovie h-auto")}
               key={movie.id}
             >
-              <MovieCard data={movie} />
+              <MovieCard data={movie} baseUrl={imgBaseUrl} />
             </li>
           );
         })}

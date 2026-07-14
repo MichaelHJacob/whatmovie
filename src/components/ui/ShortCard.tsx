@@ -3,7 +3,7 @@ import { memo } from "react";
 import Link from "next/link";
 
 import { navbarBase } from "@/components/layout/NavBar/navbar.styles";
-import { POSTER } from "@/config/imageConfig";
+import { useTmdbConfigContext } from "@/components/providers/TmdbConfigProvider";
 import { useAutoScrollRef } from "@/hooks/useAutoScrollRef";
 import { formatGenres } from "@/lib/utils/formatGenres";
 import { formatToIdSlug } from "@/lib/utils/formatToIdSlug";
@@ -41,6 +41,7 @@ const ShortCard = memo(function ShortCard({
 }: Readonly<ShortCardProps>) {
   const { li, link, contentBox, img, textBox, text } = shortCardStyles();
   const setItemRef = useAutoScrollRef(data.id, selected);
+  const baseUrl = useTmdbConfigContext();
 
   return (
     <li
@@ -60,8 +61,8 @@ const ShortCard = memo(function ShortCard({
       >
         {data.poster_path ? (
           <img
-            srcSet={`${POSTER.w92 + data.poster_path} 1x, ${POSTER.w185 + data.poster_path} 2x`}
-            src={POSTER.w92 + data.poster_path}
+            srcSet={`${baseUrl.poster.p100 + data.poster_path} 1x, ${baseUrl.poster.p200 + data.poster_path} 2x`}
+            src={baseUrl.poster.p100 + data.poster_path}
             alt={`Poster de ${data.title}`}
             loading="lazy"
             fetchPriority="low"

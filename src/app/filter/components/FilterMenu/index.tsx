@@ -16,13 +16,18 @@ import BreakHr from "@/components/ui/BreakHr";
 import Button from "@/components/ui/Button";
 import FoggyEdge from "@/components/ui/FoggyEdge";
 import { filtersMap } from "@/data/filtersMap";
+import { MovieProviderType } from "@/lib/validation/movieProviderShema";
 import { TypeBtnGenres, TypeBtnProvider } from "@/types/globalTypes";
 
 type FilterMenuProps = {
   children: ReactNode;
+  listProviders: MovieProviderType | null;
 };
 
-export default function FilterMenu({ children }: Readonly<FilterMenuProps>) {
+export default function FilterMenu({
+  children,
+  listProviders,
+}: Readonly<FilterMenuProps>) {
   const { replace } = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -32,7 +37,7 @@ export default function FilterMenu({ children }: Readonly<FilterMenuProps>) {
   const [dataGenres, setGenres] = useState<TypeBtnGenres[]>(() =>
     handleGenres(searchParams.get(filtersMap.withGenres.keys[0])?.split(",")),
   );
-  const [dataProviders, setProviders] = useState<TypeBtnProvider[]>(() =>
+  const [providers, setProviders] = useState<TypeBtnProvider[] | null>(() =>
     handleProviders(
       searchParams.get(filtersMap.withWatchProviders.keys[0])?.split("|"),
     ),
@@ -50,8 +55,9 @@ export default function FilterMenu({ children }: Readonly<FilterMenuProps>) {
     });
   }
 
-  function handleProviders(inicial?: string[]): TypeBtnProvider[] {
-    return filtersMap.withWatchProviders.allowedValues.results.map((value) => {
+  function handleProviders(inicial?: string[]): TypeBtnProvider[] | null {
+    if (!listProviders) return null;
+    return listProviders.results.map((value) => {
       return {
         logo_path: value.logo_path,
         provider_name: value.provider_name,
@@ -116,7 +122,7 @@ export default function FilterMenu({ children }: Readonly<FilterMenuProps>) {
   }
 
   function ResetButton() {
-    if (dataProviders && dataGenres) {
+    if (providers && dataGenres) {
       return (
         <Button
           blur
@@ -189,8 +195,9 @@ export default function FilterMenu({ children }: Readonly<FilterMenuProps>) {
   }
 
   function addProvider(picked: TypeBtnProvider) {
+    if (!providers) return;
     setProviders(
-      dataProviders.map((value) => {
+      providers.map((value) => {
         if (value.provider_id == picked.provider_id) {
           return {
             logo_path: value.logo_path,
@@ -205,7 +212,7 @@ export default function FilterMenu({ children }: Readonly<FilterMenuProps>) {
       }),
     );
 
-    const getTrue = dataProviders
+    const getTrue = providers
       .filter((value) => value.state)
       .map((value) => value.provider_id);
 
@@ -216,10 +223,10 @@ export default function FilterMenu({ children }: Readonly<FilterMenuProps>) {
   }
 
   function removeProvider(picked: TypeBtnProvider) {
-    if (dataProviders == null) return;
+    if (!providers) return;
 
     setProviders(
-      dataProviders.map((value) => {
+      providers.map((value) => {
         if (value.provider_id == picked.provider_id) {
           return {
             logo_path: value.logo_path,
@@ -234,7 +241,7 @@ export default function FilterMenu({ children }: Readonly<FilterMenuProps>) {
       }),
     );
 
-    const getTrue = dataProviders
+    const getTrue = providers
       .filter((value) => value.state)
       .map((value) => value.provider_id)
       .filter((value) => value !== picked.provider_id);
@@ -270,12 +277,14 @@ export default function FilterMenu({ children }: Readonly<FilterMenuProps>) {
             clear={() => reset(filtersMap.withGenres.keys[0])}
           />
           <BreakHr />
-          <ProviderSelector
-            providers={dataProviders}
-            add={addProvider}
-            remove={removeProvider}
-            clear={() => reset(filtersMap.withWatchProviders.keys[0])}
-          />
+          {providers && (
+            <ProviderSelector
+              providers={providers}
+              add={addProvider}
+              remove={removeProvider}
+              clear={() => reset(filtersMap.withWatchProviders.keys[0])}
+            />
+          )}
         </Menu>
       </div>
 
@@ -290,9 +299,9 @@ export default function FilterMenu({ children }: Readonly<FilterMenuProps>) {
           <FastAccess>
             <FilterMenuButton />
             <ResetButton />
-            {dataProviders.some((value) => value.fastAccess) && (
+            {providers && providers.some((value) => value.fastAccess) && (
               <ul className="flex h-fit w-auto select-none justify-start gap-2">
-                {dataProviders
+                {providers
                   .filter((value) => value.fastAccess)
                   .map((value) => (
                     <li key={value.provider_id} className="*:backdrop-blur-xl">

@@ -1,5 +1,5 @@
 import HTitle from "@/components/ui/HTitle";
-import { LOGO } from "@/config/imageConfig";
+import { imgBaseUrl } from "@/lib/utils/getImageBaseUrl";
 import { ResultsProvidersType } from "@/lib/validation/watchProvidersSchema";
 import clsx from "clsx";
 import { tv } from "tailwind-variants";
@@ -37,8 +37,8 @@ export default function Stream({
           <li key={value.provider_id + "_" + i} className={li()}>
             <img
               className={img()}
-              srcSet={`${LOGO.w92}${value.logo_path} 1x, ${LOGO.w154}${value.logo_path} 2x`}
-              src={LOGO.w154 + value.logo_path}
+              srcSet={`${imgBaseUrl.logo.p100}${value.logo_path} 1x, ${imgBaseUrl.logo.p150}${value.logo_path} 2x`}
+              src={imgBaseUrl.logo.p150 + value.logo_path}
               loading="eager"
               fetchPriority="auto"
               alt={`logo ${value.provider_name}`}
