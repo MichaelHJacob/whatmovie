@@ -57,7 +57,7 @@ export default function Footer() {
           <p className="font-sans text-xs font-semibold leading-snug tracking-normal text-neutral-subtle">
             Desenvolvido por{" "}
             <a
-              href="https://michaelhjacob.vercel.app"
+              href="https://mjacob.dev"
               target="_blank"
               rel="noopener noreferrer"
               className="inline text-link-neutral-subtle underline hover:text-link-neutral-subtle-hover"
