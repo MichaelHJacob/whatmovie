@@ -17,7 +17,7 @@ export default function GenreSelector({
   remove,
   clear,
 }: Readonly<GenreSelectorProps>) {
-  const { field, title, topButton, innerField } = filterMenuBase();
+  const { field, title, topButton, innerField, outline } = filterMenuBase();
 
   return (
     <fieldset className={field()}>
@@ -25,11 +25,15 @@ export default function GenreSelector({
       <div className={topButton()}>
         <ClearSelected onClear={clear} />
       </div>
-
       <ul className={clsx(innerField(), "flex flex-wrap justify-start")}>
         {genres.map((value) => (
           <li key={value.id}>
-            <GenreButton genre={value} add={add} remove={remove} />
+            <GenreButton
+              style={outline()}
+              genre={value}
+              add={add}
+              remove={remove}
+            />
           </li>
         ))}
       </ul>

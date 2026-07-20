@@ -304,11 +304,12 @@ export default function FilterMenu({
                 {providers
                   .filter((value) => value.fastAccess)
                   .map((value) => (
-                    <li key={value.provider_id} className="*:backdrop-blur-xl">
+                    <li key={value.provider_id} className="h-9">
                       <ProviderButton
                         provider={value}
                         add={addProvider}
                         remove={removeProvider}
+                        buttonSize
                       />
                     </li>
                   ))}
@@ -319,11 +320,12 @@ export default function FilterMenu({
                 {dataGenres
                   .filter((value) => value.fastAccess)
                   .map((value) => (
-                    <li key={value.id} className="*:backdrop-blur-xl">
+                    <li key={value.id}>
                       <GenreButton
                         genre={value}
                         add={addGenre}
                         remove={removeGenre}
+                        backBlur
                       />
                     </li>
                   ))}
