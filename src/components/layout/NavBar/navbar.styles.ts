@@ -1,11 +1,14 @@
+import { buttonStyles } from "@/components/ui/Button";
+import clsx from "clsx";
 import { tv } from "tailwind-variants";
 
 export const navbarBase = tv({
   slots: {
-    btnHeader:
-      "flex min-h-8 appearance-none items-center gap-2 rounded-xl px-2",
-    btnText:
-      "textBtn text-base font-semibold leading-normal text-nav transition-colors duration-300 hover:text-nav-hover",
-    icon: "box-content h-3 min-w-3 fill-nav stroke-none p-[2px] transition-colors duration-300 hover:fill-nav-hover",
+    btnHeader: clsx(buttonStyles({ size: "custom" }).button(), "h-8 px-2"),
+    btnText: clsx(
+      buttonStyles({ textBtn: true }).text(),
+      "text-base font-semibold leading-normal text-nav hover:text-nav-hover",
+    ),
+    icon: buttonStyles({ size: "custom" }).svg(),
   },
 });

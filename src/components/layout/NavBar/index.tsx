@@ -6,6 +6,7 @@ import Search from "@/components/layout/NavBar/Search";
 import { navbarBase } from "@/components/layout/NavBar/navbar.styles";
 import TmdbConfigProvider from "@/components/providers/TmdbConfigProvider";
 import { imgBaseUrl } from "@/lib/utils/getImageBaseUrl";
+import clsx from "clsx";
 import { tv } from "tailwind-variants";
 
 const navbar = tv({
@@ -28,8 +29,12 @@ export default function NavBar() {
             <Search />
           </TmdbConfigProvider>
         </QueryProvider>
-        <Link href={`/filter`} target="_top" className={btnHeader()}>
-          <span className={btnText()}>Filtro</span>
+        <Link
+          href={`/filter`}
+          target="_top"
+          className={clsx(btnHeader(), btnText())}
+        >
+          Filtro
         </Link>
         <div id="scrim" className={scrim()} />
       </div>

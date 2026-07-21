@@ -23,7 +23,7 @@ const searchStyles = tv({
     labelSearch:
       "group/label w-full cursor-pointer items-center gap-2 bg-input p-1 text-placeholder outline-2 outline-offset-1 outline-transparent transition-all duration-200 has-[:focus]:outline-input-focus",
     inputSearch:
-      "w-full appearance-none overflow-hidden text-ellipsis whitespace-nowrap bg-transparent text-base placeholder:text-placeholder max-sm:placeholder:text-opacity-0",
+      "w-full appearance-none overflow-hidden text-ellipsis bg-transparent",
     btnClose: "group/close flex px-0 transition-all duration-300",
     animation: "animate-presets",
   },
@@ -154,19 +154,17 @@ export default function Search() {
             className={clsx(
               btnHeader(),
               labelSearch(),
+              icon(),
+              btnText(),
               !isExpanded && "animate-fade",
             )}
           >
-            <SearchIcon
-              className={icon({
-                class: "fill-current",
-              })}
-            />
+            <SearchIcon />
             <span className="sr-only">Buscar</span>
             <input
               className={clsx(
-                btnText(),
                 inputSearch(),
+                "placeholder:text-current max-sm:placeholder:text-opacity-0",
                 !isExpanded && "max-sm:max-w-16",
               )}
               ref={input}
@@ -214,15 +212,16 @@ export default function Search() {
             onKeyDown={(event) => {
               if (event.key === "Escape") toggleExpand();
             }}
-            className={clsx(btnHeader(), btnClose(), !isExpanded && "hidden")}
-          >
-            <span
-              className={btnText({
+            className={clsx(
+              btnHeader(),
+              btnClose(),
+              btnText({
                 class: "group-hover/close:text-primary-minimal",
-              })}
-            >
-              Fechar
-            </span>
+              }),
+              !isExpanded && "hidden",
+            )}
+          >
+            Fechar
           </button>
         </Fieldset>
         {isExpanded && debouncedTerm && (
