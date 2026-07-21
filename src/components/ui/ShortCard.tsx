@@ -2,8 +2,8 @@ import { memo } from "react";
 
 import Link from "next/link";
 
-import { navbarBase } from "@/components/layout/NavBar/navbar.styles";
 import { useTmdbConfigContext } from "@/components/providers/TmdbConfigProvider";
+import { buttonStyles } from "@/components/ui/Button";
 import { useAutoScrollRef } from "@/hooks/useAutoScrollRef";
 import { formatGenres } from "@/lib/utils/formatGenres";
 import { formatToIdSlug } from "@/lib/utils/formatToIdSlug";
@@ -20,7 +20,10 @@ const shortCardStyles = tv({
     li: "group/list row-span-1",
     link: "all-gap",
     img: "aspect-[2/3]",
-    text: [navbarBase().btnText(), "line-clamp-1"],
+    text: [
+      buttonStyles({ textBtn: true, theme: "neutral-subtle" }).text(),
+      "line-clamp-1 text-ellipsis whitespace-normal",
+    ],
   },
 });
 
