@@ -58,12 +58,12 @@ export default async function Details({
               </>
             )}
             {data.homepage && (
-              <dt className="label -ml-2 mb-2">
+              <dt className="label mb-2">
                 <a
                   href={data.homepage}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="backBtn-hover rounded-lg p-2 underline"
+                  className="cursor-pointer text-link-neutral underline hover:text-link-neutral-hover"
                 >
                   Site Oficial
                 </a>
