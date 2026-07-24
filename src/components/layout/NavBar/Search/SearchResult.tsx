@@ -121,7 +121,7 @@ export default function SearchResult({
     return false;
   }
 
-  const dataMovies = data.pages.map((page) => page.results).flat();
+  const dataMovies = data.pages.flatMap((page) => page.results);
   return (
     <DynamicGridListContainer
       {...props}
