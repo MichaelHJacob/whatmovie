@@ -13,7 +13,7 @@ export default function MovieCard({ data, baseUrl }: Readonly<MovieCardProps>) {
   return (
     <Link
       href={`/${formatToIdSlug(data.id, data.title)}`}
-      className="relative block after:absolute after:inset-0 after:block after:rounded-xl after:shadow-card max-xs:after:shadow-card-subtle"
+      className="relative block aspect-[2/3_auto] h-full after:absolute after:inset-0 after:block after:rounded-xl after:shadow-card max-xs:after:shadow-card-subtle"
     >
       {typeof data.poster_path == "string" ? (
         <img
@@ -21,7 +21,7 @@ export default function MovieCard({ data, baseUrl }: Readonly<MovieCardProps>) {
           alt={data.title}
           loading="lazy"
           fetchPriority="low"
-          className="block aspect-[2/3_auto] rounded-xl bg-base-minimal"
+          className="block h-full w-full rounded-xl bg-base-minimal"
         />
       ) : (
         <div className="bg-gradient-default flex aspect-[2/3] h-full w-full flex-col items-center justify-between overflow-hidden break-words rounded-xl pb-10 pt-5">

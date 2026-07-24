@@ -179,7 +179,7 @@
   }
 
   .gridTemplateSpace {
-    @apply all-gap grid grid-cols-10 xs:grid-cols-[repeat(auto-fit,_minmax(2.625rem,_1fr))] md:grid-cols-[repeat(30,_minmax(0,_1fr))] lg:grid-cols-[repeat(24,_minmax(0,_1fr))] xl:grid-cols-[repeat(40,_minmax(0,_1fr))];
+    @apply all-gap grid grid-cols-10 xs:grid-cols-9 sm:grid-cols-12 md:grid-cols-[repeat(30,_minmax(0,_1fr))] lg:grid-cols-[repeat(24,_minmax(0,_1fr))] xl:grid-cols-[repeat(40,_minmax(0,_1fr))];
   }
 
   .gridColSpanMovie {
