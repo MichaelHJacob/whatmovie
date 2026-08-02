@@ -48,7 +48,7 @@ export default function Search() {
   const [autoSelect, setAutoSelect] = useState<boolean>(true);
   const input = useRef<HTMLInputElement | null>(null);
   const observerRef = useRef<HTMLDivElement>(null);
-  const timeoutID = useRef<NodeJS.Timeout>();
+  const timeoutID = useRef<NodeJS.Timeout>(undefined);
   const isTyping = useRef(false);
   const debouncedTerm = useDebounce(term, 500);
   const [isExpanded, setIsExpanded] = useState(false);

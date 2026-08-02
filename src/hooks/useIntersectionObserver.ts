@@ -5,7 +5,7 @@ type nodeParams = {
   targetRef?: never;
 };
 type refParams = {
-  targetRef: RefObject<HTMLElement>;
+  targetRef: RefObject<HTMLElement | null>;
   targetNode?: never;
 };
 

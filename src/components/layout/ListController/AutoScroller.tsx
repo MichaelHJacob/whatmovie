@@ -57,7 +57,7 @@ export default function AutoScroller({
   const [count, setCount] = useState(0);
   const [auto, setAuto] = useState(false);
   const isAutoScrolling = useRef<boolean>(true);
-  const interval = useRef<NodeJS.Timeout>();
+  const interval = useRef<NodeJS.Timeout>(undefined);
 
   const onAutoScroll = useCallback(() => {
     setAuto(true);

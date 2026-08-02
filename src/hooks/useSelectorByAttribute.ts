@@ -2,7 +2,7 @@ import { RefObject, useEffect, useState } from "react";
 
 import { useItemMap } from "@/hooks/useItemMap";
 
-export function useSelectorByAttribute(rootRef: RefObject<HTMLDivElement>) {
+export function useSelectorByAttribute(rootRef: RefObject<HTMLDivElement | null>) {
   const [container, setContainer] = useState<HTMLUListElement | null>(null);
   const { getMap } = useItemMap();
 

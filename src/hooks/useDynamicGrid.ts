@@ -30,7 +30,7 @@ export function useDynamicGrid({
   type,
   cssVariable,
   enable = true,
-}: Params & { cssVariable: string; ref: React.RefObject<HTMLElement> }) {
+}: Params & { cssVariable: string; ref: React.RefObject<HTMLElement | null> }) {
   const last = useRef<number>(0);
 
   useLayoutEffect(() => {

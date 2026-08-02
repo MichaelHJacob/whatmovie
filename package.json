@@ -7,11 +7,11 @@
   },
   "scripts": {
     "build": "next build",
-    "dev": "next dev",
+    "dev": "next dev --turbopack",
     "generate-config": "ts-node scripts/createApiConfig.ts",
     "generate-data": "ts-node scripts/createMetadata.ts",
     "generate-listGenres": "ts-node scripts/createListGenres.ts",
-    "lint": "next lint",
+    "lint": "eslint .",
     "start": "next start"
   },
   "browserslist": [
@@ -28,9 +28,9 @@
     "clsx": "^2.1.1",
     "dotenv": "^16.5.0",
     "flat": "^6.0.1",
-    "next": "^14.1.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "next": "15.5.22",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
     "react-remove-scroll": "^2.7.1",
     "schema-dts": "^1.1.5",
     "sharp": "^0.32.6",
@@ -45,13 +45,13 @@
     "@tanstack/eslint-plugin-query": "^5.73.3",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@types/node": "latest",
-    "@types/react": "^18.2.48",
-    "@types/react-dom": "^18.2.18",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.4",
     "autoprefixer": "^10.4.17",
     "baseline-browser-mapping": "^2.9.11",
     "encoding": "^0.1.13",
-    "eslint": "^8.57.1",
-    "eslint-config-next": "^14.1.0",
+    "eslint": "9.39.5",
+    "eslint-config-next": "15.5.22",
     "eslint-config-prettier": "^10.1.2",
     "eslint-plugin-prettier": "^5.2.6",
     "postcss": "^8.4.33",
@@ -63,9 +63,7 @@
     "typescript": "latest"
   },
   "overrides": {
-    "@next/eslint-plugin-next": {
-      "glob": "10.5.0"
-    },
-    "minimatch": "^10.2.2"
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.4"
   }
 }
