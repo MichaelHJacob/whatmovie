@@ -19,7 +19,7 @@ import { NotFoundError } from "@/lib/validation/extendExpectedError";
 
 export const revalidate = 432000;
 
-type MovieProps = { params: { slug: string } };
+type MovieProps = { params: Promise<{ slug: string }>};
 
 export async function generateStaticParams() {
   const [movies] = await getPopular();
@@ -30,9 +30,8 @@ export async function generateStaticParams() {
   );
 }
 
-export async function generateMetadata({
-  params,
-}: Readonly<MovieProps>): Promise<Metadata> {
+export async function generateMetadata(props: Readonly<MovieProps>): Promise<Metadata> {
+  const params = await props.params;
   const dataID = params.slug.split("-").at(0);
   const [data] = dataID ? await getMovieDetails({ id: dataID }) : [null];
 
@@ -68,7 +67,8 @@ export async function generateMetadata({
   return metadata;
 }
 
-export default async function Movie({ params }: Readonly<MovieProps>) {
+export default async function Movie(props: Readonly<MovieProps>) {
+  const params = await props.params;
   const dataID = params.slug.split("-").at(0) || "";
   const [data, error] = await getMovieDetails({ id: dataID });
 

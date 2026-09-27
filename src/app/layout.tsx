@@ -5,7 +5,6 @@ import "@/app/globals.css";
 import Footer from "@/components/layout/Footer";
 import NavBar from "@/components/layout/NavBar";
 import NavPathProvider from "@/components/ui/NavPathProvider";
-import { Analytics } from "@vercel/analytics/next";
 
 const open_sans = Open_Sans({
   subsets: ["latin"],
@@ -53,7 +52,6 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
         <NavBar />
         {children}
         <Footer />
-        <Analytics />
       </body>
     </html>
   );

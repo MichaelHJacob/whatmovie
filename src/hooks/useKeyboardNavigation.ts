@@ -5,7 +5,7 @@ import { selectOption } from "@/types/globalTypes";
 
 type UseKeyboardNavigationParams = {
   optionIDs: string[] | null;
-  observer?: React.RefObject<HTMLDivElement>;
+  observer?: React.RefObject<HTMLDivElement | null>;
   selected: selectOption;
   isExpanded?: boolean;
   onToggleExpand?: () => void;

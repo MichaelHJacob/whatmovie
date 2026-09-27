@@ -1,6 +1,3 @@
-import plaiceholder from "@plaiceholder/tailwindcss";
-import fs from "node:fs";
-import path from "node:path";
 import type { Config } from "tailwindcss";
 import tailwindcssAnimated from "tailwindcss-animated";
 import defaultTheme from "tailwindcss/defaultTheme";
@@ -169,9 +166,6 @@ const config: Config = {
   },
   plugins: [
     tailwindcssAnimated,
-    plaiceholder({
-      resolver: (src) => fs.readFileSync(path.join("./public", `${src}.jpg`)),
-    }),
   ],
 };
 

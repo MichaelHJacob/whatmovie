@@ -1,36 +1,13 @@
 /** @type {import('next').NextConfig} */
-import withPlaiceholder from "@plaiceholder/next";
 
 const nextConfig = {
-  async redirects() {
-    return [
-      {
-        source: "/movie/:slug",
-        destination: "/:slug",
-        permanent: true,
-      },
-    ];
-  },
-  webpack(config) {
-    const fileLoaderRule = config.module.rules.find((rule) =>
-      rule.test?.test?.(".svg"),
-    );
-
-    config.module.rules.push(
-      {
-        ...fileLoaderRule,
-        test: /\.svg$/i,
-        resourceQuery: /url/,
-      },
-
-      {
-        test: /\.svg$/i,
-        issuer: fileLoaderRule.issuer,
-        resourceQuery: { not: [...fileLoaderRule.resourceQuery.not, /url/] },
-        use: [
+  turbopack: {
+    rules: {
+      '*.svg': {
+        loaders: [
           {
-            loader: "@svgr/webpack",
-            options: {
+            loader: '@svgr/webpack',
+                  options: {
               svgo: true,
               svgoConfig: {
                 plugins: [
@@ -43,12 +20,18 @@ const nextConfig = {
             },
           },
         ],
+        as: '*.js',
       },
-    );
-
-    fileLoaderRule.exclude = /\.svg$/i;
-
-    return config;
+    },
+  },
+  async redirects() {
+    return [
+      {
+        source: "/movie/:slug",
+        destination: "/:slug",
+        permanent: true,
+      },
+    ];
   },
   images: {
     remotePatterns: [
@@ -62,4 +45,4 @@ const nextConfig = {
   },
 };
 
-export default withPlaiceholder(nextConfig);
+export default nextConfig;

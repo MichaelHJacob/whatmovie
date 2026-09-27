@@ -1,10 +1,10 @@
 import { RefObject, useEffect, useRef } from "react";
 
 export function useLockScrollOnResize(
-  container: HTMLElement | null | RefObject<HTMLElement>,
+  container: HTMLElement | null | RefObject<HTMLElement | null>,
 ) {
   const resizing = useRef<boolean>(false);
-  const returnTimeout = useRef<NodeJS.Timeout>();
+  const returnTimeout = useRef<NodeJS.Timeout>(undefined);
 
   useEffect(() => {
     const element =
