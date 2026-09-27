@@ -8,7 +8,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const urlMap = new Map();
 
   const results = await Promise.allSettled(
-    Array.from({ length: 25 }, (_, i) => {
+    Array.from({ length: 2 }, (_, i) => {
       return getPopular({ revalidate: 604800, page: i + 1 });
     }),
   );
@@ -22,7 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           urlMap.set(value.id, {
             url: `https://whatmovie.com.br/${formatToIdSlug(value.id, value.title)}`,
             priority: 0.7,
-            changeFrequency: "monthly",
+            changeFrequency: "weekly",
           });
         }
       });
@@ -33,7 +33,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     {
       url: "https://whatmovie.com.br",
       lastModified: getISODateString(),
-      changeFrequency: "daily",
+      changeFrequency: "weekly",
       priority: 1.0,
     },
     {
